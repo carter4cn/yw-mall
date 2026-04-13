@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package product;
+
+option go_package = "./product";
+
+message CreateProductReq {
+  string name = 1;
+  string description = 2;
+  int64 price = 3;
+  int64 stock = 4;
+  int64 category_id = 5;
+  string images = 6;
+}
+
+message CreateProductResp {
+  int64 id = 1;
+}
+
+message GetProductReq {
+  int64 id = 1;
+}
+
+message GetProductResp {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  int64 price = 4;
+  int64 stock = 5;
+  int64 category_id = 6;
+  string images = 7;
+  int32 status = 8;
+  int64 create_time = 9;
+}
+
+message ListProductsReq {
+  int64 category_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ListProductsResp {
+  repeated GetProductResp products = 1;
+  int64 total = 2;
+}
+
+message UpdateStockReq {
+  int64 id = 1;
+  int64 delta = 2;
+}
+
+message UpdateStockResp {}
+
+message SearchProductsReq {
+  string keyword = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message SearchProductsResp {
+  repeated GetProductResp products = 1;
+  int64 total = 2;
+}
+
+service Product {
+  rpc CreateProduct(CreateProductReq) returns (CreateProductResp);
+  rpc GetProduct(GetProductReq) returns (GetProductResp);
+  rpc ListProducts(ListProductsReq) returns (ListProductsResp);
+  rpc UpdateStock(UpdateStockReq) returns (UpdateStockResp);
+  rpc SearchProducts(SearchProductsReq) returns (SearchProductsResp);
+}
