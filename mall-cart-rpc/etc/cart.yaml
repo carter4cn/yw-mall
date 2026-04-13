@@ -1,0 +1,11 @@
+Name: cart.rpc
+ListenOn: 0.0.0.0:9004
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: cart.rpc
+
+DataSource: root:123456@tcp(127.0.0.1:3306)/mall_cart?charset=utf8mb4&parseTime=true&loc=Local
+
+Cache:
+  - Host: 127.0.0.1:6379
