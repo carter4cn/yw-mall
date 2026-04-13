@@ -1,0 +1,14 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:9001
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: user.rpc
+
+DataSource: root:123456@tcp(127.0.0.1:3306)/mall_user?charset=utf8mb4&parseTime=true&loc=Local
+
+Cache:
+  - Host: 127.0.0.1:6379
+
+JwtAuth:
+  AccessSecret: "mall-secret-key-change-in-production"
