@@ -1,0 +1,240 @@
+syntax = "v1"
+
+info (
+	title:   "Mall API Gateway"
+	desc:    "E-commerce API gateway"
+	version: "1.0"
+)
+
+// ===== Types =====
+type (
+	RegisterReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+		Phone    string `json:"phone"`
+	}
+	RegisterResp {
+		Id int64 `json:"id"`
+	}
+	LoginReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	LoginResp {
+		Id    int64  `json:"id"`
+		Token string `json:"token"`
+	}
+	UserInfoResp {
+		Id         int64  `json:"id"`
+		Username   string `json:"username"`
+		Phone      string `json:"phone"`
+		Avatar     string `json:"avatar"`
+		CreateTime int64  `json:"createTime"`
+	}
+	UpdateUserReq {
+		Phone  string `json:"phone"`
+		Avatar string `json:"avatar"`
+	}
+)
+
+type (
+	ProductDetailReq {
+		Id int64 `path:"id"`
+	}
+	ProductDetailResp {
+		Id          int64  `json:"id"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		Price       int64  `json:"price"`
+		Stock       int64  `json:"stock"`
+		CategoryId  int64  `json:"categoryId"`
+		Images      string `json:"images"`
+		Status      int32  `json:"status"`
+		CreateTime  int64  `json:"createTime"`
+	}
+	ProductListReq {
+		CategoryId int64 `form:"categoryId,optional"`
+		Page       int32 `form:"page,optional"`
+		PageSize   int32 `form:"pageSize,optional"`
+	}
+	ProductListResp {
+		Products []ProductDetailResp `json:"products"`
+		Total    int64               `json:"total"`
+	}
+	ProductSearchReq {
+		Keyword  string `form:"keyword"`
+		Page     int32  `form:"page,optional"`
+		PageSize int32  `form:"pageSize,optional"`
+	}
+)
+
+type (
+	CreateOrderItem {
+		ProductId   int64  `json:"productId"`
+		ProductName string `json:"productName"`
+		Price       int64  `json:"price"`
+		Quantity    int32  `json:"quantity"`
+	}
+	CreateOrderReq {
+		Items []CreateOrderItem `json:"items"`
+	}
+	CreateOrderResp {
+		Id          int64  `json:"id"`
+		OrderNo     string `json:"orderNo"`
+		TotalAmount int64  `json:"totalAmount"`
+	}
+	OrderDetailReq {
+		Id int64 `path:"id"`
+	}
+	OrderDetailResp {
+		Id          int64             `json:"id"`
+		OrderNo     string            `json:"orderNo"`
+		UserId      int64             `json:"userId"`
+		TotalAmount int64             `json:"totalAmount"`
+		Status      int32             `json:"status"`
+		Items       []CreateOrderItem `json:"items"`
+		CreateTime  int64             `json:"createTime"`
+	}
+	OrderListReq {
+		Status   int32 `form:"status,optional"`
+		Page     int32 `form:"page,optional"`
+		PageSize int32 `form:"pageSize,optional"`
+	}
+	OrderListResp {
+		Orders []OrderDetailResp `json:"orders"`
+		Total  int64             `json:"total"`
+	}
+)
+
+type (
+	CartAddReq {
+		ProductId int64 `json:"productId"`
+		Quantity  int32 `json:"quantity"`
+	}
+	CartRemoveReq {
+		ProductId int64 `json:"productId"`
+	}
+	CartItem {
+		ProductId int64 `json:"productId"`
+		Quantity  int32 `json:"quantity"`
+		Selected  bool  `json:"selected"`
+	}
+	CartListResp {
+		Items []CartItem `json:"items"`
+	}
+	CartUpdateQuantityReq {
+		ProductId int64 `json:"productId"`
+		Quantity  int32 `json:"quantity"`
+	}
+)
+
+type (
+	CreatePaymentReq {
+		OrderNo string `json:"orderNo"`
+		Amount  int64  `json:"amount"`
+		PayType int32  `json:"payType"`
+	}
+	CreatePaymentResp {
+		Id        int64  `json:"id"`
+		PaymentNo string `json:"paymentNo"`
+	}
+	PaymentStatusReq {
+		Id int64 `path:"id"`
+	}
+	PaymentStatusResp {
+		Id        int64  `json:"id"`
+		PaymentNo string `json:"paymentNo"`
+		OrderNo   string `json:"orderNo"`
+		Amount    int64  `json:"amount"`
+		Status    int32  `json:"status"`
+		PayType   int32  `json:"payType"`
+		PayTime   int64  `json:"payTime"`
+	}
+)
+
+// ===== Routes =====
+@server (
+	prefix: /api/user
+)
+service mall-api {
+	@handler Register
+	post /register (RegisterReq) returns (RegisterResp)
+
+	@handler Login
+	post /login (LoginReq) returns (LoginResp)
+}
+
+@server (
+	prefix: /api/user
+	jwt:    Auth
+)
+service mall-api {
+	@handler UserInfo
+	get /info returns (UserInfoResp)
+
+	@handler UpdateUser
+	put /update (UpdateUserReq)
+}
+
+@server (
+	prefix: /api/product
+)
+service mall-api {
+	@handler ProductDetail
+	get /detail/:id (ProductDetailReq) returns (ProductDetailResp)
+
+	@handler ProductList
+	get /list (ProductListReq) returns (ProductListResp)
+
+	@handler ProductSearch
+	get /search (ProductSearchReq) returns (ProductListResp)
+}
+
+@server (
+	prefix: /api/order
+	jwt:    Auth
+)
+service mall-api {
+	@handler CreateOrder
+	post /create (CreateOrderReq) returns (CreateOrderResp)
+
+	@handler OrderDetail
+	get /detail/:id (OrderDetailReq) returns (OrderDetailResp)
+
+	@handler OrderList
+	get /list (OrderListReq) returns (OrderListResp)
+}
+
+@server (
+	prefix: /api/cart
+	jwt:    Auth
+)
+service mall-api {
+	@handler CartAdd
+	post /add (CartAddReq)
+
+	@handler CartRemove
+	post /remove (CartRemoveReq)
+
+	@handler CartList
+	get /list returns (CartListResp)
+
+	@handler CartClear
+	post /clear
+
+	@handler CartUpdateQuantity
+	post /update-quantity (CartUpdateQuantityReq)
+}
+
+@server (
+	prefix: /api/payment
+	jwt:    Auth
+)
+service mall-api {
+	@handler CreatePayment
+	post /create (CreatePaymentReq) returns (CreatePaymentResp)
+
+	@handler PaymentStatus
+	get /status/:id (PaymentStatusReq) returns (PaymentStatusResp)
+}
+
