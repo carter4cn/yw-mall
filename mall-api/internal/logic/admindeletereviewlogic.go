@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	reviewpb "mall-review-rpc/review"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,9 @@ func NewAdminDeleteReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 	}
 }
 
-func (l *AdminDeleteReviewLogic) AdminDeleteReview(req *types.AdminDeleteReviewReq) (resp *types.OkResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *AdminDeleteReviewLogic) AdminDeleteReview(req *types.AdminDeleteReviewReq) (*types.OkResp, error) {
+	if _, err := l.svcCtx.ReviewRpc.SoftDeleteReview(l.ctx, &reviewpb.SoftDeleteReviewReq{ReviewId: req.Id}); err != nil {
+		return nil, err
+	}
+	return &types.OkResp{Ok: true}, nil
 }

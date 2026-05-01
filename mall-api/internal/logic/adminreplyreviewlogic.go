@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	reviewpb "mall-review-rpc/review"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,13 @@ func NewAdminReplyReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *AdminReplyReviewLogic) AdminReplyReview(req *types.AdminReplyReviewReq) (resp *types.OkResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *AdminReplyReviewLogic) AdminReplyReview(req *types.AdminReplyReviewReq) (*types.OkResp, error) {
+	if _, err := l.svcCtx.ReviewRpc.ReplyReview(l.ctx, &reviewpb.ReplyReviewReq{
+		ReviewId:       req.Id,
+		MerchantUserId: req.MerchantUserId,
+		Text:           req.Text,
+	}); err != nil {
+		return nil, err
+	}
+	return &types.OkResp{Ok: true}, nil
 }
