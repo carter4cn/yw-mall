@@ -76,6 +76,20 @@ message CancelPreOrderReq {
 
 message CancelPreOrderResp {}
 
+message GetOrderItemReq {
+  int64 order_item_id = 1;
+}
+
+message GetOrderItemResp {
+  int64 order_item_id = 1;
+  int64 order_id = 2;
+  int64 user_id = 3;
+  int64 product_id = 4;
+  int64 quantity = 5;
+  int32 order_status = 6;
+  int64 create_time = 7;
+}
+
 service Order {
   rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
   rpc GetOrder(GetOrderReq) returns (GetOrderResp);
@@ -83,4 +97,5 @@ service Order {
   rpc UpdateOrderStatus(UpdateOrderStatusReq) returns (UpdateOrderStatusResp);
   rpc CreatePreOrder(CreatePreOrderReq) returns (CreatePreOrderResp);
   rpc CancelPreOrder(CancelPreOrderReq) returns (CancelPreOrderResp);
+  rpc GetOrderItem(GetOrderItemReq) returns (GetOrderItemResp);
 }

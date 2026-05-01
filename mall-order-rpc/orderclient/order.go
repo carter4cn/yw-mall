@@ -18,6 +18,8 @@ type (
 	CreateOrderResp       = order.CreateOrderResp
 	GetOrderReq           = order.GetOrderReq
 	GetOrderResp          = order.GetOrderResp
+	GetOrderItemReq       = order.GetOrderItemReq
+	GetOrderItemResp      = order.GetOrderItemResp
 	ListOrdersReq         = order.ListOrdersReq
 	ListOrdersResp        = order.ListOrdersResp
 	OrderItem             = order.OrderItem
@@ -29,6 +31,7 @@ type (
 		GetOrder(ctx context.Context, in *GetOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error)
 		ListOrders(ctx context.Context, in *ListOrdersReq, opts ...grpc.CallOption) (*ListOrdersResp, error)
 		UpdateOrderStatus(ctx context.Context, in *UpdateOrderStatusReq, opts ...grpc.CallOption) (*UpdateOrderStatusResp, error)
+		GetOrderItem(ctx context.Context, in *GetOrderItemReq, opts ...grpc.CallOption) (*GetOrderItemResp, error)
 	}
 
 	defaultOrder struct {
@@ -60,4 +63,9 @@ func (m *defaultOrder) ListOrders(ctx context.Context, in *ListOrdersReq, opts .
 func (m *defaultOrder) UpdateOrderStatus(ctx context.Context, in *UpdateOrderStatusReq, opts ...grpc.CallOption) (*UpdateOrderStatusResp, error) {
 	client := order.NewOrderClient(m.cli.Conn())
 	return client.UpdateOrderStatus(ctx, in, opts...)
+}
+
+func (m *defaultOrder) GetOrderItem(ctx context.Context, in *GetOrderItemReq, opts ...grpc.CallOption) (*GetOrderItemResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.GetOrderItem(ctx, in, opts...)
 }

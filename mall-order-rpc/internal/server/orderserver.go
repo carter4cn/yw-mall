@@ -42,3 +42,8 @@ func (s *OrderServer) UpdateOrderStatus(ctx context.Context, in *order.UpdateOrd
 	l := logic.NewUpdateOrderStatusLogic(ctx, s.svcCtx)
 	return l.UpdateOrderStatus(in)
 }
+
+func (s *OrderServer) GetOrderItem(ctx context.Context, in *order.GetOrderItemReq) (*order.GetOrderItemResp, error) {
+	l := logic.NewGetOrderItemLogic(ctx, s.svcCtx)
+	return l.GetOrderItem(in)
+}
