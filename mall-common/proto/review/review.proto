@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package review;
+
+option go_package = "./review";
+
+service Review {
+  rpc SubmitReview(SubmitReviewReq) returns (SubmitReviewResp);
+  rpc SubmitFollowup(SubmitFollowupReq) returns (Empty);
+  rpc GetReview(GetReviewReq) returns (Review);
+  rpc ListProductReviews(ListProductReviewsReq) returns (ListProductReviewsResp);
+  rpc ListUserReviews(ListUserReviewsReq) returns (ListProductReviewsResp);
+  rpc GetProductRatingSummary(GetProductRatingSummaryReq) returns (RatingSummary);
+  rpc ReplyReview(ReplyReviewReq) returns (Empty);
+  rpc SoftDeleteReview(SoftDeleteReviewReq) returns (Empty);
+}
+
+message Empty {}
+
+message Media {
+  int32 type = 1;
+  string url = 2;
+  int32 sort = 3;
+}
+
+message SubmitReviewReq {
+  int64 order_item_id = 1;
+  int64 user_id = 2;
+  int32 score_match = 3;
+  int32 score_logistics = 4;
+  int32 score_service = 5;
+  string content = 6;
+  repeated Media media = 7;
+}
+
+message SubmitReviewResp {
+  int64 review_id = 1;
+}
+
+message SubmitFollowupReq {
+  int64 review_id = 1;
+  int64 user_id = 2;
+  string content = 3;
+  repeated Media media = 4;
+}
+
+message Review {
+  int64 id = 1;
+  int64 order_item_id = 2;
+  int64 user_id = 3;
+  int64 product_id = 4;
+  int32 score_overall = 5;
+  int32 score_match = 6;
+  int32 score_logistics = 7;
+  int32 score_service = 8;
+  string content = 9;
+  repeated Media media = 10;
+  string followup_content = 11;
+  int64 followup_time = 12;
+  repeated Media followup_media = 13;
+  string merchant_reply_text = 14;
+  int64 merchant_reply_time = 15;
+  int64 merchant_user_id = 16;
+  int32 status = 17;
+  int64 create_time = 18;
+}
+
+message GetReviewReq {
+  int64 review_id = 1;
+}
+
+message ListProductReviewsReq {
+  int64 product_id = 1;
+  string sort = 2;
+  int32 score = 3;
+  bool with_media = 4;
+  int32 page = 5;
+  int32 page_size = 6;
+}
+
+message ListProductReviewsResp {
+  repeated Review reviews = 1;
+  int64 total = 2;
+}
+
+message ListUserReviewsReq {
+  int64 user_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message GetProductRatingSummaryReq {
+  int64 product_id = 1;
+}
+
+message RatingSummary {
+  double avg = 1;
+  int64 count = 2;
+  map<int32, int64> distribution = 3;
+  int64 with_media_count = 4;
+}
+
+message ReplyReviewReq {
+  int64 review_id = 1;
+  int64 merchant_user_id = 2;
+  string text = 3;
+}
+
+message SoftDeleteReviewReq {
+  int64 review_id = 1;
+}
