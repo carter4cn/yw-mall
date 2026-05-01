@@ -1,0 +1,29 @@
+# binaries / build output
+bin/
+*.exe
+*.test
+*.out
+
+# go workspace / cache
+vendor/
+.goworkspace
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# runtime artifacts
+logs/
+*.log
+.pids
+.bootstrapped
+
+# OMC / Claude local state
+.omc/
+.claude/
+
+# OS junk
+.DS_Store
+Thumbs.db
