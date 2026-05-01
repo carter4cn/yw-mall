@@ -6,6 +6,8 @@ require (
 	github.com/zeromicro/go-zero v1.10.1
 	google.golang.org/grpc v1.80.0
 	google.golang.org/protobuf v1.36.11
+	mall-order-rpc v0.0.0-00010101000000-000000000000
+	mall-risk-rpc v0.0.0-00010101000000-000000000000
 )
 
 require (
