@@ -1,0 +1,39 @@
+Name: review.rpc
+ListenOn: 0.0.0.0:9015
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: review.rpc
+
+DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_review?charset=utf8mb4&parseTime=true&loc=Local
+
+Cache:
+  - Host: 127.0.0.1:6379
+
+RedisCache:
+  Host: 127.0.0.1:6379
+  Type: node
+
+OrderRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: order.rpc
+
+RiskRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: risk.rpc
+
+Followup:
+  MinDelayDays: 7
+  MaxLength: 500
+
+Review:
+  ContentMin: 5
+  ContentMax: 2000
+
+CacheTTLSeconds: 300
+
+MediaUrlPrefix: "http://127.0.0.1:9000/mall-review-media/"
