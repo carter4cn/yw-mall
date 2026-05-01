@@ -284,15 +284,16 @@ type ProductDetailReq struct {
 }
 
 type ProductDetailResp struct {
-	Id          int64  `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Price       int64  `json:"price"`
-	Stock       int64  `json:"stock"`
-	CategoryId  int64  `json:"categoryId"`
-	Images      string `json:"images"`
-	Status      int32  `json:"status"`
-	CreateTime  int64  `json:"createTime"`
+	Id            int64                 `json:"id"`
+	Name          string                `json:"name"`
+	Description   string                `json:"description"`
+	Price         int64                 `json:"price"`
+	Stock         int64                 `json:"stock"`
+	CategoryId    int64                 `json:"categoryId"`
+	Images        string                `json:"images"`
+	Status        int32                 `json:"status"`
+	CreateTime    int64                 `json:"createTime"`
+	RatingSummary *GetRatingSummaryResp `json:"ratingSummary,omitempty"`
 }
 
 type ProductListReq struct {
