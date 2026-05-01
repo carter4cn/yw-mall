@@ -14,6 +14,7 @@ import (
 type ServiceContext struct {
 	Config config.Config
 
+	DB               sqlx.SqlConn
 	ReviewModel      model.ReviewModel
 	ReviewMediaModel model.ReviewMediaModel
 
@@ -27,6 +28,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	conn := sqlx.NewMysql(c.DataSource)
 	return &ServiceContext{
 		Config:           c,
+		DB:               conn,
 		ReviewModel:      model.NewReviewModel(conn, c.Cache),
 		ReviewMediaModel: model.NewReviewMediaModel(conn, c.Cache),
 		OrderRpc:         orderclient.NewOrder(zrpc.MustNewClient(c.OrderRpc)),
