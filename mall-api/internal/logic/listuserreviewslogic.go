@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	reviewpb "mall-review-rpc/review"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,18 @@ func NewListUserReviewsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *L
 	}
 }
 
-func (l *ListUserReviewsLogic) ListUserReviews(req *types.ListUserReviewsReq) (resp *types.ListProductReviewsResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *ListUserReviewsLogic) ListUserReviews(req *types.ListUserReviewsReq) (*types.ListProductReviewsResp, error) {
+	r, err := l.svcCtx.ReviewRpc.ListUserReviews(l.ctx, &reviewpb.ListUserReviewsReq{
+		UserId:   currentUserId(l.ctx),
+		Page:     req.Page,
+		PageSize: req.PageSize,
+	})
+	if err != nil {
+		return nil, err
+	}
+	out := make([]types.ReviewItem, 0, len(r.Reviews))
+	for _, item := range r.Reviews {
+		out = append(out, protoReviewToType(item))
+	}
+	return &types.ListProductReviewsResp{Reviews: out, Total: r.Total}, nil
 }

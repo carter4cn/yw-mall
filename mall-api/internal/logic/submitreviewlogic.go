@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	reviewpb "mall-review-rpc/review"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,18 @@ func NewSubmitReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Subm
 	}
 }
 
-func (l *SubmitReviewLogic) SubmitReview(req *types.SubmitReviewReq) (resp *types.SubmitReviewResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *SubmitReviewLogic) SubmitReview(req *types.SubmitReviewReq) (*types.SubmitReviewResp, error) {
+	resp, err := l.svcCtx.ReviewRpc.SubmitReview(l.ctx, &reviewpb.SubmitReviewReq{
+		OrderItemId:    req.OrderItemId,
+		UserId:         currentUserId(l.ctx),
+		ScoreMatch:     req.ScoreMatch,
+		ScoreLogistics: req.ScoreLogistics,
+		ScoreService:   req.ScoreService,
+		Content:        req.Content,
+		Media:          reqMediaToProto(req.Media),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &types.SubmitReviewResp{ReviewId: resp.ReviewId}, nil
 }

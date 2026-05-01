@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	reviewpb "mall-review-rpc/review"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,14 @@ func NewSubmitFollowupLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Su
 	}
 }
 
-func (l *SubmitFollowupLogic) SubmitFollowup(req *types.SubmitFollowupReq) (resp *types.OkResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *SubmitFollowupLogic) SubmitFollowup(req *types.SubmitFollowupReq) (*types.OkResp, error) {
+	if _, err := l.svcCtx.ReviewRpc.SubmitFollowup(l.ctx, &reviewpb.SubmitFollowupReq{
+		ReviewId: req.ReviewId,
+		UserId:   currentUserId(l.ctx),
+		Content:  req.Content,
+		Media:    reqMediaToProto(req.Media),
+	}); err != nil {
+		return nil, err
+	}
+	return &types.OkResp{Ok: true}, nil
 }

@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	reviewpb "mall-review-rpc/review"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,10 @@ func NewGetReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetRevi
 	}
 }
 
-func (l *GetReviewLogic) GetReview(req *types.GetReviewReq) (resp *types.GetReviewResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *GetReviewLogic) GetReview(req *types.GetReviewReq) (*types.GetReviewResp, error) {
+	r, err := l.svcCtx.ReviewRpc.GetReview(l.ctx, &reviewpb.GetReviewReq{ReviewId: req.Id})
+	if err != nil {
+		return nil, err
+	}
+	return &types.GetReviewResp{Review: protoReviewToType(r)}, nil
 }
