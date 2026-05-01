@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 
+	"mall-common/errorx"
 	"mall-review-rpc/internal/svc"
 	"mall-review-rpc/review"
 
@@ -24,7 +25,17 @@ func NewSoftDeleteReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *SoftDeleteReviewLogic) SoftDeleteReview(in *review.SoftDeleteReviewReq) (*review.Empty, error) {
-	// todo: add your logic here and delete this line
-
+	rev, err := l.svcCtx.ReviewModel.FindOne(l.ctx, in.ReviewId)
+	if err != nil {
+		return nil, errorx.NewCodeError(errorx.ReviewNotFound)
+	}
+	if rev.Status != 0 {
+		return &review.Empty{}, nil
+	}
+	if _, err := l.svcCtx.DB.ExecCtx(l.ctx,
+		"UPDATE `review` SET status=1 WHERE id=?", in.ReviewId); err != nil {
+		return nil, err
+	}
+	_, _ = l.svcCtx.Redis.Del(cacheKeyProductSummary(rev.ProductId))
 	return &review.Empty{}, nil
 }
