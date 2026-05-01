@@ -95,3 +95,16 @@ func groupMediaByReview(media []*model.ReviewMedia) map[int64][]*model.ReviewMed
 	}
 	return out
 }
+
+func clampPaging(page, pageSize int32) (int32, int32, int32) {
+	if page <= 0 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = 20
+	} else if pageSize > 100 {
+		pageSize = 100
+	}
+	offset := (page - 1) * pageSize
+	return page, pageSize, offset
+}
