@@ -65,3 +65,23 @@ RiskRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: risk.rpc
+
+ReviewRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: review.rpc
+
+ReviewMedia:
+  MaxImages: 9
+  MaxImageSizeMB: 5
+  MaxVideoSizeMB: 50
+  Bucket: mall-review-media
+
+AdminToken: "mall-admin-token-change-in-production"
+
+MinIO:
+  Endpoint: 127.0.0.1:9000
+  AccessKey: admin
+  SecretKey: admin123
+  UseSSL: false

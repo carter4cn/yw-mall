@@ -24,4 +24,19 @@ type Config struct {
 	WorkflowRpc zrpc.RpcClientConf
 	RewardRpc   zrpc.RpcClientConf
 	RiskRpc     zrpc.RpcClientConf
+	ReviewRpc   zrpc.RpcClientConf
+
+	ReviewMedia struct {
+		MaxImages      int
+		MaxImageSizeMB int
+		MaxVideoSizeMB int
+		Bucket         string
+	}
+	AdminToken string
+	MinIO      struct {
+		Endpoint  string
+		AccessKey string
+		SecretKey string
+		UseSSL    bool
+	}
 }

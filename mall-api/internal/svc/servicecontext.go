@@ -4,20 +4,34 @@
 package svc
 
 import (
+	"context"
+	"io"
+
 	"mall-activity-rpc/activityclient"
 	"mall-api/internal/config"
+	"mall-api/internal/middleware"
 	"mall-cart-rpc/cartclient"
 	"mall-order-rpc/orderclient"
 	"mall-payment-rpc/paymentclient"
 	"mall-product-rpc/productclient"
+	"mall-review-rpc/reviewclient"
 	"mall-reward-rpc/rewardclient"
 	"mall-risk-rpc/riskclient"
 	"mall-rule-rpc/ruleclient"
 	"mall-user-rpc/userclient"
 	"mall-workflow-rpc/workflowclient"
 
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
+	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 )
+
+type ObjectStore interface {
+	PutObject(ctx context.Context, bucket, object string, r io.Reader, size int64, opts minio.PutObjectOptions) (minio.UploadInfo, error)
+	BucketExists(ctx context.Context, bucket string) (bool, error)
+	MakeBucket(ctx context.Context, bucket string, opts minio.MakeBucketOptions) error
+}
 
 type ServiceContext struct {
 	Config      config.Config
@@ -31,9 +45,20 @@ type ServiceContext struct {
 	WorkflowRpc workflowclient.Workflow
 	RewardRpc   rewardclient.Reward
 	RiskRpc     riskclient.Risk
+	ReviewRpc   reviewclient.Review
+
+	Minio      ObjectStore
+	AdminToken rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	mc, err := minio.New(c.MinIO.Endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(c.MinIO.AccessKey, c.MinIO.SecretKey, ""),
+		Secure: c.MinIO.UseSSL,
+	})
+	if err != nil {
+		panic(err)
+	}
 	return &ServiceContext{
 		Config:      c,
 		UserRpc:     userclient.NewUser(zrpc.MustNewClient(c.UserRpc)),
@@ -46,5 +71,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		WorkflowRpc: workflowclient.NewWorkflow(zrpc.MustNewClient(c.WorkflowRpc)),
 		RewardRpc:   rewardclient.NewReward(zrpc.MustNewClient(c.RewardRpc)),
 		RiskRpc:     riskclient.NewRisk(zrpc.MustNewClient(c.RiskRpc)),
+		ReviewRpc:   reviewclient.NewReview(zrpc.MustNewClient(c.ReviewRpc)),
+		Minio:       mc,
+		AdminToken:  middleware.NewAdminTokenMiddleware(c.AdminToken).Handle,
 	}
 }

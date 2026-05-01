@@ -3,12 +3,27 @@ module mall-api
 go 1.26.1
 
 require (
+	github.com/minio/minio-go/v7 v7.1.0
 	github.com/zeromicro/go-zero v1.10.1
 	mall-cart-rpc v0.0.0
 	mall-order-rpc v0.0.0
 	mall-payment-rpc v0.0.0
 	mall-product-rpc v0.0.0
 	mall-user-rpc v0.0.0
+)
+
+require (
+	github.com/dustin/go-humanize v1.0.1 // indirect
+	github.com/go-ini/ini v1.67.0 // indirect
+	github.com/klauspost/cpuid/v2 v2.2.11 // indirect
+	github.com/klauspost/crc32 v1.3.0 // indirect
+	github.com/minio/crc64nvme v1.1.1 // indirect
+	github.com/minio/md5-simd v1.1.2 // indirect
+	github.com/philhofer/fwd v1.2.0 // indirect
+	github.com/rs/xid v1.6.0 // indirect
+	github.com/tinylib/msgp v1.6.1 // indirect
+	github.com/zeebo/xxh3 v1.1.0 // indirect
+	golang.org/x/crypto v0.50.0 // indirect
 )
 
 require (
@@ -38,7 +53,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.7 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.18.0 // indirect
+	github.com/klauspost/compress v1.18.2 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
@@ -99,6 +114,8 @@ require (
 	k8s.io/kube-openapi v0.0.0-20250710124328-f3f2b991d03b // indirect
 	k8s.io/utils v0.0.0-20260319190234-28399d86e0b5 // indirect
 	mall-activity-rpc v0.0.0
+	mall-common v0.0.0
+	mall-review-rpc v0.0.0
 	mall-reward-rpc v0.0.0
 	mall-risk-rpc v0.0.0
 	mall-rule-rpc v0.0.0
@@ -126,3 +143,7 @@ replace mall-workflow-rpc => ../mall-workflow-rpc
 replace mall-reward-rpc => ../mall-reward-rpc
 
 replace mall-risk-rpc => ../mall-risk-rpc
+
+replace mall-review-rpc => ../mall-review-rpc
+
+replace mall-common => ../mall-common
