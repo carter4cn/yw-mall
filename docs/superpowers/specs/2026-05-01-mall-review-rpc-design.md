@@ -40,8 +40,8 @@
 
 | 依赖 | 调用方法 | 用途 |
 |------|---------|------|
-| `mall-order-rpc` | `GetOrderItem(orderItemId)` | 校验"调用者买过该商品 + 订单已完成" |
-| `mall-risk-rpc` | `Check(userId, action="submit_review")` | 风控行为拦截 |
+| `mall-order-rpc` | `GetOrderItem(orderItemId)` ← **当前 proto 未提供，需新增** | 校验"调用者买过该商品 + 订单已完成" |
+| `mall-risk-rpc` | `CheckBlacklist(subject_type="user", subject_value=userId)` + `RateLimit(scope="submit_review", subject=userId)` | 行为级风控（黑名单 + 频次限制） |
 | MySQL（schema `mall_review`） | 直连 ProxySQL（`proxysql:proxysql123@tcp(127.0.0.1:6033)`） | 主存储 |
 | Redis | 直连本地 Redis | 评分聚合缓存 |
 
@@ -71,8 +71,9 @@ client
   └→ POST /api/review/submit  (JWT, body: order_item_id, scores, content, media[])
        └→ mall-api validate JWT, decode user_id
             └→ review-rpc.SubmitReview
-                 ├─ order-rpc.GetOrderItem(order_item_id)         // 校验归属 + 状态完成
-                 ├─ risk-rpc.Check(user_id, "submit_review")      // 行为风控
+                 ├─ order-rpc.GetOrderItem(order_item_id)         // 校验归属 + 订单状态=完成
+                 ├─ risk-rpc.CheckBlacklist(user, userId)         // 黑名单
+                 ├─ risk-rpc.RateLimit("submit_review", userId)   // 频次（默认每用户每小时 ≤ 10 条）
                  ├─ DB: INSERT review + INSERT review_media (tx)
                  ├─ Redis: DEL mall:review:summary:{product_id}
                  └─ return review_id
@@ -368,19 +369,19 @@ ReviewRpc:
 | SoftDeleteReview | mall-api 层 `X-Admin-Token` 命中；review 存在；幂等（重复软删返回成功） |
 | 媒体上传（mall-api） | 单图 ≤ 5MB；单视频 ≤ 50MB；总图 ≤ 9 张；总视频 ≤ 1 个；MIME 类型在白名单 |
 
-### 6.2 错误码（追加到 `mall-common/errorx`）
+### 6.2 错误码（追加到 `mall-common/errorx`，沿用 4 位 8xxx 段）
 
 | code | const | message |
 |------|-------|---------|
-| 27001 | `ErrReviewOrderNotFound` | 订单不存在或不属于当前用户 |
-| 27002 | `ErrReviewOrderNotCompleted` | 订单未完成，不能评价 |
-| 27003 | `ErrReviewAlreadyExists` | 该订单项已评价过 |
-| 27004 | `ErrReviewNotFound` | 评价不存在或已删除 |
-| 27005 | `ErrReviewFollowupNotAllowed` | 追评条件不满足 |
-| 27006 | `ErrReviewRiskBlocked` | 风控拦截，无法发表评价 |
-| 27007 | `ErrReviewMediaInvalid` | 媒体 URL 非法 |
-| 27008 | `ErrReviewLimitExceeded` | 字数 / 媒体数量超限 |
-| 27009 | `ErrAdminTokenInvalid` | 管理员 token 无效 |
+| 8001 | `ReviewOrderNotFound` | 订单不存在或不属于当前用户 |
+| 8002 | `ReviewOrderNotCompleted` | 订单未完成，不能评价 |
+| 8003 | `ReviewAlreadyExists` | 该订单项已评价过 |
+| 8004 | `ReviewNotFound` | 评价不存在或已删除 |
+| 8005 | `ReviewFollowupNotAllowed` | 追评条件不满足 |
+| 8006 | `ReviewRiskBlocked` | 风控拦截，无法发表评价 |
+| 8007 | `ReviewMediaInvalid` | 媒体 URL 非法 |
+| 8008 | `ReviewLimitExceeded` | 字数 / 媒体数量超限 |
+| 8009 | `AdminTokenInvalid` | 管理员 token 无效 |
 
 ---
 
