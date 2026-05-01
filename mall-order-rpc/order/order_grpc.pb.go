@@ -23,6 +23,8 @@ const (
 	Order_GetOrder_FullMethodName          = "/order.Order/GetOrder"
 	Order_ListOrders_FullMethodName        = "/order.Order/ListOrders"
 	Order_UpdateOrderStatus_FullMethodName = "/order.Order/UpdateOrderStatus"
+	Order_CreatePreOrder_FullMethodName    = "/order.Order/CreatePreOrder"
+	Order_CancelPreOrder_FullMethodName    = "/order.Order/CancelPreOrder"
 	Order_GetOrderItem_FullMethodName      = "/order.Order/GetOrderItem"
 )
 
@@ -34,6 +36,8 @@ type OrderClient interface {
 	GetOrder(ctx context.Context, in *GetOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error)
 	ListOrders(ctx context.Context, in *ListOrdersReq, opts ...grpc.CallOption) (*ListOrdersResp, error)
 	UpdateOrderStatus(ctx context.Context, in *UpdateOrderStatusReq, opts ...grpc.CallOption) (*UpdateOrderStatusResp, error)
+	CreatePreOrder(ctx context.Context, in *CreatePreOrderReq, opts ...grpc.CallOption) (*CreatePreOrderResp, error)
+	CancelPreOrder(ctx context.Context, in *CancelPreOrderReq, opts ...grpc.CallOption) (*CancelPreOrderResp, error)
 	GetOrderItem(ctx context.Context, in *GetOrderItemReq, opts ...grpc.CallOption) (*GetOrderItemResp, error)
 }
 
@@ -85,6 +89,26 @@ func (c *orderClient) UpdateOrderStatus(ctx context.Context, in *UpdateOrderStat
 	return out, nil
 }
 
+func (c *orderClient) CreatePreOrder(ctx context.Context, in *CreatePreOrderReq, opts ...grpc.CallOption) (*CreatePreOrderResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreatePreOrderResp)
+	err := c.cc.Invoke(ctx, Order_CreatePreOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) CancelPreOrder(ctx context.Context, in *CancelPreOrderReq, opts ...grpc.CallOption) (*CancelPreOrderResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CancelPreOrderResp)
+	err := c.cc.Invoke(ctx, Order_CancelPreOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *orderClient) GetOrderItem(ctx context.Context, in *GetOrderItemReq, opts ...grpc.CallOption) (*GetOrderItemResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetOrderItemResp)
@@ -103,6 +127,8 @@ type OrderServer interface {
 	GetOrder(context.Context, *GetOrderReq) (*GetOrderResp, error)
 	ListOrders(context.Context, *ListOrdersReq) (*ListOrdersResp, error)
 	UpdateOrderStatus(context.Context, *UpdateOrderStatusReq) (*UpdateOrderStatusResp, error)
+	CreatePreOrder(context.Context, *CreatePreOrderReq) (*CreatePreOrderResp, error)
+	CancelPreOrder(context.Context, *CancelPreOrderReq) (*CancelPreOrderResp, error)
 	GetOrderItem(context.Context, *GetOrderItemReq) (*GetOrderItemResp, error)
 	mustEmbedUnimplementedOrderServer()
 }
@@ -125,6 +151,12 @@ func (UnimplementedOrderServer) ListOrders(context.Context, *ListOrdersReq) (*Li
 }
 func (UnimplementedOrderServer) UpdateOrderStatus(context.Context, *UpdateOrderStatusReq) (*UpdateOrderStatusResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateOrderStatus not implemented")
+}
+func (UnimplementedOrderServer) CreatePreOrder(context.Context, *CreatePreOrderReq) (*CreatePreOrderResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreatePreOrder not implemented")
+}
+func (UnimplementedOrderServer) CancelPreOrder(context.Context, *CancelPreOrderReq) (*CancelPreOrderResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CancelPreOrder not implemented")
 }
 func (UnimplementedOrderServer) GetOrderItem(context.Context, *GetOrderItemReq) (*GetOrderItemResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetOrderItem not implemented")
@@ -222,6 +254,42 @@ func _Order_UpdateOrderStatus_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_CreatePreOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePreOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).CreatePreOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_CreatePreOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).CreatePreOrder(ctx, req.(*CreatePreOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_CancelPreOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelPreOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).CancelPreOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_CancelPreOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).CancelPreOrder(ctx, req.(*CancelPreOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Order_GetOrderItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetOrderItemReq)
 	if err := dec(in); err != nil {
@@ -262,6 +330,14 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateOrderStatus",
 			Handler:    _Order_UpdateOrderStatus_Handler,
+		},
+		{
+			MethodName: "CreatePreOrder",
+			Handler:    _Order_CreatePreOrder_Handler,
+		},
+		{
+			MethodName: "CancelPreOrder",
+			Handler:    _Order_CancelPreOrder_Handler,
 		},
 		{
 			MethodName: "GetOrderItem",
