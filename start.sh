@@ -55,6 +55,7 @@ SERVICES=(
     "mall-payment-rpc:payment.go:payment-rpc:9005"
     "mall-rule-rpc:rule.go:rule-rpc:9011"
     "mall-risk-rpc:risk.go:risk-rpc:9014"
+    "mall-review-rpc:review.go:review-rpc:9015"
     "mall-reward-rpc:reward.go:reward-rpc:9013"
     "mall-activity-rpc:activity.go:activity-rpc:9010"
     "mall-workflow-rpc:workflow.go:workflow-rpc:9012"
@@ -131,6 +132,7 @@ bootstrap_dbs() {
         [mall_workflow]=mall-workflow-rpc/sql/workflow.sql
         [mall_reward]=mall-reward-rpc/sql/reward.sql
         [mall_risk]=mall-risk-rpc/sql/risk.sql
+        [mall_review]=mall-review-rpc/sql/review.sql
     )
     for db in "${!DDL[@]}"; do
         local f="$BASE_DIR/${DDL[$db]}"
