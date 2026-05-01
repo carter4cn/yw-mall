@@ -16,6 +16,24 @@ const (
 	CartEmpty          = 5001
 	PaymentNotFound    = 6001
 	PaymentStatusError = 6002
+
+	// Activity center error codes (7xxx)
+	ActivityNotFound            = 7001
+	ActivityNotPublished        = 7002
+	ActivityEnded               = 7003
+	ActivityNotEligible         = 7004
+	ActivityRateLimited         = 7005
+	ActivityBlacklisted         = 7006
+	ActivityTokenInvalid        = 7007
+	ActivityStockEmpty          = 7008
+	ActivityAlreadyParticipated = 7009
+	RuleEvalFailed              = 7101
+	WorkflowStateError          = 7201
+	WorkflowTransitionError     = 7202
+	RewardDispatchFailed        = 7301
+	RewardAlreadyClaimed        = 7302
+	RiskCheckFailed             = 7401
+	SagaCompensated             = 7501
 )
 
 var message = map[int]string{
@@ -34,6 +52,23 @@ var message = map[int]string{
 	CartEmpty:          "cart is empty",
 	PaymentNotFound:    "payment not found",
 	PaymentStatusError: "invalid payment status",
+
+	ActivityNotFound:            "activity not found",
+	ActivityNotPublished:        "activity not published",
+	ActivityEnded:               "activity ended",
+	ActivityNotEligible:         "not eligible to participate",
+	ActivityRateLimited:         "too many requests",
+	ActivityBlacklisted:         "user blacklisted",
+	ActivityTokenInvalid:        "invalid participation token",
+	ActivityStockEmpty:          "activity stock empty",
+	ActivityAlreadyParticipated: "already participated",
+	RuleEvalFailed:              "rule evaluation failed",
+	WorkflowStateError:          "invalid workflow state",
+	WorkflowTransitionError:     "invalid workflow transition",
+	RewardDispatchFailed:        "reward dispatch failed",
+	RewardAlreadyClaimed:        "reward already claimed",
+	RiskCheckFailed:             "risk check failed",
+	SagaCompensated:             "distributed transaction compensated",
 }
 
 type CodeError struct {

@@ -3,6 +3,108 @@
 
 package types
 
+type ActivityCouponClaimReq struct {
+	Id           int64 `path:"id"`
+	CouponCodeId int64 `json:"couponCodeId,optional"`
+}
+
+type ActivityCouponClaimResp struct {
+	ParticipationId int64  `json:"participationId"`
+	Status          string `json:"status"`
+	CouponCode      string `json:"couponCode,optional"`
+}
+
+type ActivityDetailReq struct {
+	Id int64 `path:"id"`
+}
+
+type ActivityDetailResp struct {
+	Id                 int64  `json:"id"`
+	Code               string `json:"code"`
+	Title              string `json:"title"`
+	Description        string `json:"description"`
+	Type               string `json:"type"`
+	Status             string `json:"status"`
+	StartTime          int64  `json:"startTime"`
+	EndTime            int64  `json:"endTime"`
+	Participants       int64  `json:"participants"`
+	Winners            int64  `json:"winners"`
+	StockLeft          int64  `json:"stockLeft"`
+	ParticipationToken string `json:"participationToken,optional"`
+}
+
+type ActivityItem struct {
+	Id          int64  `json:"id"`
+	Code        string `json:"code"`
+	Title       string `json:"title"`
+	Type        string `json:"type"`
+	Status      string `json:"status"`
+	StartTime   int64  `json:"startTime"`
+	EndTime     int64  `json:"endTime"`
+	Description string `json:"description"`
+}
+
+type ActivityListReq struct {
+	Type     string `json:"type,optional"`
+	Status   string `json:"status,optional"`
+	Page     int32  `json:"page,optional"`
+	PageSize int32  `json:"pageSize,optional"`
+}
+
+type ActivityListResp struct {
+	Activities []ActivityItem `json:"activities"`
+	Total      int64          `json:"total"`
+}
+
+type ActivityLotterySpinReq struct {
+	Id    int64  `path:"id"`
+	Token string `json:"token,optional"`
+}
+
+type ActivityLotterySpinResp struct {
+	ParticipationId int64  `json:"participationId"`
+	Status          string `json:"status"`
+	PrizeCode       string `json:"prizeCode,optional"`
+	PrizeName       string `json:"prizeName,optional"`
+}
+
+type ActivityParticipateReq struct {
+	Id              int64  `path:"id"`
+	Token           string `json:"token,optional"`
+	PayloadJson     string `json:"payloadJson,optional"`
+	ClientRequestId string `json:"clientRequestId,optional"`
+}
+
+type ActivityParticipateResp struct {
+	ParticipationId    int64  `json:"participationId"`
+	WorkflowInstanceId int64  `json:"workflowInstanceId"`
+	Status             string `json:"status"`
+	DetailJson         string `json:"detailJson"`
+}
+
+type ActivitySeckillBuyReq struct {
+	Id       int64  `path:"id"`
+	SkuId    int64  `json:"skuId"`
+	Quantity int32  `json:"quantity"`
+	Token    string `json:"token,optional"`
+}
+
+type ActivitySeckillBuyResp struct {
+	ParticipationId int64  `json:"participationId"`
+	Status          string `json:"status"`
+	OrderNo         string `json:"orderNo,optional"`
+}
+
+type ActivitySignInReq struct {
+	Id int64 `path:"id"`
+}
+
+type ActivitySignInResp struct {
+	Status        string `json:"status"`
+	PointsAwarded int64  `json:"pointsAwarded,optional"`
+	StreakDays    int32  `json:"streakDays,optional"`
+}
+
 type CartAddReq struct {
 	ProductId int64 `json:"productId"`
 	Quantity  int32 `json:"quantity"`
@@ -63,6 +165,27 @@ type LoginReq struct {
 type LoginResp struct {
 	Id    int64  `json:"id"`
 	Token string `json:"token"`
+}
+
+type MyRewardItem struct {
+	Id          int64  `json:"id"`
+	ActivityId  int64  `json:"activityId"`
+	TemplateId  int64  `json:"templateId"`
+	Type        string `json:"type"`
+	PayloadJson string `json:"payloadJson"`
+	Status      string `json:"status"`
+	CreateTime  int64  `json:"createTime"`
+}
+
+type MyRewardsReq struct {
+	Type     string `form:"type,optional"`
+	Page     int32  `form:"page,optional"`
+	PageSize int32  `form:"pageSize,optional"`
+}
+
+type MyRewardsResp struct {
+	Rewards []MyRewardItem `json:"rewards"`
+	Total   int64          `json:"total"`
 }
 
 type OrderDetailReq struct {

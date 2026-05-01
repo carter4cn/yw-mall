@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package risk;
+
+option go_package = "./risk";
+
+message Empty {}
+
+message IssueTokenReq {
+  int64 user_id = 1;
+  int64 activity_id = 2;
+  int32 ttl_seconds = 3;
+  string device_id = 4;
+  string ip = 5;
+}
+message IssueTokenResp {
+  string token = 1;
+  int64 expires_at = 2;
+}
+
+message VerifyTokenReq {
+  int64 user_id = 1;
+  int64 activity_id = 2;
+  string token = 3;
+  // mark token used (one-shot)
+  bool consume = 4;
+}
+message VerifyTokenResp {
+  bool valid = 1;
+  string reason = 2;
+}
+
+message CheckBlacklistReq {
+  string subject_type = 1;
+  string subject_value = 2;
+}
+message CheckBlacklistResp {
+  bool blacklisted = 1;
+  string reason = 2;
+}
+
+message AddToBlacklistReq {
+  string subject_type = 1;
+  string subject_value = 2;
+  string reason = 3;
+  int64 expires_at = 4;
+}
+
+message RemoveFromBlacklistReq {
+  string subject_type = 1;
+  string subject_value = 2;
+}
+
+message RateLimitReq {
+  int64 activity_id = 1;
+  string subject_type = 2;
+  string subject_value = 3;
+  int32 max_count = 4;
+  int32 window_seconds = 5;
+}
+message RateLimitResp {
+  bool allowed = 1;
+  int32 remaining = 2;
+  int64 reset_at = 3;
+}
+
+message GetRiskScoreReq {
+  string subject_type = 1;
+  string subject_value = 2;
+}
+message GetRiskScoreResp {
+  int32 score = 1;
+  int64 updated_at = 2;
+}
+
+message RecordEventReq {
+  string subject_type = 1;
+  string subject_value = 2;
+  string event_type = 3;
+  string payload_json = 4;
+}
+
+service Risk {
+  rpc IssueToken(IssueTokenReq) returns (IssueTokenResp);
+  rpc VerifyToken(VerifyTokenReq) returns (VerifyTokenResp);
+  rpc CheckBlacklist(CheckBlacklistReq) returns (CheckBlacklistResp);
+  rpc AddToBlacklist(AddToBlacklistReq) returns (Empty);
+  rpc RemoveFromBlacklist(RemoveFromBlacklistReq) returns (Empty);
+  rpc RateLimit(RateLimitReq) returns (RateLimitResp);
+  rpc GetRiskScore(GetRiskScoreReq) returns (GetRiskScoreResp);
+  rpc RecordEvent(RecordEventReq) returns (Empty);
+}

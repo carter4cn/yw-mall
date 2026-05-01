@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package rule;
+
+option go_package = "./rule";
+
+message Empty {}
+message IdReq { int64 id = 1; }
+
+message RuleInfo {
+  int64 id = 1;
+  string code = 2;
+  string description = 3;
+  string expression = 4;
+  // language; default "expr"
+  string lang = 5;
+  int32 version = 6;
+  string status = 7;
+  string json_schema = 8;
+  int64 create_time = 9;
+  int64 update_time = 10;
+}
+
+message RuleSet {
+  int64 id = 1;
+  string code = 2;
+  // op: AND / OR / NOT
+  string op = 3;
+  repeated int64 member_rule_ids = 4;
+  string description = 5;
+}
+
+message RuleContext {
+  int64 user_id = 1;
+  string user_tier = 2;
+  int64 user_register_at = 3;
+  string user_country = 4;
+  int64 activity_id = 5;
+  string activity_type = 6;
+  int64 current_time = 7;
+  int64 participation_count_today = 8;
+  int64 participation_count_total = 9;
+  string device_id = 10;
+  string ip = 11;
+  map<string, string> custom_kv = 12;
+}
+
+message CreateRuleReq {
+  string code = 1;
+  string description = 2;
+  string expression = 3;
+  string json_schema = 4;
+}
+message CreateRuleResp { int64 id = 1; }
+
+message UpdateRuleReq {
+  int64 id = 1;
+  string description = 2;
+  string expression = 3;
+  string status = 4;
+}
+
+message ListRulesReq {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+message ListRulesResp {
+  repeated RuleInfo rules = 1;
+  int64 total = 2;
+}
+
+message EvaluateReq {
+  int64 rule_id = 1;
+  RuleContext context = 2;
+}
+message EvaluateResp {
+  bool result = 1;
+  string detail = 2;
+  int64 latency_us = 3;
+}
+
+message BatchEvaluateReq {
+  repeated int64 rule_ids = 1;
+  RuleContext context = 2;
+}
+message BatchEvaluateResp {
+  map<int64, bool> results = 1;
+  // first failed rule id (0 if all pass)
+  int64 first_failed = 2;
+}
+
+message CreateRuleSetReq {
+  string code = 1;
+  string op = 2;
+  repeated int64 member_rule_ids = 3;
+  string description = 4;
+}
+message CreateRuleSetResp { int64 id = 1; }
+
+message EvaluateRuleSetReq {
+  int64 rule_set_id = 1;
+  RuleContext context = 2;
+}
+message EvaluateRuleSetResp {
+  bool result = 1;
+  int64 first_failed_rule_id = 2;
+  int64 latency_us = 3;
+}
+
+service Rule {
+  rpc CreateRule(CreateRuleReq) returns (CreateRuleResp);
+  rpc UpdateRule(UpdateRuleReq) returns (Empty);
+  rpc GetRule(IdReq) returns (RuleInfo);
+  rpc ListRules(ListRulesReq) returns (ListRulesResp);
+  rpc Evaluate(EvaluateReq) returns (EvaluateResp);
+  rpc BatchEvaluate(BatchEvaluateReq) returns (BatchEvaluateResp);
+  rpc CreateRuleSet(CreateRuleSetReq) returns (CreateRuleSetResp);
+  rpc EvaluateRuleSet(EvaluateRuleSetReq) returns (EvaluateRuleSetResp);
+}

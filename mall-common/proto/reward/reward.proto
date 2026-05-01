@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package reward;
+
+option go_package = "./reward";
+
+message Empty {}
+message IdReq { int64 id = 1; }
+
+message RewardTemplate {
+  int64 id = 1;
+  string code = 2;
+  // type: points / coupon / red_envelope / physical / virtual_goods / member_privilege / experience
+  string type = 3;
+  string payload_schema_json = 4;
+  int64 max_value = 5;
+  string status = 6;
+  string description = 7;
+}
+
+message RewardRecord {
+  int64 id = 1;
+  int64 user_id = 2;
+  int64 activity_id = 3;
+  int64 workflow_instance_id = 4;
+  int64 template_id = 5;
+  string type = 6;
+  string payload_json = 7;
+  // status: PENDING / DISPATCHED / CONFIRMED / FAILED / REFUNDED
+  string status = 8;
+  string idempotency_key = 9;
+  int32 version = 10;
+  int64 create_time = 11;
+  int64 update_time = 12;
+}
+
+message CreateTemplateReq {
+  string code = 1;
+  string type = 2;
+  string payload_schema_json = 3;
+  int64 max_value = 4;
+  string description = 5;
+}
+message CreateTemplateResp { int64 id = 1; }
+
+message ListTemplatesReq {
+  string type = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+message ListTemplatesResp {
+  repeated RewardTemplate templates = 1;
+  int64 total = 2;
+}
+
+message DispatchReq {
+  int64 user_id = 1;
+  int64 activity_id = 2;
+  int64 workflow_instance_id = 3;
+  int64 template_id = 4;
+  string payload_json = 5;
+  string idempotency_key = 6;
+}
+message DispatchResp {
+  int64 reward_record_id = 1;
+  string status = 2;
+}
+
+message BatchDispatchReq {
+  repeated DispatchReq items = 1;
+}
+message BatchDispatchResp {
+  repeated DispatchResp results = 1;
+}
+
+message ConfirmReq {
+  int64 reward_record_id = 1;
+  string idempotency_key = 2;
+}
+
+message MarkFailedReq {
+  int64 reward_record_id = 1;
+  string reason = 2;
+}
+
+message GetMyRewardsReq {
+  int64 user_id = 1;
+  string type = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+message GetMyRewardsResp {
+  repeated RewardRecord records = 1;
+  int64 total = 2;
+}
+
+message RefundRewardReq {
+  int64 reward_record_id = 1;
+  string idempotency_key = 2;
+  string reason = 3;
+}
+
+service Reward {
+  rpc CreateTemplate(CreateTemplateReq) returns (CreateTemplateResp);
+  rpc GetTemplate(IdReq) returns (RewardTemplate);
+  rpc ListTemplates(ListTemplatesReq) returns (ListTemplatesResp);
+  rpc Dispatch(DispatchReq) returns (DispatchResp);
+  rpc BatchDispatch(BatchDispatchReq) returns (BatchDispatchResp);
+  rpc Confirm(ConfirmReq) returns (Empty);
+  rpc MarkFailed(MarkFailedReq) returns (Empty);
+  rpc GetMyRewards(GetMyRewardsReq) returns (GetMyRewardsResp);
+  rpc GetReward(IdReq) returns (RewardRecord);
+  rpc RefundReward(RefundRewardReq) returns (Empty);
+}

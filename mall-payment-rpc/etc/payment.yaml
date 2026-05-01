@@ -5,7 +5,7 @@ Etcd:
     - 127.0.0.1:2379
   Key: payment.rpc
 
-DataSource: root:123456@tcp(127.0.0.1:3306)/mall_payment?charset=utf8mb4&parseTime=true&loc=Local
+DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_payment?charset=utf8mb4&parseTime=true&loc=Local
 
 Cache:
   - Host: 127.0.0.1:6379

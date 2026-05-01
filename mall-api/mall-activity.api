@@ -1,0 +1,147 @@
+syntax = "v1"
+
+// ===== Activity types =====
+type (
+	ActivityListReq {
+		Type     string `json:"type,optional"`
+		Status   string `json:"status,optional"`
+		Page     int32  `json:"page,optional"`
+		PageSize int32  `json:"pageSize,optional"`
+	}
+	ActivityItem {
+		Id          int64  `json:"id"`
+		Code        string `json:"code"`
+		Title       string `json:"title"`
+		Type        string `json:"type"`
+		Status      string `json:"status"`
+		StartTime   int64  `json:"startTime"`
+		EndTime     int64  `json:"endTime"`
+		Description string `json:"description"`
+	}
+	ActivityListResp {
+		Activities []ActivityItem `json:"activities"`
+		Total      int64          `json:"total"`
+	}
+
+	ActivityDetailReq {
+		Id int64 `path:"id"`
+	}
+	ActivityDetailResp {
+		Id                  int64  `json:"id"`
+		Code                string `json:"code"`
+		Title               string `json:"title"`
+		Description         string `json:"description"`
+		Type                string `json:"type"`
+		Status              string `json:"status"`
+		StartTime           int64  `json:"startTime"`
+		EndTime             int64  `json:"endTime"`
+		Participants        int64  `json:"participants"`
+		Winners             int64  `json:"winners"`
+		StockLeft           int64  `json:"stockLeft"`
+		ParticipationToken  string `json:"participationToken,optional"`
+	}
+
+	ActivityParticipateReq {
+		Id              int64  `path:"id"`
+		Token           string `json:"token,optional"`
+		PayloadJson     string `json:"payloadJson,optional"`
+		ClientRequestId string `json:"clientRequestId,optional"`
+	}
+	ActivityParticipateResp {
+		ParticipationId    int64  `json:"participationId"`
+		WorkflowInstanceId int64  `json:"workflowInstanceId"`
+		Status             string `json:"status"`
+		DetailJson         string `json:"detailJson"`
+	}
+
+	ActivityLotterySpinReq {
+		Id    int64  `path:"id"`
+		Token string `json:"token,optional"`
+	}
+	ActivityLotterySpinResp {
+		ParticipationId int64  `json:"participationId"`
+		Status          string `json:"status"`
+		PrizeCode       string `json:"prizeCode,optional"`
+		PrizeName       string `json:"prizeName,optional"`
+	}
+
+	ActivitySeckillBuyReq {
+		Id       int64 `path:"id"`
+		SkuId    int64 `json:"skuId"`
+		Quantity int32 `json:"quantity"`
+		Token    string `json:"token,optional"`
+	}
+	ActivitySeckillBuyResp {
+		ParticipationId int64  `json:"participationId"`
+		Status          string `json:"status"`
+		OrderNo         string `json:"orderNo,optional"`
+	}
+
+	ActivityCouponClaimReq {
+		Id           int64 `path:"id"`
+		CouponCodeId int64 `json:"couponCodeId,optional"`
+	}
+	ActivityCouponClaimResp {
+		ParticipationId int64  `json:"participationId"`
+		Status          string `json:"status"`
+		CouponCode      string `json:"couponCode,optional"`
+	}
+
+	ActivitySignInReq {
+		Id int64 `path:"id"`
+	}
+	ActivitySignInResp {
+		Status         string `json:"status"`
+		PointsAwarded  int64  `json:"pointsAwarded,optional"`
+		StreakDays     int32  `json:"streakDays,optional"`
+	}
+
+	MyRewardsReq {
+		Type     string `form:"type,optional"`
+		Page     int32  `form:"page,optional"`
+		PageSize int32  `form:"pageSize,optional"`
+	}
+	MyRewardItem {
+		Id          int64  `json:"id"`
+		ActivityId  int64  `json:"activityId"`
+		TemplateId  int64  `json:"templateId"`
+		Type        string `json:"type"`
+		PayloadJson string `json:"payloadJson"`
+		Status      string `json:"status"`
+		CreateTime  int64  `json:"createTime"`
+	}
+	MyRewardsResp {
+		Rewards []MyRewardItem `json:"rewards"`
+		Total   int64          `json:"total"`
+	}
+)
+
+@server (
+	prefix: /api/activity
+	jwt:    Auth
+)
+service mall-api {
+	@handler ActivityList
+	post /list (ActivityListReq) returns (ActivityListResp)
+
+	@handler ActivityDetail
+	get /:id (ActivityDetailReq) returns (ActivityDetailResp)
+
+	@handler ActivityParticipate
+	post /:id/participate (ActivityParticipateReq) returns (ActivityParticipateResp)
+
+	@handler ActivityLotterySpin
+	post /:id/lottery/spin (ActivityLotterySpinReq) returns (ActivityLotterySpinResp)
+
+	@handler ActivitySeckillBuy
+	post /:id/seckill/buy (ActivitySeckillBuyReq) returns (ActivitySeckillBuyResp)
+
+	@handler ActivityCouponClaim
+	post /:id/coupon/claim (ActivityCouponClaimReq) returns (ActivityCouponClaimResp)
+
+	@handler ActivitySignIn
+	post /:id/signin (ActivitySignInReq) returns (ActivitySignInResp)
+
+	@handler MyRewards
+	get /my/rewards (MyRewardsReq) returns (MyRewardsResp)
+}

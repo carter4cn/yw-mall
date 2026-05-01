@@ -14,9 +14,14 @@ type Config struct {
 		AccessSecret string
 		AccessExpire int64
 	}
-	UserRpc    zrpc.RpcClientConf
-	ProductRpc zrpc.RpcClientConf
-	OrderRpc   zrpc.RpcClientConf
-	CartRpc    zrpc.RpcClientConf
-	PaymentRpc zrpc.RpcClientConf
+	UserRpc     zrpc.RpcClientConf
+	ProductRpc  zrpc.RpcClientConf
+	OrderRpc    zrpc.RpcClientConf
+	CartRpc     zrpc.RpcClientConf
+	PaymentRpc  zrpc.RpcClientConf
+	ActivityRpc zrpc.RpcClientConf
+	RuleRpc     zrpc.RpcClientConf
+	WorkflowRpc zrpc.RpcClientConf
+	RewardRpc   zrpc.RpcClientConf
+	RiskRpc     zrpc.RpcClientConf
 }

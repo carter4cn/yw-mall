@@ -1,0 +1,60 @@
+Name: workflow.rpc
+ListenOn: 0.0.0.0:9012
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: workflow.rpc
+
+DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_workflow?charset=utf8mb4&parseTime=true&loc=Local
+
+Cache:
+  - Host: 127.0.0.1:6379
+
+RedisCache:
+  Host: 127.0.0.1:6379
+  Type: node
+
+Kafka:
+  Brokers:
+    - 127.0.0.1:19092
+    - 127.0.0.1:19093
+    - 127.0.0.1:19094
+
+Dtm:
+  Server: http://127.0.0.1:36789/api/dtmsvr
+
+RuleRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: rule.rpc
+
+RewardRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: reward.rpc
+
+ActivityRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: activity.rpc
+
+UserRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+
+ProductRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: product.rpc
+
+OrderRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: order.rpc

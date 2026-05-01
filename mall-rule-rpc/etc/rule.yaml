@@ -1,0 +1,14 @@
+Name: rule.rpc
+ListenOn: 0.0.0.0:9011
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: rule.rpc
+
+DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_rule?charset=utf8mb4&parseTime=true&loc=Local
+
+Cache:
+  - Host: 127.0.0.1:6379
+
+LruCacheSize: 4096
+SampleEvery: 100

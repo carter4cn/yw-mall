@@ -44,9 +44,35 @@ message UpdateUserReq {
 
 message UpdateUserResp {}
 
+// ===== Points (DTM SAGA branches) =====
+message AddPointsReq {
+  int64 user_id = 1;
+  int64 amount = 2;
+  string reason = 3;
+  // idempotency_key prevents double-grant on retries; same key = no-op
+  string idempotency_key = 4;
+}
+
+message AddPointsResp {
+  int64 balance = 1;
+}
+
+message DeductPointsReq {
+  int64 user_id = 1;
+  int64 amount = 2;
+  string reason = 3;
+  string idempotency_key = 4;
+}
+
+message DeductPointsResp {
+  int64 balance = 1;
+}
+
 service User {
   rpc Register(RegisterReq) returns (RegisterResp);
   rpc Login(LoginReq) returns (LoginResp);
   rpc GetUser(GetUserReq) returns (GetUserResp);
   rpc UpdateUser(UpdateUserReq) returns (UpdateUserResp);
+  rpc AddPoints(AddPointsReq) returns (AddPointsResp);
+  rpc DeductPoints(DeductPointsReq) returns (DeductPointsResp);
 }

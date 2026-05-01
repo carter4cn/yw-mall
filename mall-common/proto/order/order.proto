@@ -55,9 +55,32 @@ message UpdateOrderStatusReq {
 
 message UpdateOrderStatusResp {}
 
+// ===== Pre-order (seckill SAGA branches) =====
+message CreatePreOrderReq {
+  int64 user_id = 1;
+  int64 activity_id = 2;
+  repeated OrderItem items = 3;
+  string idempotency_key = 4;
+}
+
+message CreatePreOrderResp {
+  int64 id = 1;
+  string order_no = 2;
+}
+
+message CancelPreOrderReq {
+  int64 id = 1;
+  string idempotency_key = 2;
+  string reason = 3;
+}
+
+message CancelPreOrderResp {}
+
 service Order {
   rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
   rpc GetOrder(GetOrderReq) returns (GetOrderResp);
   rpc ListOrders(ListOrdersReq) returns (ListOrdersResp);
   rpc UpdateOrderStatus(UpdateOrderStatusReq) returns (UpdateOrderStatusResp);
+  rpc CreatePreOrder(CreatePreOrderReq) returns (CreatePreOrderResp);
+  rpc CancelPreOrder(CancelPreOrderReq) returns (CancelPreOrderResp);
 }

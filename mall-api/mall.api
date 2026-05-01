@@ -6,6 +6,8 @@ info (
 	version: "1.0"
 )
 
+import "mall-activity.api"
+
 // ===== Types =====
 type (
 	RegisterReq {

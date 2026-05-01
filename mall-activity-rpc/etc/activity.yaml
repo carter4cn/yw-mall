@@ -1,0 +1,55 @@
+Name: activity.rpc
+ListenOn: 0.0.0.0:9010
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: activity.rpc
+
+DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_activity?charset=utf8mb4&parseTime=true&loc=Local
+
+Cache:
+  - Host: 127.0.0.1:6379
+
+RedisCache:
+  Host: 127.0.0.1:6379
+  Type: node
+
+Kafka:
+  Brokers:
+    - 127.0.0.1:19092
+    - 127.0.0.1:19093
+    - 127.0.0.1:19094
+
+Dtm:
+  Server: http://127.0.0.1:36789/api/dtmsvr
+
+RuleRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: rule.rpc
+
+WorkflowRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: workflow.rpc
+
+RiskRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: risk.rpc
+
+RewardRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: reward.rpc
+
+# Maps activity type -> reward_template.code. Resolved to template_id at runtime
+# (codes are stable, ids are not — InnoDB multi-master skips so id=N is unsafe).
+RewardTemplates:
+  Signin: signin_points
+  Lottery: lottery_grand_prize
+  Coupon: coupon_default

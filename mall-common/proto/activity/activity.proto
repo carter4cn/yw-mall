@@ -1,0 +1,198 @@
+syntax = "proto3";
+
+package activity;
+
+option go_package = "./activity";
+
+// ===== Common =====
+message Empty {}
+
+message IdReq {
+  int64 id = 1;
+}
+
+// ===== Activity entity =====
+message ActivityInfo {
+  int64 id = 1;
+  string code = 2;
+  string title = 3;
+  string description = 4;
+  // type: signin / lottery / seckill / coupon
+  string type = 5;
+  // status: DRAFT / PUBLISHED / PAUSED / ENDED
+  string status = 6;
+  int64 start_time = 7;
+  int64 end_time = 8;
+  int64 rule_set_id = 9;
+  int64 workflow_definition_id = 10;
+  int64 template_id = 11;
+  string config_json = 12;
+  int64 create_time = 13;
+  int64 update_time = 14;
+}
+
+message ActivityTemplate {
+  int64 id = 1;
+  string code = 2;
+  string type = 3;
+  int64 default_rule_set_id = 4;
+  int64 default_workflow_definition_id = 5;
+  string config_json = 6;
+}
+
+message ActivityStat {
+  int64 activity_id = 1;
+  int64 participants = 2;
+  int64 winners = 3;
+  int64 stock_left = 4;
+  int64 update_time = 5;
+}
+
+message ParticipationRecord {
+  int64 id = 1;
+  int64 activity_id = 2;
+  int64 user_id = 3;
+  int64 sequence = 4;
+  int64 workflow_instance_id = 5;
+  string status = 6;
+  string payload_json = 7;
+  int64 create_time = 8;
+}
+
+// ===== CRUD =====
+message CreateActivityReq {
+  string code = 1;
+  string title = 2;
+  string description = 3;
+  string type = 4;
+  int64 start_time = 5;
+  int64 end_time = 6;
+  int64 template_id = 7;
+  int64 rule_set_id = 8;
+  int64 workflow_definition_id = 9;
+  string config_json = 10;
+}
+message CreateActivityResp { int64 id = 1; }
+
+message UpdateActivityReq {
+  int64 id = 1;
+  string title = 2;
+  string description = 3;
+  int64 start_time = 4;
+  int64 end_time = 5;
+  string config_json = 6;
+}
+
+message ActivityDetail {
+  ActivityInfo activity = 1;
+  ActivityStat stat = 2;
+  ActivityTemplate template = 3;
+  // participation_token is non-empty for token-required types (lottery/seckill)
+  string participation_token = 4;
+}
+
+message ListActivitiesReq {
+  string type = 1;
+  string status = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+message ListActivitiesResp {
+  repeated ActivityInfo activities = 1;
+  int64 total = 2;
+}
+
+// ===== Participate =====
+message ParticipateReq {
+  int64 activity_id = 1;
+  int64 user_id = 2;
+  // optional risk-issued participation token
+  string token = 3;
+  // optional per-type payload (json)
+  string payload_json = 4;
+  // idempotency key from caller (api gateway)
+  string client_request_id = 5;
+}
+message ParticipateResp {
+  int64 participation_id = 1;
+  int64 workflow_instance_id = 2;
+  // immediate result hint: PENDING / WON / LOST / REJECTED / QUEUED
+  string status = 3;
+  string detail_json = 4;
+}
+
+message GetParticipationReq { int64 id = 1; }
+
+message ListMyParticipationsReq {
+  int64 user_id = 1;
+  int64 activity_id = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+message ListMyParticipationsResp {
+  repeated ParticipationRecord records = 1;
+  int64 total = 2;
+}
+
+// ===== Templates =====
+message ListTemplatesResp {
+  repeated ActivityTemplate templates = 1;
+}
+
+message RegisterTemplateReq {
+  string code = 1;
+  string type = 2;
+  int64 default_rule_set_id = 3;
+  int64 default_workflow_definition_id = 4;
+  string config_json = 5;
+}
+
+// ===== Inventory (DTM SAGA hooks) =====
+message DecrInventoryReq {
+  int64 activity_id = 1;
+  int64 user_id = 2;
+  int32 quantity = 3;
+  string idempotency_key = 4;
+}
+message DecrInventoryResp {
+  int64 stock_left = 1;
+  bool ok = 2;
+}
+
+message RestoreInventoryReq {
+  int64 activity_id = 1;
+  int64 user_id = 2;
+  int32 quantity = 3;
+  string idempotency_key = 4;
+}
+
+// ===== Saga participation hooks =====
+message MarkParticipationRewardedReq {
+  int64 participation_id = 1;
+  string idempotency_key = 2;
+}
+
+message MarkParticipationRefundedReq {
+  int64 participation_id = 1;
+  string idempotency_key = 2;
+}
+
+service Activity {
+  rpc CreateActivity(CreateActivityReq) returns (CreateActivityResp);
+  rpc UpdateActivity(UpdateActivityReq) returns (Empty);
+  rpc PublishActivity(IdReq) returns (Empty);
+  rpc PauseActivity(IdReq) returns (Empty);
+  rpc EndActivity(IdReq) returns (Empty);
+  rpc GetActivity(IdReq) returns (ActivityDetail);
+  rpc ListActivities(ListActivitiesReq) returns (ListActivitiesResp);
+  rpc Participate(ParticipateReq) returns (ParticipateResp);
+  rpc GetParticipation(GetParticipationReq) returns (ParticipationRecord);
+  rpc ListMyParticipations(ListMyParticipationsReq) returns (ListMyParticipationsResp);
+  rpc GetActivityStat(IdReq) returns (ActivityStat);
+  rpc ListTemplates(Empty) returns (ListTemplatesResp);
+  rpc RegisterTemplate(RegisterTemplateReq) returns (Empty);
+  rpc DecrInventory(DecrInventoryReq) returns (DecrInventoryResp);
+  rpc RestoreInventory(RestoreInventoryReq) returns (Empty);
+  rpc MarkParticipationRewarded(MarkParticipationRewardedReq) returns (Empty);
+  rpc MarkParticipationRefunded(MarkParticipationRefundedReq) returns (Empty);
+}

@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package workflow;
+
+option go_package = "./workflow";
+
+message Empty {}
+message IdReq { int64 id = 1; }
+
+message WorkflowDefinition {
+  int64 id = 1;
+  string code = 2;
+  string description = 3;
+  // JSON-encoded states + transitions
+  string states_json = 4;
+  string transitions_json = 5;
+  int32 version = 6;
+  string status = 7;
+}
+
+message WorkflowInstance {
+  int64 id = 1;
+  int64 definition_id = 2;
+  int64 activity_id = 3;
+  int64 user_id = 4;
+  // current state name
+  string state = 5;
+  string payload_json = 6;
+  int32 version = 7;
+  int64 last_event_at = 8;
+  int64 create_time = 9;
+}
+
+message StepLog {
+  int64 id = 1;
+  int64 instance_id = 2;
+  string from_state = 3;
+  string to_state = 4;
+  string trigger = 5;
+  int64 latency_ms = 6;
+  string error = 7;
+  int64 create_time = 8;
+}
+
+message RegisterDefinitionReq {
+  string code = 1;
+  string description = 2;
+  string states_json = 3;
+  string transitions_json = 4;
+}
+message RegisterDefinitionResp { int64 id = 1; }
+
+message StartInstanceReq {
+  int64 definition_id = 1;
+  int64 activity_id = 2;
+  int64 user_id = 3;
+  string payload_json = 4;
+}
+message StartInstanceResp {
+  int64 instance_id = 1;
+  string state = 2;
+}
+
+message FireReq {
+  int64 instance_id = 1;
+  string trigger = 2;
+  string payload_json = 3;
+}
+message FireResp {
+  string state = 1;
+  bool advanced = 2;
+}
+
+message EnqueueAsyncStepReq {
+  int64 instance_id = 1;
+  // task type, e.g. "signin:award", "lottery:spin", "seckill:persist"
+  string task_type = 2;
+  string payload_json = 3;
+  int32 max_retry = 4;
+  int32 timeout_seconds = 5;
+  string queue = 6;
+}
+
+message ListInstancesReq {
+  int64 activity_id = 1;
+  int64 user_id = 2;
+  string state = 3;
+  int32 page = 4;
+  int32 page_size = 5;
+}
+message ListInstancesResp {
+  repeated WorkflowInstance instances = 1;
+  int64 total = 2;
+}
+
+message CompensateReq {
+  int64 instance_id = 1;
+  string reason = 2;
+}
+
+message RecordStepReq {
+  int64 instance_id = 1;
+  string from_state = 2;
+  string to_state = 3;
+  string trigger = 4;
+  int64 latency_ms = 5;
+  string error = 6;
+}
+
+message GetInstanceResp {
+  WorkflowInstance instance = 1;
+  repeated StepLog steps = 2;
+}
+
+service Workflow {
+  rpc RegisterDefinition(RegisterDefinitionReq) returns (RegisterDefinitionResp);
+  rpc GetDefinition(IdReq) returns (WorkflowDefinition);
+  rpc StartInstance(StartInstanceReq) returns (StartInstanceResp);
+  rpc Fire(FireReq) returns (FireResp);
+  rpc EnqueueAsyncStep(EnqueueAsyncStepReq) returns (Empty);
+  rpc GetInstance(IdReq) returns (GetInstanceResp);
+  rpc ListInstances(ListInstancesReq) returns (ListInstancesResp);
+  rpc Compensate(CompensateReq) returns (Empty);
+  rpc RecordStep(RecordStepReq) returns (Empty);
+}

@@ -1,0 +1,23 @@
+Name: risk.rpc
+ListenOn: 0.0.0.0:9014
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: risk.rpc
+
+DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_risk?charset=utf8mb4&parseTime=true&loc=Local
+
+Cache:
+  - Host: 127.0.0.1:6379
+
+RedisCache:
+  Host: 127.0.0.1:6379
+  Type: node
+
+Kafka:
+  Brokers:
+    - 127.0.0.1:19092
+    - 127.0.0.1:19093
+    - 127.0.0.1:19094
+
+TokenSecret: "mall-risk-hmac-secret-change-in-production"

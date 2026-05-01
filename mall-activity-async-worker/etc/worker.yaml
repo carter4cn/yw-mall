@@ -1,0 +1,13 @@
+Name: activity-async-worker
+Concurrency: 50
+
+Redis:
+  Addr: 127.0.0.1:6379
+  DB: 0
+
+Queues:
+  signin: 5
+  lottery: 5
+  seckill: 10
+  coupon: 5
+  default: 1

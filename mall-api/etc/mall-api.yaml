@@ -1,6 +1,6 @@
 Name: mall-api
 Host: 0.0.0.0
-Port: 8888
+Port: 18888
 
 Auth:
   AccessSecret: "mall-secret-key-change-in-production"
@@ -35,3 +35,33 @@ PaymentRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: payment.rpc
+
+ActivityRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: activity.rpc
+
+RuleRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: rule.rpc
+
+WorkflowRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: workflow.rpc
+
+RewardRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: reward.rpc
+
+RiskRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: risk.rpc

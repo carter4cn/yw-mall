@@ -136,4 +136,51 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/payment"),
 	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/:id",
+				Handler: ActivityDetailHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/:id/coupon/claim",
+				Handler: ActivityCouponClaimHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/:id/lottery/spin",
+				Handler: ActivityLotterySpinHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/:id/participate",
+				Handler: ActivityParticipateHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/:id/seckill/buy",
+				Handler: ActivitySeckillBuyHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/:id/signin",
+				Handler: ActivitySignInHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/list",
+				Handler: ActivityListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/my/rewards",
+				Handler: MyRewardsHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/activity"),
+	)
 }
