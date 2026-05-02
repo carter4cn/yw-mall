@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"errors"
 
 	"mall-logistics-rpc/internal/svc"
 	"mall-logistics-rpc/logistics"
@@ -16,15 +17,15 @@ type GetShipmentLogic struct {
 }
 
 func NewGetShipmentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetShipmentLogic {
-	return &GetShipmentLogic{
-		ctx:    ctx,
-		svcCtx: svcCtx,
-		Logger: logx.WithContext(ctx),
-	}
+	return &GetShipmentLogic{ctx: ctx, svcCtx: svcCtx, Logger: logx.WithContext(ctx)}
 }
 
 func (l *GetShipmentLogic) GetShipment(in *logistics.GetShipmentReq) (*logistics.Shipment, error) {
-	// todo: add your logic here and delete this line
-
-	return &logistics.Shipment{}, nil
+	s, err := l.svcCtx.ShipmentModel.FindOne(l.ctx, in.ShipmentId)
+	if err != nil {
+		return nil, errors.New("logistics: shipment not found")
+	}
+	items, _ := fetchItems(l.ctx, l.svcCtx, s.Id)
+	tracks, _ := fetchTracks(l.ctx, l.svcCtx, s.Id)
+	return toShipmentProto(s, items, tracks), nil
 }

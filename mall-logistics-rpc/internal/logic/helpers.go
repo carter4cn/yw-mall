@@ -1,8 +1,10 @@
 package logic
 
 import (
+	"context"
 	"errors"
 	"mall-logistics-rpc/internal/model"
+	"mall-logistics-rpc/internal/svc"
 	"mall-logistics-rpc/logistics"
 
 	gosqldriver "github.com/go-sql-driver/mysql"
@@ -56,4 +58,20 @@ func toShipmentProto(s *model.Shipment, items []*model.ShipmentItem, tracks []*m
 		})
 	}
 	return out
+}
+
+func fetchItems(ctx context.Context, svcCtx *svc.ServiceContext, shipmentId int64) ([]*model.ShipmentItem, error) {
+	rows := []*model.ShipmentItem{}
+	err := svcCtx.DB.QueryRowsCtx(ctx, &rows,
+		"SELECT id, shipment_id, order_item_id, product_id, quantity FROM shipment_item WHERE shipment_id=?",
+		shipmentId)
+	return rows, err
+}
+
+func fetchTracks(ctx context.Context, svcCtx *svc.ServiceContext, shipmentId int64) ([]*model.ShipmentTrack, error) {
+	rows := []*model.ShipmentTrack{}
+	err := svcCtx.DB.QueryRowsCtx(ctx, &rows,
+		"SELECT id, shipment_id, track_time, location, description, state_kuaidi100, state_internal, create_time FROM shipment_track WHERE shipment_id=? ORDER BY track_time DESC",
+		shipmentId)
+	return rows, err
 }
