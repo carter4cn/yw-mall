@@ -45,6 +45,15 @@ const (
 	ReviewMediaInvalid       = 8007
 	ReviewLimitExceeded      = 8008
 	AdminTokenInvalid        = 8009
+
+	// Logistics service error codes (9xxx)
+	LogisticsShipmentNotFound     = 9001
+	LogisticsTrackingNoExists     = 9002
+	LogisticsKuaidi100SignInvalid = 9003
+	LogisticsSubscribeFailed      = 9004
+	LogisticsOrderNotShippable    = 9005
+	LogisticsCarrierUnknown       = 9006
+	LogisticsTrackingInvalid      = 9007
 )
 
 var message = map[int]string{
@@ -90,6 +99,14 @@ var message = map[int]string{
 	ReviewMediaInvalid:       "review: invalid media url",
 	ReviewLimitExceeded:      "review: content/media size limit exceeded",
 	AdminTokenInvalid:        "invalid admin token",
+
+	LogisticsShipmentNotFound:     "logistics: shipment not found",
+	LogisticsTrackingNoExists:     "logistics: tracking number already exists for this carrier",
+	LogisticsKuaidi100SignInvalid: "logistics: invalid kuaidi100 webhook signature",
+	LogisticsSubscribeFailed:      "logistics: subscribe to kuaidi100 failed after retries",
+	LogisticsOrderNotShippable:    "logistics: order not in a shippable state",
+	LogisticsCarrierUnknown:       "logistics: unknown carrier code",
+	LogisticsTrackingInvalid:      "logistics: invalid tracking number format",
 }
 
 type CodeError struct {
