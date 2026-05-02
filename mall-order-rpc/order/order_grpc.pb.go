@@ -26,6 +26,7 @@ const (
 	Order_CreatePreOrder_FullMethodName    = "/order.Order/CreatePreOrder"
 	Order_CancelPreOrder_FullMethodName    = "/order.Order/CancelPreOrder"
 	Order_GetOrderItem_FullMethodName      = "/order.Order/GetOrderItem"
+	Order_MarkShipped_FullMethodName       = "/order.Order/MarkShipped"
 )
 
 // OrderClient is the client API for Order service.
@@ -39,6 +40,7 @@ type OrderClient interface {
 	CreatePreOrder(ctx context.Context, in *CreatePreOrderReq, opts ...grpc.CallOption) (*CreatePreOrderResp, error)
 	CancelPreOrder(ctx context.Context, in *CancelPreOrderReq, opts ...grpc.CallOption) (*CancelPreOrderResp, error)
 	GetOrderItem(ctx context.Context, in *GetOrderItemReq, opts ...grpc.CallOption) (*GetOrderItemResp, error)
+	MarkShipped(ctx context.Context, in *MarkShippedReq, opts ...grpc.CallOption) (*MarkShippedResp, error)
 }
 
 type orderClient struct {
@@ -119,6 +121,16 @@ func (c *orderClient) GetOrderItem(ctx context.Context, in *GetOrderItemReq, opt
 	return out, nil
 }
 
+func (c *orderClient) MarkShipped(ctx context.Context, in *MarkShippedReq, opts ...grpc.CallOption) (*MarkShippedResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MarkShippedResp)
+	err := c.cc.Invoke(ctx, Order_MarkShipped_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServer is the server API for Order service.
 // All implementations must embed UnimplementedOrderServer
 // for forward compatibility.
@@ -130,6 +142,7 @@ type OrderServer interface {
 	CreatePreOrder(context.Context, *CreatePreOrderReq) (*CreatePreOrderResp, error)
 	CancelPreOrder(context.Context, *CancelPreOrderReq) (*CancelPreOrderResp, error)
 	GetOrderItem(context.Context, *GetOrderItemReq) (*GetOrderItemResp, error)
+	MarkShipped(context.Context, *MarkShippedReq) (*MarkShippedResp, error)
 	mustEmbedUnimplementedOrderServer()
 }
 
@@ -160,6 +173,9 @@ func (UnimplementedOrderServer) CancelPreOrder(context.Context, *CancelPreOrderR
 }
 func (UnimplementedOrderServer) GetOrderItem(context.Context, *GetOrderItemReq) (*GetOrderItemResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetOrderItem not implemented")
+}
+func (UnimplementedOrderServer) MarkShipped(context.Context, *MarkShippedReq) (*MarkShippedResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method MarkShipped not implemented")
 }
 func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
 func (UnimplementedOrderServer) testEmbeddedByValue()               {}
@@ -308,6 +324,24 @@ func _Order_GetOrderItem_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_MarkShipped_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MarkShippedReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).MarkShipped(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_MarkShipped_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).MarkShipped(ctx, req.(*MarkShippedReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Order_ServiceDesc is the grpc.ServiceDesc for Order service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -342,6 +376,10 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetOrderItem",
 			Handler:    _Order_GetOrderItem_Handler,
+		},
+		{
+			MethodName: "MarkShipped",
+			Handler:    _Order_MarkShipped_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -98,4 +98,15 @@ service Order {
   rpc CreatePreOrder(CreatePreOrderReq) returns (CreatePreOrderResp);
   rpc CancelPreOrder(CancelPreOrderReq) returns (CancelPreOrderResp);
   rpc GetOrderItem(GetOrderItemReq) returns (GetOrderItemResp);
+  rpc MarkShipped(MarkShippedReq) returns (MarkShippedResp);
+}
+
+message MarkShippedReq {
+  int64 order_id = 1;
+  string tracking_no = 2;
+  string carrier = 3;
+}
+
+message MarkShippedResp {
+  bool ok = 1;
 }

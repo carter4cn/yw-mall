@@ -25,3 +25,6 @@ CREATE TABLE IF NOT EXISTS `order_item` (
   PRIMARY KEY (`id`),
   KEY `idx_order_id` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `order` ADD COLUMN `tracking_no` varchar(128) NOT NULL DEFAULT '' COMMENT 'logistics tracking number';
+ALTER TABLE `order` ADD COLUMN `carrier` varchar(64) NOT NULL DEFAULT '' COMMENT 'carrier code';

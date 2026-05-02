@@ -9,4 +9,8 @@ type Config struct {
 	zrpc.RpcServerConf
 	DataSource string
 	Cache      cache.CacheConf
+	Kafka      struct {
+		Brokers           []string
+		OrderShippedTopic string
+	}
 }

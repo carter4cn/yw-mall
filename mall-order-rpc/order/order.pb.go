@@ -898,6 +898,110 @@ func (x *GetOrderItemResp) GetCreateTime() int64 {
 	return 0
 }
 
+type MarkShippedReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrderId       int64                  `protobuf:"varint,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	TrackingNo    string                 `protobuf:"bytes,2,opt,name=tracking_no,json=trackingNo,proto3" json:"tracking_no,omitempty"`
+	Carrier       string                 `protobuf:"bytes,3,opt,name=carrier,proto3" json:"carrier,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MarkShippedReq) Reset() {
+	*x = MarkShippedReq{}
+	mi := &file_order_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MarkShippedReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MarkShippedReq) ProtoMessage() {}
+
+func (x *MarkShippedReq) ProtoReflect() protoreflect.Message {
+	mi := &file_order_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MarkShippedReq.ProtoReflect.Descriptor instead.
+func (*MarkShippedReq) Descriptor() ([]byte, []int) {
+	return file_order_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *MarkShippedReq) GetOrderId() int64 {
+	if x != nil {
+		return x.OrderId
+	}
+	return 0
+}
+
+func (x *MarkShippedReq) GetTrackingNo() string {
+	if x != nil {
+		return x.TrackingNo
+	}
+	return ""
+}
+
+func (x *MarkShippedReq) GetCarrier() string {
+	if x != nil {
+		return x.Carrier
+	}
+	return ""
+}
+
+type MarkShippedResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MarkShippedResp) Reset() {
+	*x = MarkShippedResp{}
+	mi := &file_order_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MarkShippedResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MarkShippedResp) ProtoMessage() {}
+
+func (x *MarkShippedResp) ProtoReflect() protoreflect.Message {
+	mi := &file_order_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MarkShippedResp.ProtoReflect.Descriptor instead.
+func (*MarkShippedResp) Descriptor() ([]byte, []int) {
+	return file_order_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *MarkShippedResp) GetOk() bool {
+	if x != nil {
+		return x.Ok
+	}
+	return false
+}
+
 var File_order_proto protoreflect.FileDescriptor
 
 const file_order_proto_rawDesc = "" +
@@ -964,7 +1068,14 @@ const file_order_proto_rawDesc = "" +
 	"\bquantity\x18\x05 \x01(\x03R\bquantity\x12!\n" +
 	"\forder_status\x18\x06 \x01(\x05R\vorderStatus\x12\x1f\n" +
 	"\vcreate_time\x18\a \x01(\x03R\n" +
-	"createTime2\xd4\x03\n" +
+	"createTime\"f\n" +
+	"\x0eMarkShippedReq\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\x03R\aorderId\x12\x1f\n" +
+	"\vtracking_no\x18\x02 \x01(\tR\n" +
+	"trackingNo\x12\x18\n" +
+	"\acarrier\x18\x03 \x01(\tR\acarrier\"!\n" +
+	"\x0fMarkShippedResp\x12\x0e\n" +
+	"\x02ok\x18\x01 \x01(\bR\x02ok2\x92\x04\n" +
 	"\x05Order\x12<\n" +
 	"\vCreateOrder\x12\x15.order.CreateOrderReq\x1a\x16.order.CreateOrderResp\x123\n" +
 	"\bGetOrder\x12\x12.order.GetOrderReq\x1a\x13.order.GetOrderResp\x129\n" +
@@ -973,7 +1084,8 @@ const file_order_proto_rawDesc = "" +
 	"\x11UpdateOrderStatus\x12\x1b.order.UpdateOrderStatusReq\x1a\x1c.order.UpdateOrderStatusResp\x12E\n" +
 	"\x0eCreatePreOrder\x12\x18.order.CreatePreOrderReq\x1a\x19.order.CreatePreOrderResp\x12E\n" +
 	"\x0eCancelPreOrder\x12\x18.order.CancelPreOrderReq\x1a\x19.order.CancelPreOrderResp\x12?\n" +
-	"\fGetOrderItem\x12\x16.order.GetOrderItemReq\x1a\x17.order.GetOrderItemRespB\tZ\a./orderb\x06proto3"
+	"\fGetOrderItem\x12\x16.order.GetOrderItemReq\x1a\x17.order.GetOrderItemResp\x12<\n" +
+	"\vMarkShipped\x12\x15.order.MarkShippedReq\x1a\x16.order.MarkShippedRespB\tZ\a./orderb\x06proto3"
 
 var (
 	file_order_proto_rawDescOnce sync.Once
@@ -987,7 +1099,7 @@ func file_order_proto_rawDescGZIP() []byte {
 	return file_order_proto_rawDescData
 }
 
-var file_order_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_order_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_order_proto_goTypes = []any{
 	(*OrderItem)(nil),             // 0: order.OrderItem
 	(*CreateOrderReq)(nil),        // 1: order.CreateOrderReq
@@ -1004,6 +1116,8 @@ var file_order_proto_goTypes = []any{
 	(*CancelPreOrderResp)(nil),    // 12: order.CancelPreOrderResp
 	(*GetOrderItemReq)(nil),       // 13: order.GetOrderItemReq
 	(*GetOrderItemResp)(nil),      // 14: order.GetOrderItemResp
+	(*MarkShippedReq)(nil),        // 15: order.MarkShippedReq
+	(*MarkShippedResp)(nil),       // 16: order.MarkShippedResp
 }
 var file_order_proto_depIdxs = []int32{
 	0,  // 0: order.CreateOrderReq.items:type_name -> order.OrderItem
@@ -1017,15 +1131,17 @@ var file_order_proto_depIdxs = []int32{
 	9,  // 8: order.Order.CreatePreOrder:input_type -> order.CreatePreOrderReq
 	11, // 9: order.Order.CancelPreOrder:input_type -> order.CancelPreOrderReq
 	13, // 10: order.Order.GetOrderItem:input_type -> order.GetOrderItemReq
-	2,  // 11: order.Order.CreateOrder:output_type -> order.CreateOrderResp
-	4,  // 12: order.Order.GetOrder:output_type -> order.GetOrderResp
-	6,  // 13: order.Order.ListOrders:output_type -> order.ListOrdersResp
-	8,  // 14: order.Order.UpdateOrderStatus:output_type -> order.UpdateOrderStatusResp
-	10, // 15: order.Order.CreatePreOrder:output_type -> order.CreatePreOrderResp
-	12, // 16: order.Order.CancelPreOrder:output_type -> order.CancelPreOrderResp
-	14, // 17: order.Order.GetOrderItem:output_type -> order.GetOrderItemResp
-	11, // [11:18] is the sub-list for method output_type
-	4,  // [4:11] is the sub-list for method input_type
+	15, // 11: order.Order.MarkShipped:input_type -> order.MarkShippedReq
+	2,  // 12: order.Order.CreateOrder:output_type -> order.CreateOrderResp
+	4,  // 13: order.Order.GetOrder:output_type -> order.GetOrderResp
+	6,  // 14: order.Order.ListOrders:output_type -> order.ListOrdersResp
+	8,  // 15: order.Order.UpdateOrderStatus:output_type -> order.UpdateOrderStatusResp
+	10, // 16: order.Order.CreatePreOrder:output_type -> order.CreatePreOrderResp
+	12, // 17: order.Order.CancelPreOrder:output_type -> order.CancelPreOrderResp
+	14, // 18: order.Order.GetOrderItem:output_type -> order.GetOrderItemResp
+	16, // 19: order.Order.MarkShipped:output_type -> order.MarkShippedResp
+	12, // [12:20] is the sub-list for method output_type
+	4,  // [4:12] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -1042,7 +1158,7 @@ func file_order_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_order_proto_rawDesc), len(file_order_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   15,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
