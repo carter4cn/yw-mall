@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 
 	"mall-logistics-rpc/internal/config"
 	logisticsServer "mall-logistics-rpc/internal/server"
 	"mall-logistics-rpc/internal/svc"
+	"mall-logistics-rpc/internal/worker"
 	"mall-logistics-rpc/logistics"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -24,6 +26,9 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 	ctx := svc.NewServiceContext(c)
+
+	ws := worker.NewOrderShippedWorker(ctx)
+	ws.Start(context.Background())
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		logistics.RegisterLogisticsServer(grpcServer, logisticsServer.NewLogisticsServer(ctx))
