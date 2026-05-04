@@ -85,3 +85,13 @@ MinIO:
   AccessKey: admin
   SecretKey: admin123
   UseSSL: false
+
+LogisticsRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: logistics.rpc
+
+Kuaidi100:
+  WebhookCustomer: ""
+  WebhookKey: ""

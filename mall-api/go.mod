@@ -115,6 +115,7 @@ require (
 	k8s.io/utils v0.0.0-20260319190234-28399d86e0b5 // indirect
 	mall-activity-rpc v0.0.0
 	mall-common v0.0.0
+	mall-logistics-rpc v0.0.0
 	mall-review-rpc v0.0.0
 	mall-reward-rpc v0.0.0
 	mall-risk-rpc v0.0.0
@@ -147,3 +148,5 @@ replace mall-risk-rpc => ../mall-risk-rpc
 replace mall-review-rpc => ../mall-review-rpc
 
 replace mall-common => ../mall-common
+
+replace mall-logistics-rpc => ../mall-logistics-rpc
