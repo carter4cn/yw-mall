@@ -5,10 +5,12 @@ package logic
 
 import (
 	"context"
+	"sync"
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
-	"mall-order-rpc/order"
+	logisticspb "mall-logistics-rpc/logistics"
+	orderpb "mall-order-rpc/order"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,16 +29,31 @@ func NewOrderDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Order
 	}
 }
 
-func (l *OrderDetailLogic) OrderDetail(req *types.OrderDetailReq) (resp *types.OrderDetailResp, err error) {
-	res, err := l.svcCtx.OrderRpc.GetOrder(l.ctx, &order.GetOrderReq{
-		Id: req.Id,
-	})
-	if err != nil {
-		return nil, err
+func (l *OrderDetailLogic) OrderDetail(req *types.OrderDetailReq) (*types.OrderDetailResp, error) {
+	var (
+		ord       *orderpb.GetOrderResp
+		shipments *logisticspb.ListShipmentsByOrderResp
+		ordErr    error
+		wg        sync.WaitGroup
+	)
+
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		ord, ordErr = l.svcCtx.OrderRpc.GetOrder(l.ctx, &orderpb.GetOrderReq{Id: req.Id})
+	}()
+	go func() {
+		defer wg.Done()
+		shipments, _ = l.svcCtx.LogisticsRpc.ListShipmentsByOrder(l.ctx, &logisticspb.ListShipmentsByOrderReq{OrderId: req.Id})
+	}()
+	wg.Wait()
+
+	if ordErr != nil {
+		return nil, ordErr
 	}
 
-	items := make([]types.CreateOrderItem, 0, len(res.Items))
-	for _, item := range res.Items {
+	items := make([]types.CreateOrderItem, 0, len(ord.Items))
+	for _, item := range ord.Items {
 		items = append(items, types.CreateOrderItem{
 			ProductId:   item.ProductId,
 			ProductName: item.ProductName,
@@ -45,13 +62,21 @@ func (l *OrderDetailLogic) OrderDetail(req *types.OrderDetailReq) (resp *types.O
 		})
 	}
 
-	return &types.OrderDetailResp{
-		Id:          res.Id,
-		OrderNo:     res.OrderNo,
-		UserId:      res.UserId,
-		TotalAmount: res.TotalAmount,
-		Status:      res.Status,
+	resp := &types.OrderDetailResp{
+		Id:          ord.Id,
+		OrderNo:     ord.OrderNo,
+		UserId:      ord.UserId,
+		TotalAmount: ord.TotalAmount,
+		Status:      ord.Status,
 		Items:       items,
-		CreateTime:  res.CreateTime,
-	}, nil
+		CreateTime:  ord.CreateTime,
+	}
+
+	if shipments != nil {
+		for _, s := range shipments.Shipments {
+			resp.Shipments = append(resp.Shipments, protoShipmentToType(s))
+		}
+	}
+
+	return resp, nil
 }

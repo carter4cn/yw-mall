@@ -285,6 +285,7 @@ type OrderDetailResp struct {
 	Status      int32             `json:"status"`
 	Items       []CreateOrderItem `json:"items"`
 	CreateTime  int64             `json:"createTime"`
+	Shipments   []ShipmentDTO     `json:"shipments,omitempty"`
 }
 
 type OrderListReq struct {

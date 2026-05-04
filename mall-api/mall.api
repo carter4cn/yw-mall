@@ -99,6 +99,7 @@ type (
 		Status      int32             `json:"status"`
 		Items       []CreateOrderItem `json:"items"`
 		CreateTime  int64             `json:"createTime"`
+		Shipments   []ShipmentDTO     `json:"shipments,omitempty"`
 	}
 	OrderListReq {
 		Status   int32 `form:"status,optional"`
