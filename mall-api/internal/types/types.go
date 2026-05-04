@@ -105,6 +105,33 @@ type ActivitySignInResp struct {
 	StreakDays    int32  `json:"streakDays,optional"`
 }
 
+type AdminDeleteReviewReq struct {
+	Id int64 `path:"id"`
+}
+
+type AdminInjectTrackReq struct {
+	Id            int64  `path:"id"`
+	StateInternal int32  `json:"stateInternal"`
+	Location      string `json:"location"`
+	Description   string `json:"description"`
+}
+
+type AdminMarkShippedReq struct {
+	Id         int64  `path:"id"`
+	TrackingNo string `json:"trackingNo"`
+	Carrier    string `json:"carrier"`
+}
+
+type AdminReplyReviewReq struct {
+	Id             int64  `path:"id"`
+	MerchantUserId int64  `json:"merchantUserId"`
+	Text           string `json:"text"`
+}
+
+type AdminRetrySubscribeReq struct {
+	Id int64 `path:"id"`
+}
+
 type CartAddReq struct {
 	ProductId int64 `json:"productId"`
 	Quantity  int32 `json:"quantity"`
@@ -157,6 +184,60 @@ type CreatePaymentResp struct {
 	PaymentNo string `json:"paymentNo"`
 }
 
+type GetRatingSummaryReq struct {
+	ProductId int64 `path:"productId"`
+}
+
+type GetRatingSummaryResp struct {
+	Avg            float64         `json:"avg"`
+	Count          int64           `json:"count"`
+	Distribution   map[int32]int64 `json:"distribution"`
+	WithMediaCount int64           `json:"withMediaCount"`
+}
+
+type GetReviewReq struct {
+	Id int64 `path:"id"`
+}
+
+type GetReviewResp struct {
+	Review ReviewItem `json:"review"`
+}
+
+type GetShipmentByIdReq struct {
+	Id int64 `path:"id"`
+}
+
+type GetShipmentByIdResp struct {
+	Shipment ShipmentDTO `json:"shipment"`
+}
+
+type ListOrderShipmentsReq struct {
+	Id int64 `path:"id"`
+}
+
+type ListOrderShipmentsResp struct {
+	Shipments []ShipmentDTO `json:"shipments"`
+}
+
+type ListProductReviewsReq struct {
+	ProductId int64  `path:"productId"`
+	Sort      string `form:"sort,optional"`
+	Score     int32  `form:"score,optional"`
+	WithMedia bool   `form:"withMedia,optional"`
+	Page      int32  `form:"page,optional"`
+	PageSize  int32  `form:"pageSize,optional"`
+}
+
+type ListProductReviewsResp struct {
+	Reviews []ReviewItem `json:"reviews"`
+	Total   int64        `json:"total"`
+}
+
+type ListUserReviewsReq struct {
+	Page     int32 `form:"page,optional"`
+	PageSize int32 `form:"pageSize,optional"`
+}
+
 type LoginReq struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -188,6 +269,10 @@ type MyRewardsResp struct {
 	Total   int64          `json:"total"`
 }
 
+type OkResp struct {
+	Ok bool `json:"ok"`
+}
+
 type OrderDetailReq struct {
 	Id int64 `path:"id"`
 }
@@ -200,6 +285,7 @@ type OrderDetailResp struct {
 	Status      int32             `json:"status"`
 	Items       []CreateOrderItem `json:"items"`
 	CreateTime  int64             `json:"createTime"`
+	Shipments   []ShipmentDTO     `json:"shipments,omitempty"`
 }
 
 type OrderListReq struct {
@@ -232,15 +318,16 @@ type ProductDetailReq struct {
 }
 
 type ProductDetailResp struct {
-	Id          int64  `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Price       int64  `json:"price"`
-	Stock       int64  `json:"stock"`
-	CategoryId  int64  `json:"categoryId"`
-	Images      string `json:"images"`
-	Status      int32  `json:"status"`
-	CreateTime  int64  `json:"createTime"`
+	Id            int64                 `json:"id"`
+	Name          string                `json:"name"`
+	Description   string                `json:"description"`
+	Price         int64                 `json:"price"`
+	Stock         int64                 `json:"stock"`
+	CategoryId    int64                 `json:"categoryId"`
+	Images        string                `json:"images"`
+	Status        int32                 `json:"status"`
+	CreateTime    int64                 `json:"createTime"`
+	RatingSummary *GetRatingSummaryResp `json:"ratingSummary,omitempty"`
 }
 
 type ProductListReq struct {
@@ -270,9 +357,86 @@ type RegisterResp struct {
 	Id int64 `json:"id"`
 }
 
+type ReviewItem struct {
+	Id                int64             `json:"id"`
+	OrderItemId       int64             `json:"orderItemId"`
+	UserId            int64             `json:"userId"`
+	ProductId         int64             `json:"productId"`
+	ScoreOverall      int32             `json:"scoreOverall"`
+	ScoreMatch        int32             `json:"scoreMatch"`
+	ScoreLogistics    int32             `json:"scoreLogistics"`
+	ScoreService      int32             `json:"scoreService"`
+	Content           string            `json:"content"`
+	Media             []ReviewMediaItem `json:"media"`
+	FollowupContent   string            `json:"followupContent,omitempty"`
+	FollowupTime      int64             `json:"followupTime,omitempty"`
+	FollowupMedia     []ReviewMediaItem `json:"followupMedia,omitempty"`
+	MerchantReplyText string            `json:"merchantReplyText,omitempty"`
+	MerchantReplyTime int64             `json:"merchantReplyTime,omitempty"`
+	MerchantUserId    int64             `json:"merchantUserId,omitempty"`
+	CreateTime        int64             `json:"createTime"`
+}
+
+type ReviewMediaItem struct {
+	Type int32  `json:"type"`
+	Url  string `json:"url"`
+	Sort int32  `json:"sort,optional"`
+}
+
+type ShipmentDTO struct {
+	Id              int64             `json:"id"`
+	OrderId         int64             `json:"orderId"`
+	UserId          int64             `json:"userId"`
+	TrackingNo      string            `json:"trackingNo"`
+	Carrier         string            `json:"carrier"`
+	Status          int32             `json:"status"`
+	SubscribeStatus int32             `json:"subscribeStatus"`
+	LastTrackTime   int64             `json:"lastTrackTime,omitempty"`
+	CreateTime      int64             `json:"createTime"`
+	Items           []ShipmentItemRef `json:"items"`
+	Tracks          []ShipmentTrack   `json:"tracks"`
+}
+
+type ShipmentItemRef struct {
+	OrderItemId int64 `json:"orderItemId"`
+	ProductId   int64 `json:"productId"`
+	Quantity    int32 `json:"quantity"`
+}
+
+type ShipmentTrack struct {
+	TrackTime      int64  `json:"trackTime"`
+	Location       string `json:"location"`
+	Description    string `json:"description"`
+	StateInternal  int32  `json:"stateInternal"`
+	StateKuaidi100 int32  `json:"stateKuaidi100,omitempty"`
+}
+
+type SubmitFollowupReq struct {
+	ReviewId int64             `json:"reviewId"`
+	Content  string            `json:"content"`
+	Media    []ReviewMediaItem `json:"media,optional"`
+}
+
+type SubmitReviewReq struct {
+	OrderItemId    int64             `json:"orderItemId"`
+	ScoreMatch     int32             `json:"scoreMatch"`
+	ScoreLogistics int32             `json:"scoreLogistics"`
+	ScoreService   int32             `json:"scoreService"`
+	Content        string            `json:"content"`
+	Media          []ReviewMediaItem `json:"media,optional"`
+}
+
+type SubmitReviewResp struct {
+	ReviewId int64 `json:"reviewId"`
+}
+
 type UpdateUserReq struct {
 	Phone  string `json:"phone"`
 	Avatar string `json:"avatar"`
+}
+
+type UploadReviewMediaResp struct {
+	Media []ReviewMediaItem `json:"media"`
 }
 
 type UserInfoResp struct {

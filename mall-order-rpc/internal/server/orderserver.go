@@ -42,3 +42,23 @@ func (s *OrderServer) UpdateOrderStatus(ctx context.Context, in *order.UpdateOrd
 	l := logic.NewUpdateOrderStatusLogic(ctx, s.svcCtx)
 	return l.UpdateOrderStatus(in)
 }
+
+func (s *OrderServer) GetOrderItem(ctx context.Context, in *order.GetOrderItemReq) (*order.GetOrderItemResp, error) {
+	l := logic.NewGetOrderItemLogic(ctx, s.svcCtx)
+	return l.GetOrderItem(in)
+}
+
+func (s *OrderServer) CreatePreOrder(ctx context.Context, in *order.CreatePreOrderReq) (*order.CreatePreOrderResp, error) {
+	l := logic.NewCreatePreOrderLogic(ctx, s.svcCtx)
+	return l.CreatePreOrder(in)
+}
+
+func (s *OrderServer) CancelPreOrder(ctx context.Context, in *order.CancelPreOrderReq) (*order.CancelPreOrderResp, error) {
+	l := logic.NewCancelPreOrderLogic(ctx, s.svcCtx)
+	return l.CancelPreOrder(in)
+}
+
+func (s *OrderServer) MarkShipped(ctx context.Context, in *order.MarkShippedReq) (*order.MarkShippedResp, error) {
+	l := logic.NewMarkShippedLogic(ctx, s.svcCtx)
+	return l.MarkShipped(in)
+}

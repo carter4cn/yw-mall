@@ -140,6 +140,125 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodPost,
+				Path:    "/review/followup",
+				Handler: SubmitFollowupHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/review/submit",
+				Handler: SubmitReviewHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/upload/review-media",
+				Handler: UploadReviewMediaHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/reviews",
+				Handler: ListUserReviewsHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/product/:productId/rating-summary",
+				Handler: GetRatingSummaryHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/product/:productId/reviews",
+				Handler: ListProductReviewsHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/review/:id",
+				Handler: GetReviewHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.AdminToken},
+			[]rest.Route{
+				{
+					Method:  http.MethodDelete,
+					Path:    "/review/:id",
+					Handler: AdminDeleteReviewHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/review/:id/reply",
+					Handler: AdminReplyReviewHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/admin"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/logistics/shipment/:id",
+				Handler: GetShipmentByIdHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/order/:id/shipments",
+				Handler: ListOrderShipmentsHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/webhook/kuaidi100",
+				Handler: Kuaidi100WebhookHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/logistics"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.AdminToken},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/logistics/:id/inject-track",
+					Handler: AdminInjectTrackHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/logistics/:id/retry-subscribe",
+					Handler: AdminRetrySubscribeHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/order/:id/ship",
+					Handler: AdminMarkShippedHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/admin"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				Method:  http.MethodGet,
 				Path:    "/:id",
 				Handler: ActivityDetailHandler(serverCtx),

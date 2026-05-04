@@ -5,10 +5,12 @@ package logic
 
 import (
 	"context"
+	"sync"
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-product-rpc/product"
+	reviewpb "mall-review-rpc/review"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,22 +29,45 @@ func NewProductDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Pro
 	}
 }
 
-func (l *ProductDetailLogic) ProductDetail(req *types.ProductDetailReq) (resp *types.ProductDetailResp, err error) {
-	res, err := l.svcCtx.ProductRpc.GetProduct(l.ctx, &product.GetProductReq{
-		Id: req.Id,
-	})
-	if err != nil {
-		return nil, err
+func (l *ProductDetailLogic) ProductDetail(req *types.ProductDetailReq) (*types.ProductDetailResp, error) {
+	var (
+		productResp *product.GetProductResp
+		summary     *reviewpb.RatingSummary
+		productErr  error
+		wg          sync.WaitGroup
+	)
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		productResp, productErr = l.svcCtx.ProductRpc.GetProduct(l.ctx, &product.GetProductReq{Id: req.Id})
+	}()
+	go func() {
+		defer wg.Done()
+		summary, _ = l.svcCtx.ReviewRpc.GetProductRatingSummary(l.ctx, &reviewpb.GetProductRatingSummaryReq{ProductId: req.Id})
+	}()
+	wg.Wait()
+
+	if productErr != nil {
+		return nil, productErr
 	}
-	return &types.ProductDetailResp{
-		Id:          res.Id,
-		Name:        res.Name,
-		Description: res.Description,
-		Price:       res.Price,
-		Stock:       res.Stock,
-		CategoryId:  res.CategoryId,
-		Images:      res.Images,
-		Status:      res.Status,
-		CreateTime:  res.CreateTime,
-	}, nil
+	resp := &types.ProductDetailResp{
+		Id:          productResp.Id,
+		Name:        productResp.Name,
+		Description: productResp.Description,
+		Price:       productResp.Price,
+		Stock:       productResp.Stock,
+		CategoryId:  productResp.CategoryId,
+		Images:      productResp.Images,
+		Status:      productResp.Status,
+		CreateTime:  productResp.CreateTime,
+	}
+	if summary != nil {
+		resp.RatingSummary = &types.GetRatingSummaryResp{
+			Avg:            summary.Avg,
+			Count:          summary.Count,
+			Distribution:   summary.Distribution,
+			WithMediaCount: summary.WithMediaCount,
+		}
+	}
+	return resp, nil
 }

@@ -1,0 +1,143 @@
+syntax = "v1"
+
+type (
+	UploadReviewMediaResp {
+		Media []ReviewMediaItem `json:"media"`
+	}
+
+	ReviewMediaItem {
+		Type int32  `json:"type"`
+		Url  string `json:"url"`
+		Sort int32  `json:"sort,optional"`
+	}
+
+	SubmitReviewReq {
+		OrderItemId    int64             `json:"orderItemId"`
+		ScoreMatch     int32             `json:"scoreMatch"`
+		ScoreLogistics int32             `json:"scoreLogistics"`
+		ScoreService   int32             `json:"scoreService"`
+		Content        string            `json:"content"`
+		Media          []ReviewMediaItem `json:"media,optional"`
+	}
+	SubmitReviewResp {
+		ReviewId int64 `json:"reviewId"`
+	}
+
+	SubmitFollowupReq {
+		ReviewId int64             `json:"reviewId"`
+		Content  string            `json:"content"`
+		Media    []ReviewMediaItem `json:"media,optional"`
+	}
+
+	OkResp {
+		Ok bool `json:"ok"`
+	}
+
+	ReviewItem {
+		Id                int64             `json:"id"`
+		OrderItemId       int64             `json:"orderItemId"`
+		UserId            int64             `json:"userId"`
+		ProductId         int64             `json:"productId"`
+		ScoreOverall      int32             `json:"scoreOverall"`
+		ScoreMatch        int32             `json:"scoreMatch"`
+		ScoreLogistics    int32             `json:"scoreLogistics"`
+		ScoreService      int32             `json:"scoreService"`
+		Content           string            `json:"content"`
+		Media             []ReviewMediaItem `json:"media"`
+		FollowupContent   string            `json:"followupContent,omitempty"`
+		FollowupTime      int64             `json:"followupTime,omitempty"`
+		FollowupMedia     []ReviewMediaItem `json:"followupMedia,omitempty"`
+		MerchantReplyText string            `json:"merchantReplyText,omitempty"`
+		MerchantReplyTime int64             `json:"merchantReplyTime,omitempty"`
+		MerchantUserId    int64             `json:"merchantUserId,omitempty"`
+		CreateTime        int64             `json:"createTime"`
+	}
+
+	GetReviewReq {
+		Id int64 `path:"id"`
+	}
+	GetReviewResp {
+		Review ReviewItem `json:"review"`
+	}
+
+	ListProductReviewsReq {
+		ProductId int64  `path:"productId"`
+		Sort      string `form:"sort,optional"`
+		Score     int32  `form:"score,optional"`
+		WithMedia bool   `form:"withMedia,optional"`
+		Page      int32  `form:"page,optional"`
+		PageSize  int32  `form:"pageSize,optional"`
+	}
+	ListProductReviewsResp {
+		Reviews []ReviewItem `json:"reviews"`
+		Total   int64        `json:"total"`
+	}
+
+	GetRatingSummaryReq {
+		ProductId int64 `path:"productId"`
+	}
+	GetRatingSummaryResp {
+		Avg            float64         `json:"avg"`
+		Count          int64           `json:"count"`
+		Distribution   map[int32]int64 `json:"distribution"`
+		WithMediaCount int64           `json:"withMediaCount"`
+	}
+
+	ListUserReviewsReq {
+		Page     int32 `form:"page,optional"`
+		PageSize int32 `form:"pageSize,optional"`
+	}
+
+	AdminReplyReviewReq {
+		Id             int64  `path:"id"`
+		MerchantUserId int64  `json:"merchantUserId"`
+		Text           string `json:"text"`
+	}
+	AdminDeleteReviewReq {
+		Id int64 `path:"id"`
+	}
+)
+
+@server (
+	prefix: /api
+	jwt:    Auth
+)
+service mall-api {
+	@handler UploadReviewMedia
+	post /upload/review-media () returns (UploadReviewMediaResp)
+
+	@handler SubmitReview
+	post /review/submit (SubmitReviewReq) returns (SubmitReviewResp)
+
+	@handler SubmitFollowup
+	post /review/followup (SubmitFollowupReq) returns (OkResp)
+
+	@handler ListUserReviews
+	get /user/reviews (ListUserReviewsReq) returns (ListProductReviewsResp)
+}
+
+@server (
+	prefix: /api
+)
+service mall-api {
+	@handler GetReview
+	get /review/:id (GetReviewReq) returns (GetReviewResp)
+
+	@handler ListProductReviews
+	get /product/:productId/reviews (ListProductReviewsReq) returns (ListProductReviewsResp)
+
+	@handler GetRatingSummary
+	get /product/:productId/rating-summary (GetRatingSummaryReq) returns (GetRatingSummaryResp)
+}
+
+@server (
+	prefix:     /api/admin
+	middleware: AdminToken
+)
+service mall-api {
+	@handler AdminReplyReview
+	post /review/:id/reply (AdminReplyReviewReq) returns (OkResp)
+
+	@handler AdminDeleteReview
+	delete /review/:id (AdminDeleteReviewReq) returns (OkResp)
+}

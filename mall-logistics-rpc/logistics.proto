@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package logistics;
+
+option go_package = "./logistics";
+
+service Logistics {
+  rpc CreateShipment(CreateShipmentReq) returns (CreateShipmentResp);
+  rpc ListShipmentsByOrder(ListShipmentsByOrderReq) returns (ListShipmentsByOrderResp);
+  rpc GetShipment(GetShipmentReq) returns (Shipment);
+  rpc IngestWebhookEvents(IngestWebhookEventsReq) returns (Empty);
+  rpc RetrySubscribe(RetrySubscribeReq) returns (Empty);
+  rpc InjectTrack(InjectTrackReq) returns (Empty);
+}
+
+message Empty {}
+
+message ShipmentItemRef {
+  int64 order_item_id = 1;
+  int64 product_id = 2;
+  int32 quantity = 3;
+}
+
+message Track {
+  int64 track_time = 1;
+  string location = 2;
+  string description = 3;
+  int32 state_internal = 4;
+  int32 state_kuaidi100 = 5;
+}
+
+message CreateShipmentReq {
+  int64 order_id = 1;
+  int64 user_id = 2;
+  string tracking_no = 3;
+  string carrier = 4;
+  repeated ShipmentItemRef items = 5;
+}
+message CreateShipmentResp {
+  int64 shipment_id = 1;
+}
+
+message Shipment {
+  int64 id = 1;
+  int64 order_id = 2;
+  int64 user_id = 3;
+  string tracking_no = 4;
+  string carrier = 5;
+  int32 status = 6;
+  int32 subscribe_status = 7;
+  int64 last_track_time = 8;
+  int64 create_time = 9;
+  repeated ShipmentItemRef items = 10;
+  repeated Track tracks = 11;
+}
+
+message ListShipmentsByOrderReq {
+  int64 order_id = 1;
+}
+message ListShipmentsByOrderResp {
+  repeated Shipment shipments = 1;
+}
+
+message GetShipmentReq {
+  int64 shipment_id = 1;
+}
+
+message IngestWebhookEventsReq {
+  string carrier = 1;
+  string tracking_no = 2;
+  repeated Track events = 3;
+}
+
+message RetrySubscribeReq {
+  int64 shipment_id = 1;
+}
+
+message InjectTrackReq {
+  int64 shipment_id = 1;
+  int32 state_internal = 2;
+  string location = 3;
+  string description = 4;
+}

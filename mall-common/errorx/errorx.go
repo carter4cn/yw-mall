@@ -34,6 +34,26 @@ const (
 	RewardAlreadyClaimed        = 7302
 	RiskCheckFailed             = 7401
 	SagaCompensated             = 7501
+
+	// Review service error codes (8xxx)
+	ReviewOrderNotFound      = 8001
+	ReviewOrderNotCompleted  = 8002
+	ReviewAlreadyExists      = 8003
+	ReviewNotFound           = 8004
+	ReviewFollowupNotAllowed = 8005
+	ReviewRiskBlocked        = 8006
+	ReviewMediaInvalid       = 8007
+	ReviewLimitExceeded      = 8008
+	AdminTokenInvalid        = 8009
+
+	// Logistics service error codes (9xxx)
+	LogisticsShipmentNotFound     = 9001
+	LogisticsTrackingNoExists     = 9002
+	LogisticsKuaidi100SignInvalid = 9003
+	LogisticsSubscribeFailed      = 9004
+	LogisticsOrderNotShippable    = 9005
+	LogisticsCarrierUnknown       = 9006
+	LogisticsTrackingInvalid      = 9007
 )
 
 var message = map[int]string{
@@ -69,6 +89,24 @@ var message = map[int]string{
 	RewardAlreadyClaimed:        "reward already claimed",
 	RiskCheckFailed:             "risk check failed",
 	SagaCompensated:             "distributed transaction compensated",
+
+	ReviewOrderNotFound:      "review: order not found or not owned by user",
+	ReviewOrderNotCompleted:  "review: order not completed",
+	ReviewAlreadyExists:      "review: order item already reviewed",
+	ReviewNotFound:           "review not found or deleted",
+	ReviewFollowupNotAllowed: "review: followup not allowed",
+	ReviewRiskBlocked:        "review: blocked by risk control",
+	ReviewMediaInvalid:       "review: invalid media url",
+	ReviewLimitExceeded:      "review: content/media size limit exceeded",
+	AdminTokenInvalid:        "invalid admin token",
+
+	LogisticsShipmentNotFound:     "logistics: shipment not found",
+	LogisticsTrackingNoExists:     "logistics: tracking number already exists for this carrier",
+	LogisticsKuaidi100SignInvalid: "logistics: invalid kuaidi100 webhook signature",
+	LogisticsSubscribeFailed:      "logistics: subscribe to kuaidi100 failed after retries",
+	LogisticsOrderNotShippable:    "logistics: order not in a shippable state",
+	LogisticsCarrierUnknown:       "logistics: unknown carrier code",
+	LogisticsTrackingInvalid:      "logistics: invalid tracking number format",
 }
 
 type CodeError struct {

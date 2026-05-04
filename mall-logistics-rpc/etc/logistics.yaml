@@ -1,0 +1,33 @@
+Name: logistics.rpc
+ListenOn: 0.0.0.0:9016
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: logistics.rpc
+
+DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_logistics?charset=utf8mb4&parseTime=true&loc=Local
+
+Cache:
+  - Host: 127.0.0.1:6379
+
+RedisCache:
+  Host: 127.0.0.1:6379
+  Type: node
+
+Kafka:
+  Brokers:
+    - 127.0.0.1:19092
+    - 127.0.0.1:19093
+    - 127.0.0.1:19094
+  Topic: order.shipped
+  Group: logistics-rpc
+
+Kuaidi100:
+  Customer: ""
+  Key: ""
+  PollEndpoint: "https://poll.kuaidi100.com/poll/3.0"
+  WebhookCallback: "http://127.0.0.1:18888/api/logistics/webhook/kuaidi100"
+
+Subscribe:
+  MaxRetries: 3
+  InitialBackoffMs: 1000

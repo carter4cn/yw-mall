@@ -55,6 +55,8 @@ SERVICES=(
     "mall-payment-rpc:payment.go:payment-rpc:9005"
     "mall-rule-rpc:rule.go:rule-rpc:9011"
     "mall-risk-rpc:risk.go:risk-rpc:9014"
+    "mall-review-rpc:review.go:review-rpc:9015"
+    "mall-logistics-rpc:logistics.go:logistics-rpc:9016"
     "mall-reward-rpc:reward.go:reward-rpc:9013"
     "mall-activity-rpc:activity.go:activity-rpc:9010"
     "mall-workflow-rpc:workflow.go:workflow-rpc:9012"
@@ -114,7 +116,8 @@ infra_up() {
 bootstrap_dbs() {
     log "Creating databases..."
     for db in mall_user mall_product mall_order mall_cart mall_payment \
-              mall_activity mall_rule mall_workflow mall_reward mall_risk; do
+              mall_activity mall_rule mall_workflow mall_reward mall_risk \
+              mall_review mall_logistics; do
         $PROXY_MYSQL -e "CREATE DATABASE IF NOT EXISTS $db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;" 2>/dev/null \
             && ok "$db"
     done
@@ -131,6 +134,8 @@ bootstrap_dbs() {
         [mall_workflow]=mall-workflow-rpc/sql/workflow.sql
         [mall_reward]=mall-reward-rpc/sql/reward.sql
         [mall_risk]=mall-risk-rpc/sql/risk.sql
+        [mall_review]=mall-review-rpc/sql/review.sql
+        [mall_logistics]=mall-logistics-rpc/sql/logistics.sql
     )
     for db in "${!DDL[@]}"; do
         local f="$BASE_DIR/${DDL[$db]}"
@@ -250,7 +255,8 @@ do_nuke() {
     services_stop
     log "Dropping all mall_* databases..."
     for db in mall_user mall_product mall_order mall_cart mall_payment \
-              mall_activity mall_rule mall_workflow mall_reward mall_risk; do
+              mall_activity mall_rule mall_workflow mall_reward mall_risk \
+              mall_review mall_logistics; do
         $PROXY_MYSQL -e "DROP DATABASE IF EXISTS $db" 2>/dev/null && ok "dropped $db"
     done
     flush_stale_caches

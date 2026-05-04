@@ -7,6 +7,8 @@ info (
 )
 
 import "mall-activity.api"
+import "mall-review.api"
+import "mall-logistics.api"
 
 // ===== Types =====
 type (
@@ -44,15 +46,16 @@ type (
 		Id int64 `path:"id"`
 	}
 	ProductDetailResp {
-		Id          int64  `json:"id"`
-		Name        string `json:"name"`
-		Description string `json:"description"`
-		Price       int64  `json:"price"`
-		Stock       int64  `json:"stock"`
-		CategoryId  int64  `json:"categoryId"`
-		Images      string `json:"images"`
-		Status      int32  `json:"status"`
-		CreateTime  int64  `json:"createTime"`
+		Id            int64                 `json:"id"`
+		Name          string                `json:"name"`
+		Description   string                `json:"description"`
+		Price         int64                 `json:"price"`
+		Stock         int64                 `json:"stock"`
+		CategoryId    int64                 `json:"categoryId"`
+		Images        string                `json:"images"`
+		Status        int32                 `json:"status"`
+		CreateTime    int64                 `json:"createTime"`
+		RatingSummary *GetRatingSummaryResp `json:"ratingSummary,omitempty"`
 	}
 	ProductListReq {
 		CategoryId int64 `form:"categoryId,optional"`
@@ -96,6 +99,7 @@ type (
 		Status      int32             `json:"status"`
 		Items       []CreateOrderItem `json:"items"`
 		CreateTime  int64             `json:"createTime"`
+		Shipments   []ShipmentDTO     `json:"shipments,omitempty"`
 	}
 	OrderListReq {
 		Status   int32 `form:"status,optional"`
