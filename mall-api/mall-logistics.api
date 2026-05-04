@@ -1,0 +1,97 @@
+syntax = "v1"
+
+type (
+	ShipmentItemRef {
+		OrderItemId int64 `json:"orderItemId"`
+		ProductId   int64 `json:"productId"`
+		Quantity    int32 `json:"quantity"`
+	}
+
+	ShipmentTrack {
+		TrackTime      int64  `json:"trackTime"`
+		Location       string `json:"location"`
+		Description    string `json:"description"`
+		StateInternal  int32  `json:"stateInternal"`
+		StateKuaidi100 int32  `json:"stateKuaidi100,omitempty"`
+	}
+
+	ShipmentDTO {
+		Id              int64             `json:"id"`
+		OrderId         int64             `json:"orderId"`
+		UserId          int64             `json:"userId"`
+		TrackingNo      string            `json:"trackingNo"`
+		Carrier         string            `json:"carrier"`
+		Status          int32             `json:"status"`
+		SubscribeStatus int32             `json:"subscribeStatus"`
+		LastTrackTime   int64             `json:"lastTrackTime,omitempty"`
+		CreateTime      int64             `json:"createTime"`
+		Items           []ShipmentItemRef `json:"items"`
+		Tracks          []ShipmentTrack   `json:"tracks"`
+	}
+
+	ListOrderShipmentsReq {
+		Id int64 `path:"id"`
+	}
+	ListOrderShipmentsResp {
+		Shipments []ShipmentDTO `json:"shipments"`
+	}
+
+	GetShipmentByIdReq {
+		Id int64 `path:"id"`
+	}
+	GetShipmentByIdResp {
+		Shipment ShipmentDTO `json:"shipment"`
+	}
+
+	AdminMarkShippedReq {
+		Id         int64  `path:"id"`
+		TrackingNo string `json:"trackingNo"`
+		Carrier    string `json:"carrier"`
+	}
+
+	AdminRetrySubscribeReq {
+		Id int64 `path:"id"`
+	}
+
+	AdminInjectTrackReq {
+		Id            int64  `path:"id"`
+		StateInternal int32  `json:"stateInternal"`
+		Location      string `json:"location"`
+		Description   string `json:"description"`
+	}
+)
+
+@server (
+	prefix: /api
+	jwt:    Auth
+)
+service mall-api {
+	@handler ListOrderShipments
+	get /order/:id/shipments (ListOrderShipmentsReq) returns (ListOrderShipmentsResp)
+
+	@handler GetShipmentById
+	get /logistics/shipment/:id (GetShipmentByIdReq) returns (GetShipmentByIdResp)
+}
+
+@server (
+	prefix: /api/logistics
+)
+service mall-api {
+	@handler Kuaidi100Webhook
+	post /webhook/kuaidi100 () returns (string)
+}
+
+@server (
+	prefix:     /api/admin
+	middleware: AdminToken
+)
+service mall-api {
+	@handler AdminMarkShipped
+	post /order/:id/ship (AdminMarkShippedReq) returns (OkResp)
+
+	@handler AdminRetrySubscribe
+	post /logistics/:id/retry-subscribe (AdminRetrySubscribeReq) returns (OkResp)
+
+	@handler AdminInjectTrack
+	post /logistics/:id/inject-track (AdminInjectTrackReq) returns (OkResp)
+}

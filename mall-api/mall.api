@@ -8,6 +8,7 @@ info (
 
 import "mall-activity.api"
 import "mall-review.api"
+import "mall-logistics.api"
 
 // ===== Types =====
 type (

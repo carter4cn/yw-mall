@@ -109,10 +109,27 @@ type AdminDeleteReviewReq struct {
 	Id int64 `path:"id"`
 }
 
+type AdminInjectTrackReq struct {
+	Id            int64  `path:"id"`
+	StateInternal int32  `json:"stateInternal"`
+	Location      string `json:"location"`
+	Description   string `json:"description"`
+}
+
+type AdminMarkShippedReq struct {
+	Id         int64  `path:"id"`
+	TrackingNo string `json:"trackingNo"`
+	Carrier    string `json:"carrier"`
+}
+
 type AdminReplyReviewReq struct {
 	Id             int64  `path:"id"`
 	MerchantUserId int64  `json:"merchantUserId"`
 	Text           string `json:"text"`
+}
+
+type AdminRetrySubscribeReq struct {
+	Id int64 `path:"id"`
 }
 
 type CartAddReq struct {
@@ -184,6 +201,22 @@ type GetReviewReq struct {
 
 type GetReviewResp struct {
 	Review ReviewItem `json:"review"`
+}
+
+type GetShipmentByIdReq struct {
+	Id int64 `path:"id"`
+}
+
+type GetShipmentByIdResp struct {
+	Shipment ShipmentDTO `json:"shipment"`
+}
+
+type ListOrderShipmentsReq struct {
+	Id int64 `path:"id"`
+}
+
+type ListOrderShipmentsResp struct {
+	Shipments []ShipmentDTO `json:"shipments"`
 }
 
 type ListProductReviewsReq struct {
@@ -347,6 +380,34 @@ type ReviewMediaItem struct {
 	Type int32  `json:"type"`
 	Url  string `json:"url"`
 	Sort int32  `json:"sort,optional"`
+}
+
+type ShipmentDTO struct {
+	Id              int64             `json:"id"`
+	OrderId         int64             `json:"orderId"`
+	UserId          int64             `json:"userId"`
+	TrackingNo      string            `json:"trackingNo"`
+	Carrier         string            `json:"carrier"`
+	Status          int32             `json:"status"`
+	SubscribeStatus int32             `json:"subscribeStatus"`
+	LastTrackTime   int64             `json:"lastTrackTime,omitempty"`
+	CreateTime      int64             `json:"createTime"`
+	Items           []ShipmentItemRef `json:"items"`
+	Tracks          []ShipmentTrack   `json:"tracks"`
+}
+
+type ShipmentItemRef struct {
+	OrderItemId int64 `json:"orderItemId"`
+	ProductId   int64 `json:"productId"`
+	Quantity    int32 `json:"quantity"`
+}
+
+type ShipmentTrack struct {
+	TrackTime      int64  `json:"trackTime"`
+	Location       string `json:"location"`
+	Description    string `json:"description"`
+	StateInternal  int32  `json:"stateInternal"`
+	StateKuaidi100 int32  `json:"stateKuaidi100,omitempty"`
 }
 
 type SubmitFollowupReq struct {
