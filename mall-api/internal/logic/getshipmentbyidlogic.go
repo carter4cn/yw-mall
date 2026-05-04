@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	logisticspb "mall-logistics-rpc/logistics"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,10 @@ func NewGetShipmentByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 	}
 }
 
-func (l *GetShipmentByIdLogic) GetShipmentById(req *types.GetShipmentByIdReq) (resp *types.GetShipmentByIdResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *GetShipmentByIdLogic) GetShipmentById(req *types.GetShipmentByIdReq) (*types.GetShipmentByIdResp, error) {
+	s, err := l.svcCtx.LogisticsRpc.GetShipment(l.ctx, &logisticspb.GetShipmentReq{ShipmentId: req.Id})
+	if err != nil {
+		return nil, err
+	}
+	return &types.GetShipmentByIdResp{Shipment: protoShipmentToType(s)}, nil
 }

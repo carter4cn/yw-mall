@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	orderpb "mall-order-rpc/order"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,13 @@ func NewAdminMarkShippedLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *AdminMarkShippedLogic) AdminMarkShipped(req *types.AdminMarkShippedReq) (resp *types.OkResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *AdminMarkShippedLogic) AdminMarkShipped(req *types.AdminMarkShippedReq) (*types.OkResp, error) {
+	if _, err := l.svcCtx.OrderRpc.MarkShipped(l.ctx, &orderpb.MarkShippedReq{
+		OrderId:    req.Id,
+		TrackingNo: req.TrackingNo,
+		Carrier:    req.Carrier,
+	}); err != nil {
+		return nil, err
+	}
+	return &types.OkResp{Ok: true}, nil
 }

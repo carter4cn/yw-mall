@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	logisticspb "mall-logistics-rpc/logistics"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,9 @@ func NewAdminRetrySubscribeLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *AdminRetrySubscribeLogic) AdminRetrySubscribe(req *types.AdminRetrySubscribeReq) (resp *types.OkResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *AdminRetrySubscribeLogic) AdminRetrySubscribe(req *types.AdminRetrySubscribeReq) (*types.OkResp, error) {
+	if _, err := l.svcCtx.LogisticsRpc.RetrySubscribe(l.ctx, &logisticspb.RetrySubscribeReq{ShipmentId: req.Id}); err != nil {
+		return nil, err
+	}
+	return &types.OkResp{Ok: true}, nil
 }

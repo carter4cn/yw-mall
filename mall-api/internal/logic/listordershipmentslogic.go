@@ -8,6 +8,7 @@ import (
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	logisticspb "mall-logistics-rpc/logistics"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +27,14 @@ func NewListOrderShipmentsLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *ListOrderShipmentsLogic) ListOrderShipments(req *types.ListOrderShipmentsReq) (resp *types.ListOrderShipmentsResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *ListOrderShipmentsLogic) ListOrderShipments(req *types.ListOrderShipmentsReq) (*types.ListOrderShipmentsResp, error) {
+	r, err := l.svcCtx.LogisticsRpc.ListShipmentsByOrder(l.ctx, &logisticspb.ListShipmentsByOrderReq{OrderId: req.Id})
+	if err != nil {
+		return nil, err
+	}
+	out := make([]types.ShipmentDTO, 0, len(r.Shipments))
+	for _, s := range r.Shipments {
+		out = append(out, protoShipmentToType(s))
+	}
+	return &types.ListOrderShipmentsResp{Shipments: out}, nil
 }

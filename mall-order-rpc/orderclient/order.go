@@ -25,6 +25,8 @@ type (
 	OrderItem             = order.OrderItem
 	UpdateOrderStatusReq  = order.UpdateOrderStatusReq
 	UpdateOrderStatusResp = order.UpdateOrderStatusResp
+	MarkShippedReq        = order.MarkShippedReq
+	MarkShippedResp       = order.MarkShippedResp
 
 	Order interface {
 		CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderResp, error)
@@ -32,6 +34,7 @@ type (
 		ListOrders(ctx context.Context, in *ListOrdersReq, opts ...grpc.CallOption) (*ListOrdersResp, error)
 		UpdateOrderStatus(ctx context.Context, in *UpdateOrderStatusReq, opts ...grpc.CallOption) (*UpdateOrderStatusResp, error)
 		GetOrderItem(ctx context.Context, in *GetOrderItemReq, opts ...grpc.CallOption) (*GetOrderItemResp, error)
+		MarkShipped(ctx context.Context, in *MarkShippedReq, opts ...grpc.CallOption) (*MarkShippedResp, error)
 	}
 
 	defaultOrder struct {
@@ -68,4 +71,9 @@ func (m *defaultOrder) UpdateOrderStatus(ctx context.Context, in *UpdateOrderSta
 func (m *defaultOrder) GetOrderItem(ctx context.Context, in *GetOrderItemReq, opts ...grpc.CallOption) (*GetOrderItemResp, error) {
 	client := order.NewOrderClient(m.cli.Conn())
 	return client.GetOrderItem(ctx, in, opts...)
+}
+
+func (m *defaultOrder) MarkShipped(ctx context.Context, in *MarkShippedReq, opts ...grpc.CallOption) (*MarkShippedResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.MarkShipped(ctx, in, opts...)
 }
