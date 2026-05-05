@@ -9,13 +9,24 @@ const (
 	UserNotFound       = 2001
 	UserAlreadyExist   = 2002
 	PasswordError      = 2003
+
+	// User address (2010-2019)
+	UserAddressNotFound  = 2010
+	UserAddressForbidden = 2011
+	UserAddressLimit     = 2012
+
 	ProductNotFound    = 3001
 	StockNotEnough     = 3002
 	OrderNotFound      = 4001
 	OrderStatusError   = 4002
 	CartEmpty          = 5001
+	OrderAddressRequired = 5004
 	PaymentNotFound    = 6001
 	PaymentStatusError = 6002
+
+	// Shop (6010-6019)
+	ShopNotFound            = 6010
+	ShopFollowAlreadyExists = 6011
 
 	// Activity center error codes (7xxx)
 	ActivityNotFound            = 7001
@@ -65,13 +76,22 @@ var message = map[int]string{
 	UserNotFound:       "user not found",
 	UserAlreadyExist:   "user already exists",
 	PasswordError:      "wrong password",
+
+	UserAddressNotFound:  "收货地址不存在",
+	UserAddressForbidden: "无权操作该收货地址",
+	UserAddressLimit:     "收货地址数量超出上限",
+
 	ProductNotFound:    "product not found",
 	StockNotEnough:     "stock not enough",
 	OrderNotFound:      "order not found",
 	OrderStatusError:   "invalid order status",
 	CartEmpty:          "cart is empty",
+	OrderAddressRequired: "请选择收货地址",
 	PaymentNotFound:    "payment not found",
 	PaymentStatusError: "invalid payment status",
+
+	ShopNotFound:            "店铺不存在",
+	ShopFollowAlreadyExists: "已关注该店铺",
 
 	ActivityNotFound:            "activity not found",
 	ActivityNotPublished:        "activity not published",
