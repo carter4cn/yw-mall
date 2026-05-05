@@ -1,0 +1,47 @@
+syntax = "proto3";
+package shop;
+option go_package = "./shop";
+
+service ShopService {
+  rpc GetShop(GetShopReq) returns (GetShopResp);
+  rpc ListShops(ListShopsReq) returns (ListShopsResp);
+  rpc ListRecommendedShops(ListRecommendedShopsReq) returns (ListShopsResp);
+  rpc FollowShop(FollowShopReq) returns (OkResp);
+  rpc UnfollowShop(UnfollowShopReq) returns (OkResp);
+  rpc IsFollowing(IsFollowingReq) returns (IsFollowingResp);
+  rpc ListFollowedShops(ListFollowedShopsReq) returns (ListShopsResp);
+
+  rpc CreateShop(CreateShopReq) returns (CreateShopResp);
+  rpc UpdateShop(UpdateShopReq) returns (OkResp);
+  rpc IncrProductCount(IncrProductCountReq) returns (OkResp);
+}
+
+message Shop {
+  int64  id            = 1;
+  string name          = 2;
+  string logo          = 3;
+  string banner        = 4;
+  string description   = 5;
+  double rating        = 6;
+  int32  product_count = 7;
+  int32  follow_count  = 8;
+  int32  status        = 9;
+  int64  create_time   = 10;
+}
+
+message OkResp { bool ok = 1; }
+
+message GetShopReq           { int64 id = 1; }
+message GetShopResp          { Shop shop = 1; }
+message ListShopsReq         { int32 page = 1; int32 page_size = 2; }
+message ListShopsResp        { repeated Shop shops = 1; int64 total = 2; }
+message ListRecommendedShopsReq { int32 limit = 1; }
+message FollowShopReq        { int64 user_id = 1; int64 shop_id = 2; }
+message UnfollowShopReq      { int64 user_id = 1; int64 shop_id = 2; }
+message IsFollowingReq       { int64 user_id = 1; int64 shop_id = 2; }
+message IsFollowingResp      { bool is_following = 1; }
+message ListFollowedShopsReq { int64 user_id = 1; int32 page = 2; int32 page_size = 3; }
+message CreateShopReq        { string name = 1; string logo = 2; string banner = 3; string description = 4; double rating = 5; }
+message CreateShopResp       { int64 id = 1; }
+message UpdateShopReq        { int64 id = 1; string name = 2; string logo = 3; string banner = 4; string description = 5; }
+message IncrProductCountReq  { int64 shop_id = 1; int32 delta = 2; }
