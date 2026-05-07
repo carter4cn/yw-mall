@@ -3,6 +3,8 @@ package logic
 import (
 	"context"
 
+	"mall-common/errorx"
+	"mall-user-rpc/internal/model"
 	"mall-user-rpc/internal/svc"
 	"mall-user-rpc/user"
 
@@ -24,7 +26,15 @@ func NewGetAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAdd
 }
 
 func (l *GetAddressLogic) GetAddress(in *user.GetAddressReq) (*user.Address, error) {
-	// todo: add your logic here and delete this line
-
-	return &user.Address{}, nil
+	addr, err := l.svcCtx.UserAddressModel.FindOne(l.ctx, uint64(in.Id))
+	if err != nil {
+		if err == model.ErrNotFound {
+			return nil, errorx.NewCodeError(errorx.UserAddressNotFound)
+		}
+		return nil, err
+	}
+	if int64(addr.UserId) != in.UserId {
+		return nil, errorx.NewCodeError(errorx.UserAddressForbidden)
+	}
+	return toAddrProto(addr), nil
 }
