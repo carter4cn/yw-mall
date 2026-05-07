@@ -11,14 +11,15 @@ import (
 	"mall-api/internal/config"
 	"mall-api/internal/middleware"
 	"mall-cart-rpc/cartclient"
+	"mall-logistics-rpc/logisticsclient"
 	"mall-order-rpc/orderclient"
 	"mall-payment-rpc/paymentclient"
 	"mall-product-rpc/productclient"
-	"mall-logistics-rpc/logisticsclient"
 	"mall-review-rpc/reviewclient"
 	"mall-reward-rpc/rewardclient"
 	"mall-risk-rpc/riskclient"
 	"mall-rule-rpc/ruleclient"
+	"mall-shop-rpc/shopservice"
 	"mall-user-rpc/userclient"
 	"mall-workflow-rpc/workflowclient"
 
@@ -48,6 +49,7 @@ type ServiceContext struct {
 	RiskRpc     riskclient.Risk
 	ReviewRpc    reviewclient.Review
 	LogisticsRpc logisticsclient.Logistics
+	ShopRpc      shopservice.ShopService
 
 	Minio      ObjectStore
 	AdminToken rest.Middleware
@@ -75,6 +77,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		RiskRpc:     riskclient.NewRisk(zrpc.MustNewClient(c.RiskRpc)),
 		ReviewRpc:    reviewclient.NewReview(zrpc.MustNewClient(c.ReviewRpc)),
 		LogisticsRpc: logisticsclient.NewLogistics(zrpc.MustNewClient(c.LogisticsRpc)),
+		ShopRpc:      shopservice.NewShopService(zrpc.MustNewClient(c.ShopRpc)),
 		Minio:       mc,
 		AdminToken:  middleware.NewAdminTokenMiddleware(c.AdminToken).Handle,
 	}

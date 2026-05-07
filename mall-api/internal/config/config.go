@@ -26,6 +26,7 @@ type Config struct {
 	RiskRpc     zrpc.RpcClientConf
 	ReviewRpc      zrpc.RpcClientConf
 	LogisticsRpc   zrpc.RpcClientConf
+	ShopRpc        zrpc.RpcClientConf
 	Kuaidi100      struct {
 		WebhookCustomer string
 		WebhookKey      string

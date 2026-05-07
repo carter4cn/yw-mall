@@ -9,6 +9,7 @@ require (
 	mall-order-rpc v0.0.0
 	mall-payment-rpc v0.0.0
 	mall-product-rpc v0.0.0
+	mall-shop-rpc v0.0.0
 	mall-user-rpc v0.0.0
 )
 
@@ -150,3 +151,5 @@ replace mall-review-rpc => ../mall-review-rpc
 replace mall-common => ../mall-common
 
 replace mall-logistics-rpc => ../mall-logistics-rpc
+
+replace mall-shop-rpc => ../mall-shop-rpc
