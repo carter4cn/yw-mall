@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 
+	"mall-shop-rpc/internal/model"
 	"mall-shop-rpc/internal/svc"
 	"mall-shop-rpc/shop"
 
@@ -24,7 +25,28 @@ func NewListShopsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListSho
 }
 
 func (l *ListShopsLogic) ListShops(in *shop.ListShopsReq) (*shop.ListShopsResp, error) {
-	// todo: add your logic here and delete this line
+	page, size := normPage(in.Page, in.PageSize)
+	offset := (page - 1) * size
+	rows, err := l.queryList(offset, size)
+	if err != nil {
+		return nil, err
+	}
+	total, _ := l.countAll()
+	out := make([]*shop.Shop, 0, len(rows))
+	for _, s := range rows {
+		out = append(out, toShopProto(s))
+	}
+	return &shop.ListShopsResp{Shops: out, Total: total}, nil
+}
 
-	return &shop.ListShopsResp{}, nil
+func (l *ListShopsLogic) queryList(offset, size int32) ([]*model.Shop, error) {
+	var rows []*model.Shop
+	err := l.svcCtx.DB.QueryRowsCtx(l.ctx, &rows, "SELECT * FROM shop WHERE status=1 ORDER BY id DESC LIMIT ?, ?", offset, size)
+	return rows, err
+}
+
+func (l *ListShopsLogic) countAll() (int64, error) {
+	var n int64
+	err := l.svcCtx.DB.QueryRowCtx(l.ctx, &n, "SELECT COUNT(*) FROM shop WHERE status=1")
+	return n, err
 }

@@ -24,7 +24,10 @@ func NewIsFollowingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *IsFol
 }
 
 func (l *IsFollowingLogic) IsFollowing(in *shop.IsFollowingReq) (*shop.IsFollowingResp, error) {
-	// todo: add your logic here and delete this line
-
-	return &shop.IsFollowingResp{}, nil
+	var n int64
+	err := l.svcCtx.DB.QueryRowCtx(l.ctx, &n, "SELECT COUNT(*) FROM shop_follow WHERE user_id=? AND shop_id=?", in.UserId, in.ShopId)
+	if err != nil {
+		return nil, err
+	}
+	return &shop.IsFollowingResp{IsFollowing: n > 0}, nil
 }

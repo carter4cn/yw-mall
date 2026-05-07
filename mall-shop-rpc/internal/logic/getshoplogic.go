@@ -3,6 +3,8 @@ package logic
 import (
 	"context"
 
+	"mall-common/errorx"
+	"mall-shop-rpc/internal/model"
 	"mall-shop-rpc/internal/svc"
 	"mall-shop-rpc/shop"
 
@@ -24,7 +26,12 @@ func NewGetShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetShopLo
 }
 
 func (l *GetShopLogic) GetShop(in *shop.GetShopReq) (*shop.GetShopResp, error) {
-	// todo: add your logic here and delete this line
-
-	return &shop.GetShopResp{}, nil
+	s, err := l.svcCtx.ShopModel.FindOne(l.ctx, uint64(in.Id))
+	if err != nil {
+		if err == model.ErrNotFound {
+			return nil, errorx.NewCodeError(errorx.ShopNotFound)
+		}
+		return nil, err
+	}
+	return &shop.GetShopResp{Shop: toShopProto(s)}, nil
 }

@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"time"
 
 	"mall-shop-rpc/internal/svc"
 	"mall-shop-rpc/shop"
@@ -24,7 +25,13 @@ func NewCreateShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 func (l *CreateShopLogic) CreateShop(in *shop.CreateShopReq) (*shop.CreateShopResp, error) {
-	// todo: add your logic here and delete this line
-
-	return &shop.CreateShopResp{}, nil
+	now := time.Now().Unix()
+	res, err := l.svcCtx.DB.ExecCtx(l.ctx,
+		"INSERT INTO shop (name, logo, banner, description, rating, product_count, follow_count, status, create_time, update_time) VALUES (?, ?, ?, ?, ?, 0, 0, 1, ?, ?)",
+		in.Name, in.Logo, in.Banner, in.Description, in.Rating, now, now)
+	if err != nil {
+		return nil, err
+	}
+	id, _ := res.LastInsertId()
+	return &shop.CreateShopResp{Id: id}, nil
 }

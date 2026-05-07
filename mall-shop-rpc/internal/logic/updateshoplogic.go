@@ -3,6 +3,8 @@ package logic
 import (
 	"context"
 
+	"mall-common/errorx"
+	"mall-shop-rpc/internal/model"
 	"mall-shop-rpc/internal/svc"
 	"mall-shop-rpc/shop"
 
@@ -24,7 +26,27 @@ func NewUpdateShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateShopLogic) UpdateShop(in *shop.UpdateShopReq) (*shop.OkResp, error) {
-	// todo: add your logic here and delete this line
-
-	return &shop.OkResp{}, nil
+	s, err := l.svcCtx.ShopModel.FindOne(l.ctx, uint64(in.Id))
+	if err != nil {
+		if err == model.ErrNotFound {
+			return nil, errorx.NewCodeError(errorx.ShopNotFound)
+		}
+		return nil, err
+	}
+	if in.Name != "" {
+		s.Name = in.Name
+	}
+	if in.Logo != "" {
+		s.Logo = in.Logo
+	}
+	if in.Banner != "" {
+		s.Banner = in.Banner
+	}
+	if in.Description != "" {
+		s.Description = in.Description
+	}
+	if err := l.svcCtx.ShopModel.Update(l.ctx, s); err != nil {
+		return nil, err
+	}
+	return &shop.OkResp{Ok: true}, nil
 }

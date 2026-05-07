@@ -24,7 +24,12 @@ func NewIncrProductCountLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *IncrProductCountLogic) IncrProductCount(in *shop.IncrProductCountReq) (*shop.OkResp, error) {
-	// todo: add your logic here and delete this line
-
-	return &shop.OkResp{}, nil
+	if in.ShopId == 0 || in.Delta == 0 {
+		return &shop.OkResp{Ok: true}, nil
+	}
+	_, err := l.svcCtx.DB.ExecCtx(l.ctx, "UPDATE shop SET product_count = product_count + ? WHERE id = ?", in.Delta, in.ShopId)
+	if err != nil {
+		return nil, err
+	}
+	return &shop.OkResp{Ok: true}, nil
 }
