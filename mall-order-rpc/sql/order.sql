@@ -28,3 +28,10 @@ CREATE TABLE IF NOT EXISTS `order_item` (
 
 ALTER TABLE `order` ADD COLUMN `tracking_no` varchar(128) NOT NULL DEFAULT '' COMMENT 'logistics tracking number';
 ALTER TABLE `order` ADD COLUMN `carrier` varchar(64) NOT NULL DEFAULT '' COMMENT 'carrier code';
+ALTER TABLE `order` ADD COLUMN `address_id` bigint NOT NULL DEFAULT 0;
+ALTER TABLE `order` ADD COLUMN `receiver_name` varchar(64) NOT NULL DEFAULT '';
+ALTER TABLE `order` ADD COLUMN `receiver_phone` varchar(20) NOT NULL DEFAULT '';
+ALTER TABLE `order` ADD COLUMN `receiver_province` varchar(32) NOT NULL DEFAULT '';
+ALTER TABLE `order` ADD COLUMN `receiver_city` varchar(32) NOT NULL DEFAULT '';
+ALTER TABLE `order` ADD COLUMN `receiver_district` varchar(32) NOT NULL DEFAULT '';
+ALTER TABLE `order` ADD COLUMN `receiver_detail` varchar(255) NOT NULL DEFAULT '';

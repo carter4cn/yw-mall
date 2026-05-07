@@ -93,6 +93,7 @@ type CreateOrderReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Items         []*OrderItem           `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	AddressId     int64                  `protobuf:"varint,3,opt,name=address_id,json=addressId,proto3" json:"address_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -139,6 +140,13 @@ func (x *CreateOrderReq) GetItems() []*OrderItem {
 		return x.Items
 	}
 	return nil
+}
+
+func (x *CreateOrderReq) GetAddressId() int64 {
+	if x != nil {
+		return x.AddressId
+	}
+	return 0
 }
 
 type CreateOrderResp struct {
@@ -246,16 +254,23 @@ func (x *GetOrderReq) GetId() int64 {
 }
 
 type GetOrderResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	OrderNo       string                 `protobuf:"bytes,2,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`
-	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	TotalAmount   int64                  `protobuf:"varint,4,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
-	Status        int32                  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
-	Items         []*OrderItem           `protobuf:"bytes,6,rep,name=items,proto3" json:"items,omitempty"`
-	CreateTime    int64                  `protobuf:"varint,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Id               int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	OrderNo          string                 `protobuf:"bytes,2,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`
+	UserId           int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TotalAmount      int64                  `protobuf:"varint,4,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
+	Status           int32                  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
+	Items            []*OrderItem           `protobuf:"bytes,6,rep,name=items,proto3" json:"items,omitempty"`
+	CreateTime       int64                  `protobuf:"varint,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	AddressId        int64                  `protobuf:"varint,8,opt,name=address_id,json=addressId,proto3" json:"address_id,omitempty"`
+	ReceiverName     string                 `protobuf:"bytes,9,opt,name=receiver_name,json=receiverName,proto3" json:"receiver_name,omitempty"`
+	ReceiverPhone    string                 `protobuf:"bytes,10,opt,name=receiver_phone,json=receiverPhone,proto3" json:"receiver_phone,omitempty"`
+	ReceiverProvince string                 `protobuf:"bytes,11,opt,name=receiver_province,json=receiverProvince,proto3" json:"receiver_province,omitempty"`
+	ReceiverCity     string                 `protobuf:"bytes,12,opt,name=receiver_city,json=receiverCity,proto3" json:"receiver_city,omitempty"`
+	ReceiverDistrict string                 `protobuf:"bytes,13,opt,name=receiver_district,json=receiverDistrict,proto3" json:"receiver_district,omitempty"`
+	ReceiverDetail   string                 `protobuf:"bytes,14,opt,name=receiver_detail,json=receiverDetail,proto3" json:"receiver_detail,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *GetOrderResp) Reset() {
@@ -335,6 +350,55 @@ func (x *GetOrderResp) GetCreateTime() int64 {
 		return x.CreateTime
 	}
 	return 0
+}
+
+func (x *GetOrderResp) GetAddressId() int64 {
+	if x != nil {
+		return x.AddressId
+	}
+	return 0
+}
+
+func (x *GetOrderResp) GetReceiverName() string {
+	if x != nil {
+		return x.ReceiverName
+	}
+	return ""
+}
+
+func (x *GetOrderResp) GetReceiverPhone() string {
+	if x != nil {
+		return x.ReceiverPhone
+	}
+	return ""
+}
+
+func (x *GetOrderResp) GetReceiverProvince() string {
+	if x != nil {
+		return x.ReceiverProvince
+	}
+	return ""
+}
+
+func (x *GetOrderResp) GetReceiverCity() string {
+	if x != nil {
+		return x.ReceiverCity
+	}
+	return ""
+}
+
+func (x *GetOrderResp) GetReceiverDistrict() string {
+	if x != nil {
+		return x.ReceiverDistrict
+	}
+	return ""
+}
+
+func (x *GetOrderResp) GetReceiverDetail() string {
+	if x != nil {
+		return x.ReceiverDetail
+	}
+	return ""
 }
 
 type ListOrdersReq struct {
@@ -1012,16 +1076,18 @@ const file_order_proto_rawDesc = "" +
 	"product_id\x18\x01 \x01(\x03R\tproductId\x12!\n" +
 	"\fproduct_name\x18\x02 \x01(\tR\vproductName\x12\x14\n" +
 	"\x05price\x18\x03 \x01(\x03R\x05price\x12\x1a\n" +
-	"\bquantity\x18\x04 \x01(\x05R\bquantity\"Q\n" +
+	"\bquantity\x18\x04 \x01(\x05R\bquantity\"p\n" +
 	"\x0eCreateOrderReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12&\n" +
-	"\x05items\x18\x02 \x03(\v2\x10.order.OrderItemR\x05items\"_\n" +
+	"\x05items\x18\x02 \x03(\v2\x10.order.OrderItemR\x05items\x12\x1d\n" +
+	"\n" +
+	"address_id\x18\x03 \x01(\x03R\taddressId\"_\n" +
 	"\x0fCreateOrderResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12!\n" +
 	"\ftotal_amount\x18\x03 \x01(\x03R\vtotalAmount\"\x1d\n" +
 	"\vGetOrderReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\xd6\x01\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\xe9\x03\n" +
 	"\fGetOrderResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12\x17\n" +
@@ -1030,7 +1096,16 @@ const file_order_proto_rawDesc = "" +
 	"\x06status\x18\x05 \x01(\x05R\x06status\x12&\n" +
 	"\x05items\x18\x06 \x03(\v2\x10.order.OrderItemR\x05items\x12\x1f\n" +
 	"\vcreate_time\x18\a \x01(\x03R\n" +
-	"createTime\"q\n" +
+	"createTime\x12\x1d\n" +
+	"\n" +
+	"address_id\x18\b \x01(\x03R\taddressId\x12#\n" +
+	"\rreceiver_name\x18\t \x01(\tR\freceiverName\x12%\n" +
+	"\x0ereceiver_phone\x18\n" +
+	" \x01(\tR\rreceiverPhone\x12+\n" +
+	"\x11receiver_province\x18\v \x01(\tR\x10receiverProvince\x12#\n" +
+	"\rreceiver_city\x18\f \x01(\tR\freceiverCity\x12+\n" +
+	"\x11receiver_district\x18\r \x01(\tR\x10receiverDistrict\x12'\n" +
+	"\x0freceiver_detail\x18\x0e \x01(\tR\x0ereceiverDetail\"q\n" +
 	"\rListOrdersReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\x05R\x06status\x12\x12\n" +
