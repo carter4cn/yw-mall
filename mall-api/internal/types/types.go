@@ -447,6 +447,60 @@ type UserInfoResp struct {
 	CreateTime int64  `json:"createTime"`
 }
 
+type AddressItem struct {
+	Id           int64  `json:"id"`
+	UserId       int64  `json:"userId"`
+	ReceiverName string `json:"receiverName"`
+	Phone        string `json:"phone"`
+	Province     string `json:"province"`
+	City         string `json:"city"`
+	District     string `json:"district"`
+	Detail       string `json:"detail"`
+	IsDefault    bool   `json:"isDefault"`
+	CreateTime   int64  `json:"createTime"`
+}
+
+type AddAddressReq struct {
+	ReceiverName string `json:"receiverName"`
+	Phone        string `json:"phone"`
+	Province     string `json:"province"`
+	City         string `json:"city"`
+	District     string `json:"district"`
+	Detail       string `json:"detail"`
+	IsDefault    bool   `json:"isDefault,optional"`
+}
+
+type AddAddressResp struct {
+	Id int64 `json:"id"`
+}
+
+type UpdateAddressReq struct {
+	Id           int64  `path:"id"`
+	ReceiverName string `json:"receiverName,optional"`
+	Phone        string `json:"phone,optional"`
+	Province     string `json:"province,optional"`
+	City         string `json:"city,optional"`
+	District     string `json:"district,optional"`
+	Detail       string `json:"detail,optional"`
+	IsDefault    bool   `json:"isDefault,optional"`
+}
+
+type DeleteAddressReq struct {
+	Id int64 `path:"id"`
+}
+
+type SetDefaultAddressReq struct {
+	Id int64 `path:"id"`
+}
+
+type ListAddressesResp struct {
+	Addresses []AddressItem `json:"addresses"`
+}
+
+type GetAddressReq struct {
+	Id int64 `path:"id"`
+}
+
 type ShopItem struct {
 	Id           int64   `json:"id"`
 	Name         string  `json:"name"`

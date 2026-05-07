@@ -259,6 +259,48 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodPost,
+				Path:    "/add",
+				Handler: AddAddressHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/update/:id",
+				Handler: UpdateAddressHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/delete/:id",
+				Handler: DeleteAddressHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/:id/default",
+				Handler: SetDefaultAddressHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: ListAddressesHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/default",
+				Handler: GetDefaultAddressHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/:id",
+				Handler: GetAddressHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/address"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				Method:  http.MethodGet,
 				Path:    "/detail/:id",
 				Handler: ShopDetailHandler(serverCtx),
