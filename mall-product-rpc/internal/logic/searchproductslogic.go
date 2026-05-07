@@ -47,28 +47,14 @@ func (l *SearchProductsLogic) SearchProducts(in *product.SearchProductsReq) (*pr
 	}
 
 	var rows []productRow
-	query := fmt.Sprintf("SELECT id, name, description, price, stock, category_id, images, status, create_time FROM product WHERE name LIKE ? ORDER BY id DESC LIMIT %d OFFSET %d", pageSize, offset)
+	query := fmt.Sprintf("SELECT id, name, description, price, stock, category_id, images, shop_id, status, create_time FROM product WHERE name LIKE ? ORDER BY id DESC LIMIT %d OFFSET %d", pageSize, offset)
 	if err := conn.QueryRowsCtx(l.ctx, &rows, query, keyword); err != nil {
 		return nil, err
 	}
 
 	products := make([]*product.GetProductResp, 0, len(rows))
 	for _, r := range rows {
-		description := ""
-		if r.Description.Valid {
-			description = r.Description.String
-		}
-		products = append(products, &product.GetProductResp{
-			Id:          int64(r.Id),
-			Name:        r.Name,
-			Description: description,
-			Price:       r.Price,
-			Stock:       r.Stock,
-			CategoryId:  int64(r.CategoryId),
-			Images:      r.Images,
-			Status:      int32(r.Status),
-			CreateTime:  r.CreateTime.Unix(),
-		})
+		products = append(products, toProductProto(r))
 	}
 
 	return &product.SearchProductsResp{

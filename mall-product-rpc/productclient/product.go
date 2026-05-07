@@ -14,23 +14,31 @@ import (
 )
 
 type (
-	CreateProductReq   = product.CreateProductReq
-	CreateProductResp  = product.CreateProductResp
-	GetProductReq      = product.GetProductReq
-	GetProductResp     = product.GetProductResp
-	ListProductsReq    = product.ListProductsReq
-	ListProductsResp   = product.ListProductsResp
-	SearchProductsReq  = product.SearchProductsReq
-	SearchProductsResp = product.SearchProductsResp
-	UpdateStockReq     = product.UpdateStockReq
-	UpdateStockResp    = product.UpdateStockResp
+	CreateProductReq    = product.CreateProductReq
+	CreateProductResp   = product.CreateProductResp
+	GetProductReq       = product.GetProductReq
+	GetProductResp      = product.GetProductResp
+	ListProductsReq     = product.ListProductsReq
+	ListProductsResp    = product.ListProductsResp
+	ListShopProductsReq = product.ListShopProductsReq
+	LockSkuReq          = product.LockSkuReq
+	LockSkuResp         = product.LockSkuResp
+	SearchProductsReq   = product.SearchProductsReq
+	SearchProductsResp  = product.SearchProductsResp
+	UnlockSkuReq        = product.UnlockSkuReq
+	UnlockSkuResp       = product.UnlockSkuResp
+	UpdateStockReq      = product.UpdateStockReq
+	UpdateStockResp     = product.UpdateStockResp
 
 	Product interface {
 		CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductResp, error)
 		GetProduct(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*GetProductResp, error)
 		ListProducts(ctx context.Context, in *ListProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error)
+		ListShopProducts(ctx context.Context, in *ListShopProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error)
 		UpdateStock(ctx context.Context, in *UpdateStockReq, opts ...grpc.CallOption) (*UpdateStockResp, error)
 		SearchProducts(ctx context.Context, in *SearchProductsReq, opts ...grpc.CallOption) (*SearchProductsResp, error)
+		LockSku(ctx context.Context, in *LockSkuReq, opts ...grpc.CallOption) (*LockSkuResp, error)
+		UnlockSku(ctx context.Context, in *UnlockSkuReq, opts ...grpc.CallOption) (*UnlockSkuResp, error)
 	}
 
 	defaultProduct struct {
@@ -59,6 +67,11 @@ func (m *defaultProduct) ListProducts(ctx context.Context, in *ListProductsReq, 
 	return client.ListProducts(ctx, in, opts...)
 }
 
+func (m *defaultProduct) ListShopProducts(ctx context.Context, in *ListShopProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.ListShopProducts(ctx, in, opts...)
+}
+
 func (m *defaultProduct) UpdateStock(ctx context.Context, in *UpdateStockReq, opts ...grpc.CallOption) (*UpdateStockResp, error) {
 	client := product.NewProductClient(m.cli.Conn())
 	return client.UpdateStock(ctx, in, opts...)
@@ -67,4 +80,14 @@ func (m *defaultProduct) UpdateStock(ctx context.Context, in *UpdateStockReq, op
 func (m *defaultProduct) SearchProducts(ctx context.Context, in *SearchProductsReq, opts ...grpc.CallOption) (*SearchProductsResp, error) {
 	client := product.NewProductClient(m.cli.Conn())
 	return client.SearchProducts(ctx, in, opts...)
+}
+
+func (m *defaultProduct) LockSku(ctx context.Context, in *LockSkuReq, opts ...grpc.CallOption) (*LockSkuResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.LockSku(ctx, in, opts...)
+}
+
+func (m *defaultProduct) UnlockSku(ctx context.Context, in *UnlockSkuReq, opts ...grpc.CallOption) (*UnlockSkuResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.UnlockSku(ctx, in, opts...)
 }

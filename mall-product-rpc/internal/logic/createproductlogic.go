@@ -7,6 +7,7 @@ import (
 	"mall-product-rpc/internal/model"
 	"mall-product-rpc/internal/svc"
 	"mall-product-rpc/product"
+	"mall-shop-rpc/shopservice"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -36,6 +37,7 @@ func (l *CreateProductLogic) CreateProduct(in *product.CreateProductReq) (*produ
 		Stock:      in.Stock,
 		CategoryId: uint64(in.CategoryId),
 		Images:     in.Images,
+		ShopId:     uint64(in.ShopId),
 		Status:     1,
 	}
 
@@ -47,6 +49,15 @@ func (l *CreateProductLogic) CreateProduct(in *product.CreateProductReq) (*produ
 	id, err := result.LastInsertId()
 	if err != nil {
 		return nil, err
+	}
+
+	if in.ShopId > 0 {
+		if _, e := l.svcCtx.ShopRpc.IncrProductCount(l.ctx, &shopservice.IncrProductCountReq{
+			ShopId: in.ShopId,
+			Delta:  1,
+		}); e != nil {
+			l.Logger.Errorf("IncrProductCount shop=%d err=%v", in.ShopId, e)
+		}
 	}
 
 	return &product.CreateProductResp{Id: id}, nil

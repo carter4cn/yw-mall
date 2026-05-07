@@ -19,11 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Product_CreateProduct_FullMethodName  = "/product.Product/CreateProduct"
-	Product_GetProduct_FullMethodName     = "/product.Product/GetProduct"
-	Product_ListProducts_FullMethodName   = "/product.Product/ListProducts"
-	Product_UpdateStock_FullMethodName    = "/product.Product/UpdateStock"
-	Product_SearchProducts_FullMethodName = "/product.Product/SearchProducts"
+	Product_CreateProduct_FullMethodName    = "/product.Product/CreateProduct"
+	Product_GetProduct_FullMethodName       = "/product.Product/GetProduct"
+	Product_ListProducts_FullMethodName     = "/product.Product/ListProducts"
+	Product_ListShopProducts_FullMethodName = "/product.Product/ListShopProducts"
+	Product_UpdateStock_FullMethodName      = "/product.Product/UpdateStock"
+	Product_SearchProducts_FullMethodName   = "/product.Product/SearchProducts"
+	Product_LockSku_FullMethodName          = "/product.Product/LockSku"
+	Product_UnlockSku_FullMethodName        = "/product.Product/UnlockSku"
 )
 
 // ProductClient is the client API for Product service.
@@ -33,8 +36,11 @@ type ProductClient interface {
 	CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductResp, error)
 	GetProduct(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*GetProductResp, error)
 	ListProducts(ctx context.Context, in *ListProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error)
+	ListShopProducts(ctx context.Context, in *ListShopProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error)
 	UpdateStock(ctx context.Context, in *UpdateStockReq, opts ...grpc.CallOption) (*UpdateStockResp, error)
 	SearchProducts(ctx context.Context, in *SearchProductsReq, opts ...grpc.CallOption) (*SearchProductsResp, error)
+	LockSku(ctx context.Context, in *LockSkuReq, opts ...grpc.CallOption) (*LockSkuResp, error)
+	UnlockSku(ctx context.Context, in *UnlockSkuReq, opts ...grpc.CallOption) (*UnlockSkuResp, error)
 }
 
 type productClient struct {
@@ -75,6 +81,16 @@ func (c *productClient) ListProducts(ctx context.Context, in *ListProductsReq, o
 	return out, nil
 }
 
+func (c *productClient) ListShopProducts(ctx context.Context, in *ListShopProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListProductsResp)
+	err := c.cc.Invoke(ctx, Product_ListShopProducts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *productClient) UpdateStock(ctx context.Context, in *UpdateStockReq, opts ...grpc.CallOption) (*UpdateStockResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateStockResp)
@@ -95,6 +111,26 @@ func (c *productClient) SearchProducts(ctx context.Context, in *SearchProductsRe
 	return out, nil
 }
 
+func (c *productClient) LockSku(ctx context.Context, in *LockSkuReq, opts ...grpc.CallOption) (*LockSkuResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LockSkuResp)
+	err := c.cc.Invoke(ctx, Product_LockSku_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productClient) UnlockSku(ctx context.Context, in *UnlockSkuReq, opts ...grpc.CallOption) (*UnlockSkuResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UnlockSkuResp)
+	err := c.cc.Invoke(ctx, Product_UnlockSku_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductServer is the server API for Product service.
 // All implementations must embed UnimplementedProductServer
 // for forward compatibility.
@@ -102,8 +138,11 @@ type ProductServer interface {
 	CreateProduct(context.Context, *CreateProductReq) (*CreateProductResp, error)
 	GetProduct(context.Context, *GetProductReq) (*GetProductResp, error)
 	ListProducts(context.Context, *ListProductsReq) (*ListProductsResp, error)
+	ListShopProducts(context.Context, *ListShopProductsReq) (*ListProductsResp, error)
 	UpdateStock(context.Context, *UpdateStockReq) (*UpdateStockResp, error)
 	SearchProducts(context.Context, *SearchProductsReq) (*SearchProductsResp, error)
+	LockSku(context.Context, *LockSkuReq) (*LockSkuResp, error)
+	UnlockSku(context.Context, *UnlockSkuReq) (*UnlockSkuResp, error)
 	mustEmbedUnimplementedProductServer()
 }
 
@@ -123,11 +162,20 @@ func (UnimplementedProductServer) GetProduct(context.Context, *GetProductReq) (*
 func (UnimplementedProductServer) ListProducts(context.Context, *ListProductsReq) (*ListProductsResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListProducts not implemented")
 }
+func (UnimplementedProductServer) ListShopProducts(context.Context, *ListShopProductsReq) (*ListProductsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopProducts not implemented")
+}
 func (UnimplementedProductServer) UpdateStock(context.Context, *UpdateStockReq) (*UpdateStockResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateStock not implemented")
 }
 func (UnimplementedProductServer) SearchProducts(context.Context, *SearchProductsReq) (*SearchProductsResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method SearchProducts not implemented")
+}
+func (UnimplementedProductServer) LockSku(context.Context, *LockSkuReq) (*LockSkuResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method LockSku not implemented")
+}
+func (UnimplementedProductServer) UnlockSku(context.Context, *UnlockSkuReq) (*UnlockSkuResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UnlockSku not implemented")
 }
 func (UnimplementedProductServer) mustEmbedUnimplementedProductServer() {}
 func (UnimplementedProductServer) testEmbeddedByValue()                 {}
@@ -204,6 +252,24 @@ func _Product_ListProducts_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Product_ListShopProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListShopProductsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServer).ListShopProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Product_ListShopProducts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServer).ListShopProducts(ctx, req.(*ListShopProductsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Product_UpdateStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateStockReq)
 	if err := dec(in); err != nil {
@@ -240,6 +306,42 @@ func _Product_SearchProducts_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Product_LockSku_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LockSkuReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServer).LockSku(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Product_LockSku_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServer).LockSku(ctx, req.(*LockSkuReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Product_UnlockSku_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnlockSkuReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServer).UnlockSku(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Product_UnlockSku_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServer).UnlockSku(ctx, req.(*UnlockSkuReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Product_ServiceDesc is the grpc.ServiceDesc for Product service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -260,12 +362,24 @@ var Product_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Product_ListProducts_Handler,
 		},
 		{
+			MethodName: "ListShopProducts",
+			Handler:    _Product_ListShopProducts_Handler,
+		},
+		{
 			MethodName: "UpdateStock",
 			Handler:    _Product_UpdateStock_Handler,
 		},
 		{
 			MethodName: "SearchProducts",
 			Handler:    _Product_SearchProducts_Handler,
+		},
+		{
+			MethodName: "LockSku",
+			Handler:    _Product_LockSku_Handler,
+		},
+		{
+			MethodName: "UnlockSku",
+			Handler:    _Product_UnlockSku_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

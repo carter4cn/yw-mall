@@ -9,4 +9,5 @@ type Config struct {
 	zrpc.RpcServerConf
 	DataSource string
 	Cache      cache.CacheConf
+	ShopRpc    zrpc.RpcClientConf
 }
