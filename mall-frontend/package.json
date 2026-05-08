@@ -63,6 +63,12 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "core-js",
+      "esbuild"
+    ],
+    "approvedBuilds": [
+      "@parcel/watcher",
       "core-js",
       "esbuild"
     ]
