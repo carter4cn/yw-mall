@@ -10,14 +10,12 @@
         v-model="username"
         placeholder="用户名"
         clearable
-        class="field"
       />
       <wd-input
         v-model="password"
         placeholder="密码"
         type="password"
         clearable
-        class="field"
       />
       <wd-button
         type="primary"
