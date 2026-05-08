@@ -59,6 +59,34 @@ pnpm dev:h5          # dev server at http://localhost:5173 (proxies /api → :18
 pnpm run build:h5    # production H5 build, must exit 0 with no TS errors
 ```
 
+Always run pnpm from within `mall-frontend/` — running from the repo root creates a stray root-level `package.json`.
+
+### Frontend Architecture
+
+```
+mall-frontend/src/
+  api/
+    request.ts       # base wrapper: uni.request + JWT header + 401 redirect
+    shop.ts          # 8 functions (getShopDetail, listShops, followShop, …)
+    product.ts       # listProducts, getProductDetail, searchProducts
+  stores/
+    user.ts          # token + userId, persisted to localStorage
+    cart.ts          # count only (increment/decrement)
+  types/api.ts       # all API response types (ShopItem, ProductDetailResp, …)
+  styles/tokens.scss # design tokens — globally injected by vite, never @import manually
+  pages/
+    index/index.vue  # home: search + recommended shops + featured products
+    shop/list.vue    # paginated shop list with infinite scroll
+    shop/detail.vue  # banner, follow toggle, shop products grid
+    product/list.vue # keyword or shopId query param → 2-col grid + infinite scroll
+    product/detail.vue # price displayed as ¥(cents/100).toFixed(2), sticky add-to-cart
+    login/index.vue  # placeholder (wd-empty)
+```
+
+**uni-app navigation:** use `uni.navigateTo`, `uni.reLaunch`, `uni.showToast` — there is no vue-router. Page params are read from `getCurrentPages()` options, not `$route`.
+
+**Wot Design Uni** components are auto-imported via easycom — no manual imports needed. Do **not** add `build.rollupOptions.external` for wot-design-uni or any Vue packages; the build passes without it and adding it breaks production bundling.
+
 ## Architecture
 
 ### Service Map
