@@ -1,6 +1,6 @@
 <template>
   <view class="page">
-    <wd-status-tip status="empty" title="个人中心即将上线" />
+    <wd-status-tip status="empty" title="功能即将上线" />
   </view>
 </template>
 
