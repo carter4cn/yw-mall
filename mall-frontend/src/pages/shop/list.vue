@@ -4,7 +4,7 @@
       <wd-skeleton :row="5" />
     </view>
     <view v-else-if="shops.length === 0">
-      <wd-empty description="暂无店铺" />
+      <wd-status-tip status="empty" title="暂无店铺" />
     </view>
     <view v-else>
       <view

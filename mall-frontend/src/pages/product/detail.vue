@@ -4,7 +4,7 @@
       <wd-skeleton :row="8" />
     </view>
     <view v-else-if="!product">
-      <wd-empty description="商品不存在" />
+      <wd-status-tip status="empty" title="商品不存在" />
     </view>
     <template v-else>
       <image

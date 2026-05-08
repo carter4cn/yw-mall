@@ -1,6 +1,6 @@
 <template>
   <view class="page">
-    <wd-empty description="登录功能即将上线" image-type="search" />
+    <wd-status-tip status="empty" title="登录功能即将上线" />
   </view>
 </template>
 

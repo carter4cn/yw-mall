@@ -4,7 +4,7 @@
       <wd-skeleton :row="6" />
     </view>
     <view v-else-if="!shop">
-      <wd-empty description="店铺不存在" />
+      <wd-status-tip status="empty" title="店铺不存在" />
     </view>
     <template v-else>
       <!-- Shop header -->
@@ -40,7 +40,7 @@
         <wd-skeleton :row="4" />
       </view>
       <view v-else-if="products.length === 0">
-        <wd-empty description="暂无商品" />
+        <wd-status-tip status="empty" title="暂无商品" />
       </view>
       <view v-else class="products-grid">
         <view
