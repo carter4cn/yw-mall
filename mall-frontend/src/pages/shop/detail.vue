@@ -58,13 +58,14 @@
           <text class="product-price">¥{{ (p.price / 100).toFixed(2) }}</text>
         </view>
       </view>
-      <wd-load-more :status="loadMoreStatus" @loadmore="loadMoreProducts" />
+      <wd-loadmore :state="loadMoreStatus" />
     </template>
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { onReachBottom } from '@dcloudio/uni-app'
 import { getShopDetail, isFollowing, followShop, unfollowShop, getShopProducts } from '@/api/shop'
 import { showError } from '@/api/request'
 import { useUserStore } from '@/stores/user'
@@ -81,7 +82,7 @@ const products = ref<ProductDetailResp[]>([])
 const productPage = ref(1)
 const productTotal = ref(0)
 const productsLoading = ref(false)
-const loadMoreStatus = ref<'loadmore' | 'loading' | 'nomore'>('loadmore')
+const loadMoreStatus = ref<'loading' | 'finished'>('loading')
 
 function goProduct(id: number) {
   uni.navigateTo({ url: `/pages/product/detail?id=${id}` })
@@ -111,7 +112,7 @@ async function fetchProducts(p: number) {
     const resp = await getShopProducts(shopId.value, p, 10)
     products.value = p === 1 ? (resp.products ?? []) : [...products.value, ...(resp.products ?? [])]
     productTotal.value = resp.total ?? 0
-    loadMoreStatus.value = products.value.length >= productTotal.value ? 'nomore' : 'loadmore'
+    loadMoreStatus.value = products.value.length >= productTotal.value ? 'finished' : 'loading'
   } catch (err) {
     showError(err)
   } finally {
@@ -120,11 +121,12 @@ async function fetchProducts(p: number) {
 }
 
 async function loadMoreProducts() {
-  if (loadMoreStatus.value !== 'loadmore' || productsLoading.value) return
-  loadMoreStatus.value = 'loading'
+  if (loadMoreStatus.value === 'finished' || productsLoading.value) return
   productPage.value++
   await fetchProducts(productPage.value)
 }
+
+onReachBottom(() => loadMoreProducts())
 
 onMounted(async () => {
   const pages = getCurrentPages()

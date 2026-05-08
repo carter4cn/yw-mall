@@ -29,15 +29,13 @@
       </view>
     </view>
 
-    <wd-load-more
-      :status="loadMoreStatus"
-      @loadmore="loadMore"
-    />
+    <wd-loadmore :state="loadMoreStatus" />
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { onReachBottom } from '@dcloudio/uni-app'
 import { listShops } from '@/api/shop'
 import { showError } from '@/api/request'
 import type { ShopItem } from '@/types/api'
@@ -46,7 +44,7 @@ const shops = ref<ShopItem[]>([])
 const page = ref(1)
 const total = ref(0)
 const loading = ref(false)
-const loadMoreStatus = ref<'loadmore' | 'loading' | 'nomore'>('loadmore')
+const loadMoreStatus = ref<'loading' | 'finished'>('loading')
 
 function goDetail(id: number) {
   uni.navigateTo({ url: `/pages/shop/detail?id=${id}` })
@@ -58,7 +56,7 @@ async function fetchPage(p: number) {
     const resp = await listShops(p, 10)
     shops.value = p === 1 ? (resp.shops ?? []) : [...shops.value, ...(resp.shops ?? [])]
     total.value = resp.total ?? 0
-    loadMoreStatus.value = shops.value.length >= total.value ? 'nomore' : 'loadmore'
+    loadMoreStatus.value = shops.value.length >= total.value ? 'finished' : 'loading'
   } catch (err) {
     showError(err)
   } finally {
@@ -67,12 +65,12 @@ async function fetchPage(p: number) {
 }
 
 async function loadMore() {
-  if (loadMoreStatus.value !== 'loadmore' || loading.value) return
-  loadMoreStatus.value = 'loading'
+  if (loadMoreStatus.value === 'finished' || loading.value) return
   page.value++
   await fetchPage(page.value)
 }
 
+onReachBottom(() => loadMore())
 onMounted(() => fetchPage(1))
 </script>
 
