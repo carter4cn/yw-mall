@@ -226,11 +226,13 @@ pnpm dev:h5
 ### 8.1 Unauthenticated State
 - [ ] My tab shows empty state with "登录后查看个人信息"
 - [ ] "去登录" button navigates to login page
-- [ ] Login page shows username + password fields and disabled submit button when empty
+- [ ] Login page shows username + password fields and disabled submit button when either field is empty
 
 ### 8.2 Login Flow
 - [ ] Valid credentials → token stored, navigates back or to home
-- [ ] Invalid credentials → error toast shown (from API error response)
+  - [ ] Login from My tab → navigates back (back stack exists)
+  - [ ] Login from cold start → relaunches to home tab
+- [ ] Invalid credentials → error toast shown
 - [ ] Submit button disabled while request is in-flight
 
 ### 8.3 Authenticated State (My Tab)
@@ -239,7 +241,10 @@ pnpm dev:h5
 - [ ] "我的订单" row navigates to /pages/order/list
 - [ ] "我的地址" row navigates to /pages/address/list
 - [ ] "关注的店铺" row navigates to /pages/shop/followed
+- [ ] After login from My tab, switching back shows authenticated state immediately (no refresh needed — validates onShow)
 
 ### 8.4 Logout
 - [ ] "退出登录" clears auth state and relaunches to home
 - [ ] My tab reverts to unauthenticated state after logout
+
+---

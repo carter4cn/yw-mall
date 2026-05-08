@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { login } from '@/api/user'
+import { showError } from '@/api/request'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
@@ -52,8 +53,8 @@ async function handleLogin() {
     } else {
       uni.reLaunch({ url: '/pages/index/index' })
     }
-  } catch {
-    // error toast shown by request.ts showError()
+  } catch (err) {
+    showError(err)
   } finally {
     loading.value = false
   }
