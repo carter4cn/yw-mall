@@ -45,3 +45,11 @@ export interface ApiError {
   code: number
   message: string
 }
+
+export interface UserInfoResp {
+  id: number
+  username: string
+  phone: string
+  avatar: string
+  createTime: number
+}
