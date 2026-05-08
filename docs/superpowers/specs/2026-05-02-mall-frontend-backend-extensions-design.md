@@ -48,8 +48,8 @@
 2011 UserAddressForbidden
 2012 UserAddressLimit       // ≥20 条上限
 5004 OrderAddressRequired   // CreateOrder 时 address_id == 0
-6001 ShopNotFound
-6002 ShopFollowAlreadyExists  // 重复 follow
+6010 ShopNotFound           // 6001/6002 已被 payment 占用，shop 用 6010+
+6011 ShopFollowAlreadyExists
 ```
 
 ---
