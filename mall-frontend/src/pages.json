@@ -45,6 +45,10 @@
     {
       "path": "pages/shop/followed",
       "style": { "navigationBarTitleText": "关注的店铺" }
+    },
+    {
+      "path": "pages/cart/index",
+      "style": { "navigationBarTitleText": "购物车" }
     }
   ],
   "tabBar": {
@@ -58,7 +62,7 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/cart/index",
         "text": "购物车"
       },
       {

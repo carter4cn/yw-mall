@@ -49,7 +49,14 @@ async function handleLogin() {
     userStore.setToken(res.token, res.id)
     const pages = getCurrentPages()
     if (pages.length > 1) {
-      uni.navigateBack()
+      const prevPage = pages[pages.length - 2] as any
+      const prevRoute: string = prevPage?.route ?? ''
+      const tabRoutes = ['pages/index/index', 'pages/my/index', 'pages/cart/index']
+      if (tabRoutes.includes(prevRoute)) {
+        uni.switchTab({ url: `/${prevRoute}` })
+      } else {
+        uni.navigateBack()
+      }
     } else {
       uni.reLaunch({ url: '/pages/index/index' })
     }
