@@ -29,6 +29,22 @@
     {
       "path": "pages/login/index",
       "style": { "navigationBarTitleText": "登录" }
+    },
+    {
+      "path": "pages/my/index",
+      "style": { "navigationBarTitleText": "我的" }
+    },
+    {
+      "path": "pages/order/list",
+      "style": { "navigationBarTitleText": "我的订单" }
+    },
+    {
+      "path": "pages/address/list",
+      "style": { "navigationBarTitleText": "我的地址" }
+    },
+    {
+      "path": "pages/shop/followed",
+      "style": { "navigationBarTitleText": "关注的店铺" }
     }
   ],
   "tabBar": {
@@ -46,7 +62,7 @@
         "text": "购物车"
       },
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/my/index",
         "text": "我的"
       }
     ]
