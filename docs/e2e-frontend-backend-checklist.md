@@ -196,3 +196,25 @@ bash scripts/check-seed.sh
 - [ ] user_addresses count ≥ 5
 - [ ] orders count ≥ 5
 - [ ] orders with address_id > 0 ≥ 5
+
+---
+
+## 7. Frontend UI Smoke (H5)
+
+Start the dev server:
+```bash
+cd mall-frontend
+pnpm dev:h5
+# Opens at http://localhost:5173
+```
+
+- [ ] Dev server starts without errors; browser opens at `http://localhost:5173`
+- [ ] **Home page:** Search bar visible; recommended shops horizontal strip loads (≥1 shop card); featured products grid loads (≥1 product card)
+- [ ] **Home → search:** Type "手机" in search bar, press Enter → navigates to Product List with results
+- [ ] **Home → Shop Detail:** Tap a shop card → Shop Detail page loads with banner, name, rating, follow button, product grid
+- [ ] **Shop Detail follow:** Tap "关注" without login → redirects to login placeholder page
+- [ ] **Shop List:** Navigate to `/pages/shop/list` directly → list of shops visible; scroll to bottom → more shops load
+- [ ] **Product List (browse):** Navigate to `/pages/product/list` → 2-column product grid visible
+- [ ] **Product Detail:** Tap a product card from home → detail page loads; price shown as ¥xx.xx; "加入购物车" button visible
+- [ ] **Add to cart:** Tap "加入购物车" → toast "已加入购物车" appears
+- [ ] **Build gate:** `pnpm run build:h5` exits 0 with zero TypeScript errors
