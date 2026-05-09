@@ -53,6 +53,7 @@ SERVICES=(
     "mall-order-rpc:order.go:order-rpc:9003"
     "mall-cart-rpc:cart.go:cart-rpc:9004"
     "mall-payment-rpc:payment.go:payment-rpc:9005"
+    "mall-shop-rpc:shop.go:shop-rpc:9017"
     "mall-rule-rpc:rule.go:rule-rpc:9011"
     "mall-risk-rpc:risk.go:risk-rpc:9014"
     "mall-review-rpc:review.go:review-rpc:9015"
@@ -116,7 +117,7 @@ infra_up() {
 bootstrap_dbs() {
     log "Creating databases..."
     for db in mall_user mall_product mall_order mall_cart mall_payment \
-              mall_activity mall_rule mall_workflow mall_reward mall_risk \
+              mall_shop mall_activity mall_rule mall_workflow mall_reward mall_risk \
               mall_review mall_logistics; do
         $PROXY_MYSQL -e "CREATE DATABASE IF NOT EXISTS $db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;" 2>/dev/null \
             && ok "$db"
@@ -136,6 +137,7 @@ bootstrap_dbs() {
         [mall_risk]=mall-risk-rpc/sql/risk.sql
         [mall_review]=mall-review-rpc/sql/review.sql
         [mall_logistics]=mall-logistics-rpc/sql/logistics.sql
+        [mall_shop]=mall-shop-rpc/sql/shop.sql
     )
     for db in "${!DDL[@]}"; do
         local f="$BASE_DIR/${DDL[$db]}"
@@ -183,6 +185,34 @@ bootstrap_seed() {
         warn "activity-rpc not running yet; skipping"
     else
         ( cd "$BASE_DIR/mall-activity-rpc" && go run cmd/seed/main.go ) 2>&1 | sed 's/^/  /' || warn "activity seed had errors"
+    fi
+
+    log "Seeding shops..."
+    if ! port_listener_pid 9017 >/dev/null 2>&1; then
+        warn "shop-rpc not running yet; skipping shop seed"
+    else
+        ( cd "$BASE_DIR/mall-shop-rpc" && go run cmd/seed/main.go ) 2>&1 | sed 's/^/  /' || warn "shop seed had errors"
+    fi
+
+    log "Seeding products..."
+    if ! port_listener_pid 9002 >/dev/null 2>&1; then
+        warn "product-rpc not running yet; skipping product seed"
+    else
+        ( cd "$BASE_DIR/mall-product-rpc" && go run cmd/seed/main.go ) 2>&1 | sed 's/^/  /' || warn "product seed had errors"
+    fi
+
+    log "Seeding user addresses..."
+    if ! port_listener_pid 19001 >/dev/null 2>&1; then
+        warn "user-rpc not running yet; skipping address seed"
+    else
+        ( cd "$BASE_DIR/mall-user-rpc" && go run cmd/seed/main.go ) 2>&1 | sed 's/^/  /' || warn "address seed had errors"
+    fi
+
+    log "Seeding sample orders..."
+    if ! port_listener_pid 9003 >/dev/null 2>&1; then
+        warn "order-rpc not running yet; skipping order seed"
+    else
+        ( cd "$BASE_DIR/mall-order-rpc" && go run cmd/seed/main.go ) 2>&1 | sed 's/^/  /' || warn "order seed had errors"
     fi
 
     touch "$BOOTSTRAP_MARKER"
@@ -255,7 +285,7 @@ do_nuke() {
     services_stop
     log "Dropping all mall_* databases..."
     for db in mall_user mall_product mall_order mall_cart mall_payment \
-              mall_activity mall_rule mall_workflow mall_reward mall_risk \
+              mall_shop mall_activity mall_rule mall_workflow mall_reward mall_risk \
               mall_review mall_logistics; do
         $PROXY_MYSQL -e "DROP DATABASE IF EXISTS $db" 2>/dev/null && ok "dropped $db"
     done

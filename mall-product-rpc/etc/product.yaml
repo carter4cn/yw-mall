@@ -9,3 +9,9 @@ DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_product?charset=utf8mb
 
 Cache:
   - Host: 127.0.0.1:6379
+
+ShopRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: shop.rpc

@@ -29,6 +29,7 @@ type CreateProductReq struct {
 	Stock         int64                  `protobuf:"varint,4,opt,name=stock,proto3" json:"stock,omitempty"`
 	CategoryId    int64                  `protobuf:"varint,5,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
 	Images        string                 `protobuf:"bytes,6,opt,name=images,proto3" json:"images,omitempty"`
+	ShopId        int64                  `protobuf:"varint,7,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -103,6 +104,13 @@ func (x *CreateProductReq) GetImages() string {
 		return x.Images
 	}
 	return ""
+}
+
+func (x *CreateProductReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
 }
 
 type CreateProductResp struct {
@@ -204,6 +212,7 @@ type GetProductResp struct {
 	Images        string                 `protobuf:"bytes,7,opt,name=images,proto3" json:"images,omitempty"`
 	Status        int32                  `protobuf:"varint,8,opt,name=status,proto3" json:"status,omitempty"`
 	CreateTime    int64                  `protobuf:"varint,9,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	ShopId        int64                  `protobuf:"varint,11,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -297,6 +306,13 @@ func (x *GetProductResp) GetStatus() int32 {
 func (x *GetProductResp) GetCreateTime() int64 {
 	if x != nil {
 		return x.CreateTime
+	}
+	return 0
+}
+
+func (x *GetProductResp) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
 	}
 	return 0
 }
@@ -613,11 +629,296 @@ func (x *SearchProductsResp) GetTotal() int64 {
 	return 0
 }
 
+// ===== SKU lock (DTM SAGA branches) =====
+type LockSkuReq struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ProductId      int64                  `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	UserId         int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Quantity       int32                  `protobuf:"varint,3,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	IdempotencyKey string                 `protobuf:"bytes,4,opt,name=idempotency_key,json=idempotencyKey,proto3" json:"idempotency_key,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *LockSkuReq) Reset() {
+	*x = LockSkuReq{}
+	mi := &file_product_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LockSkuReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LockSkuReq) ProtoMessage() {}
+
+func (x *LockSkuReq) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LockSkuReq.ProtoReflect.Descriptor instead.
+func (*LockSkuReq) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *LockSkuReq) GetProductId() int64 {
+	if x != nil {
+		return x.ProductId
+	}
+	return 0
+}
+
+func (x *LockSkuReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *LockSkuReq) GetQuantity() int32 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *LockSkuReq) GetIdempotencyKey() string {
+	if x != nil {
+		return x.IdempotencyKey
+	}
+	return ""
+}
+
+type LockSkuResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+	StockLeft     int64                  `protobuf:"varint,2,opt,name=stock_left,json=stockLeft,proto3" json:"stock_left,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LockSkuResp) Reset() {
+	*x = LockSkuResp{}
+	mi := &file_product_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LockSkuResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LockSkuResp) ProtoMessage() {}
+
+func (x *LockSkuResp) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LockSkuResp.ProtoReflect.Descriptor instead.
+func (*LockSkuResp) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *LockSkuResp) GetOk() bool {
+	if x != nil {
+		return x.Ok
+	}
+	return false
+}
+
+func (x *LockSkuResp) GetStockLeft() int64 {
+	if x != nil {
+		return x.StockLeft
+	}
+	return 0
+}
+
+type UnlockSkuReq struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ProductId      int64                  `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	UserId         int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Quantity       int32                  `protobuf:"varint,3,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	IdempotencyKey string                 `protobuf:"bytes,4,opt,name=idempotency_key,json=idempotencyKey,proto3" json:"idempotency_key,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UnlockSkuReq) Reset() {
+	*x = UnlockSkuReq{}
+	mi := &file_product_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UnlockSkuReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnlockSkuReq) ProtoMessage() {}
+
+func (x *UnlockSkuReq) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnlockSkuReq.ProtoReflect.Descriptor instead.
+func (*UnlockSkuReq) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UnlockSkuReq) GetProductId() int64 {
+	if x != nil {
+		return x.ProductId
+	}
+	return 0
+}
+
+func (x *UnlockSkuReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *UnlockSkuReq) GetQuantity() int32 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *UnlockSkuReq) GetIdempotencyKey() string {
+	if x != nil {
+		return x.IdempotencyKey
+	}
+	return ""
+}
+
+type UnlockSkuResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UnlockSkuResp) Reset() {
+	*x = UnlockSkuResp{}
+	mi := &file_product_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UnlockSkuResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnlockSkuResp) ProtoMessage() {}
+
+func (x *UnlockSkuResp) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnlockSkuResp.ProtoReflect.Descriptor instead.
+func (*UnlockSkuResp) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{13}
+}
+
+type ListShopProductsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopProductsReq) Reset() {
+	*x = ListShopProductsReq{}
+	mi := &file_product_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopProductsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopProductsReq) ProtoMessage() {}
+
+func (x *ListShopProductsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopProductsReq.ProtoReflect.Descriptor instead.
+func (*ListShopProductsReq) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ListShopProductsReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *ListShopProductsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListShopProductsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
 var File_product_proto protoreflect.FileDescriptor
 
 const file_product_proto_rawDesc = "" +
 	"\n" +
-	"\rproduct.proto\x12\aproduct\"\xad\x01\n" +
+	"\rproduct.proto\x12\aproduct\"\xc6\x01\n" +
 	"\x10CreateProductReq\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
@@ -625,11 +926,12 @@ const file_product_proto_rawDesc = "" +
 	"\x05stock\x18\x04 \x01(\x03R\x05stock\x12\x1f\n" +
 	"\vcategory_id\x18\x05 \x01(\x03R\n" +
 	"categoryId\x12\x16\n" +
-	"\x06images\x18\x06 \x01(\tR\x06images\"#\n" +
+	"\x06images\x18\x06 \x01(\tR\x06images\x12\x17\n" +
+	"\ashop_id\x18\a \x01(\x03R\x06shopId\"#\n" +
 	"\x11CreateProductResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x1f\n" +
 	"\rGetProductReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\xf4\x01\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\x8d\x02\n" +
 	"\x0eGetProductResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -641,7 +943,8 @@ const file_product_proto_rawDesc = "" +
 	"\x06images\x18\a \x01(\tR\x06images\x12\x16\n" +
 	"\x06status\x18\b \x01(\x05R\x06status\x12\x1f\n" +
 	"\vcreate_time\x18\t \x01(\x03R\n" +
-	"createTime\"c\n" +
+	"createTime\x12\x17\n" +
+	"\ashop_id\x18\v \x01(\x03R\x06shopId\"c\n" +
 	"\x0fListProductsReq\x12\x1f\n" +
 	"\vcategory_id\x18\x01 \x01(\x03R\n" +
 	"categoryId\x12\x12\n" +
@@ -660,14 +963,39 @@ const file_product_proto_rawDesc = "" +
 	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"_\n" +
 	"\x12SearchProductsResp\x123\n" +
 	"\bproducts\x18\x01 \x03(\v2\x17.product.GetProductRespR\bproducts\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x03R\x05total2\xe2\x02\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\x89\x01\n" +
+	"\n" +
+	"LockSkuReq\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\x03R\tproductId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1a\n" +
+	"\bquantity\x18\x03 \x01(\x05R\bquantity\x12'\n" +
+	"\x0fidempotency_key\x18\x04 \x01(\tR\x0eidempotencyKey\"<\n" +
+	"\vLockSkuResp\x12\x0e\n" +
+	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x1d\n" +
+	"\n" +
+	"stock_left\x18\x02 \x01(\x03R\tstockLeft\"\x8b\x01\n" +
+	"\fUnlockSkuReq\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\x03R\tproductId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1a\n" +
+	"\bquantity\x18\x03 \x01(\x05R\bquantity\x12'\n" +
+	"\x0fidempotency_key\x18\x04 \x01(\tR\x0eidempotencyKey\"\x0f\n" +
+	"\rUnlockSkuResp\"_\n" +
+	"\x13ListShopProductsReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x12\n" +
+	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize2\xa1\x04\n" +
 	"\aProduct\x12F\n" +
 	"\rCreateProduct\x12\x19.product.CreateProductReq\x1a\x1a.product.CreateProductResp\x12=\n" +
 	"\n" +
 	"GetProduct\x12\x16.product.GetProductReq\x1a\x17.product.GetProductResp\x12C\n" +
-	"\fListProducts\x12\x18.product.ListProductsReq\x1a\x19.product.ListProductsResp\x12@\n" +
+	"\fListProducts\x12\x18.product.ListProductsReq\x1a\x19.product.ListProductsResp\x12K\n" +
+	"\x10ListShopProducts\x12\x1c.product.ListShopProductsReq\x1a\x19.product.ListProductsResp\x12@\n" +
 	"\vUpdateStock\x12\x17.product.UpdateStockReq\x1a\x18.product.UpdateStockResp\x12I\n" +
-	"\x0eSearchProducts\x12\x1a.product.SearchProductsReq\x1a\x1b.product.SearchProductsRespB\vZ\t./productb\x06proto3"
+	"\x0eSearchProducts\x12\x1a.product.SearchProductsReq\x1a\x1b.product.SearchProductsResp\x124\n" +
+	"\aLockSku\x12\x13.product.LockSkuReq\x1a\x14.product.LockSkuResp\x12:\n" +
+	"\tUnlockSku\x12\x15.product.UnlockSkuReq\x1a\x16.product.UnlockSkuRespB\vZ\t./productb\x06proto3"
 
 var (
 	file_product_proto_rawDescOnce sync.Once
@@ -681,37 +1009,48 @@ func file_product_proto_rawDescGZIP() []byte {
 	return file_product_proto_rawDescData
 }
 
-var file_product_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_product_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_product_proto_goTypes = []any{
-	(*CreateProductReq)(nil),   // 0: product.CreateProductReq
-	(*CreateProductResp)(nil),  // 1: product.CreateProductResp
-	(*GetProductReq)(nil),      // 2: product.GetProductReq
-	(*GetProductResp)(nil),     // 3: product.GetProductResp
-	(*ListProductsReq)(nil),    // 4: product.ListProductsReq
-	(*ListProductsResp)(nil),   // 5: product.ListProductsResp
-	(*UpdateStockReq)(nil),     // 6: product.UpdateStockReq
-	(*UpdateStockResp)(nil),    // 7: product.UpdateStockResp
-	(*SearchProductsReq)(nil),  // 8: product.SearchProductsReq
-	(*SearchProductsResp)(nil), // 9: product.SearchProductsResp
+	(*CreateProductReq)(nil),    // 0: product.CreateProductReq
+	(*CreateProductResp)(nil),   // 1: product.CreateProductResp
+	(*GetProductReq)(nil),       // 2: product.GetProductReq
+	(*GetProductResp)(nil),      // 3: product.GetProductResp
+	(*ListProductsReq)(nil),     // 4: product.ListProductsReq
+	(*ListProductsResp)(nil),    // 5: product.ListProductsResp
+	(*UpdateStockReq)(nil),      // 6: product.UpdateStockReq
+	(*UpdateStockResp)(nil),     // 7: product.UpdateStockResp
+	(*SearchProductsReq)(nil),   // 8: product.SearchProductsReq
+	(*SearchProductsResp)(nil),  // 9: product.SearchProductsResp
+	(*LockSkuReq)(nil),          // 10: product.LockSkuReq
+	(*LockSkuResp)(nil),         // 11: product.LockSkuResp
+	(*UnlockSkuReq)(nil),        // 12: product.UnlockSkuReq
+	(*UnlockSkuResp)(nil),       // 13: product.UnlockSkuResp
+	(*ListShopProductsReq)(nil), // 14: product.ListShopProductsReq
 }
 var file_product_proto_depIdxs = []int32{
-	3, // 0: product.ListProductsResp.products:type_name -> product.GetProductResp
-	3, // 1: product.SearchProductsResp.products:type_name -> product.GetProductResp
-	0, // 2: product.Product.CreateProduct:input_type -> product.CreateProductReq
-	2, // 3: product.Product.GetProduct:input_type -> product.GetProductReq
-	4, // 4: product.Product.ListProducts:input_type -> product.ListProductsReq
-	6, // 5: product.Product.UpdateStock:input_type -> product.UpdateStockReq
-	8, // 6: product.Product.SearchProducts:input_type -> product.SearchProductsReq
-	1, // 7: product.Product.CreateProduct:output_type -> product.CreateProductResp
-	3, // 8: product.Product.GetProduct:output_type -> product.GetProductResp
-	5, // 9: product.Product.ListProducts:output_type -> product.ListProductsResp
-	7, // 10: product.Product.UpdateStock:output_type -> product.UpdateStockResp
-	9, // 11: product.Product.SearchProducts:output_type -> product.SearchProductsResp
-	7, // [7:12] is the sub-list for method output_type
-	2, // [2:7] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3,  // 0: product.ListProductsResp.products:type_name -> product.GetProductResp
+	3,  // 1: product.SearchProductsResp.products:type_name -> product.GetProductResp
+	0,  // 2: product.Product.CreateProduct:input_type -> product.CreateProductReq
+	2,  // 3: product.Product.GetProduct:input_type -> product.GetProductReq
+	4,  // 4: product.Product.ListProducts:input_type -> product.ListProductsReq
+	14, // 5: product.Product.ListShopProducts:input_type -> product.ListShopProductsReq
+	6,  // 6: product.Product.UpdateStock:input_type -> product.UpdateStockReq
+	8,  // 7: product.Product.SearchProducts:input_type -> product.SearchProductsReq
+	10, // 8: product.Product.LockSku:input_type -> product.LockSkuReq
+	12, // 9: product.Product.UnlockSku:input_type -> product.UnlockSkuReq
+	1,  // 10: product.Product.CreateProduct:output_type -> product.CreateProductResp
+	3,  // 11: product.Product.GetProduct:output_type -> product.GetProductResp
+	5,  // 12: product.Product.ListProducts:output_type -> product.ListProductsResp
+	5,  // 13: product.Product.ListShopProducts:output_type -> product.ListProductsResp
+	7,  // 14: product.Product.UpdateStock:output_type -> product.UpdateStockResp
+	9,  // 15: product.Product.SearchProducts:output_type -> product.SearchProductsResp
+	11, // 16: product.Product.LockSku:output_type -> product.LockSkuResp
+	13, // 17: product.Product.UnlockSku:output_type -> product.UnlockSkuResp
+	10, // [10:18] is the sub-list for method output_type
+	2,  // [2:10] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_product_proto_init() }
@@ -725,7 +1064,7 @@ func file_product_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_proto_rawDesc), len(file_product_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

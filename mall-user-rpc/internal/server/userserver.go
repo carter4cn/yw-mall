@@ -42,3 +42,48 @@ func (s *UserServer) UpdateUser(ctx context.Context, in *user.UpdateUserReq) (*u
 	l := logic.NewUpdateUserLogic(ctx, s.svcCtx)
 	return l.UpdateUser(in)
 }
+
+func (s *UserServer) AddPoints(ctx context.Context, in *user.AddPointsReq) (*user.AddPointsResp, error) {
+	l := logic.NewAddPointsLogic(ctx, s.svcCtx)
+	return l.AddPoints(in)
+}
+
+func (s *UserServer) DeductPoints(ctx context.Context, in *user.DeductPointsReq) (*user.DeductPointsResp, error) {
+	l := logic.NewDeductPointsLogic(ctx, s.svcCtx)
+	return l.DeductPoints(in)
+}
+
+func (s *UserServer) AddAddress(ctx context.Context, in *user.AddAddressReq) (*user.AddAddressResp, error) {
+	l := logic.NewAddAddressLogic(ctx, s.svcCtx)
+	return l.AddAddress(in)
+}
+
+func (s *UserServer) UpdateAddress(ctx context.Context, in *user.UpdateAddressReq) (*user.OkResp, error) {
+	l := logic.NewUpdateAddressLogic(ctx, s.svcCtx)
+	return l.UpdateAddress(in)
+}
+
+func (s *UserServer) DeleteAddress(ctx context.Context, in *user.DeleteAddressReq) (*user.OkResp, error) {
+	l := logic.NewDeleteAddressLogic(ctx, s.svcCtx)
+	return l.DeleteAddress(in)
+}
+
+func (s *UserServer) SetDefaultAddress(ctx context.Context, in *user.SetDefaultAddressReq) (*user.OkResp, error) {
+	l := logic.NewSetDefaultAddressLogic(ctx, s.svcCtx)
+	return l.SetDefaultAddress(in)
+}
+
+func (s *UserServer) ListAddresses(ctx context.Context, in *user.ListAddressesReq) (*user.ListAddressesResp, error) {
+	l := logic.NewListAddressesLogic(ctx, s.svcCtx)
+	return l.ListAddresses(in)
+}
+
+func (s *UserServer) GetAddress(ctx context.Context, in *user.GetAddressReq) (*user.Address, error) {
+	l := logic.NewGetAddressLogic(ctx, s.svcCtx)
+	return l.GetAddress(in)
+}
+
+func (s *UserServer) GetDefaultAddress(ctx context.Context, in *user.GetDefaultAddressReq) (*user.Address, error) {
+	l := logic.NewGetDefaultAddressLogic(ctx, s.svcCtx)
+	return l.GetDefaultAddress(in)
+}

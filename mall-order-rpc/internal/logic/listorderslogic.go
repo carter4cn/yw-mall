@@ -52,18 +52,18 @@ func (l *ListOrdersLogic) ListOrders(in *order.ListOrdersReq) (*order.ListOrders
 	}
 
 	listQuery := fmt.Sprintf(
-		"SELECT `id`, `order_no`, `user_id`, `total_amount`, `status`, `create_time`, `update_time` FROM `order` WHERE %s ORDER BY `id` DESC LIMIT ? OFFSET ?",
+		"SELECT `id`, `order_no`, `user_id`, `total_amount`, `status`, `create_time`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail` FROM `order` WHERE %s ORDER BY `id` DESC LIMIT ? OFFSET ?",
 		whereClause,
 	)
 	listArgs := append(args, pageSize, offset)
 
-	var orders []*model.Order
-	if err := l.svcCtx.SqlConn.QueryRowsCtx(l.ctx, &orders, listQuery, listArgs...); err != nil {
+	var rows []orderRow
+	if err := l.svcCtx.SqlConn.QueryRowsCtx(l.ctx, &rows, listQuery, listArgs...); err != nil {
 		return nil, err
 	}
 
-	pbOrders := make([]*order.GetOrderResp, 0, len(orders))
-	for _, o := range orders {
+	pbOrders := make([]*order.GetOrderResp, 0, len(rows))
+	for _, o := range rows {
 		var items []*model.OrderItem
 		if err := l.svcCtx.SqlConn.QueryRowsCtx(l.ctx, &items,
 			"SELECT `id`, `order_id`, `product_id`, `product_name`, `price`, `quantity`, `create_time` FROM `order_item` WHERE `order_id` = ?",
@@ -83,13 +83,20 @@ func (l *ListOrdersLogic) ListOrders(in *order.ListOrdersReq) (*order.ListOrders
 		}
 
 		pbOrders = append(pbOrders, &order.GetOrderResp{
-			Id:          int64(o.Id),
-			OrderNo:     o.OrderNo,
-			UserId:      int64(o.UserId),
-			TotalAmount: o.TotalAmount,
-			Status:      int32(o.Status),
-			Items:       pbItems,
-			CreateTime:  o.CreateTime.Unix(),
+			Id:               int64(o.Id),
+			OrderNo:          o.OrderNo,
+			UserId:           int64(o.UserId),
+			TotalAmount:      o.TotalAmount,
+			Status:           int32(o.Status),
+			Items:            pbItems,
+			CreateTime:       o.CreateTime.Unix(),
+			AddressId:        o.AddressId,
+			ReceiverName:     o.ReceiverName,
+			ReceiverPhone:    o.ReceiverPhone,
+			ReceiverProvince: o.ReceiverProvince,
+			ReceiverCity:     o.ReceiverCity,
+			ReceiverDistrict: o.ReceiverDistrict,
+			ReceiverDetail:   o.ReceiverDetail,
 		})
 	}
 

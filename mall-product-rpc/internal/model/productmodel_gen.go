@@ -48,6 +48,7 @@ type (
 		Stock       int64          `db:"stock"`
 		CategoryId  uint64         `db:"category_id"`
 		Images      string         `db:"images"`
+		ShopId      uint64         `db:"shop_id"`
 		Status      int64          `db:"status"` // 1=on, 0=off
 		CreateTime  time.Time      `db:"create_time"`
 		UpdateTime  time.Time      `db:"update_time"`
@@ -90,8 +91,8 @@ func (m *defaultProductModel) FindOne(ctx context.Context, id uint64) (*Product,
 func (m *defaultProductModel) Insert(ctx context.Context, data *Product) (sql.Result, error) {
 	productIdKey := fmt.Sprintf("%s%v", cacheProductIdPrefix, data.Id)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?)", m.table, productRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.Name, data.Description, data.Price, data.Stock, data.CategoryId, data.Images, data.Status)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?)", m.table, productRowsExpectAutoSet)
+		return conn.ExecCtx(ctx, query, data.Name, data.Description, data.Price, data.Stock, data.CategoryId, data.Images, data.ShopId, data.Status)
 	}, productIdKey)
 	return ret, err
 }
@@ -100,7 +101,7 @@ func (m *defaultProductModel) Update(ctx context.Context, data *Product) error {
 	productIdKey := fmt.Sprintf("%s%v", cacheProductIdPrefix, data.Id)
 	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, productRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, data.Name, data.Description, data.Price, data.Stock, data.CategoryId, data.Images, data.Status, data.Id)
+		return conn.ExecCtx(ctx, query, data.Name, data.Description, data.Price, data.Stock, data.CategoryId, data.Images, data.ShopId, data.Status, data.Id)
 	}, productIdKey)
 	return err
 }

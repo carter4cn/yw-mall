@@ -16,3 +16,9 @@ Kafka:
     - 127.0.0.1:19093
     - 127.0.0.1:19094
   OrderShippedTopic: order.shipped
+
+UserRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc

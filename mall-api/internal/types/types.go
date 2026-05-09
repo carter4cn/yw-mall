@@ -446,3 +446,123 @@ type UserInfoResp struct {
 	Avatar     string `json:"avatar"`
 	CreateTime int64  `json:"createTime"`
 }
+
+type AddressItem struct {
+	Id           int64  `json:"id"`
+	UserId       int64  `json:"userId"`
+	ReceiverName string `json:"receiverName"`
+	Phone        string `json:"phone"`
+	Province     string `json:"province"`
+	City         string `json:"city"`
+	District     string `json:"district"`
+	Detail       string `json:"detail"`
+	IsDefault    bool   `json:"isDefault"`
+	CreateTime   int64  `json:"createTime"`
+}
+
+type AddAddressReq struct {
+	ReceiverName string `json:"receiverName"`
+	Phone        string `json:"phone"`
+	Province     string `json:"province"`
+	City         string `json:"city"`
+	District     string `json:"district"`
+	Detail       string `json:"detail"`
+	IsDefault    bool   `json:"isDefault,optional"`
+}
+
+type AddAddressResp struct {
+	Id int64 `json:"id"`
+}
+
+type UpdateAddressReq struct {
+	Id           int64  `path:"id"`
+	ReceiverName string `json:"receiverName,optional"`
+	Phone        string `json:"phone,optional"`
+	Province     string `json:"province,optional"`
+	City         string `json:"city,optional"`
+	District     string `json:"district,optional"`
+	Detail       string `json:"detail,optional"`
+	IsDefault    bool   `json:"isDefault,optional"`
+}
+
+type DeleteAddressReq struct {
+	Id int64 `path:"id"`
+}
+
+type SetDefaultAddressReq struct {
+	Id int64 `path:"id"`
+}
+
+type ListAddressesResp struct {
+	Addresses []AddressItem `json:"addresses"`
+}
+
+type GetAddressReq struct {
+	Id int64 `path:"id"`
+}
+
+type ShopItem struct {
+	Id           int64   `json:"id"`
+	Name         string  `json:"name"`
+	Logo         string  `json:"logo"`
+	Banner       string  `json:"banner"`
+	Description  string  `json:"description"`
+	Rating       float64 `json:"rating"`
+	ProductCount int32   `json:"productCount"`
+	FollowCount  int32   `json:"followCount"`
+	Status       int32   `json:"status"`
+	CreateTime   int64   `json:"createTime"`
+}
+
+type ShopDetailReq struct {
+	Id int64 `path:"id"`
+}
+
+type ShopDetailResp struct {
+	Shop ShopItem `json:"shop"`
+}
+
+type ShopListReq struct {
+	Page     int32 `form:"page,optional"`
+	PageSize int32 `form:"pageSize,optional"`
+}
+
+type ShopListResp struct {
+	Shops []ShopItem `json:"shops"`
+	Total int64      `json:"total"`
+}
+
+type ShopRecommendedReq struct {
+	Limit int32 `form:"limit,optional"`
+}
+
+type ShopRecommendedResp struct {
+	Shops []ShopItem `json:"shops"`
+}
+
+type ShopProductsReq struct {
+	Id       int64 `path:"id"`
+	Page     int32 `form:"page,optional"`
+	PageSize int32 `form:"pageSize,optional"`
+}
+
+type FollowShopReq struct {
+	Id int64 `path:"id"`
+}
+
+type FollowShopResp struct {
+	Ok bool `json:"ok"`
+}
+
+type IsFollowingReq struct {
+	Id int64 `path:"id"`
+}
+
+type IsFollowingResp struct {
+	Following bool `json:"following"`
+}
+
+type ListFollowedShopsReq struct {
+	Page     int32 `form:"page,optional"`
+	PageSize int32 `form:"pageSize,optional"`
+}

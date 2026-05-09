@@ -1,0 +1,14 @@
+{
+  "name": "Mall",
+  "appid": "",
+  "description": "C端购物H5",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "h5": {
+    "title": "Mall",
+    "router": {
+      "mode": "history"
+    }
+  }
+}

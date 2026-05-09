@@ -38,6 +38,11 @@ func (s *ProductServer) ListProducts(ctx context.Context, in *product.ListProduc
 	return l.ListProducts(in)
 }
 
+func (s *ProductServer) ListShopProducts(ctx context.Context, in *product.ListShopProductsReq) (*product.ListProductsResp, error) {
+	l := logic.NewListShopProductsLogic(ctx, s.svcCtx)
+	return l.ListShopProducts(in)
+}
+
 func (s *ProductServer) UpdateStock(ctx context.Context, in *product.UpdateStockReq) (*product.UpdateStockResp, error) {
 	l := logic.NewUpdateStockLogic(ctx, s.svcCtx)
 	return l.UpdateStock(in)
@@ -46,4 +51,14 @@ func (s *ProductServer) UpdateStock(ctx context.Context, in *product.UpdateStock
 func (s *ProductServer) SearchProducts(ctx context.Context, in *product.SearchProductsReq) (*product.SearchProductsResp, error) {
 	l := logic.NewSearchProductsLogic(ctx, s.svcCtx)
 	return l.SearchProducts(in)
+}
+
+func (s *ProductServer) LockSku(ctx context.Context, in *product.LockSkuReq) (*product.LockSkuResp, error) {
+	l := logic.NewLockSkuLogic(ctx, s.svcCtx)
+	return l.LockSku(in)
+}
+
+func (s *ProductServer) UnlockSku(ctx context.Context, in *product.UnlockSkuReq) (*product.UnlockSkuResp, error) {
+	l := logic.NewUnlockSkuLogic(ctx, s.svcCtx)
+	return l.UnlockSku(in)
 }

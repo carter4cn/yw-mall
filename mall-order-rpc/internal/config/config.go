@@ -13,4 +13,5 @@ type Config struct {
 		Brokers           []string
 		OrderShippedTopic string
 	}
+	UserRpc zrpc.RpcClientConf
 }

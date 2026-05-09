@@ -14,20 +14,44 @@ import (
 )
 
 type (
-	GetUserReq     = user.GetUserReq
-	GetUserResp    = user.GetUserResp
-	LoginReq       = user.LoginReq
-	LoginResp      = user.LoginResp
-	RegisterReq    = user.RegisterReq
-	RegisterResp   = user.RegisterResp
-	UpdateUserReq  = user.UpdateUserReq
-	UpdateUserResp = user.UpdateUserResp
+	AddAddressReq        = user.AddAddressReq
+	AddAddressResp       = user.AddAddressResp
+	AddPointsReq         = user.AddPointsReq
+	AddPointsResp        = user.AddPointsResp
+	Address              = user.Address
+	DeductPointsReq      = user.DeductPointsReq
+	DeductPointsResp     = user.DeductPointsResp
+	DeleteAddressReq     = user.DeleteAddressReq
+	GetAddressReq        = user.GetAddressReq
+	GetDefaultAddressReq = user.GetDefaultAddressReq
+	GetUserReq           = user.GetUserReq
+	GetUserResp          = user.GetUserResp
+	ListAddressesReq     = user.ListAddressesReq
+	ListAddressesResp    = user.ListAddressesResp
+	LoginReq             = user.LoginReq
+	LoginResp            = user.LoginResp
+	OkResp               = user.OkResp
+	RegisterReq          = user.RegisterReq
+	RegisterResp         = user.RegisterResp
+	SetDefaultAddressReq = user.SetDefaultAddressReq
+	UpdateAddressReq     = user.UpdateAddressReq
+	UpdateUserReq        = user.UpdateUserReq
+	UpdateUserResp       = user.UpdateUserResp
 
 	User interface {
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserResp, error)
 		UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
+		AddPoints(ctx context.Context, in *AddPointsReq, opts ...grpc.CallOption) (*AddPointsResp, error)
+		DeductPoints(ctx context.Context, in *DeductPointsReq, opts ...grpc.CallOption) (*DeductPointsResp, error)
+		AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressResp, error)
+		UpdateAddress(ctx context.Context, in *UpdateAddressReq, opts ...grpc.CallOption) (*OkResp, error)
+		DeleteAddress(ctx context.Context, in *DeleteAddressReq, opts ...grpc.CallOption) (*OkResp, error)
+		SetDefaultAddress(ctx context.Context, in *SetDefaultAddressReq, opts ...grpc.CallOption) (*OkResp, error)
+		ListAddresses(ctx context.Context, in *ListAddressesReq, opts ...grpc.CallOption) (*ListAddressesResp, error)
+		GetAddress(ctx context.Context, in *GetAddressReq, opts ...grpc.CallOption) (*Address, error)
+		GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*Address, error)
 	}
 
 	defaultUser struct {
@@ -59,4 +83,49 @@ func (m *defaultUser) GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.
 func (m *defaultUser) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.UpdateUser(ctx, in, opts...)
+}
+
+func (m *defaultUser) AddPoints(ctx context.Context, in *AddPointsReq, opts ...grpc.CallOption) (*AddPointsResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.AddPoints(ctx, in, opts...)
+}
+
+func (m *defaultUser) DeductPoints(ctx context.Context, in *DeductPointsReq, opts ...grpc.CallOption) (*DeductPointsResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.DeductPoints(ctx, in, opts...)
+}
+
+func (m *defaultUser) AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.AddAddress(ctx, in, opts...)
+}
+
+func (m *defaultUser) UpdateAddress(ctx context.Context, in *UpdateAddressReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateAddress(ctx, in, opts...)
+}
+
+func (m *defaultUser) DeleteAddress(ctx context.Context, in *DeleteAddressReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.DeleteAddress(ctx, in, opts...)
+}
+
+func (m *defaultUser) SetDefaultAddress(ctx context.Context, in *SetDefaultAddressReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.SetDefaultAddress(ctx, in, opts...)
+}
+
+func (m *defaultUser) ListAddresses(ctx context.Context, in *ListAddressesReq, opts ...grpc.CallOption) (*ListAddressesResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.ListAddresses(ctx, in, opts...)
+}
+
+func (m *defaultUser) GetAddress(ctx context.Context, in *GetAddressReq, opts ...grpc.CallOption) (*Address, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetAddress(ctx, in, opts...)
+}
+
+func (m *defaultUser) GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*Address, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetDefaultAddress(ctx, in, opts...)
 }

@@ -35,8 +35,28 @@ type productRow struct {
 	Stock       int64          `db:"stock"`
 	CategoryId  uint64         `db:"category_id"`
 	Images      string         `db:"images"`
+	ShopId      uint64         `db:"shop_id"`
 	Status      int64          `db:"status"`
 	CreateTime  time.Time      `db:"create_time"`
+}
+
+func toProductProto(r productRow) *product.GetProductResp {
+	desc := ""
+	if r.Description.Valid {
+		desc = r.Description.String
+	}
+	return &product.GetProductResp{
+		Id:          int64(r.Id),
+		Name:        r.Name,
+		Description: desc,
+		Price:       r.Price,
+		Stock:       r.Stock,
+		CategoryId:  int64(r.CategoryId),
+		Images:      r.Images,
+		ShopId:      int64(r.ShopId),
+		Status:      int32(r.Status),
+		CreateTime:  r.CreateTime.Unix(),
+	}
 }
 
 func (l *ListProductsLogic) ListProducts(in *product.ListProductsReq) (*product.ListProductsResp, error) {
@@ -63,7 +83,7 @@ func (l *ListProductsLogic) ListProducts(in *product.ListProductsReq) (*product.
 			return nil, err
 		}
 
-		query := fmt.Sprintf("SELECT id, name, description, price, stock, category_id, images, status, create_time FROM product WHERE category_id = ? ORDER BY id DESC LIMIT %d OFFSET %d", pageSize, offset)
+		query := fmt.Sprintf("SELECT id, name, description, price, stock, category_id, images, shop_id, status, create_time FROM product WHERE category_id = ? ORDER BY id DESC LIMIT %d OFFSET %d", pageSize, offset)
 		if err := conn.QueryRowsCtx(l.ctx, &rows, query, in.CategoryId); err != nil {
 			return nil, err
 		}
@@ -73,7 +93,7 @@ func (l *ListProductsLogic) ListProducts(in *product.ListProductsReq) (*product.
 			return nil, err
 		}
 
-		query := fmt.Sprintf("SELECT id, name, description, price, stock, category_id, images, status, create_time FROM product ORDER BY id DESC LIMIT %d OFFSET %d", pageSize, offset)
+		query := fmt.Sprintf("SELECT id, name, description, price, stock, category_id, images, shop_id, status, create_time FROM product ORDER BY id DESC LIMIT %d OFFSET %d", pageSize, offset)
 		if err := conn.QueryRowsCtx(l.ctx, &rows, query); err != nil {
 			return nil, err
 		}
@@ -81,21 +101,7 @@ func (l *ListProductsLogic) ListProducts(in *product.ListProductsReq) (*product.
 
 	products := make([]*product.GetProductResp, 0, len(rows))
 	for _, r := range rows {
-		description := ""
-		if r.Description.Valid {
-			description = r.Description.String
-		}
-		products = append(products, &product.GetProductResp{
-			Id:          int64(r.Id),
-			Name:        r.Name,
-			Description: description,
-			Price:       r.Price,
-			Stock:       r.Stock,
-			CategoryId:  int64(r.CategoryId),
-			Images:      r.Images,
-			Status:      int32(r.Status),
-			CreateTime:  r.CreateTime.Unix(),
-		})
+		products = append(products, toProductProto(r))
 	}
 
 	return &product.ListProductsResp{

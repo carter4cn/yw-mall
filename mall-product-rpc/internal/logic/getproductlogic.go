@@ -42,6 +42,7 @@ func (l *GetProductLogic) GetProduct(in *product.GetProductReq) (*product.GetPro
 		Stock:       p.Stock,
 		CategoryId:  int64(p.CategoryId),
 		Images:      p.Images,
+		ShopId:      int64(p.ShopId),
 		Status:      int32(p.Status),
 		CreateTime:  p.CreateTime.Unix(),
 	}, nil
