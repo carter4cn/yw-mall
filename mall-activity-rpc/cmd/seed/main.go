@@ -25,6 +25,7 @@ import (
 var (
 	activityAddr = flag.String("activity", "127.0.0.1:9010", "activity rpc address")
 	dataSource   = flag.String("ds", "proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_activity?charset=utf8mb4&parseTime=true&loc=Local", "MySQL DSN")
+	workflowDS   = flag.String("workflow-ds", "proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_workflow?charset=utf8mb4&parseTime=true&loc=Local", "workflow MySQL DSN")
 	redisAddr    = flag.String("redis", "127.0.0.1:6379", "Redis addr")
 )
 
@@ -59,7 +60,7 @@ func main() {
 	rds := redis.MustNewRedis(redis.RedisConf{Host: *redisAddr, Type: "node"})
 
 	// resolve workflow definition codes → ids by direct DB read on workflow DB
-	wfConn := sqlx.NewMysql("proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_workflow?charset=utf8mb4&parseTime=true&loc=Local")
+	wfConn := sqlx.NewMysql(*workflowDS)
 	wfRows := []struct {
 		Id   int64  `db:"id"`
 		Code string `db:"code"`

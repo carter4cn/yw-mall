@@ -1,6 +1,6 @@
 // Seed binary for mall-order-rpc: creates sample orders in various states.
 // Requires user addresses (user-rpc seed) and products to exist.
-// Idempotent: skips if orders with the same order_no already exist.
+// Idempotent: skips if orders already exist (count >= expected).
 package main
 
 import (
@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"google.golang.org/grpc"
@@ -24,17 +25,18 @@ var (
 	productDS = flag.String("product-ds", "proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_product?charset=utf8mb4&parseTime=true&loc=Local", "product MySQL DSN")
 )
 
-type orderSeed struct {
-	userId     int64
-	finalStatus int32 // status to set after creation (0=keep pending)
+// username-keyed seed specs; user IDs are resolved at runtime.
+type orderSeedSpec struct {
+	username    string
+	finalStatus int32 // 0=keep pending, 1=paid, 2=shipped, 3=completed
 }
 
-var orderSeeds = []orderSeed{
-	{userId: 1, finalStatus: 3}, // completed
-	{userId: 1, finalStatus: 0}, // pending
-	{userId: 2, finalStatus: 2}, // shipped
-	{userId: 2, finalStatus: 1}, // paid
-	{userId: 3, finalStatus: 0}, // pending
+var orderSeedSpecs = []orderSeedSpec{
+	{"alice", 3}, // completed
+	{"alice", 0}, // pending
+	{"bob", 2},   // shipped
+	{"bob", 1},   // paid
+	{"demo", 0},  // pending
 }
 
 func main() {
@@ -46,26 +48,56 @@ func main() {
 	productConn := sqlx.NewMysql(*productDS)
 	orderConn := sqlx.NewMysql(*orderDS)
 
-	// load default addresses per user
+	// resolve usernames → real DB IDs
+	usernames := make([]string, 0, len(orderSeedSpecs))
+	seen := map[string]bool{}
+	for _, s := range orderSeedSpecs {
+		if !seen[s.username] {
+			usernames = append(usernames, "'"+s.username+"'")
+			seen[s.username] = true
+		}
+	}
+	type userRow struct {
+		Id       int64  `db:"id"`
+		Username string `db:"username"`
+	}
+	var userRows []userRow
+	if err := userConn.QueryRowsCtx(ctx, &userRows,
+		"SELECT id, username FROM `user` WHERE username IN ("+strings.Join(usernames, ",")+")",
+	); err != nil {
+		log.Fatalf("load users: %v", err)
+	}
+	userIdByName := make(map[string]int64, len(userRows))
+	for _, r := range userRows {
+		userIdByName[r.Username] = r.Id
+	}
+	fmt.Printf("[lookup] users: %v\n", userIdByName)
+	if len(userIdByName) == 0 {
+		log.Fatal("no users found — run mall-user-rpc/cmd/seed first")
+	}
+
+	// load default addresses for the resolved user IDs
+	realIds := make([]string, 0, len(userIdByName))
+	for _, id := range userIdByName {
+		realIds = append(realIds, fmt.Sprintf("%d", id))
+	}
 	type addrRow struct {
 		Id     int64 `db:"id"`
 		UserId int64 `db:"user_id"`
 	}
 	var addrRows []addrRow
 	if err := userConn.QueryRowsCtx(ctx, &addrRows,
-		"SELECT id, user_id FROM user_address WHERE is_default=1 AND user_id IN (1,2,3)"); err != nil {
+		"SELECT id, user_id FROM user_address WHERE is_default=1 AND user_id IN ("+strings.Join(realIds, ",")+")",
+	); err != nil {
 		log.Fatalf("load addresses: %v", err)
 	}
 	addrByUser := make(map[int64]int64)
 	for _, r := range addrRows {
 		addrByUser[r.UserId] = r.Id
 	}
-	if len(addrByUser) == 0 {
-		log.Fatal("no user addresses found — run mall-user-rpc/cmd/seed first")
-	}
 	fmt.Printf("[lookup] addresses for %d users\n", len(addrByUser))
 
-	// load a few products to use in orders
+	// load a few products
 	type productRow struct {
 		Id    int64  `db:"id"`
 		Name  string `db:"name"`
@@ -81,12 +113,11 @@ func main() {
 	}
 	fmt.Printf("[lookup] %d products loaded\n", len(products))
 
-	// check existing order count
 	var existingCount int64
 	if err := orderConn.QueryRowCtx(ctx, &existingCount, "SELECT COUNT(*) FROM `order`"); err != nil {
 		log.Fatalf("check orders: %v", err)
 	}
-	if existingCount >= int64(len(orderSeeds)) {
+	if existingCount >= int64(len(orderSeedSpecs)) {
 		fmt.Printf("[skip] %d orders already exist\n", existingCount)
 		return
 	}
@@ -99,14 +130,18 @@ func main() {
 	client := order.NewOrderClient(gconn)
 
 	created := 0
-	for i, s := range orderSeeds {
-		addrId, ok := addrByUser[s.userId]
+	for i, s := range orderSeedSpecs {
+		uid, ok := userIdByName[s.username]
 		if !ok {
-			log.Printf("[warn] no default address for user %d, skipping", s.userId)
+			log.Printf("[warn] user %q not found, skipping", s.username)
+			continue
+		}
+		addrId, ok := addrByUser[uid]
+		if !ok {
+			log.Printf("[warn] no default address for user %q (id=%d), skipping", s.username, uid)
 			continue
 		}
 
-		// pick 1-2 products per order
 		itemCount := (i % 2) + 1
 		items := make([]*order.OrderItem, 0, itemCount)
 		for j := 0; j < itemCount && j < len(products); j++ {
@@ -120,17 +155,16 @@ func main() {
 		}
 
 		resp, err := client.CreateOrder(ctx, &order.CreateOrderReq{
-			UserId:    s.userId,
+			UserId:    uid,
 			Items:     items,
 			AddressId: addrId,
 		})
 		if err != nil {
-			log.Fatalf("create order user=%d: %v", s.userId, err)
+			log.Fatalf("create order user=%s: %v", s.username, err)
 		}
-		fmt.Printf("[created] order id=%d no=%s user=%d amount=%d\n",
-			resp.Id, resp.OrderNo, s.userId, resp.TotalAmount)
+		fmt.Printf("[created] order id=%d no=%s user=%s(id=%d) amount=%d\n",
+			resp.Id, resp.OrderNo, s.username, uid, resp.TotalAmount)
 
-		// update to final status if not pending
 		if s.finalStatus > 0 {
 			if _, err := client.UpdateOrderStatus(ctx, &order.UpdateOrderStatusReq{
 				Id:     resp.Id,
