@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Multi-stage build for any yw-mall Go service.
 # Usage: docker build --build-arg SERVICE=mall-user-rpc -t mall-user-rpc .
-FROM golang:1.26-alpine AS builder
+FROM docker.io/library/golang:1.26-alpine AS builder
 WORKDIR /workspace
 
 COPY mall-common                  ./mall-common
@@ -26,7 +26,7 @@ RUN cd /workspace/${SERVICE} && \
     CGO_ENABLED=0 GOOS=linux go build -trimpath -o /out/server . && \
     cp -r etc /out/etc
 
-FROM alpine:3.21
+FROM docker.io/library/alpine:3.21
 RUN apk add --no-cache ca-certificates tzdata
 ENV TZ=Asia/Shanghai
 WORKDIR /app
