@@ -4,12 +4,12 @@ import (
 	"flag"
 	"fmt"
 
+	"mall-common/configcenter"
 	"mall-user-rpc/internal/config"
 	"mall-user-rpc/internal/server"
 	"mall-user-rpc/internal/svc"
 	"mall-user-rpc/user"
 
-	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
@@ -21,9 +21,10 @@ var configFile = flag.String("f", "etc/user.yaml", "the config file")
 func main() {
 	flag.Parse()
 
+	etcdHosts := configcenter.EtcdHostsFromEnv()
 	var c config.Config
-	conf.MustLoad(*configFile, &c)
-	ctx := svc.NewServiceContext(c)
+	configcenter.MustLoadWithFallback(etcdHosts, "/mall/config/user-rpc", *configFile, &c)
+	ctx := svc.NewServiceContext(c, etcdHosts)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		user.RegisterUserServer(grpcServer, server.NewUserServer(ctx))

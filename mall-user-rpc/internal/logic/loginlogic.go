@@ -44,7 +44,7 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 		"uid": u.Id,
 		"iat": now,
 		"exp": now + 86400*7,
-	}).SignedString([]byte(l.svcCtx.Config.JwtAuth.AccessSecret))
+	}).SignedString([]byte(l.svcCtx.JwtSecretHot.Get()))
 	if err != nil {
 		return nil, err
 	}
