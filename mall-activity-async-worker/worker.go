@@ -8,8 +8,9 @@ import (
 	"mall-activity-async-worker/internal/config"
 	"mall-activity-async-worker/internal/handlers"
 
+	"mall-common/configcenter"
+
 	"github.com/hibiken/asynq"
-	"github.com/zeromicro/go-zero/core/conf"
 )
 
 var configFile = flag.String("f", "etc/worker.yaml", "the config file")
@@ -17,8 +18,9 @@ var configFile = flag.String("f", "etc/worker.yaml", "the config file")
 func main() {
 	flag.Parse()
 
+	etcdHosts := configcenter.EtcdHostsFromEnv()
 	var c config.Config
-	conf.MustLoad(*configFile, &c)
+	configcenter.MustLoadWithFallback(etcdHosts, "/mall/config/activity-async-worker", *configFile, &c)
 
 	queues := c.Queues
 	if len(queues) == 0 {

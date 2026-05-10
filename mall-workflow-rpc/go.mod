@@ -102,6 +102,7 @@ require (
 	k8s.io/kube-openapi v0.0.0-20250710124328-f3f2b991d03b // indirect
 	k8s.io/utils v0.0.0-20260319190234-28399d86e0b5 // indirect
 	mall-activity-rpc v0.0.0
+	mall-common v0.0.0
 	mall-order-rpc v0.0.0
 	mall-product-rpc v0.0.0
 	mall-reward-rpc v0.0.0
@@ -112,6 +113,8 @@ require (
 	sigs.k8s.io/structured-merge-diff/v6 v6.3.0 // indirect
 	sigs.k8s.io/yaml v1.6.0 // indirect
 )
+
+replace mall-common => ../mall-common
 
 replace mall-activity-rpc => ../mall-activity-rpc
 

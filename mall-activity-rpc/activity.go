@@ -9,7 +9,8 @@ import (
 	"mall-activity-rpc/internal/server"
 	"mall-activity-rpc/internal/svc"
 
-	"github.com/zeromicro/go-zero/core/conf"
+	"mall-common/configcenter"
+
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
@@ -21,8 +22,9 @@ var configFile = flag.String("f", "etc/activity.yaml", "the config file")
 func main() {
 	flag.Parse()
 
+	etcdHosts := configcenter.EtcdHostsFromEnv()
 	var c config.Config
-	conf.MustLoad(*configFile, &c)
+	configcenter.MustLoadWithFallback(etcdHosts, "/mall/config/activity-rpc", *configFile, &c)
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {

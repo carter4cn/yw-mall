@@ -8,6 +8,7 @@ require (
 	github.com/zeromicro/go-zero v1.10.1
 	google.golang.org/grpc v1.80.0
 	google.golang.org/protobuf v1.36.11
+	mall-common v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -37,7 +38,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.7 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.18.0 // indirect
+	github.com/klauspost/compress v1.18.2 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect

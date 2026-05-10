@@ -11,7 +11,8 @@ import (
 	"mall-logistics-rpc/internal/worker"
 	"mall-logistics-rpc/logistics"
 
-	"github.com/zeromicro/go-zero/core/conf"
+	"mall-common/configcenter"
+
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
@@ -23,8 +24,9 @@ var configFile = flag.String("f", "etc/logistics.yaml", "the config file")
 func main() {
 	flag.Parse()
 
+	etcdHosts := configcenter.EtcdHostsFromEnv()
 	var c config.Config
-	conf.MustLoad(*configFile, &c)
+	configcenter.MustLoadWithFallback(etcdHosts, "/mall/config/logistics-rpc", *configFile, &c)
 	ctx := svc.NewServiceContext(c)
 
 	ws := worker.NewOrderShippedWorker(ctx)
