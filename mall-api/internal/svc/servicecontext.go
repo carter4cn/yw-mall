@@ -121,7 +121,7 @@ func NewServiceContext(c config.Config, etcdHosts []string) *ServiceContext {
 	}
 
 	if len(etcdHosts) > 0 {
-		go configcenter.NewWatcher(etcdHosts).Watch("/mall/config/mall-api", svc.onConfigChange)
+		go configcenter.NewWatcher(etcdHosts).Watch(configcenter.ServiceKey("yw-mall", "api-gateway"), svc.onConfigChange)
 	}
 	return svc
 }

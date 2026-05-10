@@ -25,6 +25,17 @@ const (
 	requestTimeout = 5 * time.Second
 )
 
+// ServiceKey returns the etcd config key for a service.
+// Format: /config/{env}/{project}/{service}
+// env is read from APP_ENV; defaults to "dev" if unset.
+func ServiceKey(project, service string) string {
+	env := os.Getenv("APP_ENV")
+	if env == "" {
+		env = "dev"
+	}
+	return fmt.Sprintf("/config/%s/%s/%s", env, project, service)
+}
+
 // EtcdHostsFromEnv returns hosts from the ETCD_HOSTS env var (comma-separated).
 // Returns nil if the env var is unset or empty (caller should fall back to local file).
 func EtcdHostsFromEnv() []string {

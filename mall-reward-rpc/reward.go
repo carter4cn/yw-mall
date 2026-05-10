@@ -26,7 +26,7 @@ func main() {
 
 	etcdHosts := configcenter.EtcdHostsFromEnv()
 	var c config.Config
-	configcenter.MustLoadWithFallback(etcdHosts, "/mall/config/reward-rpc", *configFile, &c)
+	configcenter.MustLoadWithFallback(etcdHosts, configcenter.ServiceKey("yw-mall", "reward-rpc"), *configFile, &c)
 	ctx := svc.NewServiceContext(c)
 
 	// Outbox relay drains PENDING rows in the background. The default Publisher

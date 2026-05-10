@@ -23,7 +23,7 @@ func main() {
 
 	etcdHosts := configcenter.EtcdHostsFromEnv()
 	var c config.Config
-	configcenter.MustLoadWithFallback(etcdHosts, "/mall/config/user-rpc", *configFile, &c)
+	configcenter.MustLoadWithFallback(etcdHosts, configcenter.ServiceKey("yw-mall", "user-rpc"), *configFile, &c)
 	ctx := svc.NewServiceContext(c, etcdHosts)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {

@@ -4,6 +4,58 @@ All notable changes to yw-mall are documented here.
 
 ---
 
+## [Unreleased]
+
+### 2026-05-10
+
+#### refactor: etcd key 全局规范化（`/config/{env}/{project}/{service}`）
+
+**背景**
+
+原始 key 格式 `/mall/config/{service}` 存在三个问题：命名不统一（`mall-api` 有前缀、`user-rpc` 无前缀）、无环境层级（dev/staging/prod 混用同一 namespace）、无项目隔离（其他项目写入 etcd 时会产生冲突）。
+
+**新格式**
+
+```
+/config/{env}/{project}/{service}
+```
+
+| 层级 | 说明 | 示例 |
+|------|------|------|
+| `config` | 全局固定前缀，与服务注册（`/registry`）等隔离 | |
+| `{env}` | 运行环境，来自 `APP_ENV` 环境变量，默认 `dev` | `dev` / `staging` / `prod` |
+| `{project}` | 项目标识，支持多项目共用同一 etcd 集群 | `yw-mall` |
+| `{service}` | 服务名，去掉冗余的 `mall-` 前缀，保持一致 | `api-gateway` / `user-rpc` |
+
+**新增 `configcenter.ServiceKey(project, service string) string`**
+
+在 `mall-common/configcenter/loader.go` 新增辅助函数：
+- 读取 `APP_ENV` 环境变量，未设置时默认 `"dev"`
+- 返回 `/config/{env}/{project}/{service}` 格式的 key
+- 所有服务统一调用，不再散落硬编码字符串
+
+**服务 key 对照表**
+
+| 服务 | 旧 key | 新 key（dev 环境）|
+|------|--------|------------------|
+| mall-api | `/mall/config/mall-api` | `/config/dev/yw-mall/api-gateway` |
+| mall-user-rpc | `/mall/config/user-rpc` | `/config/dev/yw-mall/user-rpc` |
+| mall-shop-rpc | `/mall/config/shop-rpc` | `/config/dev/yw-mall/shop-rpc` |
+| mall-product-rpc | `/mall/config/product-rpc` | `/config/dev/yw-mall/product-rpc` |
+| mall-order-rpc | `/mall/config/order-rpc` | `/config/dev/yw-mall/order-rpc` |
+| mall-cart-rpc | `/mall/config/cart-rpc` | `/config/dev/yw-mall/cart-rpc` |
+| mall-payment-rpc | `/mall/config/payment-rpc` | `/config/dev/yw-mall/payment-rpc` |
+| mall-activity-rpc | `/mall/config/activity-rpc` | `/config/dev/yw-mall/activity-rpc` |
+| mall-activity-async-worker | `/mall/config/activity-async-worker` | `/config/dev/yw-mall/activity-worker` |
+| mall-workflow-rpc | `/mall/config/workflow-rpc` | `/config/dev/yw-mall/workflow-rpc` |
+| mall-rule-rpc | `/mall/config/rule-rpc` | `/config/dev/yw-mall/rule-rpc` |
+| mall-reward-rpc | `/mall/config/reward-rpc` | `/config/dev/yw-mall/reward-rpc` |
+| mall-risk-rpc | `/mall/config/risk-rpc` | `/config/dev/yw-mall/risk-rpc` |
+| mall-review-rpc | `/mall/config/review-rpc` | `/config/dev/yw-mall/review-rpc` |
+| mall-logistics-rpc | `/mall/config/logistics-rpc` | `/config/dev/yw-mall/logistics-rpc` |
+
+---
+
 ## [Unreleased] — feature/etcd-config-center
 
 ### 2026-05-10

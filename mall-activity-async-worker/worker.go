@@ -20,7 +20,7 @@ func main() {
 
 	etcdHosts := configcenter.EtcdHostsFromEnv()
 	var c config.Config
-	configcenter.MustLoadWithFallback(etcdHosts, "/mall/config/activity-async-worker", *configFile, &c)
+	configcenter.MustLoadWithFallback(etcdHosts, configcenter.ServiceKey("yw-mall", "activity-worker"), *configFile, &c)
 
 	queues := c.Queues
 	if len(queues) == 0 {

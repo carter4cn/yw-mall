@@ -22,7 +22,7 @@ func main() {
 
 	etcdHosts := configcenter.EtcdHostsFromEnv()
 	var c config.Config
-	configcenter.MustLoadWithFallback(etcdHosts, "/mall/config/mall-api", *configFile, &c)
+	configcenter.MustLoadWithFallback(etcdHosts, configcenter.ServiceKey("yw-mall", "api-gateway"), *configFile, &c)
 
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()

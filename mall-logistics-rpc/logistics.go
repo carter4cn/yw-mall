@@ -26,7 +26,7 @@ func main() {
 
 	etcdHosts := configcenter.EtcdHostsFromEnv()
 	var c config.Config
-	configcenter.MustLoadWithFallback(etcdHosts, "/mall/config/logistics-rpc", *configFile, &c)
+	configcenter.MustLoadWithFallback(etcdHosts, configcenter.ServiceKey("yw-mall", "logistics-rpc"), *configFile, &c)
 	ctx := svc.NewServiceContext(c)
 
 	ws := worker.NewOrderShippedWorker(ctx)

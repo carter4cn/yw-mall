@@ -30,7 +30,7 @@ func NewServiceContext(c config.Config, etcdHosts []string) *ServiceContext {
 		JwtSecretHot:     configcenter.NewHotConfig(c.JwtAuth.AccessSecret),
 	}
 	if len(etcdHosts) > 0 {
-		go configcenter.NewWatcher(etcdHosts).Watch("/mall/config/user-rpc", svc.onConfigChange)
+		go configcenter.NewWatcher(etcdHosts).Watch(configcenter.ServiceKey("yw-mall", "user-rpc"), svc.onConfigChange)
 	}
 	return svc
 }
