@@ -15,8 +15,8 @@ import (
 	"time"
 
 	clientv3 "go.etcd.io/etcd/client/v3"
-	"gopkg.in/yaml.v3"
 
+	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -64,7 +64,7 @@ func LoadWithFallback(etcdHosts []string, key, localPath string, dest any) error
 		data, err := fetchFromEtcd(etcdHosts, key)
 		if err == nil {
 			logx.Infof("[configcenter] loaded %s from etcd", key)
-			return yaml.Unmarshal(data, dest)
+			return conf.LoadFromYamlBytes(data, dest)
 		}
 		logx.Infof("[configcenter] etcd unavailable (%v), falling back to %s", err, localPath)
 	}
@@ -99,5 +99,5 @@ func loadFromFile(path string, dest any) error {
 	if err != nil {
 		return fmt.Errorf("read %s: %w", path, err)
 	}
-	return yaml.Unmarshal(data, dest)
+	return conf.LoadFromYamlBytes(data, dest)
 }
