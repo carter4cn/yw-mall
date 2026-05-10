@@ -3,7 +3,7 @@ ListenOn: 0.0.0.0:9015
 Etcd:
   Hosts:
     - 127.0.0.1:2379
-  Key: review.rpc
+  Key: yw-mall/review-rpc
 
 DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_review?charset=utf8mb4&parseTime=true&loc=Local
 
@@ -18,13 +18,13 @@ OrderRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: order.rpc
+    Key: yw-mall/order-rpc
 
 RiskRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: risk.rpc
+    Key: yw-mall/risk-rpc
 
 Followup:
   MinDelayDays: 7

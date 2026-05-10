@@ -10,67 +10,67 @@ UserRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: user.rpc
+    Key: yw-mall/user-rpc
 
 ProductRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: product.rpc
+    Key: yw-mall/product-rpc
 
 OrderRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: order.rpc
+    Key: yw-mall/order-rpc
 
 CartRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: cart.rpc
+    Key: yw-mall/cart-rpc
 
 PaymentRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: payment.rpc
+    Key: yw-mall/payment-rpc
 
 ActivityRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: activity.rpc
+    Key: yw-mall/activity-rpc
 
 RuleRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: rule.rpc
+    Key: yw-mall/rule-rpc
 
 WorkflowRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: workflow.rpc
+    Key: yw-mall/workflow-rpc
 
 RewardRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: reward.rpc
+    Key: yw-mall/reward-rpc
 
 RiskRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: risk.rpc
+    Key: yw-mall/risk-rpc
 
 ReviewRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: review.rpc
+    Key: yw-mall/review-rpc
 
 ReviewMedia:
   MaxImages: 9
@@ -90,7 +90,7 @@ LogisticsRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: logistics.rpc
+    Key: yw-mall/logistics-rpc
 
 Kuaidi100:
   WebhookCustomer: ""
@@ -100,4 +100,4 @@ ShopRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: shop.rpc
+    Key: yw-mall/shop-rpc

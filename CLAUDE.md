@@ -178,13 +178,13 @@ Generated stubs go into `mall-{name}-rpc/{name}/`. Client wrappers in `{name}cli
 
 ### Service Discovery
 
-All RPCs register with etcd. Key pattern: `{service}.rpc` (e.g., `user.rpc`, `shop.rpc`). The `etc/*.yaml` config block:
+All RPCs register with etcd. Key pattern: `yw-mall/{service}-rpc` (e.g., `yw-mall/user-rpc`, `yw-mall/shop-rpc`). The `etc/*.yaml` config block:
 ```yaml
 XxxRpc:
   Etcd:
     Hosts:
       - etcd1:2379
-    Key: xxx.rpc
+    Key: yw-mall/xxx-rpc
 ```
 
 ### go-zero Patterns to Know

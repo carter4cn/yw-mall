@@ -3,7 +3,7 @@ ListenOn: 0.0.0.0:9004
 Etcd:
   Hosts:
     - 127.0.0.1:2379
-  Key: cart.rpc
+  Key: yw-mall/cart-rpc
 
 DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_cart?charset=utf8mb4&parseTime=true&loc=Local
 

@@ -3,7 +3,7 @@ ListenOn: 0.0.0.0:9010
 Etcd:
   Hosts:
     - 127.0.0.1:2379
-  Key: activity.rpc
+  Key: yw-mall/activity-rpc
 
 DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_activity?charset=utf8mb4&parseTime=true&loc=Local
 
@@ -27,25 +27,25 @@ RuleRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: rule.rpc
+    Key: yw-mall/rule-rpc
 
 WorkflowRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: workflow.rpc
+    Key: yw-mall/workflow-rpc
 
 RiskRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: risk.rpc
+    Key: yw-mall/risk-rpc
 
 RewardRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: reward.rpc
+    Key: yw-mall/reward-rpc
 
 # Maps activity type -> reward_template.code. Resolved to template_id at runtime
 # (codes are stable, ids are not — InnoDB multi-master skips so id=N is unsafe).

@@ -3,7 +3,7 @@ ListenOn: 0.0.0.0:9012
 Etcd:
   Hosts:
     - 127.0.0.1:2379
-  Key: workflow.rpc
+  Key: yw-mall/workflow-rpc
 
 DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_workflow?charset=utf8mb4&parseTime=true&loc=Local
 
@@ -27,34 +27,34 @@ RuleRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: rule.rpc
+    Key: yw-mall/rule-rpc
 
 RewardRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: reward.rpc
+    Key: yw-mall/reward-rpc
 
 ActivityRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: activity.rpc
+    Key: yw-mall/activity-rpc
 
 UserRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: user.rpc
+    Key: yw-mall/user-rpc
 
 ProductRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: product.rpc
+    Key: yw-mall/product-rpc
 
 OrderRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: order.rpc
+    Key: yw-mall/order-rpc

@@ -3,7 +3,7 @@ ListenOn: 0.0.0.0:9002
 Etcd:
   Hosts:
     - 127.0.0.1:2379
-  Key: product.rpc
+  Key: yw-mall/product-rpc
 
 DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_product?charset=utf8mb4&parseTime=true&loc=Local
 
@@ -14,4 +14,4 @@ ShopRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
-    Key: shop.rpc
+    Key: yw-mall/shop-rpc

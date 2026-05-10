@@ -8,6 +8,35 @@ All notable changes to yw-mall are documented here.
 
 ### 2026-05-10
 
+#### refactor: 服务注册 key 规范化（`yw-mall/{service}-rpc`）
+
+**背景**
+
+原格式 `{service}.rpc`（如 `user.rpc`、`shop.rpc`）无项目前缀，多项目共用同一 etcd 集群时会命名冲突，且无法一眼区分 key 所属项目。
+
+**新格式**：`yw-mall/{service}-rpc`
+
+| 旧 key | 新 key |
+|--------|--------|
+| `user.rpc` | `yw-mall/user-rpc` |
+| `shop.rpc` | `yw-mall/shop-rpc` |
+| `product.rpc` | `yw-mall/product-rpc` |
+| `order.rpc` | `yw-mall/order-rpc` |
+| `cart.rpc` | `yw-mall/cart-rpc` |
+| `payment.rpc` | `yw-mall/payment-rpc` |
+| `activity.rpc` | `yw-mall/activity-rpc` |
+| `rule.rpc` | `yw-mall/rule-rpc` |
+| `workflow.rpc` | `yw-mall/workflow-rpc` |
+| `reward.rpc` | `yw-mall/reward-rpc` |
+| `risk.rpc` | `yw-mall/risk-rpc` |
+| `review.rpc` | `yw-mall/review-rpc` |
+| `logistics.rpc` | `yw-mall/logistics-rpc` |
+
+涉及所有 14 个服务的 `etc/*.yaml` 文件（自身注册 key + 下游依赖 key，共约 35 处）。
+注册 key 不含 env 层级——服务发现通常按 etcd 集群区分环境，无需在 key 中重复。
+
+---
+
 #### refactor: etcd key 全局规范化（`/config/{env}/{project}/{service}`）
 
 **背景**
