@@ -177,6 +177,67 @@ message MarkParticipationRefundedReq {
   string idempotency_key = 2;
 }
 
+// ===== G-3 Shop coupons =====
+message ShopCoupon {
+  int64 id = 1;
+  int64 shop_id = 2;
+  string code = 3;
+  string name = 4;
+  int32 type = 5;
+  int64 discount_value = 6;
+  int64 min_order_amount = 7;
+  int32 total_quantity = 8;
+  int32 claimed_quantity = 9;
+  int32 per_user_limit = 10;
+  int64 valid_from = 11;
+  int64 valid_to = 12;
+  int32 status = 13;
+  int64 create_time = 14;
+}
+message CreateShopCouponReq {
+  int64 shop_id = 1;
+  string code = 2;
+  string name = 3;
+  int32 type = 4;
+  int64 discount_value = 5;
+  int64 min_order_amount = 6;
+  int32 total_quantity = 7;
+  int32 per_user_limit = 8;
+  int64 valid_from = 9;
+  int64 valid_to = 10;
+}
+message CreateShopCouponResp { int64 id = 1; }
+message ListShopCouponsReq { int64 shop_id = 1; int32 status = 2; int32 page = 3; int32 page_size = 4; }
+message ListShopCouponsResp { repeated ShopCoupon coupons = 1; int64 total = 2; }
+message UpdateShopCouponStatusReq { int64 id = 1; int64 shop_id = 2; int32 status = 3; }
+
+// ===== G-4 SKU flash discount =====
+message FlashDiscount {
+  int64 id = 1;
+  int64 shop_id = 2;
+  int64 product_id = 3;
+  int64 sku_id = 4;
+  int64 original_price = 5;
+  int64 discount_price = 6;
+  int64 start_time = 7;
+  int64 end_time = 8;
+  int32 status = 9;
+  int64 create_time = 10;
+}
+message CreateFlashDiscountReq {
+  int64 shop_id = 1;
+  int64 product_id = 2;
+  int64 sku_id = 3;
+  int64 original_price = 4;
+  int64 discount_price = 5;
+  int64 start_time = 6;
+  int64 end_time = 7;
+}
+message CreateFlashDiscountResp { int64 id = 1; }
+message ListFlashDiscountsReq { int64 shop_id = 1; int32 status = 2; int32 page = 3; int32 page_size = 4; }
+message ListFlashDiscountsResp { repeated FlashDiscount discounts = 1; int64 total = 2; }
+message CancelFlashDiscountReq { int64 id = 1; int64 shop_id = 2; }
+
 service Activity {
   rpc CreateActivity(CreateActivityReq) returns (CreateActivityResp);
   rpc UpdateActivity(UpdateActivityReq) returns (Empty);
@@ -195,4 +256,14 @@ service Activity {
   rpc RestoreInventory(RestoreInventoryReq) returns (Empty);
   rpc MarkParticipationRewarded(MarkParticipationRewardedReq) returns (Empty);
   rpc MarkParticipationRefunded(MarkParticipationRefundedReq) returns (Empty);
+
+  // ===== G-3 Shop coupons =====
+  rpc CreateShopCoupon(CreateShopCouponReq) returns (CreateShopCouponResp);
+  rpc ListShopCoupons(ListShopCouponsReq) returns (ListShopCouponsResp);
+  rpc UpdateShopCouponStatus(UpdateShopCouponStatusReq) returns (Empty);
+
+  // ===== G-4 SKU flash discount =====
+  rpc CreateFlashDiscount(CreateFlashDiscountReq) returns (CreateFlashDiscountResp);
+  rpc ListFlashDiscounts(ListFlashDiscountsReq) returns (ListFlashDiscountsResp);
+  rpc CancelFlashDiscount(CancelFlashDiscountReq) returns (Empty);
 }

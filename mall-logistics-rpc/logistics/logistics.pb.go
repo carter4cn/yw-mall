@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.19.4
-// source: logistics.proto
+// source: logistics/logistics.proto
 
 package logistics
 
@@ -21,6 +21,50 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type IdReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IdReq) Reset() {
+	*x = IdReq{}
+	mi := &file_logistics_logistics_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IdReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IdReq) ProtoMessage() {}
+
+func (x *IdReq) ProtoReflect() protoreflect.Message {
+	mi := &file_logistics_logistics_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IdReq.ProtoReflect.Descriptor instead.
+func (*IdReq) Descriptor() ([]byte, []int) {
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *IdReq) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
 type Empty struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -29,7 +73,7 @@ type Empty struct {
 
 func (x *Empty) Reset() {
 	*x = Empty{}
-	mi := &file_logistics_proto_msgTypes[0]
+	mi := &file_logistics_logistics_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -41,7 +85,7 @@ func (x *Empty) String() string {
 func (*Empty) ProtoMessage() {}
 
 func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[0]
+	mi := &file_logistics_logistics_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -54,7 +98,7 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Empty.ProtoReflect.Descriptor instead.
 func (*Empty) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{0}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{1}
 }
 
 type ShipmentItemRef struct {
@@ -68,7 +112,7 @@ type ShipmentItemRef struct {
 
 func (x *ShipmentItemRef) Reset() {
 	*x = ShipmentItemRef{}
-	mi := &file_logistics_proto_msgTypes[1]
+	mi := &file_logistics_logistics_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -80,7 +124,7 @@ func (x *ShipmentItemRef) String() string {
 func (*ShipmentItemRef) ProtoMessage() {}
 
 func (x *ShipmentItemRef) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[1]
+	mi := &file_logistics_logistics_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -93,7 +137,7 @@ func (x *ShipmentItemRef) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShipmentItemRef.ProtoReflect.Descriptor instead.
 func (*ShipmentItemRef) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{1}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ShipmentItemRef) GetOrderItemId() int64 {
@@ -130,7 +174,7 @@ type Track struct {
 
 func (x *Track) Reset() {
 	*x = Track{}
-	mi := &file_logistics_proto_msgTypes[2]
+	mi := &file_logistics_logistics_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -142,7 +186,7 @@ func (x *Track) String() string {
 func (*Track) ProtoMessage() {}
 
 func (x *Track) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[2]
+	mi := &file_logistics_logistics_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -155,7 +199,7 @@ func (x *Track) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Track.ProtoReflect.Descriptor instead.
 func (*Track) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{2}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Track) GetTrackTime() int64 {
@@ -206,7 +250,7 @@ type CreateShipmentReq struct {
 
 func (x *CreateShipmentReq) Reset() {
 	*x = CreateShipmentReq{}
-	mi := &file_logistics_proto_msgTypes[3]
+	mi := &file_logistics_logistics_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -218,7 +262,7 @@ func (x *CreateShipmentReq) String() string {
 func (*CreateShipmentReq) ProtoMessage() {}
 
 func (x *CreateShipmentReq) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[3]
+	mi := &file_logistics_logistics_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -231,7 +275,7 @@ func (x *CreateShipmentReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateShipmentReq.ProtoReflect.Descriptor instead.
 func (*CreateShipmentReq) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{3}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateShipmentReq) GetOrderId() int64 {
@@ -278,7 +322,7 @@ type CreateShipmentResp struct {
 
 func (x *CreateShipmentResp) Reset() {
 	*x = CreateShipmentResp{}
-	mi := &file_logistics_proto_msgTypes[4]
+	mi := &file_logistics_logistics_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -290,7 +334,7 @@ func (x *CreateShipmentResp) String() string {
 func (*CreateShipmentResp) ProtoMessage() {}
 
 func (x *CreateShipmentResp) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[4]
+	mi := &file_logistics_logistics_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -303,7 +347,7 @@ func (x *CreateShipmentResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateShipmentResp.ProtoReflect.Descriptor instead.
 func (*CreateShipmentResp) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{4}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateShipmentResp) GetShipmentId() int64 {
@@ -332,7 +376,7 @@ type Shipment struct {
 
 func (x *Shipment) Reset() {
 	*x = Shipment{}
-	mi := &file_logistics_proto_msgTypes[5]
+	mi := &file_logistics_logistics_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -344,7 +388,7 @@ func (x *Shipment) String() string {
 func (*Shipment) ProtoMessage() {}
 
 func (x *Shipment) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[5]
+	mi := &file_logistics_logistics_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -357,7 +401,7 @@ func (x *Shipment) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Shipment.ProtoReflect.Descriptor instead.
 func (*Shipment) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{5}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Shipment) GetId() int64 {
@@ -446,7 +490,7 @@ type ListShipmentsByOrderReq struct {
 
 func (x *ListShipmentsByOrderReq) Reset() {
 	*x = ListShipmentsByOrderReq{}
-	mi := &file_logistics_proto_msgTypes[6]
+	mi := &file_logistics_logistics_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -458,7 +502,7 @@ func (x *ListShipmentsByOrderReq) String() string {
 func (*ListShipmentsByOrderReq) ProtoMessage() {}
 
 func (x *ListShipmentsByOrderReq) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[6]
+	mi := &file_logistics_logistics_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -471,7 +515,7 @@ func (x *ListShipmentsByOrderReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListShipmentsByOrderReq.ProtoReflect.Descriptor instead.
 func (*ListShipmentsByOrderReq) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{6}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListShipmentsByOrderReq) GetOrderId() int64 {
@@ -490,7 +534,7 @@ type ListShipmentsByOrderResp struct {
 
 func (x *ListShipmentsByOrderResp) Reset() {
 	*x = ListShipmentsByOrderResp{}
-	mi := &file_logistics_proto_msgTypes[7]
+	mi := &file_logistics_logistics_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -502,7 +546,7 @@ func (x *ListShipmentsByOrderResp) String() string {
 func (*ListShipmentsByOrderResp) ProtoMessage() {}
 
 func (x *ListShipmentsByOrderResp) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[7]
+	mi := &file_logistics_logistics_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -515,7 +559,7 @@ func (x *ListShipmentsByOrderResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListShipmentsByOrderResp.ProtoReflect.Descriptor instead.
 func (*ListShipmentsByOrderResp) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{7}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListShipmentsByOrderResp) GetShipments() []*Shipment {
@@ -534,7 +578,7 @@ type GetShipmentReq struct {
 
 func (x *GetShipmentReq) Reset() {
 	*x = GetShipmentReq{}
-	mi := &file_logistics_proto_msgTypes[8]
+	mi := &file_logistics_logistics_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -546,7 +590,7 @@ func (x *GetShipmentReq) String() string {
 func (*GetShipmentReq) ProtoMessage() {}
 
 func (x *GetShipmentReq) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[8]
+	mi := &file_logistics_logistics_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -559,7 +603,7 @@ func (x *GetShipmentReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetShipmentReq.ProtoReflect.Descriptor instead.
 func (*GetShipmentReq) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{8}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetShipmentReq) GetShipmentId() int64 {
@@ -580,7 +624,7 @@ type IngestWebhookEventsReq struct {
 
 func (x *IngestWebhookEventsReq) Reset() {
 	*x = IngestWebhookEventsReq{}
-	mi := &file_logistics_proto_msgTypes[9]
+	mi := &file_logistics_logistics_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -592,7 +636,7 @@ func (x *IngestWebhookEventsReq) String() string {
 func (*IngestWebhookEventsReq) ProtoMessage() {}
 
 func (x *IngestWebhookEventsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[9]
+	mi := &file_logistics_logistics_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -605,7 +649,7 @@ func (x *IngestWebhookEventsReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IngestWebhookEventsReq.ProtoReflect.Descriptor instead.
 func (*IngestWebhookEventsReq) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{9}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *IngestWebhookEventsReq) GetCarrier() string {
@@ -638,7 +682,7 @@ type RetrySubscribeReq struct {
 
 func (x *RetrySubscribeReq) Reset() {
 	*x = RetrySubscribeReq{}
-	mi := &file_logistics_proto_msgTypes[10]
+	mi := &file_logistics_logistics_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -650,7 +694,7 @@ func (x *RetrySubscribeReq) String() string {
 func (*RetrySubscribeReq) ProtoMessage() {}
 
 func (x *RetrySubscribeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[10]
+	mi := &file_logistics_logistics_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -663,7 +707,7 @@ func (x *RetrySubscribeReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RetrySubscribeReq.ProtoReflect.Descriptor instead.
 func (*RetrySubscribeReq) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{10}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *RetrySubscribeReq) GetShipmentId() int64 {
@@ -685,7 +729,7 @@ type InjectTrackReq struct {
 
 func (x *InjectTrackReq) Reset() {
 	*x = InjectTrackReq{}
-	mi := &file_logistics_proto_msgTypes[11]
+	mi := &file_logistics_logistics_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -697,7 +741,7 @@ func (x *InjectTrackReq) String() string {
 func (*InjectTrackReq) ProtoMessage() {}
 
 func (x *InjectTrackReq) ProtoReflect() protoreflect.Message {
-	mi := &file_logistics_proto_msgTypes[11]
+	mi := &file_logistics_logistics_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -710,7 +754,7 @@ func (x *InjectTrackReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InjectTrackReq.ProtoReflect.Descriptor instead.
 func (*InjectTrackReq) Descriptor() ([]byte, []int) {
-	return file_logistics_proto_rawDescGZIP(), []int{11}
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *InjectTrackReq) GetShipmentId() int64 {
@@ -741,11 +785,494 @@ func (x *InjectTrackReq) GetDescription() string {
 	return ""
 }
 
-var File_logistics_proto protoreflect.FileDescriptor
+// ===== C-6 Freight template =====
+type FreightTemplate struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ShopId        int64                  `protobuf:"varint,2,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	CalcType      int32                  `protobuf:"varint,4,opt,name=calc_type,json=calcType,proto3" json:"calc_type,omitempty"`
+	FirstValue    int32                  `protobuf:"varint,5,opt,name=first_value,json=firstValue,proto3" json:"first_value,omitempty"`
+	FirstFee      int64                  `protobuf:"varint,6,opt,name=first_fee,json=firstFee,proto3" json:"first_fee,omitempty"`
+	ExtraValue    int32                  `protobuf:"varint,7,opt,name=extra_value,json=extraValue,proto3" json:"extra_value,omitempty"`
+	ExtraFee      int64                  `protobuf:"varint,8,opt,name=extra_fee,json=extraFee,proto3" json:"extra_fee,omitempty"`
+	Regions       string                 `protobuf:"bytes,9,opt,name=regions,proto3" json:"regions,omitempty"`
+	IsDefault     bool                   `protobuf:"varint,10,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`
+	Status        int32                  `protobuf:"varint,11,opt,name=status,proto3" json:"status,omitempty"`
+	CreateTime    int64                  `protobuf:"varint,12,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
 
-const file_logistics_proto_rawDesc = "" +
+func (x *FreightTemplate) Reset() {
+	*x = FreightTemplate{}
+	mi := &file_logistics_logistics_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FreightTemplate) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FreightTemplate) ProtoMessage() {}
+
+func (x *FreightTemplate) ProtoReflect() protoreflect.Message {
+	mi := &file_logistics_logistics_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FreightTemplate.ProtoReflect.Descriptor instead.
+func (*FreightTemplate) Descriptor() ([]byte, []int) {
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *FreightTemplate) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *FreightTemplate) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *FreightTemplate) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *FreightTemplate) GetCalcType() int32 {
+	if x != nil {
+		return x.CalcType
+	}
+	return 0
+}
+
+func (x *FreightTemplate) GetFirstValue() int32 {
+	if x != nil {
+		return x.FirstValue
+	}
+	return 0
+}
+
+func (x *FreightTemplate) GetFirstFee() int64 {
+	if x != nil {
+		return x.FirstFee
+	}
+	return 0
+}
+
+func (x *FreightTemplate) GetExtraValue() int32 {
+	if x != nil {
+		return x.ExtraValue
+	}
+	return 0
+}
+
+func (x *FreightTemplate) GetExtraFee() int64 {
+	if x != nil {
+		return x.ExtraFee
+	}
+	return 0
+}
+
+func (x *FreightTemplate) GetRegions() string {
+	if x != nil {
+		return x.Regions
+	}
+	return ""
+}
+
+func (x *FreightTemplate) GetIsDefault() bool {
+	if x != nil {
+		return x.IsDefault
+	}
+	return false
+}
+
+func (x *FreightTemplate) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *FreightTemplate) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type CreateFreightTemplateReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	CalcType      int32                  `protobuf:"varint,3,opt,name=calc_type,json=calcType,proto3" json:"calc_type,omitempty"`
+	FirstValue    int32                  `protobuf:"varint,4,opt,name=first_value,json=firstValue,proto3" json:"first_value,omitempty"`
+	FirstFee      int64                  `protobuf:"varint,5,opt,name=first_fee,json=firstFee,proto3" json:"first_fee,omitempty"`
+	ExtraValue    int32                  `protobuf:"varint,6,opt,name=extra_value,json=extraValue,proto3" json:"extra_value,omitempty"`
+	ExtraFee      int64                  `protobuf:"varint,7,opt,name=extra_fee,json=extraFee,proto3" json:"extra_fee,omitempty"`
+	Regions       string                 `protobuf:"bytes,8,opt,name=regions,proto3" json:"regions,omitempty"`
+	IsDefault     bool                   `protobuf:"varint,9,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateFreightTemplateReq) Reset() {
+	*x = CreateFreightTemplateReq{}
+	mi := &file_logistics_logistics_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateFreightTemplateReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateFreightTemplateReq) ProtoMessage() {}
+
+func (x *CreateFreightTemplateReq) ProtoReflect() protoreflect.Message {
+	mi := &file_logistics_logistics_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateFreightTemplateReq.ProtoReflect.Descriptor instead.
+func (*CreateFreightTemplateReq) Descriptor() ([]byte, []int) {
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *CreateFreightTemplateReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *CreateFreightTemplateReq) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateFreightTemplateReq) GetCalcType() int32 {
+	if x != nil {
+		return x.CalcType
+	}
+	return 0
+}
+
+func (x *CreateFreightTemplateReq) GetFirstValue() int32 {
+	if x != nil {
+		return x.FirstValue
+	}
+	return 0
+}
+
+func (x *CreateFreightTemplateReq) GetFirstFee() int64 {
+	if x != nil {
+		return x.FirstFee
+	}
+	return 0
+}
+
+func (x *CreateFreightTemplateReq) GetExtraValue() int32 {
+	if x != nil {
+		return x.ExtraValue
+	}
+	return 0
+}
+
+func (x *CreateFreightTemplateReq) GetExtraFee() int64 {
+	if x != nil {
+		return x.ExtraFee
+	}
+	return 0
+}
+
+func (x *CreateFreightTemplateReq) GetRegions() string {
+	if x != nil {
+		return x.Regions
+	}
+	return ""
+}
+
+func (x *CreateFreightTemplateReq) GetIsDefault() bool {
+	if x != nil {
+		return x.IsDefault
+	}
+	return false
+}
+
+type CreateFreightTemplateResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateFreightTemplateResp) Reset() {
+	*x = CreateFreightTemplateResp{}
+	mi := &file_logistics_logistics_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateFreightTemplateResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateFreightTemplateResp) ProtoMessage() {}
+
+func (x *CreateFreightTemplateResp) ProtoReflect() protoreflect.Message {
+	mi := &file_logistics_logistics_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateFreightTemplateResp.ProtoReflect.Descriptor instead.
+func (*CreateFreightTemplateResp) Descriptor() ([]byte, []int) {
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *CreateFreightTemplateResp) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ListFreightTemplatesReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListFreightTemplatesReq) Reset() {
+	*x = ListFreightTemplatesReq{}
+	mi := &file_logistics_logistics_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListFreightTemplatesReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListFreightTemplatesReq) ProtoMessage() {}
+
+func (x *ListFreightTemplatesReq) ProtoReflect() protoreflect.Message {
+	mi := &file_logistics_logistics_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListFreightTemplatesReq.ProtoReflect.Descriptor instead.
+func (*ListFreightTemplatesReq) Descriptor() ([]byte, []int) {
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *ListFreightTemplatesReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *ListFreightTemplatesReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListFreightTemplatesReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListFreightTemplatesResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Templates     []*FreightTemplate     `protobuf:"bytes,1,rep,name=templates,proto3" json:"templates,omitempty"`
+	Total         int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListFreightTemplatesResp) Reset() {
+	*x = ListFreightTemplatesResp{}
+	mi := &file_logistics_logistics_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListFreightTemplatesResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListFreightTemplatesResp) ProtoMessage() {}
+
+func (x *ListFreightTemplatesResp) ProtoReflect() protoreflect.Message {
+	mi := &file_logistics_logistics_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListFreightTemplatesResp.ProtoReflect.Descriptor instead.
+func (*ListFreightTemplatesResp) Descriptor() ([]byte, []int) {
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *ListFreightTemplatesResp) GetTemplates() []*FreightTemplate {
+	if x != nil {
+		return x.Templates
+	}
+	return nil
+}
+
+func (x *ListFreightTemplatesResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type UpdateFreightTemplateReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ShopId        int64                  `protobuf:"varint,2,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	FirstFee      int64                  `protobuf:"varint,4,opt,name=first_fee,json=firstFee,proto3" json:"first_fee,omitempty"`
+	ExtraFee      int64                  `protobuf:"varint,5,opt,name=extra_fee,json=extraFee,proto3" json:"extra_fee,omitempty"`
+	IsDefault     bool                   `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateFreightTemplateReq) Reset() {
+	*x = UpdateFreightTemplateReq{}
+	mi := &file_logistics_logistics_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateFreightTemplateReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateFreightTemplateReq) ProtoMessage() {}
+
+func (x *UpdateFreightTemplateReq) ProtoReflect() protoreflect.Message {
+	mi := &file_logistics_logistics_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateFreightTemplateReq.ProtoReflect.Descriptor instead.
+func (*UpdateFreightTemplateReq) Descriptor() ([]byte, []int) {
+	return file_logistics_logistics_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *UpdateFreightTemplateReq) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpdateFreightTemplateReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *UpdateFreightTemplateReq) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateFreightTemplateReq) GetFirstFee() int64 {
+	if x != nil {
+		return x.FirstFee
+	}
+	return 0
+}
+
+func (x *UpdateFreightTemplateReq) GetExtraFee() int64 {
+	if x != nil {
+		return x.ExtraFee
+	}
+	return 0
+}
+
+func (x *UpdateFreightTemplateReq) GetIsDefault() bool {
+	if x != nil {
+		return x.IsDefault
+	}
+	return false
+}
+
+var File_logistics_logistics_proto protoreflect.FileDescriptor
+
+const file_logistics_logistics_proto_rawDesc = "" +
 	"\n" +
-	"\x0flogistics.proto\x12\tlogistics\"\a\n" +
+	"\x19logistics/logistics.proto\x12\tlogistics\"\x17\n" +
+	"\x05IdReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\a\n" +
 	"\x05Empty\"p\n" +
 	"\x0fShipmentItemRef\x12\"\n" +
 	"\rorder_item_id\x18\x01 \x01(\x03R\vorderItemId\x12\x1d\n" +
@@ -804,87 +1331,158 @@ const file_logistics_proto_rawDesc = "" +
 	"shipmentId\x12%\n" +
 	"\x0estate_internal\x18\x02 \x01(\x05R\rstateInternal\x12\x1a\n" +
 	"\blocation\x18\x03 \x01(\tR\blocation\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription2\xc4\x03\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"\xd9\x02\n" +
+	"\x0fFreightTemplate\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\ashop_id\x18\x02 \x01(\x03R\x06shopId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1b\n" +
+	"\tcalc_type\x18\x04 \x01(\x05R\bcalcType\x12\x1f\n" +
+	"\vfirst_value\x18\x05 \x01(\x05R\n" +
+	"firstValue\x12\x1b\n" +
+	"\tfirst_fee\x18\x06 \x01(\x03R\bfirstFee\x12\x1f\n" +
+	"\vextra_value\x18\a \x01(\x05R\n" +
+	"extraValue\x12\x1b\n" +
+	"\textra_fee\x18\b \x01(\x03R\bextraFee\x12\x18\n" +
+	"\aregions\x18\t \x01(\tR\aregions\x12\x1d\n" +
+	"\n" +
+	"is_default\x18\n" +
+	" \x01(\bR\tisDefault\x12\x16\n" +
+	"\x06status\x18\v \x01(\x05R\x06status\x12\x1f\n" +
+	"\vcreate_time\x18\f \x01(\x03R\n" +
+	"createTime\"\x99\x02\n" +
+	"\x18CreateFreightTemplateReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1b\n" +
+	"\tcalc_type\x18\x03 \x01(\x05R\bcalcType\x12\x1f\n" +
+	"\vfirst_value\x18\x04 \x01(\x05R\n" +
+	"firstValue\x12\x1b\n" +
+	"\tfirst_fee\x18\x05 \x01(\x03R\bfirstFee\x12\x1f\n" +
+	"\vextra_value\x18\x06 \x01(\x05R\n" +
+	"extraValue\x12\x1b\n" +
+	"\textra_fee\x18\a \x01(\x03R\bextraFee\x12\x18\n" +
+	"\aregions\x18\b \x01(\tR\aregions\x12\x1d\n" +
+	"\n" +
+	"is_default\x18\t \x01(\bR\tisDefault\"+\n" +
+	"\x19CreateFreightTemplateResp\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"c\n" +
+	"\x17ListFreightTemplatesReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x12\n" +
+	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"j\n" +
+	"\x18ListFreightTemplatesResp\x128\n" +
+	"\ttemplates\x18\x01 \x03(\v2\x1a.logistics.FreightTemplateR\ttemplates\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\xb0\x01\n" +
+	"\x18UpdateFreightTemplateReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\ashop_id\x18\x02 \x01(\x03R\x06shopId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1b\n" +
+	"\tfirst_fee\x18\x04 \x01(\x03R\bfirstFee\x12\x1b\n" +
+	"\textra_fee\x18\x05 \x01(\x03R\bextraFee\x12\x1d\n" +
+	"\n" +
+	"is_default\x18\x06 \x01(\bR\tisDefault2\xda\x06\n" +
 	"\tLogistics\x12M\n" +
 	"\x0eCreateShipment\x12\x1c.logistics.CreateShipmentReq\x1a\x1d.logistics.CreateShipmentResp\x12_\n" +
 	"\x14ListShipmentsByOrder\x12\".logistics.ListShipmentsByOrderReq\x1a#.logistics.ListShipmentsByOrderResp\x12=\n" +
 	"\vGetShipment\x12\x19.logistics.GetShipmentReq\x1a\x13.logistics.Shipment\x12J\n" +
 	"\x13IngestWebhookEvents\x12!.logistics.IngestWebhookEventsReq\x1a\x10.logistics.Empty\x12@\n" +
 	"\x0eRetrySubscribe\x12\x1c.logistics.RetrySubscribeReq\x1a\x10.logistics.Empty\x12:\n" +
-	"\vInjectTrack\x12\x19.logistics.InjectTrackReq\x1a\x10.logistics.EmptyB\rZ\v./logisticsb\x06proto3"
+	"\vInjectTrack\x12\x19.logistics.InjectTrackReq\x1a\x10.logistics.Empty\x12b\n" +
+	"\x15CreateFreightTemplate\x12#.logistics.CreateFreightTemplateReq\x1a$.logistics.CreateFreightTemplateResp\x12_\n" +
+	"\x14ListFreightTemplates\x12\".logistics.ListFreightTemplatesReq\x1a#.logistics.ListFreightTemplatesResp\x12B\n" +
+	"\x12GetFreightTemplate\x12\x10.logistics.IdReq\x1a\x1a.logistics.FreightTemplate\x12N\n" +
+	"\x15UpdateFreightTemplate\x12#.logistics.UpdateFreightTemplateReq\x1a\x10.logistics.Empty\x12;\n" +
+	"\x15DeleteFreightTemplate\x12\x10.logistics.IdReq\x1a\x10.logistics.EmptyB\rZ\v./logisticsb\x06proto3"
 
 var (
-	file_logistics_proto_rawDescOnce sync.Once
-	file_logistics_proto_rawDescData []byte
+	file_logistics_logistics_proto_rawDescOnce sync.Once
+	file_logistics_logistics_proto_rawDescData []byte
 )
 
-func file_logistics_proto_rawDescGZIP() []byte {
-	file_logistics_proto_rawDescOnce.Do(func() {
-		file_logistics_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_logistics_proto_rawDesc), len(file_logistics_proto_rawDesc)))
+func file_logistics_logistics_proto_rawDescGZIP() []byte {
+	file_logistics_logistics_proto_rawDescOnce.Do(func() {
+		file_logistics_logistics_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_logistics_logistics_proto_rawDesc), len(file_logistics_logistics_proto_rawDesc)))
 	})
-	return file_logistics_proto_rawDescData
+	return file_logistics_logistics_proto_rawDescData
 }
 
-var file_logistics_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
-var file_logistics_proto_goTypes = []any{
-	(*Empty)(nil),                    // 0: logistics.Empty
-	(*ShipmentItemRef)(nil),          // 1: logistics.ShipmentItemRef
-	(*Track)(nil),                    // 2: logistics.Track
-	(*CreateShipmentReq)(nil),        // 3: logistics.CreateShipmentReq
-	(*CreateShipmentResp)(nil),       // 4: logistics.CreateShipmentResp
-	(*Shipment)(nil),                 // 5: logistics.Shipment
-	(*ListShipmentsByOrderReq)(nil),  // 6: logistics.ListShipmentsByOrderReq
-	(*ListShipmentsByOrderResp)(nil), // 7: logistics.ListShipmentsByOrderResp
-	(*GetShipmentReq)(nil),           // 8: logistics.GetShipmentReq
-	(*IngestWebhookEventsReq)(nil),   // 9: logistics.IngestWebhookEventsReq
-	(*RetrySubscribeReq)(nil),        // 10: logistics.RetrySubscribeReq
-	(*InjectTrackReq)(nil),           // 11: logistics.InjectTrackReq
+var file_logistics_logistics_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_logistics_logistics_proto_goTypes = []any{
+	(*IdReq)(nil),                     // 0: logistics.IdReq
+	(*Empty)(nil),                     // 1: logistics.Empty
+	(*ShipmentItemRef)(nil),           // 2: logistics.ShipmentItemRef
+	(*Track)(nil),                     // 3: logistics.Track
+	(*CreateShipmentReq)(nil),         // 4: logistics.CreateShipmentReq
+	(*CreateShipmentResp)(nil),        // 5: logistics.CreateShipmentResp
+	(*Shipment)(nil),                  // 6: logistics.Shipment
+	(*ListShipmentsByOrderReq)(nil),   // 7: logistics.ListShipmentsByOrderReq
+	(*ListShipmentsByOrderResp)(nil),  // 8: logistics.ListShipmentsByOrderResp
+	(*GetShipmentReq)(nil),            // 9: logistics.GetShipmentReq
+	(*IngestWebhookEventsReq)(nil),    // 10: logistics.IngestWebhookEventsReq
+	(*RetrySubscribeReq)(nil),         // 11: logistics.RetrySubscribeReq
+	(*InjectTrackReq)(nil),            // 12: logistics.InjectTrackReq
+	(*FreightTemplate)(nil),           // 13: logistics.FreightTemplate
+	(*CreateFreightTemplateReq)(nil),  // 14: logistics.CreateFreightTemplateReq
+	(*CreateFreightTemplateResp)(nil), // 15: logistics.CreateFreightTemplateResp
+	(*ListFreightTemplatesReq)(nil),   // 16: logistics.ListFreightTemplatesReq
+	(*ListFreightTemplatesResp)(nil),  // 17: logistics.ListFreightTemplatesResp
+	(*UpdateFreightTemplateReq)(nil),  // 18: logistics.UpdateFreightTemplateReq
 }
-var file_logistics_proto_depIdxs = []int32{
-	1,  // 0: logistics.CreateShipmentReq.items:type_name -> logistics.ShipmentItemRef
-	1,  // 1: logistics.Shipment.items:type_name -> logistics.ShipmentItemRef
-	2,  // 2: logistics.Shipment.tracks:type_name -> logistics.Track
-	5,  // 3: logistics.ListShipmentsByOrderResp.shipments:type_name -> logistics.Shipment
-	2,  // 4: logistics.IngestWebhookEventsReq.events:type_name -> logistics.Track
-	3,  // 5: logistics.Logistics.CreateShipment:input_type -> logistics.CreateShipmentReq
-	6,  // 6: logistics.Logistics.ListShipmentsByOrder:input_type -> logistics.ListShipmentsByOrderReq
-	8,  // 7: logistics.Logistics.GetShipment:input_type -> logistics.GetShipmentReq
-	9,  // 8: logistics.Logistics.IngestWebhookEvents:input_type -> logistics.IngestWebhookEventsReq
-	10, // 9: logistics.Logistics.RetrySubscribe:input_type -> logistics.RetrySubscribeReq
-	11, // 10: logistics.Logistics.InjectTrack:input_type -> logistics.InjectTrackReq
-	4,  // 11: logistics.Logistics.CreateShipment:output_type -> logistics.CreateShipmentResp
-	7,  // 12: logistics.Logistics.ListShipmentsByOrder:output_type -> logistics.ListShipmentsByOrderResp
-	5,  // 13: logistics.Logistics.GetShipment:output_type -> logistics.Shipment
-	0,  // 14: logistics.Logistics.IngestWebhookEvents:output_type -> logistics.Empty
-	0,  // 15: logistics.Logistics.RetrySubscribe:output_type -> logistics.Empty
-	0,  // 16: logistics.Logistics.InjectTrack:output_type -> logistics.Empty
-	11, // [11:17] is the sub-list for method output_type
-	5,  // [5:11] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+var file_logistics_logistics_proto_depIdxs = []int32{
+	2,  // 0: logistics.CreateShipmentReq.items:type_name -> logistics.ShipmentItemRef
+	2,  // 1: logistics.Shipment.items:type_name -> logistics.ShipmentItemRef
+	3,  // 2: logistics.Shipment.tracks:type_name -> logistics.Track
+	6,  // 3: logistics.ListShipmentsByOrderResp.shipments:type_name -> logistics.Shipment
+	3,  // 4: logistics.IngestWebhookEventsReq.events:type_name -> logistics.Track
+	13, // 5: logistics.ListFreightTemplatesResp.templates:type_name -> logistics.FreightTemplate
+	4,  // 6: logistics.Logistics.CreateShipment:input_type -> logistics.CreateShipmentReq
+	7,  // 7: logistics.Logistics.ListShipmentsByOrder:input_type -> logistics.ListShipmentsByOrderReq
+	9,  // 8: logistics.Logistics.GetShipment:input_type -> logistics.GetShipmentReq
+	10, // 9: logistics.Logistics.IngestWebhookEvents:input_type -> logistics.IngestWebhookEventsReq
+	11, // 10: logistics.Logistics.RetrySubscribe:input_type -> logistics.RetrySubscribeReq
+	12, // 11: logistics.Logistics.InjectTrack:input_type -> logistics.InjectTrackReq
+	14, // 12: logistics.Logistics.CreateFreightTemplate:input_type -> logistics.CreateFreightTemplateReq
+	16, // 13: logistics.Logistics.ListFreightTemplates:input_type -> logistics.ListFreightTemplatesReq
+	0,  // 14: logistics.Logistics.GetFreightTemplate:input_type -> logistics.IdReq
+	18, // 15: logistics.Logistics.UpdateFreightTemplate:input_type -> logistics.UpdateFreightTemplateReq
+	0,  // 16: logistics.Logistics.DeleteFreightTemplate:input_type -> logistics.IdReq
+	5,  // 17: logistics.Logistics.CreateShipment:output_type -> logistics.CreateShipmentResp
+	8,  // 18: logistics.Logistics.ListShipmentsByOrder:output_type -> logistics.ListShipmentsByOrderResp
+	6,  // 19: logistics.Logistics.GetShipment:output_type -> logistics.Shipment
+	1,  // 20: logistics.Logistics.IngestWebhookEvents:output_type -> logistics.Empty
+	1,  // 21: logistics.Logistics.RetrySubscribe:output_type -> logistics.Empty
+	1,  // 22: logistics.Logistics.InjectTrack:output_type -> logistics.Empty
+	15, // 23: logistics.Logistics.CreateFreightTemplate:output_type -> logistics.CreateFreightTemplateResp
+	17, // 24: logistics.Logistics.ListFreightTemplates:output_type -> logistics.ListFreightTemplatesResp
+	13, // 25: logistics.Logistics.GetFreightTemplate:output_type -> logistics.FreightTemplate
+	1,  // 26: logistics.Logistics.UpdateFreightTemplate:output_type -> logistics.Empty
+	1,  // 27: logistics.Logistics.DeleteFreightTemplate:output_type -> logistics.Empty
+	17, // [17:28] is the sub-list for method output_type
+	6,  // [6:17] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
-func init() { file_logistics_proto_init() }
-func file_logistics_proto_init() {
-	if File_logistics_proto != nil {
+func init() { file_logistics_logistics_proto_init() }
+func file_logistics_logistics_proto_init() {
+	if File_logistics_logistics_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_logistics_proto_rawDesc), len(file_logistics_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_logistics_logistics_proto_rawDesc), len(file_logistics_logistics_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_logistics_proto_goTypes,
-		DependencyIndexes: file_logistics_proto_depIdxs,
-		MessageInfos:      file_logistics_proto_msgTypes,
+		GoTypes:           file_logistics_logistics_proto_goTypes,
+		DependencyIndexes: file_logistics_logistics_proto_depIdxs,
+		MessageInfos:      file_logistics_logistics_proto_msgTypes,
 	}.Build()
-	File_logistics_proto = out.File
-	file_logistics_proto_goTypes = nil
-	file_logistics_proto_depIdxs = nil
+	File_logistics_logistics_proto = out.File
+	file_logistics_logistics_proto_goTypes = nil
+	file_logistics_logistics_proto_depIdxs = nil
 }

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.19.4
-// source: activity.proto
+// source: activity/activity.proto
 
 package activity
 
@@ -36,6 +36,12 @@ const (
 	Activity_RestoreInventory_FullMethodName          = "/activity.Activity/RestoreInventory"
 	Activity_MarkParticipationRewarded_FullMethodName = "/activity.Activity/MarkParticipationRewarded"
 	Activity_MarkParticipationRefunded_FullMethodName = "/activity.Activity/MarkParticipationRefunded"
+	Activity_CreateShopCoupon_FullMethodName          = "/activity.Activity/CreateShopCoupon"
+	Activity_ListShopCoupons_FullMethodName           = "/activity.Activity/ListShopCoupons"
+	Activity_UpdateShopCouponStatus_FullMethodName    = "/activity.Activity/UpdateShopCouponStatus"
+	Activity_CreateFlashDiscount_FullMethodName       = "/activity.Activity/CreateFlashDiscount"
+	Activity_ListFlashDiscounts_FullMethodName        = "/activity.Activity/ListFlashDiscounts"
+	Activity_CancelFlashDiscount_FullMethodName       = "/activity.Activity/CancelFlashDiscount"
 )
 
 // ActivityClient is the client API for Activity service.
@@ -59,6 +65,14 @@ type ActivityClient interface {
 	RestoreInventory(ctx context.Context, in *RestoreInventoryReq, opts ...grpc.CallOption) (*Empty, error)
 	MarkParticipationRewarded(ctx context.Context, in *MarkParticipationRewardedReq, opts ...grpc.CallOption) (*Empty, error)
 	MarkParticipationRefunded(ctx context.Context, in *MarkParticipationRefundedReq, opts ...grpc.CallOption) (*Empty, error)
+	// ===== G-3 Shop coupons =====
+	CreateShopCoupon(ctx context.Context, in *CreateShopCouponReq, opts ...grpc.CallOption) (*CreateShopCouponResp, error)
+	ListShopCoupons(ctx context.Context, in *ListShopCouponsReq, opts ...grpc.CallOption) (*ListShopCouponsResp, error)
+	UpdateShopCouponStatus(ctx context.Context, in *UpdateShopCouponStatusReq, opts ...grpc.CallOption) (*Empty, error)
+	// ===== G-4 SKU flash discount =====
+	CreateFlashDiscount(ctx context.Context, in *CreateFlashDiscountReq, opts ...grpc.CallOption) (*CreateFlashDiscountResp, error)
+	ListFlashDiscounts(ctx context.Context, in *ListFlashDiscountsReq, opts ...grpc.CallOption) (*ListFlashDiscountsResp, error)
+	CancelFlashDiscount(ctx context.Context, in *CancelFlashDiscountReq, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type activityClient struct {
@@ -239,6 +253,66 @@ func (c *activityClient) MarkParticipationRefunded(ctx context.Context, in *Mark
 	return out, nil
 }
 
+func (c *activityClient) CreateShopCoupon(ctx context.Context, in *CreateShopCouponReq, opts ...grpc.CallOption) (*CreateShopCouponResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateShopCouponResp)
+	err := c.cc.Invoke(ctx, Activity_CreateShopCoupon_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *activityClient) ListShopCoupons(ctx context.Context, in *ListShopCouponsReq, opts ...grpc.CallOption) (*ListShopCouponsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListShopCouponsResp)
+	err := c.cc.Invoke(ctx, Activity_ListShopCoupons_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *activityClient) UpdateShopCouponStatus(ctx context.Context, in *UpdateShopCouponStatusReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, Activity_UpdateShopCouponStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *activityClient) CreateFlashDiscount(ctx context.Context, in *CreateFlashDiscountReq, opts ...grpc.CallOption) (*CreateFlashDiscountResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateFlashDiscountResp)
+	err := c.cc.Invoke(ctx, Activity_CreateFlashDiscount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *activityClient) ListFlashDiscounts(ctx context.Context, in *ListFlashDiscountsReq, opts ...grpc.CallOption) (*ListFlashDiscountsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListFlashDiscountsResp)
+	err := c.cc.Invoke(ctx, Activity_ListFlashDiscounts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *activityClient) CancelFlashDiscount(ctx context.Context, in *CancelFlashDiscountReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, Activity_CancelFlashDiscount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActivityServer is the server API for Activity service.
 // All implementations must embed UnimplementedActivityServer
 // for forward compatibility.
@@ -260,6 +334,14 @@ type ActivityServer interface {
 	RestoreInventory(context.Context, *RestoreInventoryReq) (*Empty, error)
 	MarkParticipationRewarded(context.Context, *MarkParticipationRewardedReq) (*Empty, error)
 	MarkParticipationRefunded(context.Context, *MarkParticipationRefundedReq) (*Empty, error)
+	// ===== G-3 Shop coupons =====
+	CreateShopCoupon(context.Context, *CreateShopCouponReq) (*CreateShopCouponResp, error)
+	ListShopCoupons(context.Context, *ListShopCouponsReq) (*ListShopCouponsResp, error)
+	UpdateShopCouponStatus(context.Context, *UpdateShopCouponStatusReq) (*Empty, error)
+	// ===== G-4 SKU flash discount =====
+	CreateFlashDiscount(context.Context, *CreateFlashDiscountReq) (*CreateFlashDiscountResp, error)
+	ListFlashDiscounts(context.Context, *ListFlashDiscountsReq) (*ListFlashDiscountsResp, error)
+	CancelFlashDiscount(context.Context, *CancelFlashDiscountReq) (*Empty, error)
 	mustEmbedUnimplementedActivityServer()
 }
 
@@ -320,6 +402,24 @@ func (UnimplementedActivityServer) MarkParticipationRewarded(context.Context, *M
 }
 func (UnimplementedActivityServer) MarkParticipationRefunded(context.Context, *MarkParticipationRefundedReq) (*Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method MarkParticipationRefunded not implemented")
+}
+func (UnimplementedActivityServer) CreateShopCoupon(context.Context, *CreateShopCouponReq) (*CreateShopCouponResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateShopCoupon not implemented")
+}
+func (UnimplementedActivityServer) ListShopCoupons(context.Context, *ListShopCouponsReq) (*ListShopCouponsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopCoupons not implemented")
+}
+func (UnimplementedActivityServer) UpdateShopCouponStatus(context.Context, *UpdateShopCouponStatusReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateShopCouponStatus not implemented")
+}
+func (UnimplementedActivityServer) CreateFlashDiscount(context.Context, *CreateFlashDiscountReq) (*CreateFlashDiscountResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateFlashDiscount not implemented")
+}
+func (UnimplementedActivityServer) ListFlashDiscounts(context.Context, *ListFlashDiscountsReq) (*ListFlashDiscountsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListFlashDiscounts not implemented")
+}
+func (UnimplementedActivityServer) CancelFlashDiscount(context.Context, *CancelFlashDiscountReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method CancelFlashDiscount not implemented")
 }
 func (UnimplementedActivityServer) mustEmbedUnimplementedActivityServer() {}
 func (UnimplementedActivityServer) testEmbeddedByValue()                  {}
@@ -648,6 +748,114 @@ func _Activity_MarkParticipationRefunded_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Activity_CreateShopCoupon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateShopCouponReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityServer).CreateShopCoupon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Activity_CreateShopCoupon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityServer).CreateShopCoupon(ctx, req.(*CreateShopCouponReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Activity_ListShopCoupons_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListShopCouponsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityServer).ListShopCoupons(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Activity_ListShopCoupons_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityServer).ListShopCoupons(ctx, req.(*ListShopCouponsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Activity_UpdateShopCouponStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateShopCouponStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityServer).UpdateShopCouponStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Activity_UpdateShopCouponStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityServer).UpdateShopCouponStatus(ctx, req.(*UpdateShopCouponStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Activity_CreateFlashDiscount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFlashDiscountReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityServer).CreateFlashDiscount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Activity_CreateFlashDiscount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityServer).CreateFlashDiscount(ctx, req.(*CreateFlashDiscountReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Activity_ListFlashDiscounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFlashDiscountsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityServer).ListFlashDiscounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Activity_ListFlashDiscounts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityServer).ListFlashDiscounts(ctx, req.(*ListFlashDiscountsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Activity_CancelFlashDiscount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelFlashDiscountReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityServer).CancelFlashDiscount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Activity_CancelFlashDiscount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityServer).CancelFlashDiscount(ctx, req.(*CancelFlashDiscountReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Activity_ServiceDesc is the grpc.ServiceDesc for Activity service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -723,7 +931,31 @@ var Activity_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "MarkParticipationRefunded",
 			Handler:    _Activity_MarkParticipationRefunded_Handler,
 		},
+		{
+			MethodName: "CreateShopCoupon",
+			Handler:    _Activity_CreateShopCoupon_Handler,
+		},
+		{
+			MethodName: "ListShopCoupons",
+			Handler:    _Activity_ListShopCoupons_Handler,
+		},
+		{
+			MethodName: "UpdateShopCouponStatus",
+			Handler:    _Activity_UpdateShopCouponStatus_Handler,
+		},
+		{
+			MethodName: "CreateFlashDiscount",
+			Handler:    _Activity_CreateFlashDiscount_Handler,
+		},
+		{
+			MethodName: "ListFlashDiscounts",
+			Handler:    _Activity_ListFlashDiscounts_Handler,
+		},
+		{
+			MethodName: "CancelFlashDiscount",
+			Handler:    _Activity_CancelFlashDiscount_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "activity.proto",
+	Metadata: "activity/activity.proto",
 }

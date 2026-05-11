@@ -11,7 +11,16 @@ service Logistics {
   rpc IngestWebhookEvents(IngestWebhookEventsReq) returns (Empty);
   rpc RetrySubscribe(RetrySubscribeReq) returns (Empty);
   rpc InjectTrack(InjectTrackReq) returns (Empty);
+
+  // ===== C-6 Freight templates =====
+  rpc CreateFreightTemplate(CreateFreightTemplateReq) returns (CreateFreightTemplateResp);
+  rpc ListFreightTemplates(ListFreightTemplatesReq) returns (ListFreightTemplatesResp);
+  rpc GetFreightTemplate(IdReq) returns (FreightTemplate);
+  rpc UpdateFreightTemplate(UpdateFreightTemplateReq) returns (Empty);
+  rpc DeleteFreightTemplate(IdReq) returns (Empty);
 }
+
+message IdReq { int64 id = 1; }
 
 message Empty {}
 
@@ -80,4 +89,42 @@ message InjectTrackReq {
   int32 state_internal = 2;
   string location = 3;
   string description = 4;
+}
+
+// ===== C-6 Freight template =====
+message FreightTemplate {
+  int64 id = 1;
+  int64 shop_id = 2;
+  string name = 3;
+  int32 calc_type = 4;
+  int32 first_value = 5;
+  int64 first_fee = 6;
+  int32 extra_value = 7;
+  int64 extra_fee = 8;
+  string regions = 9;
+  bool is_default = 10;
+  int32 status = 11;
+  int64 create_time = 12;
+}
+message CreateFreightTemplateReq {
+  int64 shop_id = 1;
+  string name = 2;
+  int32 calc_type = 3;
+  int32 first_value = 4;
+  int64 first_fee = 5;
+  int32 extra_value = 6;
+  int64 extra_fee = 7;
+  string regions = 8;
+  bool is_default = 9;
+}
+message CreateFreightTemplateResp { int64 id = 1; }
+message ListFreightTemplatesReq { int64 shop_id = 1; int32 page = 2; int32 page_size = 3; }
+message ListFreightTemplatesResp { repeated FreightTemplate templates = 1; int64 total = 2; }
+message UpdateFreightTemplateReq {
+  int64 id = 1;
+  int64 shop_id = 2;
+  string name = 3;
+  int64 first_fee = 4;
+  int64 extra_fee = 5;
+  bool is_default = 6;
 }

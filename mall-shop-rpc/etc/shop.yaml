@@ -6,6 +6,7 @@ Etcd:
   Key: yw-mall/shop-rpc
 
 DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_shop?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+RiskDataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_risk?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 
 Cache:
   - Host: 127.0.0.1:6379

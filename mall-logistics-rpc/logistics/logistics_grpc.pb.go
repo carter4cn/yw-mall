@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.19.4
-// source: logistics.proto
+// source: logistics/logistics.proto
 
 package logistics
 
@@ -19,12 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Logistics_CreateShipment_FullMethodName       = "/logistics.Logistics/CreateShipment"
-	Logistics_ListShipmentsByOrder_FullMethodName = "/logistics.Logistics/ListShipmentsByOrder"
-	Logistics_GetShipment_FullMethodName          = "/logistics.Logistics/GetShipment"
-	Logistics_IngestWebhookEvents_FullMethodName  = "/logistics.Logistics/IngestWebhookEvents"
-	Logistics_RetrySubscribe_FullMethodName       = "/logistics.Logistics/RetrySubscribe"
-	Logistics_InjectTrack_FullMethodName          = "/logistics.Logistics/InjectTrack"
+	Logistics_CreateShipment_FullMethodName        = "/logistics.Logistics/CreateShipment"
+	Logistics_ListShipmentsByOrder_FullMethodName  = "/logistics.Logistics/ListShipmentsByOrder"
+	Logistics_GetShipment_FullMethodName           = "/logistics.Logistics/GetShipment"
+	Logistics_IngestWebhookEvents_FullMethodName   = "/logistics.Logistics/IngestWebhookEvents"
+	Logistics_RetrySubscribe_FullMethodName        = "/logistics.Logistics/RetrySubscribe"
+	Logistics_InjectTrack_FullMethodName           = "/logistics.Logistics/InjectTrack"
+	Logistics_CreateFreightTemplate_FullMethodName = "/logistics.Logistics/CreateFreightTemplate"
+	Logistics_ListFreightTemplates_FullMethodName  = "/logistics.Logistics/ListFreightTemplates"
+	Logistics_GetFreightTemplate_FullMethodName    = "/logistics.Logistics/GetFreightTemplate"
+	Logistics_UpdateFreightTemplate_FullMethodName = "/logistics.Logistics/UpdateFreightTemplate"
+	Logistics_DeleteFreightTemplate_FullMethodName = "/logistics.Logistics/DeleteFreightTemplate"
 )
 
 // LogisticsClient is the client API for Logistics service.
@@ -37,6 +42,12 @@ type LogisticsClient interface {
 	IngestWebhookEvents(ctx context.Context, in *IngestWebhookEventsReq, opts ...grpc.CallOption) (*Empty, error)
 	RetrySubscribe(ctx context.Context, in *RetrySubscribeReq, opts ...grpc.CallOption) (*Empty, error)
 	InjectTrack(ctx context.Context, in *InjectTrackReq, opts ...grpc.CallOption) (*Empty, error)
+	// ===== C-6 Freight templates =====
+	CreateFreightTemplate(ctx context.Context, in *CreateFreightTemplateReq, opts ...grpc.CallOption) (*CreateFreightTemplateResp, error)
+	ListFreightTemplates(ctx context.Context, in *ListFreightTemplatesReq, opts ...grpc.CallOption) (*ListFreightTemplatesResp, error)
+	GetFreightTemplate(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*FreightTemplate, error)
+	UpdateFreightTemplate(ctx context.Context, in *UpdateFreightTemplateReq, opts ...grpc.CallOption) (*Empty, error)
+	DeleteFreightTemplate(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type logisticsClient struct {
@@ -107,6 +118,56 @@ func (c *logisticsClient) InjectTrack(ctx context.Context, in *InjectTrackReq, o
 	return out, nil
 }
 
+func (c *logisticsClient) CreateFreightTemplate(ctx context.Context, in *CreateFreightTemplateReq, opts ...grpc.CallOption) (*CreateFreightTemplateResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateFreightTemplateResp)
+	err := c.cc.Invoke(ctx, Logistics_CreateFreightTemplate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logisticsClient) ListFreightTemplates(ctx context.Context, in *ListFreightTemplatesReq, opts ...grpc.CallOption) (*ListFreightTemplatesResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListFreightTemplatesResp)
+	err := c.cc.Invoke(ctx, Logistics_ListFreightTemplates_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logisticsClient) GetFreightTemplate(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*FreightTemplate, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FreightTemplate)
+	err := c.cc.Invoke(ctx, Logistics_GetFreightTemplate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logisticsClient) UpdateFreightTemplate(ctx context.Context, in *UpdateFreightTemplateReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, Logistics_UpdateFreightTemplate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logisticsClient) DeleteFreightTemplate(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, Logistics_DeleteFreightTemplate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LogisticsServer is the server API for Logistics service.
 // All implementations must embed UnimplementedLogisticsServer
 // for forward compatibility.
@@ -117,6 +178,12 @@ type LogisticsServer interface {
 	IngestWebhookEvents(context.Context, *IngestWebhookEventsReq) (*Empty, error)
 	RetrySubscribe(context.Context, *RetrySubscribeReq) (*Empty, error)
 	InjectTrack(context.Context, *InjectTrackReq) (*Empty, error)
+	// ===== C-6 Freight templates =====
+	CreateFreightTemplate(context.Context, *CreateFreightTemplateReq) (*CreateFreightTemplateResp, error)
+	ListFreightTemplates(context.Context, *ListFreightTemplatesReq) (*ListFreightTemplatesResp, error)
+	GetFreightTemplate(context.Context, *IdReq) (*FreightTemplate, error)
+	UpdateFreightTemplate(context.Context, *UpdateFreightTemplateReq) (*Empty, error)
+	DeleteFreightTemplate(context.Context, *IdReq) (*Empty, error)
 	mustEmbedUnimplementedLogisticsServer()
 }
 
@@ -144,6 +211,21 @@ func (UnimplementedLogisticsServer) RetrySubscribe(context.Context, *RetrySubscr
 }
 func (UnimplementedLogisticsServer) InjectTrack(context.Context, *InjectTrackReq) (*Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method InjectTrack not implemented")
+}
+func (UnimplementedLogisticsServer) CreateFreightTemplate(context.Context, *CreateFreightTemplateReq) (*CreateFreightTemplateResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateFreightTemplate not implemented")
+}
+func (UnimplementedLogisticsServer) ListFreightTemplates(context.Context, *ListFreightTemplatesReq) (*ListFreightTemplatesResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListFreightTemplates not implemented")
+}
+func (UnimplementedLogisticsServer) GetFreightTemplate(context.Context, *IdReq) (*FreightTemplate, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetFreightTemplate not implemented")
+}
+func (UnimplementedLogisticsServer) UpdateFreightTemplate(context.Context, *UpdateFreightTemplateReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateFreightTemplate not implemented")
+}
+func (UnimplementedLogisticsServer) DeleteFreightTemplate(context.Context, *IdReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteFreightTemplate not implemented")
 }
 func (UnimplementedLogisticsServer) mustEmbedUnimplementedLogisticsServer() {}
 func (UnimplementedLogisticsServer) testEmbeddedByValue()                   {}
@@ -274,6 +356,96 @@ func _Logistics_InjectTrack_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Logistics_CreateFreightTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFreightTemplateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogisticsServer).CreateFreightTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Logistics_CreateFreightTemplate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogisticsServer).CreateFreightTemplate(ctx, req.(*CreateFreightTemplateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Logistics_ListFreightTemplates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFreightTemplatesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogisticsServer).ListFreightTemplates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Logistics_ListFreightTemplates_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogisticsServer).ListFreightTemplates(ctx, req.(*ListFreightTemplatesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Logistics_GetFreightTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogisticsServer).GetFreightTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Logistics_GetFreightTemplate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogisticsServer).GetFreightTemplate(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Logistics_UpdateFreightTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFreightTemplateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogisticsServer).UpdateFreightTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Logistics_UpdateFreightTemplate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogisticsServer).UpdateFreightTemplate(ctx, req.(*UpdateFreightTemplateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Logistics_DeleteFreightTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogisticsServer).DeleteFreightTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Logistics_DeleteFreightTemplate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogisticsServer).DeleteFreightTemplate(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Logistics_ServiceDesc is the grpc.ServiceDesc for Logistics service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -305,7 +477,27 @@ var Logistics_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "InjectTrack",
 			Handler:    _Logistics_InjectTrack_Handler,
 		},
+		{
+			MethodName: "CreateFreightTemplate",
+			Handler:    _Logistics_CreateFreightTemplate_Handler,
+		},
+		{
+			MethodName: "ListFreightTemplates",
+			Handler:    _Logistics_ListFreightTemplates_Handler,
+		},
+		{
+			MethodName: "GetFreightTemplate",
+			Handler:    _Logistics_GetFreightTemplate_Handler,
+		},
+		{
+			MethodName: "UpdateFreightTemplate",
+			Handler:    _Logistics_UpdateFreightTemplate_Handler,
+		},
+		{
+			MethodName: "DeleteFreightTemplate",
+			Handler:    _Logistics_DeleteFreightTemplate_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "logistics.proto",
+	Metadata: "logistics/logistics.proto",
 }

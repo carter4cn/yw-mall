@@ -62,3 +62,23 @@ func (s *OrderServer) MarkShipped(ctx context.Context, in *order.MarkShippedReq)
 	l := logic.NewMarkShippedLogic(ctx, s.svcCtx)
 	return l.MarkShipped(in)
 }
+
+func (s *OrderServer) ListShopOrders(ctx context.Context, in *order.ListShopOrdersReq) (*order.ListOrdersResp, error) {
+	l := logic.NewListShopOrdersLogic(ctx, s.svcCtx)
+	return l.ListShopOrders(in)
+}
+
+func (s *OrderServer) GetShopOrder(ctx context.Context, in *order.GetShopOrderReq) (*order.GetOrderResp, error) {
+	l := logic.NewGetShopOrderLogic(ctx, s.svcCtx)
+	return l.GetShopOrder(in)
+}
+
+func (s *OrderServer) ShipOrder(ctx context.Context, in *order.ShipOrderReq) (*order.OkResp, error) {
+	l := logic.NewShipOrderLogic(ctx, s.svcCtx)
+	return l.ShipOrder(in)
+}
+
+func (s *OrderServer) MerchantRejectRefund(ctx context.Context, in *order.MerchantRejectRefundReq) (*order.OkResp, error) {
+	l := logic.NewMerchantRejectRefundLogic(ctx, s.svcCtx)
+	return l.MerchantRejectRefund(in)
+}

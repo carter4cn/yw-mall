@@ -62,3 +62,62 @@ func (s *RiskServer) RecordEvent(ctx context.Context, in *risk.RecordEventReq) (
 	l := logic.NewRecordEventLogic(ctx, s.svcCtx)
 	return l.RecordEvent(in)
 }
+
+// ===== P1 complaint & restriction =====
+
+func (s *RiskServer) CreateComplaint(ctx context.Context, in *risk.CreateComplaintReq) (*risk.CreateComplaintResp, error) {
+	l := logic.NewCreateComplaintLogic(ctx, s.svcCtx)
+	return l.CreateComplaint(in)
+}
+
+func (s *RiskServer) GetComplaint(ctx context.Context, in *risk.GetComplaintReq) (*risk.ComplaintTicket, error) {
+	l := logic.NewGetComplaintLogic(ctx, s.svcCtx)
+	return l.GetComplaint(in)
+}
+
+func (s *RiskServer) ListComplaints(ctx context.Context, in *risk.ListComplaintsReq) (*risk.ListComplaintsResp, error) {
+	l := logic.NewListComplaintsLogic(ctx, s.svcCtx)
+	return l.ListComplaints(in)
+}
+
+func (s *RiskServer) HandleComplaint(ctx context.Context, in *risk.HandleComplaintReq) (*risk.Empty, error) {
+	l := logic.NewHandleComplaintLogic(ctx, s.svcCtx)
+	return l.HandleComplaint(in)
+}
+
+func (s *RiskServer) SetShopRestriction(ctx context.Context, in *risk.SetShopRestrictionReq) (*risk.Empty, error) {
+	l := logic.NewSetShopRestrictionLogic(ctx, s.svcCtx)
+	return l.SetShopRestriction(in)
+}
+
+func (s *RiskServer) ListShopRestrictions(ctx context.Context, in *risk.ListShopRestrictionsReq) (*risk.ListShopRestrictionsResp, error) {
+	l := logic.NewListShopRestrictionsLogic(ctx, s.svcCtx)
+	return l.ListShopRestrictions(in)
+}
+
+func (s *RiskServer) RemoveShopRestriction(ctx context.Context, in *risk.RemoveShopRestrictionReq) (*risk.Empty, error) {
+	l := logic.NewRemoveShopRestrictionLogic(ctx, s.svcCtx)
+	return l.RemoveShopRestriction(in)
+}
+
+// ===== J-4 sensitive word library =====
+
+func (s *RiskServer) CreateSensitiveWord(ctx context.Context, in *risk.CreateSensitiveWordReq) (*risk.CreateSensitiveWordResp, error) {
+	l := logic.NewCreateSensitiveWordLogic(ctx, s.svcCtx)
+	return l.CreateSensitiveWord(in)
+}
+
+func (s *RiskServer) ListSensitiveWords(ctx context.Context, in *risk.ListSensitiveWordsReq) (*risk.ListSensitiveWordsResp, error) {
+	l := logic.NewListSensitiveWordsLogic(ctx, s.svcCtx)
+	return l.ListSensitiveWords(in)
+}
+
+func (s *RiskServer) DeleteSensitiveWord(ctx context.Context, in *risk.IdReq) (*risk.Empty, error) {
+	l := logic.NewDeleteSensitiveWordLogic(ctx, s.svcCtx)
+	return l.DeleteSensitiveWord(in)
+}
+
+func (s *RiskServer) CheckText(ctx context.Context, in *risk.CheckTextReq) (*risk.CheckTextResp, error) {
+	l := logic.NewCheckTextLogic(ctx, s.svcCtx)
+	return l.CheckText(in)
+}

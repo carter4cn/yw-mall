@@ -14,19 +14,24 @@ import (
 )
 
 type (
-	CreateOrderReq        = order.CreateOrderReq
-	CreateOrderResp       = order.CreateOrderResp
-	GetOrderReq           = order.GetOrderReq
-	GetOrderResp          = order.GetOrderResp
-	GetOrderItemReq       = order.GetOrderItemReq
-	GetOrderItemResp      = order.GetOrderItemResp
-	ListOrdersReq         = order.ListOrdersReq
-	ListOrdersResp        = order.ListOrdersResp
-	OrderItem             = order.OrderItem
-	UpdateOrderStatusReq  = order.UpdateOrderStatusReq
-	UpdateOrderStatusResp = order.UpdateOrderStatusResp
-	MarkShippedReq        = order.MarkShippedReq
-	MarkShippedResp       = order.MarkShippedResp
+	CreateOrderReq          = order.CreateOrderReq
+	CreateOrderResp         = order.CreateOrderResp
+	GetOrderReq             = order.GetOrderReq
+	GetOrderResp            = order.GetOrderResp
+	GetOrderItemReq         = order.GetOrderItemReq
+	GetOrderItemResp        = order.GetOrderItemResp
+	GetShopOrderReq         = order.GetShopOrderReq
+	ListOrdersReq           = order.ListOrdersReq
+	ListOrdersResp          = order.ListOrdersResp
+	ListShopOrdersReq       = order.ListShopOrdersReq
+	MerchantRejectRefundReq = order.MerchantRejectRefundReq
+	OkResp                  = order.OkResp
+	OrderItem               = order.OrderItem
+	ShipOrderReq            = order.ShipOrderReq
+	UpdateOrderStatusReq    = order.UpdateOrderStatusReq
+	UpdateOrderStatusResp   = order.UpdateOrderStatusResp
+	MarkShippedReq          = order.MarkShippedReq
+	MarkShippedResp         = order.MarkShippedResp
 
 	Order interface {
 		CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderResp, error)
@@ -35,6 +40,10 @@ type (
 		UpdateOrderStatus(ctx context.Context, in *UpdateOrderStatusReq, opts ...grpc.CallOption) (*UpdateOrderStatusResp, error)
 		GetOrderItem(ctx context.Context, in *GetOrderItemReq, opts ...grpc.CallOption) (*GetOrderItemResp, error)
 		MarkShipped(ctx context.Context, in *MarkShippedReq, opts ...grpc.CallOption) (*MarkShippedResp, error)
+		ListShopOrders(ctx context.Context, in *ListShopOrdersReq, opts ...grpc.CallOption) (*ListOrdersResp, error)
+		GetShopOrder(ctx context.Context, in *GetShopOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error)
+		ShipOrder(ctx context.Context, in *ShipOrderReq, opts ...grpc.CallOption) (*OkResp, error)
+		MerchantRejectRefund(ctx context.Context, in *MerchantRejectRefundReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultOrder struct {
@@ -76,4 +85,24 @@ func (m *defaultOrder) GetOrderItem(ctx context.Context, in *GetOrderItemReq, op
 func (m *defaultOrder) MarkShipped(ctx context.Context, in *MarkShippedReq, opts ...grpc.CallOption) (*MarkShippedResp, error) {
 	client := order.NewOrderClient(m.cli.Conn())
 	return client.MarkShipped(ctx, in, opts...)
+}
+
+func (m *defaultOrder) ListShopOrders(ctx context.Context, in *ListShopOrdersReq, opts ...grpc.CallOption) (*ListOrdersResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.ListShopOrders(ctx, in, opts...)
+}
+
+func (m *defaultOrder) GetShopOrder(ctx context.Context, in *GetShopOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.GetShopOrder(ctx, in, opts...)
+}
+
+func (m *defaultOrder) ShipOrder(ctx context.Context, in *ShipOrderReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.ShipOrder(ctx, in, opts...)
+}
+
+func (m *defaultOrder) MerchantRejectRefund(ctx context.Context, in *MerchantRejectRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.MerchantRejectRefund(ctx, in, opts...)
 }

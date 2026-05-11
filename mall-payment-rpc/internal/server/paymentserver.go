@@ -37,3 +37,35 @@ func (s *PaymentServer) UpdatePaymentStatus(ctx context.Context, in *payment.Upd
 	l := logic.NewUpdatePaymentStatusLogic(ctx, s.svcCtx)
 	return l.UpdatePaymentStatus(in)
 }
+
+// ===== P1 merchant wallet =====
+
+func (s *PaymentServer) GetMerchantWallet(ctx context.Context, in *payment.GetMerchantWalletReq) (*payment.MerchantWallet, error) {
+	l := logic.NewGetMerchantWalletLogic(ctx, s.svcCtx)
+	return l.GetMerchantWallet(in)
+}
+
+func (s *PaymentServer) CreditWallet(ctx context.Context, in *payment.CreditWalletReq) (*payment.OkResp, error) {
+	l := logic.NewCreditWalletLogic(ctx, s.svcCtx)
+	return l.CreditWallet(in)
+}
+
+func (s *PaymentServer) CreateWithdrawal(ctx context.Context, in *payment.CreateWithdrawalReq) (*payment.CreateWithdrawalResp, error) {
+	l := logic.NewCreateWithdrawalLogic(ctx, s.svcCtx)
+	return l.CreateWithdrawal(in)
+}
+
+func (s *PaymentServer) ListWithdrawals(ctx context.Context, in *payment.ListWithdrawalsReq) (*payment.ListWithdrawalsResp, error) {
+	l := logic.NewListWithdrawalsLogic(ctx, s.svcCtx)
+	return l.ListWithdrawals(in)
+}
+
+func (s *PaymentServer) AdminHandleWithdrawal(ctx context.Context, in *payment.AdminHandleWithdrawalReq) (*payment.OkResp, error) {
+	l := logic.NewAdminHandleWithdrawalLogic(ctx, s.svcCtx)
+	return l.AdminHandleWithdrawal(in)
+}
+
+func (s *PaymentServer) ListBillRecords(ctx context.Context, in *payment.ListBillRecordsReq) (*payment.ListBillRecordsResp, error) {
+	l := logic.NewListBillRecordsLogic(ctx, s.svcCtx)
+	return l.ListBillRecords(in)
+}

@@ -14,6 +14,22 @@ service ShopService {
   rpc CreateShop(CreateShopReq) returns (CreateShopResp);
   rpc UpdateShop(UpdateShopReq) returns (OkResp);
   rpc IncrProductCount(IncrProductCountReq) returns (OkResp);
+
+  rpc ApplyShop(ApplyShopReq) returns (ApplyShopResp);
+  rpc GetShopApplication(GetShopApplicationReq) returns (ShopApplication);
+  rpc ListShopApplications(ListShopApplicationsReq) returns (ListShopApplicationsResp);
+  rpc ReviewShopApplication(ReviewShopApplicationReq) returns (OkResp);
+  rpc GetShopByOwnerId(GetShopByOwnerIdReq) returns (ShopDetailResp);
+  rpc UpdateShopStatus(UpdateShopStatusReq) returns (OkResp);
+  rpc AdjustCreditScore(AdjustCreditScoreReq) returns (OkResp);
+  rpc ListMyApplications(ListMyApplicationsReq) returns (ListShopApplicationsResp);
+
+  // ===== B-5/B-6 Shop level system =====
+  rpc ListShopLevels(Empty) returns (ListShopLevelsResp);
+  rpc GetMyLevelStatus(GetMyLevelStatusReq) returns (MyLevelStatus);
+  rpc SubmitLevelApplication(SubmitLevelApplicationReq) returns (SubmitLevelApplicationResp);
+  rpc ListLevelApplications(ListLevelApplicationsReq) returns (ListLevelApplicationsResp);
+  rpc ReviewLevelApplication(ReviewLevelApplicationReq) returns (OkResp);
 }
 
 message Shop {
@@ -45,3 +61,127 @@ message CreateShopReq        { string name = 1; string logo = 2; string banner =
 message CreateShopResp       { int64 id = 1; }
 message UpdateShopReq        { int64 id = 1; string name = 2; string logo = 3; string banner = 4; string description = 5; }
 message IncrProductCountReq  { int64 shop_id = 1; int32 delta = 2; }
+
+// ===== Merchant Onboarding =====
+message ShopApplication {
+  int64 id = 1;
+  int64 user_id = 2;
+  string shop_name = 3;
+  string logo = 4;
+  string description = 5;
+  string contact_phone = 6;
+  string business_license = 7;
+  string legal_person = 8;
+  string id_card_front = 9;
+  string id_card_back = 10;
+  string category = 11;
+  int32 status = 12;
+  string review_remark = 13;
+  int64 reviewer_id = 14;
+  int64 shop_id = 15;
+  int64 create_time = 16;
+  int64 update_time = 17;
+}
+
+message ApplyShopReq {
+  int64 user_id = 1;
+  string shop_name = 2;
+  string logo = 3;
+  string description = 4;
+  string contact_phone = 5;
+  string business_license = 6;
+  string legal_person = 7;
+  string id_card_front = 8;
+  string id_card_back = 9;
+  string category = 10;
+}
+message ApplyShopResp { int64 application_id = 1; }
+
+message GetShopApplicationReq { int64 id = 1; }
+
+message ListShopApplicationsReq { int32 status = 1; int32 page = 2; int32 page_size = 3; }
+message ListShopApplicationsResp { repeated ShopApplication applications = 1; int64 total = 2; }
+message ListMyApplicationsReq { int64 user_id = 1; int32 page = 2; int32 page_size = 3; }
+
+message ReviewShopApplicationReq {
+  int64 application_id = 1;
+  int64 reviewer_id = 2;
+  int32 action = 3; // 1=approve, 2=reject, 3=need_more_info
+  string remark = 4;
+}
+
+message GetShopByOwnerIdReq { int64 owner_user_id = 1; }
+
+message UpdateShopStatusReq { int64 shop_id = 1; int32 status = 2; string reason = 3; }
+
+message AdjustCreditScoreReq { int64 shop_id = 1; int32 delta = 2; string reason = 3; int64 operator_id = 4; }
+
+message ShopDetailResp {
+  int64  id = 1;
+  string name = 2;
+  string logo = 3;
+  string banner = 4;
+  string description = 5;
+  double rating = 6;
+  int32  product_count = 7;
+  int32  follow_count = 8;
+  int32  status = 9;
+  int64  create_time = 10;
+  int64  owner_user_id = 11;
+  int32  credit_score = 12;
+  int32  level = 13;
+  string contact_phone = 14;
+  string business_license = 15;
+}
+
+// ===== B-5/B-6 Shop level system =====
+message Empty {}
+
+message ShopLevelTemplate {
+  int32 level = 1;
+  string name = 2;
+  int64 min_gmv = 3;
+  int32 min_credit_score = 4;
+  int32 min_months = 5;
+  double min_rating = 6;
+  double commission_rate = 7;
+  double traffic_boost = 8;
+  string benefits = 9;
+}
+message ListShopLevelsResp { repeated ShopLevelTemplate levels = 1; }
+
+message GetMyLevelStatusReq { int64 shop_id = 1; }
+message MyLevelStatus {
+  int32 current_level = 1;
+  ShopLevelTemplate current_template = 2;
+  ShopLevelTemplate next_template = 3;
+  int64 current_gmv = 4;
+  int32 current_credit_score = 5;
+  int32 current_months = 6;
+  double current_rating = 7;
+  bool eligible_for_next = 8;
+  bool has_pending_application = 9;
+}
+
+message SubmitLevelApplicationReq { int64 shop_id = 1; int32 target_level = 2; }
+message SubmitLevelApplicationResp { int64 application_id = 1; }
+
+message ShopLevelApplication {
+  int64 id = 1;
+  int64 shop_id = 2;
+  int32 current_level = 3;
+  int32 target_level = 4;
+  string snapshot = 5;
+  int32 status = 6;
+  int64 admin_id = 7;
+  string admin_remark = 8;
+  int64 create_time = 9;
+}
+message ListLevelApplicationsReq { int32 status = 1; int32 page = 2; int32 page_size = 3; }
+message ListLevelApplicationsResp { repeated ShopLevelApplication applications = 1; int64 total = 2; }
+message ReviewLevelApplicationReq {
+  int64 application_id = 1;
+  int64 admin_id = 2;
+  int32 action = 3;  // 1=approve, 2=reject
+  string remark = 4;
+}

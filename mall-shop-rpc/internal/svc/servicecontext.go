@@ -10,16 +10,21 @@ import (
 type ServiceContext struct {
 	Config          config.Config
 	DB              sqlx.SqlConn
+	RiskDB          sqlx.SqlConn // for F-5 auto-restrict via shop_restriction
 	ShopModel       model.ShopModel
 	ShopFollowModel model.ShopFollowModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	conn := sqlx.NewMysql(c.DataSource)
-	return &ServiceContext{
+	ctx := &ServiceContext{
 		Config:          c,
 		DB:              conn,
 		ShopModel:       model.NewShopModel(conn, c.Cache),
 		ShopFollowModel: model.NewShopFollowModel(conn, c.Cache),
 	}
+	if c.RiskDataSource != "" {
+		ctx.RiskDB = sqlx.NewMysql(c.RiskDataSource)
+	}
+	return ctx
 }

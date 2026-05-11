@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.19.4
-// source: shop.proto
+// source: shop/shop.proto
 
 package shop
 
@@ -19,16 +19,32 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ShopService_GetShop_FullMethodName              = "/shop.ShopService/GetShop"
-	ShopService_ListShops_FullMethodName            = "/shop.ShopService/ListShops"
-	ShopService_ListRecommendedShops_FullMethodName = "/shop.ShopService/ListRecommendedShops"
-	ShopService_FollowShop_FullMethodName           = "/shop.ShopService/FollowShop"
-	ShopService_UnfollowShop_FullMethodName         = "/shop.ShopService/UnfollowShop"
-	ShopService_IsFollowing_FullMethodName          = "/shop.ShopService/IsFollowing"
-	ShopService_ListFollowedShops_FullMethodName    = "/shop.ShopService/ListFollowedShops"
-	ShopService_CreateShop_FullMethodName           = "/shop.ShopService/CreateShop"
-	ShopService_UpdateShop_FullMethodName           = "/shop.ShopService/UpdateShop"
-	ShopService_IncrProductCount_FullMethodName     = "/shop.ShopService/IncrProductCount"
+	ShopService_GetShop_FullMethodName                    = "/shop.ShopService/GetShop"
+	ShopService_ListShops_FullMethodName                  = "/shop.ShopService/ListShops"
+	ShopService_ListRecommendedShops_FullMethodName       = "/shop.ShopService/ListRecommendedShops"
+	ShopService_FollowShop_FullMethodName                 = "/shop.ShopService/FollowShop"
+	ShopService_UnfollowShop_FullMethodName               = "/shop.ShopService/UnfollowShop"
+	ShopService_IsFollowing_FullMethodName                = "/shop.ShopService/IsFollowing"
+	ShopService_ListFollowedShops_FullMethodName          = "/shop.ShopService/ListFollowedShops"
+	ShopService_CreateShop_FullMethodName                 = "/shop.ShopService/CreateShop"
+	ShopService_UpdateShop_FullMethodName                 = "/shop.ShopService/UpdateShop"
+	ShopService_IncrProductCount_FullMethodName           = "/shop.ShopService/IncrProductCount"
+	ShopService_ApplyShop_FullMethodName                  = "/shop.ShopService/ApplyShop"
+	ShopService_GetShopApplication_FullMethodName         = "/shop.ShopService/GetShopApplication"
+	ShopService_ListShopApplications_FullMethodName       = "/shop.ShopService/ListShopApplications"
+	ShopService_ReviewShopApplication_FullMethodName      = "/shop.ShopService/ReviewShopApplication"
+	ShopService_GetShopByOwnerId_FullMethodName           = "/shop.ShopService/GetShopByOwnerId"
+	ShopService_UpdateShopStatus_FullMethodName           = "/shop.ShopService/UpdateShopStatus"
+	ShopService_AdjustCreditScore_FullMethodName          = "/shop.ShopService/AdjustCreditScore"
+	ShopService_ListMyApplications_FullMethodName         = "/shop.ShopService/ListMyApplications"
+	ShopService_ListShopLevels_FullMethodName             = "/shop.ShopService/ListShopLevels"
+	ShopService_GetMyLevelStatus_FullMethodName           = "/shop.ShopService/GetMyLevelStatus"
+	ShopService_SubmitLevelApplication_FullMethodName     = "/shop.ShopService/SubmitLevelApplication"
+	ShopService_ListLevelApplications_FullMethodName      = "/shop.ShopService/ListLevelApplications"
+	ShopService_ReviewLevelApplication_FullMethodName     = "/shop.ShopService/ReviewLevelApplication"
+	ShopService_SubmitShopLifecycleRequest_FullMethodName = "/shop.ShopService/SubmitShopLifecycleRequest"
+	ShopService_ListShopLifecycleRequests_FullMethodName  = "/shop.ShopService/ListShopLifecycleRequests"
+	ShopService_ReviewShopLifecycleRequest_FullMethodName = "/shop.ShopService/ReviewShopLifecycleRequest"
 )
 
 // ShopServiceClient is the client API for ShopService service.
@@ -45,6 +61,24 @@ type ShopServiceClient interface {
 	CreateShop(ctx context.Context, in *CreateShopReq, opts ...grpc.CallOption) (*CreateShopResp, error)
 	UpdateShop(ctx context.Context, in *UpdateShopReq, opts ...grpc.CallOption) (*OkResp, error)
 	IncrProductCount(ctx context.Context, in *IncrProductCountReq, opts ...grpc.CallOption) (*OkResp, error)
+	ApplyShop(ctx context.Context, in *ApplyShopReq, opts ...grpc.CallOption) (*ApplyShopResp, error)
+	GetShopApplication(ctx context.Context, in *GetShopApplicationReq, opts ...grpc.CallOption) (*ShopApplication, error)
+	ListShopApplications(ctx context.Context, in *ListShopApplicationsReq, opts ...grpc.CallOption) (*ListShopApplicationsResp, error)
+	ReviewShopApplication(ctx context.Context, in *ReviewShopApplicationReq, opts ...grpc.CallOption) (*OkResp, error)
+	GetShopByOwnerId(ctx context.Context, in *GetShopByOwnerIdReq, opts ...grpc.CallOption) (*ShopDetailResp, error)
+	UpdateShopStatus(ctx context.Context, in *UpdateShopStatusReq, opts ...grpc.CallOption) (*OkResp, error)
+	AdjustCreditScore(ctx context.Context, in *AdjustCreditScoreReq, opts ...grpc.CallOption) (*OkResp, error)
+	ListMyApplications(ctx context.Context, in *ListMyApplicationsReq, opts ...grpc.CallOption) (*ListShopApplicationsResp, error)
+	// ===== B-5/B-6 Shop level system =====
+	ListShopLevels(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListShopLevelsResp, error)
+	GetMyLevelStatus(ctx context.Context, in *GetMyLevelStatusReq, opts ...grpc.CallOption) (*MyLevelStatus, error)
+	SubmitLevelApplication(ctx context.Context, in *SubmitLevelApplicationReq, opts ...grpc.CallOption) (*SubmitLevelApplicationResp, error)
+	ListLevelApplications(ctx context.Context, in *ListLevelApplicationsReq, opts ...grpc.CallOption) (*ListLevelApplicationsResp, error)
+	ReviewLevelApplication(ctx context.Context, in *ReviewLevelApplicationReq, opts ...grpc.CallOption) (*OkResp, error)
+	// ===== B-4 Shop lifecycle (deactivate/pause/resume) =====
+	SubmitShopLifecycleRequest(ctx context.Context, in *SubmitShopLifecycleRequestReq, opts ...grpc.CallOption) (*SubmitShopLifecycleRequestResp, error)
+	ListShopLifecycleRequests(ctx context.Context, in *ListShopLifecycleRequestsReq, opts ...grpc.CallOption) (*ListShopLifecycleRequestsResp, error)
+	ReviewShopLifecycleRequest(ctx context.Context, in *ReviewShopLifecycleRequestReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type shopServiceClient struct {
@@ -155,6 +189,166 @@ func (c *shopServiceClient) IncrProductCount(ctx context.Context, in *IncrProduc
 	return out, nil
 }
 
+func (c *shopServiceClient) ApplyShop(ctx context.Context, in *ApplyShopReq, opts ...grpc.CallOption) (*ApplyShopResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ApplyShopResp)
+	err := c.cc.Invoke(ctx, ShopService_ApplyShop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) GetShopApplication(ctx context.Context, in *GetShopApplicationReq, opts ...grpc.CallOption) (*ShopApplication, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ShopApplication)
+	err := c.cc.Invoke(ctx, ShopService_GetShopApplication_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ListShopApplications(ctx context.Context, in *ListShopApplicationsReq, opts ...grpc.CallOption) (*ListShopApplicationsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListShopApplicationsResp)
+	err := c.cc.Invoke(ctx, ShopService_ListShopApplications_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ReviewShopApplication(ctx context.Context, in *ReviewShopApplicationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShopService_ReviewShopApplication_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) GetShopByOwnerId(ctx context.Context, in *GetShopByOwnerIdReq, opts ...grpc.CallOption) (*ShopDetailResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ShopDetailResp)
+	err := c.cc.Invoke(ctx, ShopService_GetShopByOwnerId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) UpdateShopStatus(ctx context.Context, in *UpdateShopStatusReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShopService_UpdateShopStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) AdjustCreditScore(ctx context.Context, in *AdjustCreditScoreReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShopService_AdjustCreditScore_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ListMyApplications(ctx context.Context, in *ListMyApplicationsReq, opts ...grpc.CallOption) (*ListShopApplicationsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListShopApplicationsResp)
+	err := c.cc.Invoke(ctx, ShopService_ListMyApplications_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ListShopLevels(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListShopLevelsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListShopLevelsResp)
+	err := c.cc.Invoke(ctx, ShopService_ListShopLevels_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) GetMyLevelStatus(ctx context.Context, in *GetMyLevelStatusReq, opts ...grpc.CallOption) (*MyLevelStatus, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MyLevelStatus)
+	err := c.cc.Invoke(ctx, ShopService_GetMyLevelStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) SubmitLevelApplication(ctx context.Context, in *SubmitLevelApplicationReq, opts ...grpc.CallOption) (*SubmitLevelApplicationResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SubmitLevelApplicationResp)
+	err := c.cc.Invoke(ctx, ShopService_SubmitLevelApplication_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ListLevelApplications(ctx context.Context, in *ListLevelApplicationsReq, opts ...grpc.CallOption) (*ListLevelApplicationsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListLevelApplicationsResp)
+	err := c.cc.Invoke(ctx, ShopService_ListLevelApplications_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ReviewLevelApplication(ctx context.Context, in *ReviewLevelApplicationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShopService_ReviewLevelApplication_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) SubmitShopLifecycleRequest(ctx context.Context, in *SubmitShopLifecycleRequestReq, opts ...grpc.CallOption) (*SubmitShopLifecycleRequestResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SubmitShopLifecycleRequestResp)
+	err := c.cc.Invoke(ctx, ShopService_SubmitShopLifecycleRequest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ListShopLifecycleRequests(ctx context.Context, in *ListShopLifecycleRequestsReq, opts ...grpc.CallOption) (*ListShopLifecycleRequestsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListShopLifecycleRequestsResp)
+	err := c.cc.Invoke(ctx, ShopService_ListShopLifecycleRequests_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ReviewShopLifecycleRequest(ctx context.Context, in *ReviewShopLifecycleRequestReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShopService_ReviewShopLifecycleRequest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ShopServiceServer is the server API for ShopService service.
 // All implementations must embed UnimplementedShopServiceServer
 // for forward compatibility.
@@ -169,6 +363,24 @@ type ShopServiceServer interface {
 	CreateShop(context.Context, *CreateShopReq) (*CreateShopResp, error)
 	UpdateShop(context.Context, *UpdateShopReq) (*OkResp, error)
 	IncrProductCount(context.Context, *IncrProductCountReq) (*OkResp, error)
+	ApplyShop(context.Context, *ApplyShopReq) (*ApplyShopResp, error)
+	GetShopApplication(context.Context, *GetShopApplicationReq) (*ShopApplication, error)
+	ListShopApplications(context.Context, *ListShopApplicationsReq) (*ListShopApplicationsResp, error)
+	ReviewShopApplication(context.Context, *ReviewShopApplicationReq) (*OkResp, error)
+	GetShopByOwnerId(context.Context, *GetShopByOwnerIdReq) (*ShopDetailResp, error)
+	UpdateShopStatus(context.Context, *UpdateShopStatusReq) (*OkResp, error)
+	AdjustCreditScore(context.Context, *AdjustCreditScoreReq) (*OkResp, error)
+	ListMyApplications(context.Context, *ListMyApplicationsReq) (*ListShopApplicationsResp, error)
+	// ===== B-5/B-6 Shop level system =====
+	ListShopLevels(context.Context, *Empty) (*ListShopLevelsResp, error)
+	GetMyLevelStatus(context.Context, *GetMyLevelStatusReq) (*MyLevelStatus, error)
+	SubmitLevelApplication(context.Context, *SubmitLevelApplicationReq) (*SubmitLevelApplicationResp, error)
+	ListLevelApplications(context.Context, *ListLevelApplicationsReq) (*ListLevelApplicationsResp, error)
+	ReviewLevelApplication(context.Context, *ReviewLevelApplicationReq) (*OkResp, error)
+	// ===== B-4 Shop lifecycle (deactivate/pause/resume) =====
+	SubmitShopLifecycleRequest(context.Context, *SubmitShopLifecycleRequestReq) (*SubmitShopLifecycleRequestResp, error)
+	ListShopLifecycleRequests(context.Context, *ListShopLifecycleRequestsReq) (*ListShopLifecycleRequestsResp, error)
+	ReviewShopLifecycleRequest(context.Context, *ReviewShopLifecycleRequestReq) (*OkResp, error)
 	mustEmbedUnimplementedShopServiceServer()
 }
 
@@ -208,6 +420,54 @@ func (UnimplementedShopServiceServer) UpdateShop(context.Context, *UpdateShopReq
 }
 func (UnimplementedShopServiceServer) IncrProductCount(context.Context, *IncrProductCountReq) (*OkResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method IncrProductCount not implemented")
+}
+func (UnimplementedShopServiceServer) ApplyShop(context.Context, *ApplyShopReq) (*ApplyShopResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ApplyShop not implemented")
+}
+func (UnimplementedShopServiceServer) GetShopApplication(context.Context, *GetShopApplicationReq) (*ShopApplication, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetShopApplication not implemented")
+}
+func (UnimplementedShopServiceServer) ListShopApplications(context.Context, *ListShopApplicationsReq) (*ListShopApplicationsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopApplications not implemented")
+}
+func (UnimplementedShopServiceServer) ReviewShopApplication(context.Context, *ReviewShopApplicationReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReviewShopApplication not implemented")
+}
+func (UnimplementedShopServiceServer) GetShopByOwnerId(context.Context, *GetShopByOwnerIdReq) (*ShopDetailResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetShopByOwnerId not implemented")
+}
+func (UnimplementedShopServiceServer) UpdateShopStatus(context.Context, *UpdateShopStatusReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateShopStatus not implemented")
+}
+func (UnimplementedShopServiceServer) AdjustCreditScore(context.Context, *AdjustCreditScoreReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method AdjustCreditScore not implemented")
+}
+func (UnimplementedShopServiceServer) ListMyApplications(context.Context, *ListMyApplicationsReq) (*ListShopApplicationsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListMyApplications not implemented")
+}
+func (UnimplementedShopServiceServer) ListShopLevels(context.Context, *Empty) (*ListShopLevelsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopLevels not implemented")
+}
+func (UnimplementedShopServiceServer) GetMyLevelStatus(context.Context, *GetMyLevelStatusReq) (*MyLevelStatus, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetMyLevelStatus not implemented")
+}
+func (UnimplementedShopServiceServer) SubmitLevelApplication(context.Context, *SubmitLevelApplicationReq) (*SubmitLevelApplicationResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method SubmitLevelApplication not implemented")
+}
+func (UnimplementedShopServiceServer) ListLevelApplications(context.Context, *ListLevelApplicationsReq) (*ListLevelApplicationsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListLevelApplications not implemented")
+}
+func (UnimplementedShopServiceServer) ReviewLevelApplication(context.Context, *ReviewLevelApplicationReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReviewLevelApplication not implemented")
+}
+func (UnimplementedShopServiceServer) SubmitShopLifecycleRequest(context.Context, *SubmitShopLifecycleRequestReq) (*SubmitShopLifecycleRequestResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method SubmitShopLifecycleRequest not implemented")
+}
+func (UnimplementedShopServiceServer) ListShopLifecycleRequests(context.Context, *ListShopLifecycleRequestsReq) (*ListShopLifecycleRequestsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopLifecycleRequests not implemented")
+}
+func (UnimplementedShopServiceServer) ReviewShopLifecycleRequest(context.Context, *ReviewShopLifecycleRequestReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReviewShopLifecycleRequest not implemented")
 }
 func (UnimplementedShopServiceServer) mustEmbedUnimplementedShopServiceServer() {}
 func (UnimplementedShopServiceServer) testEmbeddedByValue()                     {}
@@ -410,6 +670,294 @@ func _ShopService_IncrProductCount_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ShopService_ApplyShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyShopReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ApplyShop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ApplyShop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ApplyShop(ctx, req.(*ApplyShopReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_GetShopApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetShopApplicationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).GetShopApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_GetShopApplication_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).GetShopApplication(ctx, req.(*GetShopApplicationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ListShopApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListShopApplicationsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ListShopApplications(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ListShopApplications_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ListShopApplications(ctx, req.(*ListShopApplicationsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ReviewShopApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReviewShopApplicationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ReviewShopApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ReviewShopApplication_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ReviewShopApplication(ctx, req.(*ReviewShopApplicationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_GetShopByOwnerId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetShopByOwnerIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).GetShopByOwnerId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_GetShopByOwnerId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).GetShopByOwnerId(ctx, req.(*GetShopByOwnerIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_UpdateShopStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateShopStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).UpdateShopStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_UpdateShopStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).UpdateShopStatus(ctx, req.(*UpdateShopStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_AdjustCreditScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdjustCreditScoreReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).AdjustCreditScore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_AdjustCreditScore_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).AdjustCreditScore(ctx, req.(*AdjustCreditScoreReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ListMyApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMyApplicationsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ListMyApplications(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ListMyApplications_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ListMyApplications(ctx, req.(*ListMyApplicationsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ListShopLevels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ListShopLevels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ListShopLevels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ListShopLevels(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_GetMyLevelStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMyLevelStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).GetMyLevelStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_GetMyLevelStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).GetMyLevelStatus(ctx, req.(*GetMyLevelStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_SubmitLevelApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitLevelApplicationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).SubmitLevelApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_SubmitLevelApplication_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).SubmitLevelApplication(ctx, req.(*SubmitLevelApplicationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ListLevelApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListLevelApplicationsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ListLevelApplications(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ListLevelApplications_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ListLevelApplications(ctx, req.(*ListLevelApplicationsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ReviewLevelApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReviewLevelApplicationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ReviewLevelApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ReviewLevelApplication_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ReviewLevelApplication(ctx, req.(*ReviewLevelApplicationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_SubmitShopLifecycleRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitShopLifecycleRequestReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).SubmitShopLifecycleRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_SubmitShopLifecycleRequest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).SubmitShopLifecycleRequest(ctx, req.(*SubmitShopLifecycleRequestReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ListShopLifecycleRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListShopLifecycleRequestsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ListShopLifecycleRequests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ListShopLifecycleRequests_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ListShopLifecycleRequests(ctx, req.(*ListShopLifecycleRequestsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ReviewShopLifecycleRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReviewShopLifecycleRequestReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ReviewShopLifecycleRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ReviewShopLifecycleRequest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ReviewShopLifecycleRequest(ctx, req.(*ReviewShopLifecycleRequestReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ShopService_ServiceDesc is the grpc.ServiceDesc for ShopService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -457,7 +1005,71 @@ var ShopService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "IncrProductCount",
 			Handler:    _ShopService_IncrProductCount_Handler,
 		},
+		{
+			MethodName: "ApplyShop",
+			Handler:    _ShopService_ApplyShop_Handler,
+		},
+		{
+			MethodName: "GetShopApplication",
+			Handler:    _ShopService_GetShopApplication_Handler,
+		},
+		{
+			MethodName: "ListShopApplications",
+			Handler:    _ShopService_ListShopApplications_Handler,
+		},
+		{
+			MethodName: "ReviewShopApplication",
+			Handler:    _ShopService_ReviewShopApplication_Handler,
+		},
+		{
+			MethodName: "GetShopByOwnerId",
+			Handler:    _ShopService_GetShopByOwnerId_Handler,
+		},
+		{
+			MethodName: "UpdateShopStatus",
+			Handler:    _ShopService_UpdateShopStatus_Handler,
+		},
+		{
+			MethodName: "AdjustCreditScore",
+			Handler:    _ShopService_AdjustCreditScore_Handler,
+		},
+		{
+			MethodName: "ListMyApplications",
+			Handler:    _ShopService_ListMyApplications_Handler,
+		},
+		{
+			MethodName: "ListShopLevels",
+			Handler:    _ShopService_ListShopLevels_Handler,
+		},
+		{
+			MethodName: "GetMyLevelStatus",
+			Handler:    _ShopService_GetMyLevelStatus_Handler,
+		},
+		{
+			MethodName: "SubmitLevelApplication",
+			Handler:    _ShopService_SubmitLevelApplication_Handler,
+		},
+		{
+			MethodName: "ListLevelApplications",
+			Handler:    _ShopService_ListLevelApplications_Handler,
+		},
+		{
+			MethodName: "ReviewLevelApplication",
+			Handler:    _ShopService_ReviewLevelApplication_Handler,
+		},
+		{
+			MethodName: "SubmitShopLifecycleRequest",
+			Handler:    _ShopService_SubmitShopLifecycleRequest_Handler,
+		},
+		{
+			MethodName: "ListShopLifecycleRequests",
+			Handler:    _ShopService_ListShopLifecycleRequests_Handler,
+		},
+		{
+			MethodName: "ReviewShopLifecycleRequest",
+			Handler:    _ShopService_ReviewShopLifecycleRequest_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "shop.proto",
+	Metadata: "shop/shop.proto",
 }

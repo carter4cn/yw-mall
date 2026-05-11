@@ -1,12 +1,16 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log"
+	"os/signal"
+	"syscall"
 
 	"mall-activity-async-worker/internal/config"
 	"mall-activity-async-worker/internal/handlers"
+	"mall-activity-async-worker/internal/settlement"
 
 	"mall-common/configcenter"
 
@@ -25,6 +29,20 @@ func main() {
 	queues := c.Queues
 	if len(queues) == 0 {
 		queues = map[string]int{"default": 1}
+	}
+
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	if c.OrderDSN != "" && c.PaymentDSN != "" {
+		settler, err := settlement.New(c.OrderDSN, c.PaymentDSN, c.SettlementDelaySec, c.SettlementIntervalSec)
+		if err != nil {
+			log.Fatalf("settlement init failed: %v", err)
+		}
+		go settler.Run(ctx)
+		fmt.Printf("Settlement loop started: delay=%ds tick=%ds\n", c.SettlementDelaySec, c.SettlementIntervalSec)
+	} else {
+		fmt.Println("Settlement disabled (OrderDSN/PaymentDSN not set)")
 	}
 
 	srv := asynq.NewServer(

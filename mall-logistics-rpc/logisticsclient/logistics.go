@@ -14,16 +14,23 @@ import (
 )
 
 type (
-	CreateShipmentReq        = logistics.CreateShipmentReq
-	CreateShipmentResp       = logistics.CreateShipmentResp
-	Empty                    = logistics.Empty
-	GetShipmentReq           = logistics.GetShipmentReq
-	IngestWebhookEventsReq   = logistics.IngestWebhookEventsReq
-	InjectTrackReq           = logistics.InjectTrackReq
-	ListShipmentsByOrderReq  = logistics.ListShipmentsByOrderReq
-	ListShipmentsByOrderResp = logistics.ListShipmentsByOrderResp
-	RetrySubscribeReq        = logistics.RetrySubscribeReq
-	Shipment                 = logistics.Shipment
+	CreateShipmentReq         = logistics.CreateShipmentReq
+	CreateShipmentResp        = logistics.CreateShipmentResp
+	Empty                     = logistics.Empty
+	GetShipmentReq            = logistics.GetShipmentReq
+	IngestWebhookEventsReq    = logistics.IngestWebhookEventsReq
+	InjectTrackReq            = logistics.InjectTrackReq
+	ListShipmentsByOrderReq   = logistics.ListShipmentsByOrderReq
+	ListShipmentsByOrderResp  = logistics.ListShipmentsByOrderResp
+	RetrySubscribeReq         = logistics.RetrySubscribeReq
+	Shipment                  = logistics.Shipment
+	IdReq                     = logistics.IdReq
+	FreightTemplate           = logistics.FreightTemplate
+	CreateFreightTemplateReq  = logistics.CreateFreightTemplateReq
+	CreateFreightTemplateResp = logistics.CreateFreightTemplateResp
+	ListFreightTemplatesReq   = logistics.ListFreightTemplatesReq
+	ListFreightTemplatesResp  = logistics.ListFreightTemplatesResp
+	UpdateFreightTemplateReq  = logistics.UpdateFreightTemplateReq
 
 	Logistics interface {
 		CreateShipment(ctx context.Context, in *CreateShipmentReq, opts ...grpc.CallOption) (*CreateShipmentResp, error)
@@ -32,6 +39,11 @@ type (
 		IngestWebhookEvents(ctx context.Context, in *IngestWebhookEventsReq, opts ...grpc.CallOption) (*Empty, error)
 		RetrySubscribe(ctx context.Context, in *RetrySubscribeReq, opts ...grpc.CallOption) (*Empty, error)
 		InjectTrack(ctx context.Context, in *InjectTrackReq, opts ...grpc.CallOption) (*Empty, error)
+		CreateFreightTemplate(ctx context.Context, in *CreateFreightTemplateReq, opts ...grpc.CallOption) (*CreateFreightTemplateResp, error)
+		ListFreightTemplates(ctx context.Context, in *ListFreightTemplatesReq, opts ...grpc.CallOption) (*ListFreightTemplatesResp, error)
+		GetFreightTemplate(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*FreightTemplate, error)
+		UpdateFreightTemplate(ctx context.Context, in *UpdateFreightTemplateReq, opts ...grpc.CallOption) (*Empty, error)
+		DeleteFreightTemplate(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Empty, error)
 	}
 
 	defaultLogistics struct {
@@ -73,4 +85,29 @@ func (m *defaultLogistics) RetrySubscribe(ctx context.Context, in *RetrySubscrib
 func (m *defaultLogistics) InjectTrack(ctx context.Context, in *InjectTrackReq, opts ...grpc.CallOption) (*Empty, error) {
 	client := logistics.NewLogisticsClient(m.cli.Conn())
 	return client.InjectTrack(ctx, in, opts...)
+}
+
+func (m *defaultLogistics) CreateFreightTemplate(ctx context.Context, in *CreateFreightTemplateReq, opts ...grpc.CallOption) (*CreateFreightTemplateResp, error) {
+	client := logistics.NewLogisticsClient(m.cli.Conn())
+	return client.CreateFreightTemplate(ctx, in, opts...)
+}
+
+func (m *defaultLogistics) ListFreightTemplates(ctx context.Context, in *ListFreightTemplatesReq, opts ...grpc.CallOption) (*ListFreightTemplatesResp, error) {
+	client := logistics.NewLogisticsClient(m.cli.Conn())
+	return client.ListFreightTemplates(ctx, in, opts...)
+}
+
+func (m *defaultLogistics) GetFreightTemplate(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*FreightTemplate, error) {
+	client := logistics.NewLogisticsClient(m.cli.Conn())
+	return client.GetFreightTemplate(ctx, in, opts...)
+}
+
+func (m *defaultLogistics) UpdateFreightTemplate(ctx context.Context, in *UpdateFreightTemplateReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := logistics.NewLogisticsClient(m.cli.Conn())
+	return client.UpdateFreightTemplate(ctx, in, opts...)
+}
+
+func (m *defaultLogistics) DeleteFreightTemplate(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := logistics.NewLogisticsClient(m.cli.Conn())
+	return client.DeleteFreightTemplate(ctx, in, opts...)
 }

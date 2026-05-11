@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.19.4
-// source: risk.proto
+// source: risk/risk.proto
 
 package risk
 
@@ -29,7 +29,7 @@ type Empty struct {
 
 func (x *Empty) Reset() {
 	*x = Empty{}
-	mi := &file_risk_proto_msgTypes[0]
+	mi := &file_risk_risk_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -41,7 +41,7 @@ func (x *Empty) String() string {
 func (*Empty) ProtoMessage() {}
 
 func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[0]
+	mi := &file_risk_risk_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -54,7 +54,7 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Empty.ProtoReflect.Descriptor instead.
 func (*Empty) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{0}
+	return file_risk_risk_proto_rawDescGZIP(), []int{0}
 }
 
 type IssueTokenReq struct {
@@ -70,7 +70,7 @@ type IssueTokenReq struct {
 
 func (x *IssueTokenReq) Reset() {
 	*x = IssueTokenReq{}
-	mi := &file_risk_proto_msgTypes[1]
+	mi := &file_risk_risk_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -82,7 +82,7 @@ func (x *IssueTokenReq) String() string {
 func (*IssueTokenReq) ProtoMessage() {}
 
 func (x *IssueTokenReq) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[1]
+	mi := &file_risk_risk_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -95,7 +95,7 @@ func (x *IssueTokenReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IssueTokenReq.ProtoReflect.Descriptor instead.
 func (*IssueTokenReq) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{1}
+	return file_risk_risk_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *IssueTokenReq) GetUserId() int64 {
@@ -143,7 +143,7 @@ type IssueTokenResp struct {
 
 func (x *IssueTokenResp) Reset() {
 	*x = IssueTokenResp{}
-	mi := &file_risk_proto_msgTypes[2]
+	mi := &file_risk_risk_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -155,7 +155,7 @@ func (x *IssueTokenResp) String() string {
 func (*IssueTokenResp) ProtoMessage() {}
 
 func (x *IssueTokenResp) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[2]
+	mi := &file_risk_risk_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -168,7 +168,7 @@ func (x *IssueTokenResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IssueTokenResp.ProtoReflect.Descriptor instead.
 func (*IssueTokenResp) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{2}
+	return file_risk_risk_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *IssueTokenResp) GetToken() string {
@@ -198,7 +198,7 @@ type VerifyTokenReq struct {
 
 func (x *VerifyTokenReq) Reset() {
 	*x = VerifyTokenReq{}
-	mi := &file_risk_proto_msgTypes[3]
+	mi := &file_risk_risk_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -210,7 +210,7 @@ func (x *VerifyTokenReq) String() string {
 func (*VerifyTokenReq) ProtoMessage() {}
 
 func (x *VerifyTokenReq) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[3]
+	mi := &file_risk_risk_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -223,7 +223,7 @@ func (x *VerifyTokenReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VerifyTokenReq.ProtoReflect.Descriptor instead.
 func (*VerifyTokenReq) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{3}
+	return file_risk_risk_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *VerifyTokenReq) GetUserId() int64 {
@@ -264,7 +264,7 @@ type VerifyTokenResp struct {
 
 func (x *VerifyTokenResp) Reset() {
 	*x = VerifyTokenResp{}
-	mi := &file_risk_proto_msgTypes[4]
+	mi := &file_risk_risk_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -276,7 +276,7 @@ func (x *VerifyTokenResp) String() string {
 func (*VerifyTokenResp) ProtoMessage() {}
 
 func (x *VerifyTokenResp) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[4]
+	mi := &file_risk_risk_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -289,7 +289,7 @@ func (x *VerifyTokenResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VerifyTokenResp.ProtoReflect.Descriptor instead.
 func (*VerifyTokenResp) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{4}
+	return file_risk_risk_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *VerifyTokenResp) GetValid() bool {
@@ -316,7 +316,7 @@ type CheckBlacklistReq struct {
 
 func (x *CheckBlacklistReq) Reset() {
 	*x = CheckBlacklistReq{}
-	mi := &file_risk_proto_msgTypes[5]
+	mi := &file_risk_risk_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -328,7 +328,7 @@ func (x *CheckBlacklistReq) String() string {
 func (*CheckBlacklistReq) ProtoMessage() {}
 
 func (x *CheckBlacklistReq) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[5]
+	mi := &file_risk_risk_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -341,7 +341,7 @@ func (x *CheckBlacklistReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckBlacklistReq.ProtoReflect.Descriptor instead.
 func (*CheckBlacklistReq) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{5}
+	return file_risk_risk_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CheckBlacklistReq) GetSubjectType() string {
@@ -368,7 +368,7 @@ type CheckBlacklistResp struct {
 
 func (x *CheckBlacklistResp) Reset() {
 	*x = CheckBlacklistResp{}
-	mi := &file_risk_proto_msgTypes[6]
+	mi := &file_risk_risk_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -380,7 +380,7 @@ func (x *CheckBlacklistResp) String() string {
 func (*CheckBlacklistResp) ProtoMessage() {}
 
 func (x *CheckBlacklistResp) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[6]
+	mi := &file_risk_risk_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -393,7 +393,7 @@ func (x *CheckBlacklistResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckBlacklistResp.ProtoReflect.Descriptor instead.
 func (*CheckBlacklistResp) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{6}
+	return file_risk_risk_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CheckBlacklistResp) GetBlacklisted() bool {
@@ -422,7 +422,7 @@ type AddToBlacklistReq struct {
 
 func (x *AddToBlacklistReq) Reset() {
 	*x = AddToBlacklistReq{}
-	mi := &file_risk_proto_msgTypes[7]
+	mi := &file_risk_risk_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -434,7 +434,7 @@ func (x *AddToBlacklistReq) String() string {
 func (*AddToBlacklistReq) ProtoMessage() {}
 
 func (x *AddToBlacklistReq) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[7]
+	mi := &file_risk_risk_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -447,7 +447,7 @@ func (x *AddToBlacklistReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddToBlacklistReq.ProtoReflect.Descriptor instead.
 func (*AddToBlacklistReq) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{7}
+	return file_risk_risk_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *AddToBlacklistReq) GetSubjectType() string {
@@ -488,7 +488,7 @@ type RemoveFromBlacklistReq struct {
 
 func (x *RemoveFromBlacklistReq) Reset() {
 	*x = RemoveFromBlacklistReq{}
-	mi := &file_risk_proto_msgTypes[8]
+	mi := &file_risk_risk_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -500,7 +500,7 @@ func (x *RemoveFromBlacklistReq) String() string {
 func (*RemoveFromBlacklistReq) ProtoMessage() {}
 
 func (x *RemoveFromBlacklistReq) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[8]
+	mi := &file_risk_risk_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -513,7 +513,7 @@ func (x *RemoveFromBlacklistReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveFromBlacklistReq.ProtoReflect.Descriptor instead.
 func (*RemoveFromBlacklistReq) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{8}
+	return file_risk_risk_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *RemoveFromBlacklistReq) GetSubjectType() string {
@@ -543,7 +543,7 @@ type RateLimitReq struct {
 
 func (x *RateLimitReq) Reset() {
 	*x = RateLimitReq{}
-	mi := &file_risk_proto_msgTypes[9]
+	mi := &file_risk_risk_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -555,7 +555,7 @@ func (x *RateLimitReq) String() string {
 func (*RateLimitReq) ProtoMessage() {}
 
 func (x *RateLimitReq) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[9]
+	mi := &file_risk_risk_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -568,7 +568,7 @@ func (x *RateLimitReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RateLimitReq.ProtoReflect.Descriptor instead.
 func (*RateLimitReq) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{9}
+	return file_risk_risk_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *RateLimitReq) GetActivityId() int64 {
@@ -617,7 +617,7 @@ type RateLimitResp struct {
 
 func (x *RateLimitResp) Reset() {
 	*x = RateLimitResp{}
-	mi := &file_risk_proto_msgTypes[10]
+	mi := &file_risk_risk_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -629,7 +629,7 @@ func (x *RateLimitResp) String() string {
 func (*RateLimitResp) ProtoMessage() {}
 
 func (x *RateLimitResp) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[10]
+	mi := &file_risk_risk_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -642,7 +642,7 @@ func (x *RateLimitResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RateLimitResp.ProtoReflect.Descriptor instead.
 func (*RateLimitResp) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{10}
+	return file_risk_risk_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *RateLimitResp) GetAllowed() bool {
@@ -676,7 +676,7 @@ type GetRiskScoreReq struct {
 
 func (x *GetRiskScoreReq) Reset() {
 	*x = GetRiskScoreReq{}
-	mi := &file_risk_proto_msgTypes[11]
+	mi := &file_risk_risk_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -688,7 +688,7 @@ func (x *GetRiskScoreReq) String() string {
 func (*GetRiskScoreReq) ProtoMessage() {}
 
 func (x *GetRiskScoreReq) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[11]
+	mi := &file_risk_risk_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -701,7 +701,7 @@ func (x *GetRiskScoreReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRiskScoreReq.ProtoReflect.Descriptor instead.
 func (*GetRiskScoreReq) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{11}
+	return file_risk_risk_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetRiskScoreReq) GetSubjectType() string {
@@ -728,7 +728,7 @@ type GetRiskScoreResp struct {
 
 func (x *GetRiskScoreResp) Reset() {
 	*x = GetRiskScoreResp{}
-	mi := &file_risk_proto_msgTypes[12]
+	mi := &file_risk_risk_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -740,7 +740,7 @@ func (x *GetRiskScoreResp) String() string {
 func (*GetRiskScoreResp) ProtoMessage() {}
 
 func (x *GetRiskScoreResp) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[12]
+	mi := &file_risk_risk_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -753,7 +753,7 @@ func (x *GetRiskScoreResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRiskScoreResp.ProtoReflect.Descriptor instead.
 func (*GetRiskScoreResp) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{12}
+	return file_risk_risk_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetRiskScoreResp) GetScore() int32 {
@@ -782,7 +782,7 @@ type RecordEventReq struct {
 
 func (x *RecordEventReq) Reset() {
 	*x = RecordEventReq{}
-	mi := &file_risk_proto_msgTypes[13]
+	mi := &file_risk_risk_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -794,7 +794,7 @@ func (x *RecordEventReq) String() string {
 func (*RecordEventReq) ProtoMessage() {}
 
 func (x *RecordEventReq) ProtoReflect() protoreflect.Message {
-	mi := &file_risk_proto_msgTypes[13]
+	mi := &file_risk_risk_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -807,7 +807,7 @@ func (x *RecordEventReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecordEventReq.ProtoReflect.Descriptor instead.
 func (*RecordEventReq) Descriptor() ([]byte, []int) {
-	return file_risk_proto_rawDescGZIP(), []int{13}
+	return file_risk_risk_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *RecordEventReq) GetSubjectType() string {
@@ -838,12 +838,1292 @@ func (x *RecordEventReq) GetPayloadJson() string {
 	return ""
 }
 
-var File_risk_proto protoreflect.FileDescriptor
+// ===== P1 complaint & shop restriction =====
+type ComplaintTicket struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ComplainantType string                 `protobuf:"bytes,2,opt,name=complainant_type,json=complainantType,proto3" json:"complainant_type,omitempty"`
+	ComplainantId   int64                  `protobuf:"varint,3,opt,name=complainant_id,json=complainantId,proto3" json:"complainant_id,omitempty"`
+	DefendantType   string                 `protobuf:"bytes,4,opt,name=defendant_type,json=defendantType,proto3" json:"defendant_type,omitempty"`
+	DefendantId     int64                  `protobuf:"varint,5,opt,name=defendant_id,json=defendantId,proto3" json:"defendant_id,omitempty"`
+	OrderId         int64                  `protobuf:"varint,6,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	Category        string                 `protobuf:"bytes,7,opt,name=category,proto3" json:"category,omitempty"`
+	Content         string                 `protobuf:"bytes,8,opt,name=content,proto3" json:"content,omitempty"`
+	EvidenceUrls    string                 `protobuf:"bytes,9,opt,name=evidence_urls,json=evidenceUrls,proto3" json:"evidence_urls,omitempty"`
+	Status          int32                  `protobuf:"varint,10,opt,name=status,proto3" json:"status,omitempty"`
+	AdminId         int64                  `protobuf:"varint,11,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	AdminRemark     string                 `protobuf:"bytes,12,opt,name=admin_remark,json=adminRemark,proto3" json:"admin_remark,omitempty"`
+	CreateTime      int64                  `protobuf:"varint,13,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	UpdateTime      int64                  `protobuf:"varint,14,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
 
-const file_risk_proto_rawDesc = "" +
+func (x *ComplaintTicket) Reset() {
+	*x = ComplaintTicket{}
+	mi := &file_risk_risk_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComplaintTicket) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComplaintTicket) ProtoMessage() {}
+
+func (x *ComplaintTicket) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComplaintTicket.ProtoReflect.Descriptor instead.
+func (*ComplaintTicket) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ComplaintTicket) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ComplaintTicket) GetComplainantType() string {
+	if x != nil {
+		return x.ComplainantType
+	}
+	return ""
+}
+
+func (x *ComplaintTicket) GetComplainantId() int64 {
+	if x != nil {
+		return x.ComplainantId
+	}
+	return 0
+}
+
+func (x *ComplaintTicket) GetDefendantType() string {
+	if x != nil {
+		return x.DefendantType
+	}
+	return ""
+}
+
+func (x *ComplaintTicket) GetDefendantId() int64 {
+	if x != nil {
+		return x.DefendantId
+	}
+	return 0
+}
+
+func (x *ComplaintTicket) GetOrderId() int64 {
+	if x != nil {
+		return x.OrderId
+	}
+	return 0
+}
+
+func (x *ComplaintTicket) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *ComplaintTicket) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *ComplaintTicket) GetEvidenceUrls() string {
+	if x != nil {
+		return x.EvidenceUrls
+	}
+	return ""
+}
+
+func (x *ComplaintTicket) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ComplaintTicket) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *ComplaintTicket) GetAdminRemark() string {
+	if x != nil {
+		return x.AdminRemark
+	}
+	return ""
+}
+
+func (x *ComplaintTicket) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+func (x *ComplaintTicket) GetUpdateTime() int64 {
+	if x != nil {
+		return x.UpdateTime
+	}
+	return 0
+}
+
+type CreateComplaintReq struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	ComplainantType string                 `protobuf:"bytes,1,opt,name=complainant_type,json=complainantType,proto3" json:"complainant_type,omitempty"`
+	ComplainantId   int64                  `protobuf:"varint,2,opt,name=complainant_id,json=complainantId,proto3" json:"complainant_id,omitempty"`
+	DefendantType   string                 `protobuf:"bytes,3,opt,name=defendant_type,json=defendantType,proto3" json:"defendant_type,omitempty"`
+	DefendantId     int64                  `protobuf:"varint,4,opt,name=defendant_id,json=defendantId,proto3" json:"defendant_id,omitempty"`
+	OrderId         int64                  `protobuf:"varint,5,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	Category        string                 `protobuf:"bytes,6,opt,name=category,proto3" json:"category,omitempty"`
+	Content         string                 `protobuf:"bytes,7,opt,name=content,proto3" json:"content,omitempty"`
+	EvidenceUrls    string                 `protobuf:"bytes,8,opt,name=evidence_urls,json=evidenceUrls,proto3" json:"evidence_urls,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *CreateComplaintReq) Reset() {
+	*x = CreateComplaintReq{}
+	mi := &file_risk_risk_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateComplaintReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateComplaintReq) ProtoMessage() {}
+
+func (x *CreateComplaintReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateComplaintReq.ProtoReflect.Descriptor instead.
+func (*CreateComplaintReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *CreateComplaintReq) GetComplainantType() string {
+	if x != nil {
+		return x.ComplainantType
+	}
+	return ""
+}
+
+func (x *CreateComplaintReq) GetComplainantId() int64 {
+	if x != nil {
+		return x.ComplainantId
+	}
+	return 0
+}
+
+func (x *CreateComplaintReq) GetDefendantType() string {
+	if x != nil {
+		return x.DefendantType
+	}
+	return ""
+}
+
+func (x *CreateComplaintReq) GetDefendantId() int64 {
+	if x != nil {
+		return x.DefendantId
+	}
+	return 0
+}
+
+func (x *CreateComplaintReq) GetOrderId() int64 {
+	if x != nil {
+		return x.OrderId
+	}
+	return 0
+}
+
+func (x *CreateComplaintReq) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *CreateComplaintReq) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *CreateComplaintReq) GetEvidenceUrls() string {
+	if x != nil {
+		return x.EvidenceUrls
+	}
+	return ""
+}
+
+type CreateComplaintResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateComplaintResp) Reset() {
+	*x = CreateComplaintResp{}
+	mi := &file_risk_risk_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateComplaintResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateComplaintResp) ProtoMessage() {}
+
+func (x *CreateComplaintResp) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateComplaintResp.ProtoReflect.Descriptor instead.
+func (*CreateComplaintResp) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *CreateComplaintResp) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetComplaintReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetComplaintReq) Reset() {
+	*x = GetComplaintReq{}
+	mi := &file_risk_risk_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetComplaintReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetComplaintReq) ProtoMessage() {}
+
+func (x *GetComplaintReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetComplaintReq.ProtoReflect.Descriptor instead.
+func (*GetComplaintReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetComplaintReq) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ListComplaintsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	DefendantType string                 `protobuf:"bytes,2,opt,name=defendant_type,json=defendantType,proto3" json:"defendant_type,omitempty"`
+	DefendantId   int64                  `protobuf:"varint,3,opt,name=defendant_id,json=defendantId,proto3" json:"defendant_id,omitempty"`
+	Page          int32                  `protobuf:"varint,4,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListComplaintsReq) Reset() {
+	*x = ListComplaintsReq{}
+	mi := &file_risk_risk_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListComplaintsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListComplaintsReq) ProtoMessage() {}
+
+func (x *ListComplaintsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListComplaintsReq.ProtoReflect.Descriptor instead.
+func (*ListComplaintsReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *ListComplaintsReq) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ListComplaintsReq) GetDefendantType() string {
+	if x != nil {
+		return x.DefendantType
+	}
+	return ""
+}
+
+func (x *ListComplaintsReq) GetDefendantId() int64 {
+	if x != nil {
+		return x.DefendantId
+	}
+	return 0
+}
+
+func (x *ListComplaintsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListComplaintsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListComplaintsResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Tickets       []*ComplaintTicket     `protobuf:"bytes,1,rep,name=tickets,proto3" json:"tickets,omitempty"`
+	Total         int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListComplaintsResp) Reset() {
+	*x = ListComplaintsResp{}
+	mi := &file_risk_risk_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListComplaintsResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListComplaintsResp) ProtoMessage() {}
+
+func (x *ListComplaintsResp) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListComplaintsResp.ProtoReflect.Descriptor instead.
+func (*ListComplaintsResp) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ListComplaintsResp) GetTickets() []*ComplaintTicket {
+	if x != nil {
+		return x.Tickets
+	}
+	return nil
+}
+
+func (x *ListComplaintsResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type HandleComplaintReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	AdminId       int64                  `protobuf:"varint,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	Action        int32                  `protobuf:"varint,3,opt,name=action,proto3" json:"action,omitempty"` // 1=support_complainant, 2=dismiss, 3=mediate
+	Remark        string                 `protobuf:"bytes,4,opt,name=remark,proto3" json:"remark,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HandleComplaintReq) Reset() {
+	*x = HandleComplaintReq{}
+	mi := &file_risk_risk_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HandleComplaintReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HandleComplaintReq) ProtoMessage() {}
+
+func (x *HandleComplaintReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HandleComplaintReq.ProtoReflect.Descriptor instead.
+func (*HandleComplaintReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *HandleComplaintReq) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *HandleComplaintReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *HandleComplaintReq) GetAction() int32 {
+	if x != nil {
+		return x.Action
+	}
+	return 0
+}
+
+func (x *HandleComplaintReq) GetRemark() string {
+	if x != nil {
+		return x.Remark
+	}
+	return ""
+}
+
+type ShopRestriction struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ShopId        int64                  `protobuf:"varint,2,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Restriction   string                 `protobuf:"bytes,3,opt,name=restriction,proto3" json:"restriction,omitempty"`
+	Reason        string                 `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
+	OperatorId    int64                  `protobuf:"varint,5,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	ExpireTime    int64                  `protobuf:"varint,6,opt,name=expire_time,json=expireTime,proto3" json:"expire_time,omitempty"`
+	CreateTime    int64                  `protobuf:"varint,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ShopRestriction) Reset() {
+	*x = ShopRestriction{}
+	mi := &file_risk_risk_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShopRestriction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShopRestriction) ProtoMessage() {}
+
+func (x *ShopRestriction) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShopRestriction.ProtoReflect.Descriptor instead.
+func (*ShopRestriction) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *ShopRestriction) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ShopRestriction) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *ShopRestriction) GetRestriction() string {
+	if x != nil {
+		return x.Restriction
+	}
+	return ""
+}
+
+func (x *ShopRestriction) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *ShopRestriction) GetOperatorId() int64 {
+	if x != nil {
+		return x.OperatorId
+	}
+	return 0
+}
+
+func (x *ShopRestriction) GetExpireTime() int64 {
+	if x != nil {
+		return x.ExpireTime
+	}
+	return 0
+}
+
+func (x *ShopRestriction) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type SetShopRestrictionReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Restriction   string                 `protobuf:"bytes,2,opt,name=restriction,proto3" json:"restriction,omitempty"`
+	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	OperatorId    int64                  `protobuf:"varint,4,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	ExpireTime    int64                  `protobuf:"varint,5,opt,name=expire_time,json=expireTime,proto3" json:"expire_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetShopRestrictionReq) Reset() {
+	*x = SetShopRestrictionReq{}
+	mi := &file_risk_risk_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetShopRestrictionReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetShopRestrictionReq) ProtoMessage() {}
+
+func (x *SetShopRestrictionReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetShopRestrictionReq.ProtoReflect.Descriptor instead.
+func (*SetShopRestrictionReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *SetShopRestrictionReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *SetShopRestrictionReq) GetRestriction() string {
+	if x != nil {
+		return x.Restriction
+	}
+	return ""
+}
+
+func (x *SetShopRestrictionReq) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *SetShopRestrictionReq) GetOperatorId() int64 {
+	if x != nil {
+		return x.OperatorId
+	}
+	return 0
+}
+
+func (x *SetShopRestrictionReq) GetExpireTime() int64 {
+	if x != nil {
+		return x.ExpireTime
+	}
+	return 0
+}
+
+type ListShopRestrictionsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopRestrictionsReq) Reset() {
+	*x = ListShopRestrictionsReq{}
+	mi := &file_risk_risk_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopRestrictionsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopRestrictionsReq) ProtoMessage() {}
+
+func (x *ListShopRestrictionsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopRestrictionsReq.ProtoReflect.Descriptor instead.
+func (*ListShopRestrictionsReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *ListShopRestrictionsReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+type ListShopRestrictionsResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Restrictions  []*ShopRestriction     `protobuf:"bytes,1,rep,name=restrictions,proto3" json:"restrictions,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopRestrictionsResp) Reset() {
+	*x = ListShopRestrictionsResp{}
+	mi := &file_risk_risk_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopRestrictionsResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopRestrictionsResp) ProtoMessage() {}
+
+func (x *ListShopRestrictionsResp) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopRestrictionsResp.ProtoReflect.Descriptor instead.
+func (*ListShopRestrictionsResp) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *ListShopRestrictionsResp) GetRestrictions() []*ShopRestriction {
+	if x != nil {
+		return x.Restrictions
+	}
+	return nil
+}
+
+type RemoveShopRestrictionReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RemoveShopRestrictionReq) Reset() {
+	*x = RemoveShopRestrictionReq{}
+	mi := &file_risk_risk_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RemoveShopRestrictionReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveShopRestrictionReq) ProtoMessage() {}
+
+func (x *RemoveShopRestrictionReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveShopRestrictionReq.ProtoReflect.Descriptor instead.
+func (*RemoveShopRestrictionReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *RemoveShopRestrictionReq) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type IdReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IdReq) Reset() {
+	*x = IdReq{}
+	mi := &file_risk_risk_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IdReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IdReq) ProtoMessage() {}
+
+func (x *IdReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IdReq.ProtoReflect.Descriptor instead.
+func (*IdReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *IdReq) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type SensitiveWord struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Word          string                 `protobuf:"bytes,2,opt,name=word,proto3" json:"word,omitempty"`
+	Category      string                 `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
+	Action        string                 `protobuf:"bytes,4,opt,name=action,proto3" json:"action,omitempty"`
+	Status        int32                  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
+	CreateTime    int64                  `protobuf:"varint,6,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SensitiveWord) Reset() {
+	*x = SensitiveWord{}
+	mi := &file_risk_risk_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SensitiveWord) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SensitiveWord) ProtoMessage() {}
+
+func (x *SensitiveWord) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SensitiveWord.ProtoReflect.Descriptor instead.
+func (*SensitiveWord) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *SensitiveWord) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *SensitiveWord) GetWord() string {
+	if x != nil {
+		return x.Word
+	}
+	return ""
+}
+
+func (x *SensitiveWord) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *SensitiveWord) GetAction() string {
+	if x != nil {
+		return x.Action
+	}
+	return ""
+}
+
+func (x *SensitiveWord) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *SensitiveWord) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type CreateSensitiveWordReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Word          string                 `protobuf:"bytes,1,opt,name=word,proto3" json:"word,omitempty"`
+	Category      string                 `protobuf:"bytes,2,opt,name=category,proto3" json:"category,omitempty"`
+	Action        string                 `protobuf:"bytes,3,opt,name=action,proto3" json:"action,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateSensitiveWordReq) Reset() {
+	*x = CreateSensitiveWordReq{}
+	mi := &file_risk_risk_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateSensitiveWordReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSensitiveWordReq) ProtoMessage() {}
+
+func (x *CreateSensitiveWordReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSensitiveWordReq.ProtoReflect.Descriptor instead.
+func (*CreateSensitiveWordReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *CreateSensitiveWordReq) GetWord() string {
+	if x != nil {
+		return x.Word
+	}
+	return ""
+}
+
+func (x *CreateSensitiveWordReq) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *CreateSensitiveWordReq) GetAction() string {
+	if x != nil {
+		return x.Action
+	}
+	return ""
+}
+
+type CreateSensitiveWordResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateSensitiveWordResp) Reset() {
+	*x = CreateSensitiveWordResp{}
+	mi := &file_risk_risk_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateSensitiveWordResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSensitiveWordResp) ProtoMessage() {}
+
+func (x *CreateSensitiveWordResp) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSensitiveWordResp.ProtoReflect.Descriptor instead.
+func (*CreateSensitiveWordResp) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *CreateSensitiveWordResp) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ListSensitiveWordsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Category      string                 `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"`
+	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSensitiveWordsReq) Reset() {
+	*x = ListSensitiveWordsReq{}
+	mi := &file_risk_risk_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSensitiveWordsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSensitiveWordsReq) ProtoMessage() {}
+
+func (x *ListSensitiveWordsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSensitiveWordsReq.ProtoReflect.Descriptor instead.
+func (*ListSensitiveWordsReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *ListSensitiveWordsReq) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *ListSensitiveWordsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListSensitiveWordsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListSensitiveWordsResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Words         []*SensitiveWord       `protobuf:"bytes,1,rep,name=words,proto3" json:"words,omitempty"`
+	Total         int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListSensitiveWordsResp) Reset() {
+	*x = ListSensitiveWordsResp{}
+	mi := &file_risk_risk_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSensitiveWordsResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSensitiveWordsResp) ProtoMessage() {}
+
+func (x *ListSensitiveWordsResp) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListSensitiveWordsResp.ProtoReflect.Descriptor instead.
+func (*ListSensitiveWordsResp) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *ListSensitiveWordsResp) GetWords() []*SensitiveWord {
+	if x != nil {
+		return x.Words
+	}
+	return nil
+}
+
+func (x *ListSensitiveWordsResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type CheckTextReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CheckTextReq) Reset() {
+	*x = CheckTextReq{}
+	mi := &file_risk_risk_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CheckTextReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckTextReq) ProtoMessage() {}
+
+func (x *CheckTextReq) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckTextReq.ProtoReflect.Descriptor instead.
+func (*CheckTextReq) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *CheckTextReq) GetText() string {
+	if x != nil {
+		return x.Text
+	}
+	return ""
+}
+
+type CheckTextResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Clean         bool                   `protobuf:"varint,1,opt,name=clean,proto3" json:"clean,omitempty"`
+	Matches       []*SensitiveWord       `protobuf:"bytes,2,rep,name=matches,proto3" json:"matches,omitempty"`
+	Verdict       string                 `protobuf:"bytes,3,opt,name=verdict,proto3" json:"verdict,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CheckTextResp) Reset() {
+	*x = CheckTextResp{}
+	mi := &file_risk_risk_proto_msgTypes[33]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CheckTextResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckTextResp) ProtoMessage() {}
+
+func (x *CheckTextResp) ProtoReflect() protoreflect.Message {
+	mi := &file_risk_risk_proto_msgTypes[33]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckTextResp.ProtoReflect.Descriptor instead.
+func (*CheckTextResp) Descriptor() ([]byte, []int) {
+	return file_risk_risk_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *CheckTextResp) GetClean() bool {
+	if x != nil {
+		return x.Clean
+	}
+	return false
+}
+
+func (x *CheckTextResp) GetMatches() []*SensitiveWord {
+	if x != nil {
+		return x.Matches
+	}
+	return nil
+}
+
+func (x *CheckTextResp) GetVerdict() string {
+	if x != nil {
+		return x.Verdict
+	}
+	return ""
+}
+
+var File_risk_risk_proto protoreflect.FileDescriptor
+
+const file_risk_risk_proto_rawDesc = "" +
 	"\n" +
-	"\n" +
-	"risk.proto\x12\x04risk\"\a\n" +
+	"\x0frisk/risk.proto\x12\x04risk\"\a\n" +
 	"\x05Empty\"\x97\x01\n" +
 	"\rIssueTokenReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
@@ -904,7 +2184,106 @@ const file_risk_proto_rawDesc = "" +
 	"\rsubject_value\x18\x02 \x01(\tR\fsubjectValue\x12\x1d\n" +
 	"\n" +
 	"event_type\x18\x03 \x01(\tR\teventType\x12!\n" +
-	"\fpayload_json\x18\x04 \x01(\tR\vpayloadJson2\xe1\x03\n" +
+	"\fpayload_json\x18\x04 \x01(\tR\vpayloadJson\"\xcb\x03\n" +
+	"\x0fComplaintTicket\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12)\n" +
+	"\x10complainant_type\x18\x02 \x01(\tR\x0fcomplainantType\x12%\n" +
+	"\x0ecomplainant_id\x18\x03 \x01(\x03R\rcomplainantId\x12%\n" +
+	"\x0edefendant_type\x18\x04 \x01(\tR\rdefendantType\x12!\n" +
+	"\fdefendant_id\x18\x05 \x01(\x03R\vdefendantId\x12\x19\n" +
+	"\border_id\x18\x06 \x01(\x03R\aorderId\x12\x1a\n" +
+	"\bcategory\x18\a \x01(\tR\bcategory\x12\x18\n" +
+	"\acontent\x18\b \x01(\tR\acontent\x12#\n" +
+	"\revidence_urls\x18\t \x01(\tR\fevidenceUrls\x12\x16\n" +
+	"\x06status\x18\n" +
+	" \x01(\x05R\x06status\x12\x19\n" +
+	"\badmin_id\x18\v \x01(\x03R\aadminId\x12!\n" +
+	"\fadmin_remark\x18\f \x01(\tR\vadminRemark\x12\x1f\n" +
+	"\vcreate_time\x18\r \x01(\x03R\n" +
+	"createTime\x12\x1f\n" +
+	"\vupdate_time\x18\x0e \x01(\x03R\n" +
+	"updateTime\"\xa6\x02\n" +
+	"\x12CreateComplaintReq\x12)\n" +
+	"\x10complainant_type\x18\x01 \x01(\tR\x0fcomplainantType\x12%\n" +
+	"\x0ecomplainant_id\x18\x02 \x01(\x03R\rcomplainantId\x12%\n" +
+	"\x0edefendant_type\x18\x03 \x01(\tR\rdefendantType\x12!\n" +
+	"\fdefendant_id\x18\x04 \x01(\x03R\vdefendantId\x12\x19\n" +
+	"\border_id\x18\x05 \x01(\x03R\aorderId\x12\x1a\n" +
+	"\bcategory\x18\x06 \x01(\tR\bcategory\x12\x18\n" +
+	"\acontent\x18\a \x01(\tR\acontent\x12#\n" +
+	"\revidence_urls\x18\b \x01(\tR\fevidenceUrls\"%\n" +
+	"\x13CreateComplaintResp\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"!\n" +
+	"\x0fGetComplaintReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\xa6\x01\n" +
+	"\x11ListComplaintsReq\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\x12%\n" +
+	"\x0edefendant_type\x18\x02 \x01(\tR\rdefendantType\x12!\n" +
+	"\fdefendant_id\x18\x03 \x01(\x03R\vdefendantId\x12\x12\n" +
+	"\x04page\x18\x04 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x05 \x01(\x05R\bpageSize\"[\n" +
+	"\x12ListComplaintsResp\x12/\n" +
+	"\atickets\x18\x01 \x03(\v2\x15.risk.ComplaintTicketR\atickets\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"o\n" +
+	"\x12HandleComplaintReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
+	"\badmin_id\x18\x02 \x01(\x03R\aadminId\x12\x16\n" +
+	"\x06action\x18\x03 \x01(\x05R\x06action\x12\x16\n" +
+	"\x06remark\x18\x04 \x01(\tR\x06remark\"\xd7\x01\n" +
+	"\x0fShopRestriction\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\ashop_id\x18\x02 \x01(\x03R\x06shopId\x12 \n" +
+	"\vrestriction\x18\x03 \x01(\tR\vrestriction\x12\x16\n" +
+	"\x06reason\x18\x04 \x01(\tR\x06reason\x12\x1f\n" +
+	"\voperator_id\x18\x05 \x01(\x03R\n" +
+	"operatorId\x12\x1f\n" +
+	"\vexpire_time\x18\x06 \x01(\x03R\n" +
+	"expireTime\x12\x1f\n" +
+	"\vcreate_time\x18\a \x01(\x03R\n" +
+	"createTime\"\xac\x01\n" +
+	"\x15SetShopRestrictionReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12 \n" +
+	"\vrestriction\x18\x02 \x01(\tR\vrestriction\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\x12\x1f\n" +
+	"\voperator_id\x18\x04 \x01(\x03R\n" +
+	"operatorId\x12\x1f\n" +
+	"\vexpire_time\x18\x05 \x01(\x03R\n" +
+	"expireTime\"2\n" +
+	"\x17ListShopRestrictionsReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\"U\n" +
+	"\x18ListShopRestrictionsResp\x129\n" +
+	"\frestrictions\x18\x01 \x03(\v2\x15.risk.ShopRestrictionR\frestrictions\"*\n" +
+	"\x18RemoveShopRestrictionReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\x17\n" +
+	"\x05IdReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\xa0\x01\n" +
+	"\rSensitiveWord\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04word\x18\x02 \x01(\tR\x04word\x12\x1a\n" +
+	"\bcategory\x18\x03 \x01(\tR\bcategory\x12\x16\n" +
+	"\x06action\x18\x04 \x01(\tR\x06action\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\x05R\x06status\x12\x1f\n" +
+	"\vcreate_time\x18\x06 \x01(\x03R\n" +
+	"createTime\"`\n" +
+	"\x16CreateSensitiveWordReq\x12\x12\n" +
+	"\x04word\x18\x01 \x01(\tR\x04word\x12\x1a\n" +
+	"\bcategory\x18\x02 \x01(\tR\bcategory\x12\x16\n" +
+	"\x06action\x18\x03 \x01(\tR\x06action\")\n" +
+	"\x17CreateSensitiveWordResp\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"d\n" +
+	"\x15ListSensitiveWordsReq\x12\x1a\n" +
+	"\bcategory\x18\x01 \x01(\tR\bcategory\x12\x12\n" +
+	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"Y\n" +
+	"\x16ListSensitiveWordsResp\x12)\n" +
+	"\x05words\x18\x01 \x03(\v2\x13.risk.SensitiveWordR\x05words\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\"\n" +
+	"\fCheckTextReq\x12\x12\n" +
+	"\x04text\x18\x01 \x01(\tR\x04text\"n\n" +
+	"\rCheckTextResp\x12\x14\n" +
+	"\x05clean\x18\x01 \x01(\bR\x05clean\x12-\n" +
+	"\amatches\x18\x02 \x03(\v2\x13.risk.SensitiveWordR\amatches\x12\x18\n" +
+	"\averdict\x18\x03 \x01(\tR\averdict2\xcf\t\n" +
 	"\x04Risk\x127\n" +
 	"\n" +
 	"IssueToken\x12\x13.risk.IssueTokenReq\x1a\x14.risk.IssueTokenResp\x12:\n" +
@@ -914,81 +2293,138 @@ const file_risk_proto_rawDesc = "" +
 	"\x13RemoveFromBlacklist\x12\x1c.risk.RemoveFromBlacklistReq\x1a\v.risk.Empty\x124\n" +
 	"\tRateLimit\x12\x12.risk.RateLimitReq\x1a\x13.risk.RateLimitResp\x12=\n" +
 	"\fGetRiskScore\x12\x15.risk.GetRiskScoreReq\x1a\x16.risk.GetRiskScoreResp\x120\n" +
-	"\vRecordEvent\x12\x14.risk.RecordEventReq\x1a\v.risk.EmptyB\bZ\x06./riskb\x06proto3"
+	"\vRecordEvent\x12\x14.risk.RecordEventReq\x1a\v.risk.Empty\x12F\n" +
+	"\x0fCreateComplaint\x12\x18.risk.CreateComplaintReq\x1a\x19.risk.CreateComplaintResp\x12<\n" +
+	"\fGetComplaint\x12\x15.risk.GetComplaintReq\x1a\x15.risk.ComplaintTicket\x12C\n" +
+	"\x0eListComplaints\x12\x17.risk.ListComplaintsReq\x1a\x18.risk.ListComplaintsResp\x128\n" +
+	"\x0fHandleComplaint\x12\x18.risk.HandleComplaintReq\x1a\v.risk.Empty\x12>\n" +
+	"\x12SetShopRestriction\x12\x1b.risk.SetShopRestrictionReq\x1a\v.risk.Empty\x12U\n" +
+	"\x14ListShopRestrictions\x12\x1d.risk.ListShopRestrictionsReq\x1a\x1e.risk.ListShopRestrictionsResp\x12D\n" +
+	"\x15RemoveShopRestriction\x12\x1e.risk.RemoveShopRestrictionReq\x1a\v.risk.Empty\x12R\n" +
+	"\x13CreateSensitiveWord\x12\x1c.risk.CreateSensitiveWordReq\x1a\x1d.risk.CreateSensitiveWordResp\x12O\n" +
+	"\x12ListSensitiveWords\x12\x1b.risk.ListSensitiveWordsReq\x1a\x1c.risk.ListSensitiveWordsResp\x12/\n" +
+	"\x13DeleteSensitiveWord\x12\v.risk.IdReq\x1a\v.risk.Empty\x124\n" +
+	"\tCheckText\x12\x12.risk.CheckTextReq\x1a\x13.risk.CheckTextRespB\bZ\x06./riskb\x06proto3"
 
 var (
-	file_risk_proto_rawDescOnce sync.Once
-	file_risk_proto_rawDescData []byte
+	file_risk_risk_proto_rawDescOnce sync.Once
+	file_risk_risk_proto_rawDescData []byte
 )
 
-func file_risk_proto_rawDescGZIP() []byte {
-	file_risk_proto_rawDescOnce.Do(func() {
-		file_risk_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_risk_proto_rawDesc), len(file_risk_proto_rawDesc)))
+func file_risk_risk_proto_rawDescGZIP() []byte {
+	file_risk_risk_proto_rawDescOnce.Do(func() {
+		file_risk_risk_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_risk_risk_proto_rawDesc), len(file_risk_risk_proto_rawDesc)))
 	})
-	return file_risk_proto_rawDescData
+	return file_risk_risk_proto_rawDescData
 }
 
-var file_risk_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
-var file_risk_proto_goTypes = []any{
-	(*Empty)(nil),                  // 0: risk.Empty
-	(*IssueTokenReq)(nil),          // 1: risk.IssueTokenReq
-	(*IssueTokenResp)(nil),         // 2: risk.IssueTokenResp
-	(*VerifyTokenReq)(nil),         // 3: risk.VerifyTokenReq
-	(*VerifyTokenResp)(nil),        // 4: risk.VerifyTokenResp
-	(*CheckBlacklistReq)(nil),      // 5: risk.CheckBlacklistReq
-	(*CheckBlacklistResp)(nil),     // 6: risk.CheckBlacklistResp
-	(*AddToBlacklistReq)(nil),      // 7: risk.AddToBlacklistReq
-	(*RemoveFromBlacklistReq)(nil), // 8: risk.RemoveFromBlacklistReq
-	(*RateLimitReq)(nil),           // 9: risk.RateLimitReq
-	(*RateLimitResp)(nil),          // 10: risk.RateLimitResp
-	(*GetRiskScoreReq)(nil),        // 11: risk.GetRiskScoreReq
-	(*GetRiskScoreResp)(nil),       // 12: risk.GetRiskScoreResp
-	(*RecordEventReq)(nil),         // 13: risk.RecordEventReq
+var file_risk_risk_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
+var file_risk_risk_proto_goTypes = []any{
+	(*Empty)(nil),                    // 0: risk.Empty
+	(*IssueTokenReq)(nil),            // 1: risk.IssueTokenReq
+	(*IssueTokenResp)(nil),           // 2: risk.IssueTokenResp
+	(*VerifyTokenReq)(nil),           // 3: risk.VerifyTokenReq
+	(*VerifyTokenResp)(nil),          // 4: risk.VerifyTokenResp
+	(*CheckBlacklistReq)(nil),        // 5: risk.CheckBlacklistReq
+	(*CheckBlacklistResp)(nil),       // 6: risk.CheckBlacklistResp
+	(*AddToBlacklistReq)(nil),        // 7: risk.AddToBlacklistReq
+	(*RemoveFromBlacklistReq)(nil),   // 8: risk.RemoveFromBlacklistReq
+	(*RateLimitReq)(nil),             // 9: risk.RateLimitReq
+	(*RateLimitResp)(nil),            // 10: risk.RateLimitResp
+	(*GetRiskScoreReq)(nil),          // 11: risk.GetRiskScoreReq
+	(*GetRiskScoreResp)(nil),         // 12: risk.GetRiskScoreResp
+	(*RecordEventReq)(nil),           // 13: risk.RecordEventReq
+	(*ComplaintTicket)(nil),          // 14: risk.ComplaintTicket
+	(*CreateComplaintReq)(nil),       // 15: risk.CreateComplaintReq
+	(*CreateComplaintResp)(nil),      // 16: risk.CreateComplaintResp
+	(*GetComplaintReq)(nil),          // 17: risk.GetComplaintReq
+	(*ListComplaintsReq)(nil),        // 18: risk.ListComplaintsReq
+	(*ListComplaintsResp)(nil),       // 19: risk.ListComplaintsResp
+	(*HandleComplaintReq)(nil),       // 20: risk.HandleComplaintReq
+	(*ShopRestriction)(nil),          // 21: risk.ShopRestriction
+	(*SetShopRestrictionReq)(nil),    // 22: risk.SetShopRestrictionReq
+	(*ListShopRestrictionsReq)(nil),  // 23: risk.ListShopRestrictionsReq
+	(*ListShopRestrictionsResp)(nil), // 24: risk.ListShopRestrictionsResp
+	(*RemoveShopRestrictionReq)(nil), // 25: risk.RemoveShopRestrictionReq
+	(*IdReq)(nil),                    // 26: risk.IdReq
+	(*SensitiveWord)(nil),            // 27: risk.SensitiveWord
+	(*CreateSensitiveWordReq)(nil),   // 28: risk.CreateSensitiveWordReq
+	(*CreateSensitiveWordResp)(nil),  // 29: risk.CreateSensitiveWordResp
+	(*ListSensitiveWordsReq)(nil),    // 30: risk.ListSensitiveWordsReq
+	(*ListSensitiveWordsResp)(nil),   // 31: risk.ListSensitiveWordsResp
+	(*CheckTextReq)(nil),             // 32: risk.CheckTextReq
+	(*CheckTextResp)(nil),            // 33: risk.CheckTextResp
 }
-var file_risk_proto_depIdxs = []int32{
-	1,  // 0: risk.Risk.IssueToken:input_type -> risk.IssueTokenReq
-	3,  // 1: risk.Risk.VerifyToken:input_type -> risk.VerifyTokenReq
-	5,  // 2: risk.Risk.CheckBlacklist:input_type -> risk.CheckBlacklistReq
-	7,  // 3: risk.Risk.AddToBlacklist:input_type -> risk.AddToBlacklistReq
-	8,  // 4: risk.Risk.RemoveFromBlacklist:input_type -> risk.RemoveFromBlacklistReq
-	9,  // 5: risk.Risk.RateLimit:input_type -> risk.RateLimitReq
-	11, // 6: risk.Risk.GetRiskScore:input_type -> risk.GetRiskScoreReq
-	13, // 7: risk.Risk.RecordEvent:input_type -> risk.RecordEventReq
-	2,  // 8: risk.Risk.IssueToken:output_type -> risk.IssueTokenResp
-	4,  // 9: risk.Risk.VerifyToken:output_type -> risk.VerifyTokenResp
-	6,  // 10: risk.Risk.CheckBlacklist:output_type -> risk.CheckBlacklistResp
-	0,  // 11: risk.Risk.AddToBlacklist:output_type -> risk.Empty
-	0,  // 12: risk.Risk.RemoveFromBlacklist:output_type -> risk.Empty
-	10, // 13: risk.Risk.RateLimit:output_type -> risk.RateLimitResp
-	12, // 14: risk.Risk.GetRiskScore:output_type -> risk.GetRiskScoreResp
-	0,  // 15: risk.Risk.RecordEvent:output_type -> risk.Empty
-	8,  // [8:16] is the sub-list for method output_type
-	0,  // [0:8] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+var file_risk_risk_proto_depIdxs = []int32{
+	14, // 0: risk.ListComplaintsResp.tickets:type_name -> risk.ComplaintTicket
+	21, // 1: risk.ListShopRestrictionsResp.restrictions:type_name -> risk.ShopRestriction
+	27, // 2: risk.ListSensitiveWordsResp.words:type_name -> risk.SensitiveWord
+	27, // 3: risk.CheckTextResp.matches:type_name -> risk.SensitiveWord
+	1,  // 4: risk.Risk.IssueToken:input_type -> risk.IssueTokenReq
+	3,  // 5: risk.Risk.VerifyToken:input_type -> risk.VerifyTokenReq
+	5,  // 6: risk.Risk.CheckBlacklist:input_type -> risk.CheckBlacklistReq
+	7,  // 7: risk.Risk.AddToBlacklist:input_type -> risk.AddToBlacklistReq
+	8,  // 8: risk.Risk.RemoveFromBlacklist:input_type -> risk.RemoveFromBlacklistReq
+	9,  // 9: risk.Risk.RateLimit:input_type -> risk.RateLimitReq
+	11, // 10: risk.Risk.GetRiskScore:input_type -> risk.GetRiskScoreReq
+	13, // 11: risk.Risk.RecordEvent:input_type -> risk.RecordEventReq
+	15, // 12: risk.Risk.CreateComplaint:input_type -> risk.CreateComplaintReq
+	17, // 13: risk.Risk.GetComplaint:input_type -> risk.GetComplaintReq
+	18, // 14: risk.Risk.ListComplaints:input_type -> risk.ListComplaintsReq
+	20, // 15: risk.Risk.HandleComplaint:input_type -> risk.HandleComplaintReq
+	22, // 16: risk.Risk.SetShopRestriction:input_type -> risk.SetShopRestrictionReq
+	23, // 17: risk.Risk.ListShopRestrictions:input_type -> risk.ListShopRestrictionsReq
+	25, // 18: risk.Risk.RemoveShopRestriction:input_type -> risk.RemoveShopRestrictionReq
+	28, // 19: risk.Risk.CreateSensitiveWord:input_type -> risk.CreateSensitiveWordReq
+	30, // 20: risk.Risk.ListSensitiveWords:input_type -> risk.ListSensitiveWordsReq
+	26, // 21: risk.Risk.DeleteSensitiveWord:input_type -> risk.IdReq
+	32, // 22: risk.Risk.CheckText:input_type -> risk.CheckTextReq
+	2,  // 23: risk.Risk.IssueToken:output_type -> risk.IssueTokenResp
+	4,  // 24: risk.Risk.VerifyToken:output_type -> risk.VerifyTokenResp
+	6,  // 25: risk.Risk.CheckBlacklist:output_type -> risk.CheckBlacklistResp
+	0,  // 26: risk.Risk.AddToBlacklist:output_type -> risk.Empty
+	0,  // 27: risk.Risk.RemoveFromBlacklist:output_type -> risk.Empty
+	10, // 28: risk.Risk.RateLimit:output_type -> risk.RateLimitResp
+	12, // 29: risk.Risk.GetRiskScore:output_type -> risk.GetRiskScoreResp
+	0,  // 30: risk.Risk.RecordEvent:output_type -> risk.Empty
+	16, // 31: risk.Risk.CreateComplaint:output_type -> risk.CreateComplaintResp
+	14, // 32: risk.Risk.GetComplaint:output_type -> risk.ComplaintTicket
+	19, // 33: risk.Risk.ListComplaints:output_type -> risk.ListComplaintsResp
+	0,  // 34: risk.Risk.HandleComplaint:output_type -> risk.Empty
+	0,  // 35: risk.Risk.SetShopRestriction:output_type -> risk.Empty
+	24, // 36: risk.Risk.ListShopRestrictions:output_type -> risk.ListShopRestrictionsResp
+	0,  // 37: risk.Risk.RemoveShopRestriction:output_type -> risk.Empty
+	29, // 38: risk.Risk.CreateSensitiveWord:output_type -> risk.CreateSensitiveWordResp
+	31, // 39: risk.Risk.ListSensitiveWords:output_type -> risk.ListSensitiveWordsResp
+	0,  // 40: risk.Risk.DeleteSensitiveWord:output_type -> risk.Empty
+	33, // 41: risk.Risk.CheckText:output_type -> risk.CheckTextResp
+	23, // [23:42] is the sub-list for method output_type
+	4,  // [4:23] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_risk_proto_init() }
-func file_risk_proto_init() {
-	if File_risk_proto != nil {
+func init() { file_risk_risk_proto_init() }
+func file_risk_risk_proto_init() {
+	if File_risk_risk_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_risk_proto_rawDesc), len(file_risk_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_risk_risk_proto_rawDesc), len(file_risk_risk_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_risk_proto_goTypes,
-		DependencyIndexes: file_risk_proto_depIdxs,
-		MessageInfos:      file_risk_proto_msgTypes,
+		GoTypes:           file_risk_risk_proto_goTypes,
+		DependencyIndexes: file_risk_risk_proto_depIdxs,
+		MessageInfos:      file_risk_risk_proto_msgTypes,
 	}.Build()
-	File_risk_proto = out.File
-	file_risk_proto_goTypes = nil
-	file_risk_proto_depIdxs = nil
+	File_risk_risk_proto = out.File
+	file_risk_risk_proto_goTypes = nil
+	file_risk_risk_proto_depIdxs = nil
 }

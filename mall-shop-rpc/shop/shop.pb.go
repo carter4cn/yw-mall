@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.19.4
-// source: shop.proto
+// source: shop/shop.proto
 
 package shop
 
@@ -39,7 +39,7 @@ type Shop struct {
 
 func (x *Shop) Reset() {
 	*x = Shop{}
-	mi := &file_shop_proto_msgTypes[0]
+	mi := &file_shop_shop_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -51,7 +51,7 @@ func (x *Shop) String() string {
 func (*Shop) ProtoMessage() {}
 
 func (x *Shop) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[0]
+	mi := &file_shop_shop_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -64,7 +64,7 @@ func (x *Shop) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Shop.ProtoReflect.Descriptor instead.
 func (*Shop) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{0}
+	return file_shop_shop_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Shop) GetId() int64 {
@@ -146,7 +146,7 @@ type OkResp struct {
 
 func (x *OkResp) Reset() {
 	*x = OkResp{}
-	mi := &file_shop_proto_msgTypes[1]
+	mi := &file_shop_shop_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -158,7 +158,7 @@ func (x *OkResp) String() string {
 func (*OkResp) ProtoMessage() {}
 
 func (x *OkResp) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[1]
+	mi := &file_shop_shop_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -171,7 +171,7 @@ func (x *OkResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OkResp.ProtoReflect.Descriptor instead.
 func (*OkResp) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{1}
+	return file_shop_shop_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *OkResp) GetOk() bool {
@@ -190,7 +190,7 @@ type GetShopReq struct {
 
 func (x *GetShopReq) Reset() {
 	*x = GetShopReq{}
-	mi := &file_shop_proto_msgTypes[2]
+	mi := &file_shop_shop_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -202,7 +202,7 @@ func (x *GetShopReq) String() string {
 func (*GetShopReq) ProtoMessage() {}
 
 func (x *GetShopReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[2]
+	mi := &file_shop_shop_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -215,7 +215,7 @@ func (x *GetShopReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetShopReq.ProtoReflect.Descriptor instead.
 func (*GetShopReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{2}
+	return file_shop_shop_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetShopReq) GetId() int64 {
@@ -234,7 +234,7 @@ type GetShopResp struct {
 
 func (x *GetShopResp) Reset() {
 	*x = GetShopResp{}
-	mi := &file_shop_proto_msgTypes[3]
+	mi := &file_shop_shop_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -246,7 +246,7 @@ func (x *GetShopResp) String() string {
 func (*GetShopResp) ProtoMessage() {}
 
 func (x *GetShopResp) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[3]
+	mi := &file_shop_shop_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -259,7 +259,7 @@ func (x *GetShopResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetShopResp.ProtoReflect.Descriptor instead.
 func (*GetShopResp) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{3}
+	return file_shop_shop_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetShopResp) GetShop() *Shop {
@@ -279,7 +279,7 @@ type ListShopsReq struct {
 
 func (x *ListShopsReq) Reset() {
 	*x = ListShopsReq{}
-	mi := &file_shop_proto_msgTypes[4]
+	mi := &file_shop_shop_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -291,7 +291,7 @@ func (x *ListShopsReq) String() string {
 func (*ListShopsReq) ProtoMessage() {}
 
 func (x *ListShopsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[4]
+	mi := &file_shop_shop_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -304,7 +304,7 @@ func (x *ListShopsReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListShopsReq.ProtoReflect.Descriptor instead.
 func (*ListShopsReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{4}
+	return file_shop_shop_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ListShopsReq) GetPage() int32 {
@@ -331,7 +331,7 @@ type ListShopsResp struct {
 
 func (x *ListShopsResp) Reset() {
 	*x = ListShopsResp{}
-	mi := &file_shop_proto_msgTypes[5]
+	mi := &file_shop_shop_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -343,7 +343,7 @@ func (x *ListShopsResp) String() string {
 func (*ListShopsResp) ProtoMessage() {}
 
 func (x *ListShopsResp) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[5]
+	mi := &file_shop_shop_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -356,7 +356,7 @@ func (x *ListShopsResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListShopsResp.ProtoReflect.Descriptor instead.
 func (*ListShopsResp) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{5}
+	return file_shop_shop_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListShopsResp) GetShops() []*Shop {
@@ -382,7 +382,7 @@ type ListRecommendedShopsReq struct {
 
 func (x *ListRecommendedShopsReq) Reset() {
 	*x = ListRecommendedShopsReq{}
-	mi := &file_shop_proto_msgTypes[6]
+	mi := &file_shop_shop_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -394,7 +394,7 @@ func (x *ListRecommendedShopsReq) String() string {
 func (*ListRecommendedShopsReq) ProtoMessage() {}
 
 func (x *ListRecommendedShopsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[6]
+	mi := &file_shop_shop_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -407,7 +407,7 @@ func (x *ListRecommendedShopsReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRecommendedShopsReq.ProtoReflect.Descriptor instead.
 func (*ListRecommendedShopsReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{6}
+	return file_shop_shop_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListRecommendedShopsReq) GetLimit() int32 {
@@ -427,7 +427,7 @@ type FollowShopReq struct {
 
 func (x *FollowShopReq) Reset() {
 	*x = FollowShopReq{}
-	mi := &file_shop_proto_msgTypes[7]
+	mi := &file_shop_shop_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -439,7 +439,7 @@ func (x *FollowShopReq) String() string {
 func (*FollowShopReq) ProtoMessage() {}
 
 func (x *FollowShopReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[7]
+	mi := &file_shop_shop_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -452,7 +452,7 @@ func (x *FollowShopReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FollowShopReq.ProtoReflect.Descriptor instead.
 func (*FollowShopReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{7}
+	return file_shop_shop_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *FollowShopReq) GetUserId() int64 {
@@ -479,7 +479,7 @@ type UnfollowShopReq struct {
 
 func (x *UnfollowShopReq) Reset() {
 	*x = UnfollowShopReq{}
-	mi := &file_shop_proto_msgTypes[8]
+	mi := &file_shop_shop_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -491,7 +491,7 @@ func (x *UnfollowShopReq) String() string {
 func (*UnfollowShopReq) ProtoMessage() {}
 
 func (x *UnfollowShopReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[8]
+	mi := &file_shop_shop_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -504,7 +504,7 @@ func (x *UnfollowShopReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnfollowShopReq.ProtoReflect.Descriptor instead.
 func (*UnfollowShopReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{8}
+	return file_shop_shop_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UnfollowShopReq) GetUserId() int64 {
@@ -531,7 +531,7 @@ type IsFollowingReq struct {
 
 func (x *IsFollowingReq) Reset() {
 	*x = IsFollowingReq{}
-	mi := &file_shop_proto_msgTypes[9]
+	mi := &file_shop_shop_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -543,7 +543,7 @@ func (x *IsFollowingReq) String() string {
 func (*IsFollowingReq) ProtoMessage() {}
 
 func (x *IsFollowingReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[9]
+	mi := &file_shop_shop_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -556,7 +556,7 @@ func (x *IsFollowingReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IsFollowingReq.ProtoReflect.Descriptor instead.
 func (*IsFollowingReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{9}
+	return file_shop_shop_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *IsFollowingReq) GetUserId() int64 {
@@ -582,7 +582,7 @@ type IsFollowingResp struct {
 
 func (x *IsFollowingResp) Reset() {
 	*x = IsFollowingResp{}
-	mi := &file_shop_proto_msgTypes[10]
+	mi := &file_shop_shop_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -594,7 +594,7 @@ func (x *IsFollowingResp) String() string {
 func (*IsFollowingResp) ProtoMessage() {}
 
 func (x *IsFollowingResp) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[10]
+	mi := &file_shop_shop_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -607,7 +607,7 @@ func (x *IsFollowingResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IsFollowingResp.ProtoReflect.Descriptor instead.
 func (*IsFollowingResp) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{10}
+	return file_shop_shop_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *IsFollowingResp) GetIsFollowing() bool {
@@ -628,7 +628,7 @@ type ListFollowedShopsReq struct {
 
 func (x *ListFollowedShopsReq) Reset() {
 	*x = ListFollowedShopsReq{}
-	mi := &file_shop_proto_msgTypes[11]
+	mi := &file_shop_shop_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -640,7 +640,7 @@ func (x *ListFollowedShopsReq) String() string {
 func (*ListFollowedShopsReq) ProtoMessage() {}
 
 func (x *ListFollowedShopsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[11]
+	mi := &file_shop_shop_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -653,7 +653,7 @@ func (x *ListFollowedShopsReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListFollowedShopsReq.ProtoReflect.Descriptor instead.
 func (*ListFollowedShopsReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{11}
+	return file_shop_shop_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ListFollowedShopsReq) GetUserId() int64 {
@@ -690,7 +690,7 @@ type CreateShopReq struct {
 
 func (x *CreateShopReq) Reset() {
 	*x = CreateShopReq{}
-	mi := &file_shop_proto_msgTypes[12]
+	mi := &file_shop_shop_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -702,7 +702,7 @@ func (x *CreateShopReq) String() string {
 func (*CreateShopReq) ProtoMessage() {}
 
 func (x *CreateShopReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[12]
+	mi := &file_shop_shop_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -715,7 +715,7 @@ func (x *CreateShopReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateShopReq.ProtoReflect.Descriptor instead.
 func (*CreateShopReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{12}
+	return file_shop_shop_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *CreateShopReq) GetName() string {
@@ -762,7 +762,7 @@ type CreateShopResp struct {
 
 func (x *CreateShopResp) Reset() {
 	*x = CreateShopResp{}
-	mi := &file_shop_proto_msgTypes[13]
+	mi := &file_shop_shop_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -774,7 +774,7 @@ func (x *CreateShopResp) String() string {
 func (*CreateShopResp) ProtoMessage() {}
 
 func (x *CreateShopResp) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[13]
+	mi := &file_shop_shop_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -787,7 +787,7 @@ func (x *CreateShopResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateShopResp.ProtoReflect.Descriptor instead.
 func (*CreateShopResp) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{13}
+	return file_shop_shop_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *CreateShopResp) GetId() int64 {
@@ -810,7 +810,7 @@ type UpdateShopReq struct {
 
 func (x *UpdateShopReq) Reset() {
 	*x = UpdateShopReq{}
-	mi := &file_shop_proto_msgTypes[14]
+	mi := &file_shop_shop_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -822,7 +822,7 @@ func (x *UpdateShopReq) String() string {
 func (*UpdateShopReq) ProtoMessage() {}
 
 func (x *UpdateShopReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[14]
+	mi := &file_shop_shop_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -835,7 +835,7 @@ func (x *UpdateShopReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateShopReq.ProtoReflect.Descriptor instead.
 func (*UpdateShopReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{14}
+	return file_shop_shop_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *UpdateShopReq) GetId() int64 {
@@ -883,7 +883,7 @@ type IncrProductCountReq struct {
 
 func (x *IncrProductCountReq) Reset() {
 	*x = IncrProductCountReq{}
-	mi := &file_shop_proto_msgTypes[15]
+	mi := &file_shop_shop_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -895,7 +895,7 @@ func (x *IncrProductCountReq) String() string {
 func (*IncrProductCountReq) ProtoMessage() {}
 
 func (x *IncrProductCountReq) ProtoReflect() protoreflect.Message {
-	mi := &file_shop_proto_msgTypes[15]
+	mi := &file_shop_shop_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -908,7 +908,7 @@ func (x *IncrProductCountReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IncrProductCountReq.ProtoReflect.Descriptor instead.
 func (*IncrProductCountReq) Descriptor() ([]byte, []int) {
-	return file_shop_proto_rawDescGZIP(), []int{15}
+	return file_shop_shop_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *IncrProductCountReq) GetShopId() int64 {
@@ -925,12 +925,2066 @@ func (x *IncrProductCountReq) GetDelta() int32 {
 	return 0
 }
 
-var File_shop_proto protoreflect.FileDescriptor
+// ===== Merchant Onboarding =====
+type ShopApplication struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId          int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ShopName        string                 `protobuf:"bytes,3,opt,name=shop_name,json=shopName,proto3" json:"shop_name,omitempty"`
+	Logo            string                 `protobuf:"bytes,4,opt,name=logo,proto3" json:"logo,omitempty"`
+	Description     string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	ContactPhone    string                 `protobuf:"bytes,6,opt,name=contact_phone,json=contactPhone,proto3" json:"contact_phone,omitempty"`
+	BusinessLicense string                 `protobuf:"bytes,7,opt,name=business_license,json=businessLicense,proto3" json:"business_license,omitempty"`
+	LegalPerson     string                 `protobuf:"bytes,8,opt,name=legal_person,json=legalPerson,proto3" json:"legal_person,omitempty"`
+	IdCardFront     string                 `protobuf:"bytes,9,opt,name=id_card_front,json=idCardFront,proto3" json:"id_card_front,omitempty"`
+	IdCardBack      string                 `protobuf:"bytes,10,opt,name=id_card_back,json=idCardBack,proto3" json:"id_card_back,omitempty"`
+	Category        string                 `protobuf:"bytes,11,opt,name=category,proto3" json:"category,omitempty"`
+	Status          int32                  `protobuf:"varint,12,opt,name=status,proto3" json:"status,omitempty"`
+	ReviewRemark    string                 `protobuf:"bytes,13,opt,name=review_remark,json=reviewRemark,proto3" json:"review_remark,omitempty"`
+	ReviewerId      int64                  `protobuf:"varint,14,opt,name=reviewer_id,json=reviewerId,proto3" json:"reviewer_id,omitempty"`
+	ShopId          int64                  `protobuf:"varint,15,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	CreateTime      int64                  `protobuf:"varint,16,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	UpdateTime      int64                  `protobuf:"varint,17,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
 
-const file_shop_proto_rawDesc = "" +
+func (x *ShopApplication) Reset() {
+	*x = ShopApplication{}
+	mi := &file_shop_shop_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShopApplication) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShopApplication) ProtoMessage() {}
+
+func (x *ShopApplication) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShopApplication.ProtoReflect.Descriptor instead.
+func (*ShopApplication) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *ShopApplication) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ShopApplication) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *ShopApplication) GetShopName() string {
+	if x != nil {
+		return x.ShopName
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetLogo() string {
+	if x != nil {
+		return x.Logo
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetContactPhone() string {
+	if x != nil {
+		return x.ContactPhone
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetBusinessLicense() string {
+	if x != nil {
+		return x.BusinessLicense
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetLegalPerson() string {
+	if x != nil {
+		return x.LegalPerson
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetIdCardFront() string {
+	if x != nil {
+		return x.IdCardFront
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetIdCardBack() string {
+	if x != nil {
+		return x.IdCardBack
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ShopApplication) GetReviewRemark() string {
+	if x != nil {
+		return x.ReviewRemark
+	}
+	return ""
+}
+
+func (x *ShopApplication) GetReviewerId() int64 {
+	if x != nil {
+		return x.ReviewerId
+	}
+	return 0
+}
+
+func (x *ShopApplication) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *ShopApplication) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+func (x *ShopApplication) GetUpdateTime() int64 {
+	if x != nil {
+		return x.UpdateTime
+	}
+	return 0
+}
+
+type ApplyShopReq struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	UserId          int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ShopName        string                 `protobuf:"bytes,2,opt,name=shop_name,json=shopName,proto3" json:"shop_name,omitempty"`
+	Logo            string                 `protobuf:"bytes,3,opt,name=logo,proto3" json:"logo,omitempty"`
+	Description     string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	ContactPhone    string                 `protobuf:"bytes,5,opt,name=contact_phone,json=contactPhone,proto3" json:"contact_phone,omitempty"`
+	BusinessLicense string                 `protobuf:"bytes,6,opt,name=business_license,json=businessLicense,proto3" json:"business_license,omitempty"`
+	LegalPerson     string                 `protobuf:"bytes,7,opt,name=legal_person,json=legalPerson,proto3" json:"legal_person,omitempty"`
+	IdCardFront     string                 `protobuf:"bytes,8,opt,name=id_card_front,json=idCardFront,proto3" json:"id_card_front,omitempty"`
+	IdCardBack      string                 `protobuf:"bytes,9,opt,name=id_card_back,json=idCardBack,proto3" json:"id_card_back,omitempty"`
+	Category        string                 `protobuf:"bytes,10,opt,name=category,proto3" json:"category,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ApplyShopReq) Reset() {
+	*x = ApplyShopReq{}
+	mi := &file_shop_shop_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ApplyShopReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApplyShopReq) ProtoMessage() {}
+
+func (x *ApplyShopReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApplyShopReq.ProtoReflect.Descriptor instead.
+func (*ApplyShopReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *ApplyShopReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *ApplyShopReq) GetShopName() string {
+	if x != nil {
+		return x.ShopName
+	}
+	return ""
+}
+
+func (x *ApplyShopReq) GetLogo() string {
+	if x != nil {
+		return x.Logo
+	}
+	return ""
+}
+
+func (x *ApplyShopReq) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ApplyShopReq) GetContactPhone() string {
+	if x != nil {
+		return x.ContactPhone
+	}
+	return ""
+}
+
+func (x *ApplyShopReq) GetBusinessLicense() string {
+	if x != nil {
+		return x.BusinessLicense
+	}
+	return ""
+}
+
+func (x *ApplyShopReq) GetLegalPerson() string {
+	if x != nil {
+		return x.LegalPerson
+	}
+	return ""
+}
+
+func (x *ApplyShopReq) GetIdCardFront() string {
+	if x != nil {
+		return x.IdCardFront
+	}
+	return ""
+}
+
+func (x *ApplyShopReq) GetIdCardBack() string {
+	if x != nil {
+		return x.IdCardBack
+	}
+	return ""
+}
+
+func (x *ApplyShopReq) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+type ApplyShopResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ApplicationId int64                  `protobuf:"varint,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ApplyShopResp) Reset() {
+	*x = ApplyShopResp{}
+	mi := &file_shop_shop_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ApplyShopResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApplyShopResp) ProtoMessage() {}
+
+func (x *ApplyShopResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApplyShopResp.ProtoReflect.Descriptor instead.
+func (*ApplyShopResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *ApplyShopResp) GetApplicationId() int64 {
+	if x != nil {
+		return x.ApplicationId
+	}
+	return 0
+}
+
+type GetShopApplicationReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetShopApplicationReq) Reset() {
+	*x = GetShopApplicationReq{}
+	mi := &file_shop_shop_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetShopApplicationReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetShopApplicationReq) ProtoMessage() {}
+
+func (x *GetShopApplicationReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetShopApplicationReq.ProtoReflect.Descriptor instead.
+func (*GetShopApplicationReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetShopApplicationReq) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ListShopApplicationsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopApplicationsReq) Reset() {
+	*x = ListShopApplicationsReq{}
+	mi := &file_shop_shop_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopApplicationsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopApplicationsReq) ProtoMessage() {}
+
+func (x *ListShopApplicationsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopApplicationsReq.ProtoReflect.Descriptor instead.
+func (*ListShopApplicationsReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *ListShopApplicationsReq) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ListShopApplicationsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListShopApplicationsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListShopApplicationsResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Applications  []*ShopApplication     `protobuf:"bytes,1,rep,name=applications,proto3" json:"applications,omitempty"`
+	Total         int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopApplicationsResp) Reset() {
+	*x = ListShopApplicationsResp{}
+	mi := &file_shop_shop_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopApplicationsResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopApplicationsResp) ProtoMessage() {}
+
+func (x *ListShopApplicationsResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopApplicationsResp.ProtoReflect.Descriptor instead.
+func (*ListShopApplicationsResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *ListShopApplicationsResp) GetApplications() []*ShopApplication {
+	if x != nil {
+		return x.Applications
+	}
+	return nil
+}
+
+func (x *ListShopApplicationsResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type ListMyApplicationsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMyApplicationsReq) Reset() {
+	*x = ListMyApplicationsReq{}
+	mi := &file_shop_shop_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMyApplicationsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMyApplicationsReq) ProtoMessage() {}
+
+func (x *ListMyApplicationsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMyApplicationsReq.ProtoReflect.Descriptor instead.
+func (*ListMyApplicationsReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *ListMyApplicationsReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *ListMyApplicationsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListMyApplicationsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ReviewShopApplicationReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ApplicationId int64                  `protobuf:"varint,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
+	ReviewerId    int64                  `protobuf:"varint,2,opt,name=reviewer_id,json=reviewerId,proto3" json:"reviewer_id,omitempty"`
+	Action        int32                  `protobuf:"varint,3,opt,name=action,proto3" json:"action,omitempty"` // 1=approve, 2=reject, 3=need_more_info
+	Remark        string                 `protobuf:"bytes,4,opt,name=remark,proto3" json:"remark,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReviewShopApplicationReq) Reset() {
+	*x = ReviewShopApplicationReq{}
+	mi := &file_shop_shop_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReviewShopApplicationReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReviewShopApplicationReq) ProtoMessage() {}
+
+func (x *ReviewShopApplicationReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReviewShopApplicationReq.ProtoReflect.Descriptor instead.
+func (*ReviewShopApplicationReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *ReviewShopApplicationReq) GetApplicationId() int64 {
+	if x != nil {
+		return x.ApplicationId
+	}
+	return 0
+}
+
+func (x *ReviewShopApplicationReq) GetReviewerId() int64 {
+	if x != nil {
+		return x.ReviewerId
+	}
+	return 0
+}
+
+func (x *ReviewShopApplicationReq) GetAction() int32 {
+	if x != nil {
+		return x.Action
+	}
+	return 0
+}
+
+func (x *ReviewShopApplicationReq) GetRemark() string {
+	if x != nil {
+		return x.Remark
+	}
+	return ""
+}
+
+type GetShopByOwnerIdReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OwnerUserId   int64                  `protobuf:"varint,1,opt,name=owner_user_id,json=ownerUserId,proto3" json:"owner_user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetShopByOwnerIdReq) Reset() {
+	*x = GetShopByOwnerIdReq{}
+	mi := &file_shop_shop_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetShopByOwnerIdReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetShopByOwnerIdReq) ProtoMessage() {}
+
+func (x *GetShopByOwnerIdReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetShopByOwnerIdReq.ProtoReflect.Descriptor instead.
+func (*GetShopByOwnerIdReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetShopByOwnerIdReq) GetOwnerUserId() int64 {
+	if x != nil {
+		return x.OwnerUserId
+	}
+	return 0
+}
+
+type UpdateShopStatusReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Status        int32                  `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`
+	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateShopStatusReq) Reset() {
+	*x = UpdateShopStatusReq{}
+	mi := &file_shop_shop_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateShopStatusReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateShopStatusReq) ProtoMessage() {}
+
+func (x *UpdateShopStatusReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateShopStatusReq.ProtoReflect.Descriptor instead.
+func (*UpdateShopStatusReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *UpdateShopStatusReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *UpdateShopStatusReq) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *UpdateShopStatusReq) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type AdjustCreditScoreReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Delta         int32                  `protobuf:"varint,2,opt,name=delta,proto3" json:"delta,omitempty"`
+	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	OperatorId    int64                  `protobuf:"varint,4,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AdjustCreditScoreReq) Reset() {
+	*x = AdjustCreditScoreReq{}
+	mi := &file_shop_shop_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdjustCreditScoreReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdjustCreditScoreReq) ProtoMessage() {}
+
+func (x *AdjustCreditScoreReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdjustCreditScoreReq.ProtoReflect.Descriptor instead.
+func (*AdjustCreditScoreReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *AdjustCreditScoreReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *AdjustCreditScoreReq) GetDelta() int32 {
+	if x != nil {
+		return x.Delta
+	}
+	return 0
+}
+
+func (x *AdjustCreditScoreReq) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *AdjustCreditScoreReq) GetOperatorId() int64 {
+	if x != nil {
+		return x.OperatorId
+	}
+	return 0
+}
+
+type ShopDetailResp struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name            string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Logo            string                 `protobuf:"bytes,3,opt,name=logo,proto3" json:"logo,omitempty"`
+	Banner          string                 `protobuf:"bytes,4,opt,name=banner,proto3" json:"banner,omitempty"`
+	Description     string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	Rating          float64                `protobuf:"fixed64,6,opt,name=rating,proto3" json:"rating,omitempty"`
+	ProductCount    int32                  `protobuf:"varint,7,opt,name=product_count,json=productCount,proto3" json:"product_count,omitempty"`
+	FollowCount     int32                  `protobuf:"varint,8,opt,name=follow_count,json=followCount,proto3" json:"follow_count,omitempty"`
+	Status          int32                  `protobuf:"varint,9,opt,name=status,proto3" json:"status,omitempty"`
+	CreateTime      int64                  `protobuf:"varint,10,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	OwnerUserId     int64                  `protobuf:"varint,11,opt,name=owner_user_id,json=ownerUserId,proto3" json:"owner_user_id,omitempty"`
+	CreditScore     int32                  `protobuf:"varint,12,opt,name=credit_score,json=creditScore,proto3" json:"credit_score,omitempty"`
+	Level           int32                  `protobuf:"varint,13,opt,name=level,proto3" json:"level,omitempty"`
+	ContactPhone    string                 `protobuf:"bytes,14,opt,name=contact_phone,json=contactPhone,proto3" json:"contact_phone,omitempty"`
+	BusinessLicense string                 `protobuf:"bytes,15,opt,name=business_license,json=businessLicense,proto3" json:"business_license,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ShopDetailResp) Reset() {
+	*x = ShopDetailResp{}
+	mi := &file_shop_shop_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShopDetailResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShopDetailResp) ProtoMessage() {}
+
+func (x *ShopDetailResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShopDetailResp.ProtoReflect.Descriptor instead.
+func (*ShopDetailResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *ShopDetailResp) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ShopDetailResp) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ShopDetailResp) GetLogo() string {
+	if x != nil {
+		return x.Logo
+	}
+	return ""
+}
+
+func (x *ShopDetailResp) GetBanner() string {
+	if x != nil {
+		return x.Banner
+	}
+	return ""
+}
+
+func (x *ShopDetailResp) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ShopDetailResp) GetRating() float64 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
+func (x *ShopDetailResp) GetProductCount() int32 {
+	if x != nil {
+		return x.ProductCount
+	}
+	return 0
+}
+
+func (x *ShopDetailResp) GetFollowCount() int32 {
+	if x != nil {
+		return x.FollowCount
+	}
+	return 0
+}
+
+func (x *ShopDetailResp) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ShopDetailResp) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+func (x *ShopDetailResp) GetOwnerUserId() int64 {
+	if x != nil {
+		return x.OwnerUserId
+	}
+	return 0
+}
+
+func (x *ShopDetailResp) GetCreditScore() int32 {
+	if x != nil {
+		return x.CreditScore
+	}
+	return 0
+}
+
+func (x *ShopDetailResp) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+func (x *ShopDetailResp) GetContactPhone() string {
+	if x != nil {
+		return x.ContactPhone
+	}
+	return ""
+}
+
+func (x *ShopDetailResp) GetBusinessLicense() string {
+	if x != nil {
+		return x.BusinessLicense
+	}
+	return ""
+}
+
+// ===== B-5/B-6 Shop level system =====
+type Empty struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Empty) Reset() {
+	*x = Empty{}
+	mi := &file_shop_shop_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Empty) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Empty) ProtoMessage() {}
+
+func (x *Empty) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
+func (*Empty) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{28}
+}
+
+type ShopLevelTemplate struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Level          int32                  `protobuf:"varint,1,opt,name=level,proto3" json:"level,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	MinGmv         int64                  `protobuf:"varint,3,opt,name=min_gmv,json=minGmv,proto3" json:"min_gmv,omitempty"`
+	MinCreditScore int32                  `protobuf:"varint,4,opt,name=min_credit_score,json=minCreditScore,proto3" json:"min_credit_score,omitempty"`
+	MinMonths      int32                  `protobuf:"varint,5,opt,name=min_months,json=minMonths,proto3" json:"min_months,omitempty"`
+	MinRating      float64                `protobuf:"fixed64,6,opt,name=min_rating,json=minRating,proto3" json:"min_rating,omitempty"`
+	CommissionRate float64                `protobuf:"fixed64,7,opt,name=commission_rate,json=commissionRate,proto3" json:"commission_rate,omitempty"`
+	TrafficBoost   float64                `protobuf:"fixed64,8,opt,name=traffic_boost,json=trafficBoost,proto3" json:"traffic_boost,omitempty"`
+	Benefits       string                 `protobuf:"bytes,9,opt,name=benefits,proto3" json:"benefits,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ShopLevelTemplate) Reset() {
+	*x = ShopLevelTemplate{}
+	mi := &file_shop_shop_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShopLevelTemplate) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShopLevelTemplate) ProtoMessage() {}
+
+func (x *ShopLevelTemplate) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShopLevelTemplate.ProtoReflect.Descriptor instead.
+func (*ShopLevelTemplate) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *ShopLevelTemplate) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+func (x *ShopLevelTemplate) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ShopLevelTemplate) GetMinGmv() int64 {
+	if x != nil {
+		return x.MinGmv
+	}
+	return 0
+}
+
+func (x *ShopLevelTemplate) GetMinCreditScore() int32 {
+	if x != nil {
+		return x.MinCreditScore
+	}
+	return 0
+}
+
+func (x *ShopLevelTemplate) GetMinMonths() int32 {
+	if x != nil {
+		return x.MinMonths
+	}
+	return 0
+}
+
+func (x *ShopLevelTemplate) GetMinRating() float64 {
+	if x != nil {
+		return x.MinRating
+	}
+	return 0
+}
+
+func (x *ShopLevelTemplate) GetCommissionRate() float64 {
+	if x != nil {
+		return x.CommissionRate
+	}
+	return 0
+}
+
+func (x *ShopLevelTemplate) GetTrafficBoost() float64 {
+	if x != nil {
+		return x.TrafficBoost
+	}
+	return 0
+}
+
+func (x *ShopLevelTemplate) GetBenefits() string {
+	if x != nil {
+		return x.Benefits
+	}
+	return ""
+}
+
+type ListShopLevelsResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Levels        []*ShopLevelTemplate   `protobuf:"bytes,1,rep,name=levels,proto3" json:"levels,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopLevelsResp) Reset() {
+	*x = ListShopLevelsResp{}
+	mi := &file_shop_shop_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopLevelsResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopLevelsResp) ProtoMessage() {}
+
+func (x *ListShopLevelsResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopLevelsResp.ProtoReflect.Descriptor instead.
+func (*ListShopLevelsResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *ListShopLevelsResp) GetLevels() []*ShopLevelTemplate {
+	if x != nil {
+		return x.Levels
+	}
+	return nil
+}
+
+type GetMyLevelStatusReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMyLevelStatusReq) Reset() {
+	*x = GetMyLevelStatusReq{}
+	mi := &file_shop_shop_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMyLevelStatusReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMyLevelStatusReq) ProtoMessage() {}
+
+func (x *GetMyLevelStatusReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMyLevelStatusReq.ProtoReflect.Descriptor instead.
+func (*GetMyLevelStatusReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *GetMyLevelStatusReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+type MyLevelStatus struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	CurrentLevel          int32                  `protobuf:"varint,1,opt,name=current_level,json=currentLevel,proto3" json:"current_level,omitempty"`
+	CurrentTemplate       *ShopLevelTemplate     `protobuf:"bytes,2,opt,name=current_template,json=currentTemplate,proto3" json:"current_template,omitempty"`
+	NextTemplate          *ShopLevelTemplate     `protobuf:"bytes,3,opt,name=next_template,json=nextTemplate,proto3" json:"next_template,omitempty"`
+	CurrentGmv            int64                  `protobuf:"varint,4,opt,name=current_gmv,json=currentGmv,proto3" json:"current_gmv,omitempty"`
+	CurrentCreditScore    int32                  `protobuf:"varint,5,opt,name=current_credit_score,json=currentCreditScore,proto3" json:"current_credit_score,omitempty"`
+	CurrentMonths         int32                  `protobuf:"varint,6,opt,name=current_months,json=currentMonths,proto3" json:"current_months,omitempty"`
+	CurrentRating         float64                `protobuf:"fixed64,7,opt,name=current_rating,json=currentRating,proto3" json:"current_rating,omitempty"`
+	EligibleForNext       bool                   `protobuf:"varint,8,opt,name=eligible_for_next,json=eligibleForNext,proto3" json:"eligible_for_next,omitempty"`
+	HasPendingApplication bool                   `protobuf:"varint,9,opt,name=has_pending_application,json=hasPendingApplication,proto3" json:"has_pending_application,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *MyLevelStatus) Reset() {
+	*x = MyLevelStatus{}
+	mi := &file_shop_shop_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MyLevelStatus) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MyLevelStatus) ProtoMessage() {}
+
+func (x *MyLevelStatus) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MyLevelStatus.ProtoReflect.Descriptor instead.
+func (*MyLevelStatus) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *MyLevelStatus) GetCurrentLevel() int32 {
+	if x != nil {
+		return x.CurrentLevel
+	}
+	return 0
+}
+
+func (x *MyLevelStatus) GetCurrentTemplate() *ShopLevelTemplate {
+	if x != nil {
+		return x.CurrentTemplate
+	}
+	return nil
+}
+
+func (x *MyLevelStatus) GetNextTemplate() *ShopLevelTemplate {
+	if x != nil {
+		return x.NextTemplate
+	}
+	return nil
+}
+
+func (x *MyLevelStatus) GetCurrentGmv() int64 {
+	if x != nil {
+		return x.CurrentGmv
+	}
+	return 0
+}
+
+func (x *MyLevelStatus) GetCurrentCreditScore() int32 {
+	if x != nil {
+		return x.CurrentCreditScore
+	}
+	return 0
+}
+
+func (x *MyLevelStatus) GetCurrentMonths() int32 {
+	if x != nil {
+		return x.CurrentMonths
+	}
+	return 0
+}
+
+func (x *MyLevelStatus) GetCurrentRating() float64 {
+	if x != nil {
+		return x.CurrentRating
+	}
+	return 0
+}
+
+func (x *MyLevelStatus) GetEligibleForNext() bool {
+	if x != nil {
+		return x.EligibleForNext
+	}
+	return false
+}
+
+func (x *MyLevelStatus) GetHasPendingApplication() bool {
+	if x != nil {
+		return x.HasPendingApplication
+	}
+	return false
+}
+
+type SubmitLevelApplicationReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	TargetLevel   int32                  `protobuf:"varint,2,opt,name=target_level,json=targetLevel,proto3" json:"target_level,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SubmitLevelApplicationReq) Reset() {
+	*x = SubmitLevelApplicationReq{}
+	mi := &file_shop_shop_proto_msgTypes[33]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitLevelApplicationReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitLevelApplicationReq) ProtoMessage() {}
+
+func (x *SubmitLevelApplicationReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[33]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitLevelApplicationReq.ProtoReflect.Descriptor instead.
+func (*SubmitLevelApplicationReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *SubmitLevelApplicationReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *SubmitLevelApplicationReq) GetTargetLevel() int32 {
+	if x != nil {
+		return x.TargetLevel
+	}
+	return 0
+}
+
+type SubmitLevelApplicationResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ApplicationId int64                  `protobuf:"varint,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SubmitLevelApplicationResp) Reset() {
+	*x = SubmitLevelApplicationResp{}
+	mi := &file_shop_shop_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitLevelApplicationResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitLevelApplicationResp) ProtoMessage() {}
+
+func (x *SubmitLevelApplicationResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitLevelApplicationResp.ProtoReflect.Descriptor instead.
+func (*SubmitLevelApplicationResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *SubmitLevelApplicationResp) GetApplicationId() int64 {
+	if x != nil {
+		return x.ApplicationId
+	}
+	return 0
+}
+
+type ShopLevelApplication struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ShopId        int64                  `protobuf:"varint,2,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	CurrentLevel  int32                  `protobuf:"varint,3,opt,name=current_level,json=currentLevel,proto3" json:"current_level,omitempty"`
+	TargetLevel   int32                  `protobuf:"varint,4,opt,name=target_level,json=targetLevel,proto3" json:"target_level,omitempty"`
+	Snapshot      string                 `protobuf:"bytes,5,opt,name=snapshot,proto3" json:"snapshot,omitempty"`
+	Status        int32                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`
+	AdminId       int64                  `protobuf:"varint,7,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	AdminRemark   string                 `protobuf:"bytes,8,opt,name=admin_remark,json=adminRemark,proto3" json:"admin_remark,omitempty"`
+	CreateTime    int64                  `protobuf:"varint,9,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ShopLevelApplication) Reset() {
+	*x = ShopLevelApplication{}
+	mi := &file_shop_shop_proto_msgTypes[35]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShopLevelApplication) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShopLevelApplication) ProtoMessage() {}
+
+func (x *ShopLevelApplication) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[35]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShopLevelApplication.ProtoReflect.Descriptor instead.
+func (*ShopLevelApplication) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{35}
+}
+
+func (x *ShopLevelApplication) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ShopLevelApplication) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *ShopLevelApplication) GetCurrentLevel() int32 {
+	if x != nil {
+		return x.CurrentLevel
+	}
+	return 0
+}
+
+func (x *ShopLevelApplication) GetTargetLevel() int32 {
+	if x != nil {
+		return x.TargetLevel
+	}
+	return 0
+}
+
+func (x *ShopLevelApplication) GetSnapshot() string {
+	if x != nil {
+		return x.Snapshot
+	}
+	return ""
+}
+
+func (x *ShopLevelApplication) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ShopLevelApplication) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *ShopLevelApplication) GetAdminRemark() string {
+	if x != nil {
+		return x.AdminRemark
+	}
+	return ""
+}
+
+func (x *ShopLevelApplication) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type ListLevelApplicationsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListLevelApplicationsReq) Reset() {
+	*x = ListLevelApplicationsReq{}
+	mi := &file_shop_shop_proto_msgTypes[36]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListLevelApplicationsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListLevelApplicationsReq) ProtoMessage() {}
+
+func (x *ListLevelApplicationsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[36]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListLevelApplicationsReq.ProtoReflect.Descriptor instead.
+func (*ListLevelApplicationsReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{36}
+}
+
+func (x *ListLevelApplicationsReq) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ListLevelApplicationsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListLevelApplicationsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListLevelApplicationsResp struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Applications  []*ShopLevelApplication `protobuf:"bytes,1,rep,name=applications,proto3" json:"applications,omitempty"`
+	Total         int64                   `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListLevelApplicationsResp) Reset() {
+	*x = ListLevelApplicationsResp{}
+	mi := &file_shop_shop_proto_msgTypes[37]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListLevelApplicationsResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListLevelApplicationsResp) ProtoMessage() {}
+
+func (x *ListLevelApplicationsResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[37]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListLevelApplicationsResp.ProtoReflect.Descriptor instead.
+func (*ListLevelApplicationsResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{37}
+}
+
+func (x *ListLevelApplicationsResp) GetApplications() []*ShopLevelApplication {
+	if x != nil {
+		return x.Applications
+	}
+	return nil
+}
+
+func (x *ListLevelApplicationsResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type ReviewLevelApplicationReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ApplicationId int64                  `protobuf:"varint,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
+	AdminId       int64                  `protobuf:"varint,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	Action        int32                  `protobuf:"varint,3,opt,name=action,proto3" json:"action,omitempty"` // 1=approve, 2=reject
+	Remark        string                 `protobuf:"bytes,4,opt,name=remark,proto3" json:"remark,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReviewLevelApplicationReq) Reset() {
+	*x = ReviewLevelApplicationReq{}
+	mi := &file_shop_shop_proto_msgTypes[38]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReviewLevelApplicationReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReviewLevelApplicationReq) ProtoMessage() {}
+
+func (x *ReviewLevelApplicationReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[38]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReviewLevelApplicationReq.ProtoReflect.Descriptor instead.
+func (*ReviewLevelApplicationReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{38}
+}
+
+func (x *ReviewLevelApplicationReq) GetApplicationId() int64 {
+	if x != nil {
+		return x.ApplicationId
+	}
+	return 0
+}
+
+func (x *ReviewLevelApplicationReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *ReviewLevelApplicationReq) GetAction() int32 {
+	if x != nil {
+		return x.Action
+	}
+	return 0
+}
+
+func (x *ReviewLevelApplicationReq) GetRemark() string {
+	if x != nil {
+		return x.Remark
+	}
+	return ""
+}
+
+// ===== B-4 Shop lifecycle request =====
+type ShopLifecycleRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ShopId        int64                  `protobuf:"varint,2,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Action        string                 `protobuf:"bytes,3,opt,name=action,proto3" json:"action,omitempty"`
+	Reason        string                 `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
+	Status        int32                  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
+	AdminId       int64                  `protobuf:"varint,6,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	AdminRemark   string                 `protobuf:"bytes,7,opt,name=admin_remark,json=adminRemark,proto3" json:"admin_remark,omitempty"`
+	CreateTime    int64                  `protobuf:"varint,8,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ShopLifecycleRequest) Reset() {
+	*x = ShopLifecycleRequest{}
+	mi := &file_shop_shop_proto_msgTypes[39]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShopLifecycleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShopLifecycleRequest) ProtoMessage() {}
+
+func (x *ShopLifecycleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[39]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShopLifecycleRequest.ProtoReflect.Descriptor instead.
+func (*ShopLifecycleRequest) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{39}
+}
+
+func (x *ShopLifecycleRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ShopLifecycleRequest) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *ShopLifecycleRequest) GetAction() string {
+	if x != nil {
+		return x.Action
+	}
+	return ""
+}
+
+func (x *ShopLifecycleRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *ShopLifecycleRequest) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ShopLifecycleRequest) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *ShopLifecycleRequest) GetAdminRemark() string {
+	if x != nil {
+		return x.AdminRemark
+	}
+	return ""
+}
+
+func (x *ShopLifecycleRequest) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type SubmitShopLifecycleRequestReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Action        string                 `protobuf:"bytes,2,opt,name=action,proto3" json:"action,omitempty"`
+	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SubmitShopLifecycleRequestReq) Reset() {
+	*x = SubmitShopLifecycleRequestReq{}
+	mi := &file_shop_shop_proto_msgTypes[40]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitShopLifecycleRequestReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitShopLifecycleRequestReq) ProtoMessage() {}
+
+func (x *SubmitShopLifecycleRequestReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[40]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitShopLifecycleRequestReq.ProtoReflect.Descriptor instead.
+func (*SubmitShopLifecycleRequestReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *SubmitShopLifecycleRequestReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *SubmitShopLifecycleRequestReq) GetAction() string {
+	if x != nil {
+		return x.Action
+	}
+	return ""
+}
+
+func (x *SubmitShopLifecycleRequestReq) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type SubmitShopLifecycleRequestResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RequestId     int64                  `protobuf:"varint,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SubmitShopLifecycleRequestResp) Reset() {
+	*x = SubmitShopLifecycleRequestResp{}
+	mi := &file_shop_shop_proto_msgTypes[41]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitShopLifecycleRequestResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitShopLifecycleRequestResp) ProtoMessage() {}
+
+func (x *SubmitShopLifecycleRequestResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[41]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitShopLifecycleRequestResp.ProtoReflect.Descriptor instead.
+func (*SubmitShopLifecycleRequestResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{41}
+}
+
+func (x *SubmitShopLifecycleRequestResp) GetRequestId() int64 {
+	if x != nil {
+		return x.RequestId
+	}
+	return 0
+}
+
+type ListShopLifecycleRequestsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopLifecycleRequestsReq) Reset() {
+	*x = ListShopLifecycleRequestsReq{}
+	mi := &file_shop_shop_proto_msgTypes[42]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopLifecycleRequestsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopLifecycleRequestsReq) ProtoMessage() {}
+
+func (x *ListShopLifecycleRequestsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[42]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopLifecycleRequestsReq.ProtoReflect.Descriptor instead.
+func (*ListShopLifecycleRequestsReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *ListShopLifecycleRequestsReq) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *ListShopLifecycleRequestsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListShopLifecycleRequestsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListShopLifecycleRequestsResp struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Requests      []*ShopLifecycleRequest `protobuf:"bytes,1,rep,name=requests,proto3" json:"requests,omitempty"`
+	Total         int64                   `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopLifecycleRequestsResp) Reset() {
+	*x = ListShopLifecycleRequestsResp{}
+	mi := &file_shop_shop_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopLifecycleRequestsResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopLifecycleRequestsResp) ProtoMessage() {}
+
+func (x *ListShopLifecycleRequestsResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopLifecycleRequestsResp.ProtoReflect.Descriptor instead.
+func (*ListShopLifecycleRequestsResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *ListShopLifecycleRequestsResp) GetRequests() []*ShopLifecycleRequest {
+	if x != nil {
+		return x.Requests
+	}
+	return nil
+}
+
+func (x *ListShopLifecycleRequestsResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type ReviewShopLifecycleRequestReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RequestId     int64                  `protobuf:"varint,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	AdminId       int64                  `protobuf:"varint,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	Action        int32                  `protobuf:"varint,3,opt,name=action,proto3" json:"action,omitempty"`
+	Remark        string                 `protobuf:"bytes,4,opt,name=remark,proto3" json:"remark,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReviewShopLifecycleRequestReq) Reset() {
+	*x = ReviewShopLifecycleRequestReq{}
+	mi := &file_shop_shop_proto_msgTypes[44]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReviewShopLifecycleRequestReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReviewShopLifecycleRequestReq) ProtoMessage() {}
+
+func (x *ReviewShopLifecycleRequestReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[44]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReviewShopLifecycleRequestReq.ProtoReflect.Descriptor instead.
+func (*ReviewShopLifecycleRequestReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *ReviewShopLifecycleRequestReq) GetRequestId() int64 {
+	if x != nil {
+		return x.RequestId
+	}
+	return 0
+}
+
+func (x *ReviewShopLifecycleRequestReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *ReviewShopLifecycleRequestReq) GetAction() int32 {
+	if x != nil {
+		return x.Action
+	}
+	return 0
+}
+
+func (x *ReviewShopLifecycleRequestReq) GetRemark() string {
+	if x != nil {
+		return x.Remark
+	}
+	return ""
+}
+
+var File_shop_shop_proto protoreflect.FileDescriptor
+
+const file_shop_shop_proto_rawDesc = "" +
 	"\n" +
-	"\n" +
-	"shop.proto\x12\x04shop\"\x91\x02\n" +
+	"\x0fshop/shop.proto\x12\x04shop\"\x91\x02\n" +
 	"\x04Shop\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
@@ -992,7 +3046,180 @@ const file_shop_proto_rawDesc = "" +
 	"\vdescription\x18\x05 \x01(\tR\vdescription\"D\n" +
 	"\x13IncrProductCountReq\x12\x17\n" +
 	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x14\n" +
-	"\x05delta\x18\x02 \x01(\x05R\x05delta2\xce\x04\n" +
+	"\x05delta\x18\x02 \x01(\x05R\x05delta\"\x9b\x04\n" +
+	"\x0fShopApplication\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1b\n" +
+	"\tshop_name\x18\x03 \x01(\tR\bshopName\x12\x12\n" +
+	"\x04logo\x18\x04 \x01(\tR\x04logo\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x12#\n" +
+	"\rcontact_phone\x18\x06 \x01(\tR\fcontactPhone\x12)\n" +
+	"\x10business_license\x18\a \x01(\tR\x0fbusinessLicense\x12!\n" +
+	"\flegal_person\x18\b \x01(\tR\vlegalPerson\x12\"\n" +
+	"\rid_card_front\x18\t \x01(\tR\vidCardFront\x12 \n" +
+	"\fid_card_back\x18\n" +
+	" \x01(\tR\n" +
+	"idCardBack\x12\x1a\n" +
+	"\bcategory\x18\v \x01(\tR\bcategory\x12\x16\n" +
+	"\x06status\x18\f \x01(\x05R\x06status\x12#\n" +
+	"\rreview_remark\x18\r \x01(\tR\freviewRemark\x12\x1f\n" +
+	"\vreviewer_id\x18\x0e \x01(\x03R\n" +
+	"reviewerId\x12\x17\n" +
+	"\ashop_id\x18\x0f \x01(\x03R\x06shopId\x12\x1f\n" +
+	"\vcreate_time\x18\x10 \x01(\x03R\n" +
+	"createTime\x12\x1f\n" +
+	"\vupdate_time\x18\x11 \x01(\x03R\n" +
+	"updateTime\"\xcf\x02\n" +
+	"\fApplyShopReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1b\n" +
+	"\tshop_name\x18\x02 \x01(\tR\bshopName\x12\x12\n" +
+	"\x04logo\x18\x03 \x01(\tR\x04logo\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12#\n" +
+	"\rcontact_phone\x18\x05 \x01(\tR\fcontactPhone\x12)\n" +
+	"\x10business_license\x18\x06 \x01(\tR\x0fbusinessLicense\x12!\n" +
+	"\flegal_person\x18\a \x01(\tR\vlegalPerson\x12\"\n" +
+	"\rid_card_front\x18\b \x01(\tR\vidCardFront\x12 \n" +
+	"\fid_card_back\x18\t \x01(\tR\n" +
+	"idCardBack\x12\x1a\n" +
+	"\bcategory\x18\n" +
+	" \x01(\tR\bcategory\"6\n" +
+	"\rApplyShopResp\x12%\n" +
+	"\x0eapplication_id\x18\x01 \x01(\x03R\rapplicationId\"'\n" +
+	"\x15GetShopApplicationReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"b\n" +
+	"\x17ListShopApplicationsReq\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x12\n" +
+	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"k\n" +
+	"\x18ListShopApplicationsResp\x129\n" +
+	"\fapplications\x18\x01 \x03(\v2\x15.shop.ShopApplicationR\fapplications\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"a\n" +
+	"\x15ListMyApplicationsReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
+	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"\x92\x01\n" +
+	"\x18ReviewShopApplicationReq\x12%\n" +
+	"\x0eapplication_id\x18\x01 \x01(\x03R\rapplicationId\x12\x1f\n" +
+	"\vreviewer_id\x18\x02 \x01(\x03R\n" +
+	"reviewerId\x12\x16\n" +
+	"\x06action\x18\x03 \x01(\x05R\x06action\x12\x16\n" +
+	"\x06remark\x18\x04 \x01(\tR\x06remark\"9\n" +
+	"\x13GetShopByOwnerIdReq\x12\"\n" +
+	"\rowner_user_id\x18\x01 \x01(\x03R\vownerUserId\"^\n" +
+	"\x13UpdateShopStatusReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\x05R\x06status\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\"~\n" +
+	"\x14AdjustCreditScoreReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x14\n" +
+	"\x05delta\x18\x02 \x01(\x05R\x05delta\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\x12\x1f\n" +
+	"\voperator_id\x18\x04 \x01(\x03R\n" +
+	"operatorId\"\xc8\x03\n" +
+	"\x0eShopDetailResp\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
+	"\x04logo\x18\x03 \x01(\tR\x04logo\x12\x16\n" +
+	"\x06banner\x18\x04 \x01(\tR\x06banner\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x12\x16\n" +
+	"\x06rating\x18\x06 \x01(\x01R\x06rating\x12#\n" +
+	"\rproduct_count\x18\a \x01(\x05R\fproductCount\x12!\n" +
+	"\ffollow_count\x18\b \x01(\x05R\vfollowCount\x12\x16\n" +
+	"\x06status\x18\t \x01(\x05R\x06status\x12\x1f\n" +
+	"\vcreate_time\x18\n" +
+	" \x01(\x03R\n" +
+	"createTime\x12\"\n" +
+	"\rowner_user_id\x18\v \x01(\x03R\vownerUserId\x12!\n" +
+	"\fcredit_score\x18\f \x01(\x05R\vcreditScore\x12\x14\n" +
+	"\x05level\x18\r \x01(\x05R\x05level\x12#\n" +
+	"\rcontact_phone\x18\x0e \x01(\tR\fcontactPhone\x12)\n" +
+	"\x10business_license\x18\x0f \x01(\tR\x0fbusinessLicense\"\a\n" +
+	"\x05Empty\"\xa8\x02\n" +
+	"\x11ShopLevelTemplate\x12\x14\n" +
+	"\x05level\x18\x01 \x01(\x05R\x05level\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x17\n" +
+	"\amin_gmv\x18\x03 \x01(\x03R\x06minGmv\x12(\n" +
+	"\x10min_credit_score\x18\x04 \x01(\x05R\x0eminCreditScore\x12\x1d\n" +
+	"\n" +
+	"min_months\x18\x05 \x01(\x05R\tminMonths\x12\x1d\n" +
+	"\n" +
+	"min_rating\x18\x06 \x01(\x01R\tminRating\x12'\n" +
+	"\x0fcommission_rate\x18\a \x01(\x01R\x0ecommissionRate\x12#\n" +
+	"\rtraffic_boost\x18\b \x01(\x01R\ftrafficBoost\x12\x1a\n" +
+	"\bbenefits\x18\t \x01(\tR\bbenefits\"E\n" +
+	"\x12ListShopLevelsResp\x12/\n" +
+	"\x06levels\x18\x01 \x03(\v2\x17.shop.ShopLevelTemplateR\x06levels\".\n" +
+	"\x13GetMyLevelStatusReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\"\xbb\x03\n" +
+	"\rMyLevelStatus\x12#\n" +
+	"\rcurrent_level\x18\x01 \x01(\x05R\fcurrentLevel\x12B\n" +
+	"\x10current_template\x18\x02 \x01(\v2\x17.shop.ShopLevelTemplateR\x0fcurrentTemplate\x12<\n" +
+	"\rnext_template\x18\x03 \x01(\v2\x17.shop.ShopLevelTemplateR\fnextTemplate\x12\x1f\n" +
+	"\vcurrent_gmv\x18\x04 \x01(\x03R\n" +
+	"currentGmv\x120\n" +
+	"\x14current_credit_score\x18\x05 \x01(\x05R\x12currentCreditScore\x12%\n" +
+	"\x0ecurrent_months\x18\x06 \x01(\x05R\rcurrentMonths\x12%\n" +
+	"\x0ecurrent_rating\x18\a \x01(\x01R\rcurrentRating\x12*\n" +
+	"\x11eligible_for_next\x18\b \x01(\bR\x0feligibleForNext\x126\n" +
+	"\x17has_pending_application\x18\t \x01(\bR\x15hasPendingApplication\"W\n" +
+	"\x19SubmitLevelApplicationReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12!\n" +
+	"\ftarget_level\x18\x02 \x01(\x05R\vtargetLevel\"C\n" +
+	"\x1aSubmitLevelApplicationResp\x12%\n" +
+	"\x0eapplication_id\x18\x01 \x01(\x03R\rapplicationId\"\x9a\x02\n" +
+	"\x14ShopLevelApplication\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\ashop_id\x18\x02 \x01(\x03R\x06shopId\x12#\n" +
+	"\rcurrent_level\x18\x03 \x01(\x05R\fcurrentLevel\x12!\n" +
+	"\ftarget_level\x18\x04 \x01(\x05R\vtargetLevel\x12\x1a\n" +
+	"\bsnapshot\x18\x05 \x01(\tR\bsnapshot\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\x05R\x06status\x12\x19\n" +
+	"\badmin_id\x18\a \x01(\x03R\aadminId\x12!\n" +
+	"\fadmin_remark\x18\b \x01(\tR\vadminRemark\x12\x1f\n" +
+	"\vcreate_time\x18\t \x01(\x03R\n" +
+	"createTime\"c\n" +
+	"\x18ListLevelApplicationsReq\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x12\n" +
+	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"q\n" +
+	"\x19ListLevelApplicationsResp\x12>\n" +
+	"\fapplications\x18\x01 \x03(\v2\x1a.shop.ShopLevelApplicationR\fapplications\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\x8d\x01\n" +
+	"\x19ReviewLevelApplicationReq\x12%\n" +
+	"\x0eapplication_id\x18\x01 \x01(\x03R\rapplicationId\x12\x19\n" +
+	"\badmin_id\x18\x02 \x01(\x03R\aadminId\x12\x16\n" +
+	"\x06action\x18\x03 \x01(\x05R\x06action\x12\x16\n" +
+	"\x06remark\x18\x04 \x01(\tR\x06remark\"\xe6\x01\n" +
+	"\x14ShopLifecycleRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\ashop_id\x18\x02 \x01(\x03R\x06shopId\x12\x16\n" +
+	"\x06action\x18\x03 \x01(\tR\x06action\x12\x16\n" +
+	"\x06reason\x18\x04 \x01(\tR\x06reason\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\x05R\x06status\x12\x19\n" +
+	"\badmin_id\x18\x06 \x01(\x03R\aadminId\x12!\n" +
+	"\fadmin_remark\x18\a \x01(\tR\vadminRemark\x12\x1f\n" +
+	"\vcreate_time\x18\b \x01(\x03R\n" +
+	"createTime\"h\n" +
+	"\x1dSubmitShopLifecycleRequestReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x16\n" +
+	"\x06action\x18\x02 \x01(\tR\x06action\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\"?\n" +
+	"\x1eSubmitShopLifecycleRequestResp\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\x01 \x01(\x03R\trequestId\"g\n" +
+	"\x1cListShopLifecycleRequestsReq\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x12\n" +
+	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"m\n" +
+	"\x1dListShopLifecycleRequestsResp\x126\n" +
+	"\brequests\x18\x01 \x03(\v2\x1a.shop.ShopLifecycleRequestR\brequests\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\x89\x01\n" +
+	"\x1dReviewShopLifecycleRequestReq\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\x01 \x01(\x03R\trequestId\x12\x19\n" +
+	"\badmin_id\x18\x02 \x01(\x03R\aadminId\x12\x16\n" +
+	"\x06action\x18\x03 \x01(\x05R\x06action\x12\x16\n" +
+	"\x06remark\x18\x04 \x01(\tR\x06remark2\x9d\x0e\n" +
 	"\vShopService\x12.\n" +
 	"\aGetShop\x12\x10.shop.GetShopReq\x1a\x11.shop.GetShopResp\x124\n" +
 	"\tListShops\x12\x12.shop.ListShopsReq\x1a\x13.shop.ListShopsResp\x12J\n" +
@@ -1006,89 +3233,172 @@ const file_shop_proto_rawDesc = "" +
 	"CreateShop\x12\x13.shop.CreateShopReq\x1a\x14.shop.CreateShopResp\x12/\n" +
 	"\n" +
 	"UpdateShop\x12\x13.shop.UpdateShopReq\x1a\f.shop.OkResp\x12;\n" +
-	"\x10IncrProductCount\x12\x19.shop.IncrProductCountReq\x1a\f.shop.OkRespB\bZ\x06./shopb\x06proto3"
+	"\x10IncrProductCount\x12\x19.shop.IncrProductCountReq\x1a\f.shop.OkResp\x124\n" +
+	"\tApplyShop\x12\x12.shop.ApplyShopReq\x1a\x13.shop.ApplyShopResp\x12H\n" +
+	"\x12GetShopApplication\x12\x1b.shop.GetShopApplicationReq\x1a\x15.shop.ShopApplication\x12U\n" +
+	"\x14ListShopApplications\x12\x1d.shop.ListShopApplicationsReq\x1a\x1e.shop.ListShopApplicationsResp\x12E\n" +
+	"\x15ReviewShopApplication\x12\x1e.shop.ReviewShopApplicationReq\x1a\f.shop.OkResp\x12C\n" +
+	"\x10GetShopByOwnerId\x12\x19.shop.GetShopByOwnerIdReq\x1a\x14.shop.ShopDetailResp\x12;\n" +
+	"\x10UpdateShopStatus\x12\x19.shop.UpdateShopStatusReq\x1a\f.shop.OkResp\x12=\n" +
+	"\x11AdjustCreditScore\x12\x1a.shop.AdjustCreditScoreReq\x1a\f.shop.OkResp\x12Q\n" +
+	"\x12ListMyApplications\x12\x1b.shop.ListMyApplicationsReq\x1a\x1e.shop.ListShopApplicationsResp\x127\n" +
+	"\x0eListShopLevels\x12\v.shop.Empty\x1a\x18.shop.ListShopLevelsResp\x12B\n" +
+	"\x10GetMyLevelStatus\x12\x19.shop.GetMyLevelStatusReq\x1a\x13.shop.MyLevelStatus\x12[\n" +
+	"\x16SubmitLevelApplication\x12\x1f.shop.SubmitLevelApplicationReq\x1a .shop.SubmitLevelApplicationResp\x12X\n" +
+	"\x15ListLevelApplications\x12\x1e.shop.ListLevelApplicationsReq\x1a\x1f.shop.ListLevelApplicationsResp\x12G\n" +
+	"\x16ReviewLevelApplication\x12\x1f.shop.ReviewLevelApplicationReq\x1a\f.shop.OkResp\x12g\n" +
+	"\x1aSubmitShopLifecycleRequest\x12#.shop.SubmitShopLifecycleRequestReq\x1a$.shop.SubmitShopLifecycleRequestResp\x12d\n" +
+	"\x19ListShopLifecycleRequests\x12\".shop.ListShopLifecycleRequestsReq\x1a#.shop.ListShopLifecycleRequestsResp\x12O\n" +
+	"\x1aReviewShopLifecycleRequest\x12#.shop.ReviewShopLifecycleRequestReq\x1a\f.shop.OkRespB\bZ\x06./shopb\x06proto3"
 
 var (
-	file_shop_proto_rawDescOnce sync.Once
-	file_shop_proto_rawDescData []byte
+	file_shop_shop_proto_rawDescOnce sync.Once
+	file_shop_shop_proto_rawDescData []byte
 )
 
-func file_shop_proto_rawDescGZIP() []byte {
-	file_shop_proto_rawDescOnce.Do(func() {
-		file_shop_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_shop_proto_rawDesc), len(file_shop_proto_rawDesc)))
+func file_shop_shop_proto_rawDescGZIP() []byte {
+	file_shop_shop_proto_rawDescOnce.Do(func() {
+		file_shop_shop_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_shop_shop_proto_rawDesc), len(file_shop_shop_proto_rawDesc)))
 	})
-	return file_shop_proto_rawDescData
+	return file_shop_shop_proto_rawDescData
 }
 
-var file_shop_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
-var file_shop_proto_goTypes = []any{
-	(*Shop)(nil),                    // 0: shop.Shop
-	(*OkResp)(nil),                  // 1: shop.OkResp
-	(*GetShopReq)(nil),              // 2: shop.GetShopReq
-	(*GetShopResp)(nil),             // 3: shop.GetShopResp
-	(*ListShopsReq)(nil),            // 4: shop.ListShopsReq
-	(*ListShopsResp)(nil),           // 5: shop.ListShopsResp
-	(*ListRecommendedShopsReq)(nil), // 6: shop.ListRecommendedShopsReq
-	(*FollowShopReq)(nil),           // 7: shop.FollowShopReq
-	(*UnfollowShopReq)(nil),         // 8: shop.UnfollowShopReq
-	(*IsFollowingReq)(nil),          // 9: shop.IsFollowingReq
-	(*IsFollowingResp)(nil),         // 10: shop.IsFollowingResp
-	(*ListFollowedShopsReq)(nil),    // 11: shop.ListFollowedShopsReq
-	(*CreateShopReq)(nil),           // 12: shop.CreateShopReq
-	(*CreateShopResp)(nil),          // 13: shop.CreateShopResp
-	(*UpdateShopReq)(nil),           // 14: shop.UpdateShopReq
-	(*IncrProductCountReq)(nil),     // 15: shop.IncrProductCountReq
+var file_shop_shop_proto_msgTypes = make([]protoimpl.MessageInfo, 45)
+var file_shop_shop_proto_goTypes = []any{
+	(*Shop)(nil),                           // 0: shop.Shop
+	(*OkResp)(nil),                         // 1: shop.OkResp
+	(*GetShopReq)(nil),                     // 2: shop.GetShopReq
+	(*GetShopResp)(nil),                    // 3: shop.GetShopResp
+	(*ListShopsReq)(nil),                   // 4: shop.ListShopsReq
+	(*ListShopsResp)(nil),                  // 5: shop.ListShopsResp
+	(*ListRecommendedShopsReq)(nil),        // 6: shop.ListRecommendedShopsReq
+	(*FollowShopReq)(nil),                  // 7: shop.FollowShopReq
+	(*UnfollowShopReq)(nil),                // 8: shop.UnfollowShopReq
+	(*IsFollowingReq)(nil),                 // 9: shop.IsFollowingReq
+	(*IsFollowingResp)(nil),                // 10: shop.IsFollowingResp
+	(*ListFollowedShopsReq)(nil),           // 11: shop.ListFollowedShopsReq
+	(*CreateShopReq)(nil),                  // 12: shop.CreateShopReq
+	(*CreateShopResp)(nil),                 // 13: shop.CreateShopResp
+	(*UpdateShopReq)(nil),                  // 14: shop.UpdateShopReq
+	(*IncrProductCountReq)(nil),            // 15: shop.IncrProductCountReq
+	(*ShopApplication)(nil),                // 16: shop.ShopApplication
+	(*ApplyShopReq)(nil),                   // 17: shop.ApplyShopReq
+	(*ApplyShopResp)(nil),                  // 18: shop.ApplyShopResp
+	(*GetShopApplicationReq)(nil),          // 19: shop.GetShopApplicationReq
+	(*ListShopApplicationsReq)(nil),        // 20: shop.ListShopApplicationsReq
+	(*ListShopApplicationsResp)(nil),       // 21: shop.ListShopApplicationsResp
+	(*ListMyApplicationsReq)(nil),          // 22: shop.ListMyApplicationsReq
+	(*ReviewShopApplicationReq)(nil),       // 23: shop.ReviewShopApplicationReq
+	(*GetShopByOwnerIdReq)(nil),            // 24: shop.GetShopByOwnerIdReq
+	(*UpdateShopStatusReq)(nil),            // 25: shop.UpdateShopStatusReq
+	(*AdjustCreditScoreReq)(nil),           // 26: shop.AdjustCreditScoreReq
+	(*ShopDetailResp)(nil),                 // 27: shop.ShopDetailResp
+	(*Empty)(nil),                          // 28: shop.Empty
+	(*ShopLevelTemplate)(nil),              // 29: shop.ShopLevelTemplate
+	(*ListShopLevelsResp)(nil),             // 30: shop.ListShopLevelsResp
+	(*GetMyLevelStatusReq)(nil),            // 31: shop.GetMyLevelStatusReq
+	(*MyLevelStatus)(nil),                  // 32: shop.MyLevelStatus
+	(*SubmitLevelApplicationReq)(nil),      // 33: shop.SubmitLevelApplicationReq
+	(*SubmitLevelApplicationResp)(nil),     // 34: shop.SubmitLevelApplicationResp
+	(*ShopLevelApplication)(nil),           // 35: shop.ShopLevelApplication
+	(*ListLevelApplicationsReq)(nil),       // 36: shop.ListLevelApplicationsReq
+	(*ListLevelApplicationsResp)(nil),      // 37: shop.ListLevelApplicationsResp
+	(*ReviewLevelApplicationReq)(nil),      // 38: shop.ReviewLevelApplicationReq
+	(*ShopLifecycleRequest)(nil),           // 39: shop.ShopLifecycleRequest
+	(*SubmitShopLifecycleRequestReq)(nil),  // 40: shop.SubmitShopLifecycleRequestReq
+	(*SubmitShopLifecycleRequestResp)(nil), // 41: shop.SubmitShopLifecycleRequestResp
+	(*ListShopLifecycleRequestsReq)(nil),   // 42: shop.ListShopLifecycleRequestsReq
+	(*ListShopLifecycleRequestsResp)(nil),  // 43: shop.ListShopLifecycleRequestsResp
+	(*ReviewShopLifecycleRequestReq)(nil),  // 44: shop.ReviewShopLifecycleRequestReq
 }
-var file_shop_proto_depIdxs = []int32{
+var file_shop_shop_proto_depIdxs = []int32{
 	0,  // 0: shop.GetShopResp.shop:type_name -> shop.Shop
 	0,  // 1: shop.ListShopsResp.shops:type_name -> shop.Shop
-	2,  // 2: shop.ShopService.GetShop:input_type -> shop.GetShopReq
-	4,  // 3: shop.ShopService.ListShops:input_type -> shop.ListShopsReq
-	6,  // 4: shop.ShopService.ListRecommendedShops:input_type -> shop.ListRecommendedShopsReq
-	7,  // 5: shop.ShopService.FollowShop:input_type -> shop.FollowShopReq
-	8,  // 6: shop.ShopService.UnfollowShop:input_type -> shop.UnfollowShopReq
-	9,  // 7: shop.ShopService.IsFollowing:input_type -> shop.IsFollowingReq
-	11, // 8: shop.ShopService.ListFollowedShops:input_type -> shop.ListFollowedShopsReq
-	12, // 9: shop.ShopService.CreateShop:input_type -> shop.CreateShopReq
-	14, // 10: shop.ShopService.UpdateShop:input_type -> shop.UpdateShopReq
-	15, // 11: shop.ShopService.IncrProductCount:input_type -> shop.IncrProductCountReq
-	3,  // 12: shop.ShopService.GetShop:output_type -> shop.GetShopResp
-	5,  // 13: shop.ShopService.ListShops:output_type -> shop.ListShopsResp
-	5,  // 14: shop.ShopService.ListRecommendedShops:output_type -> shop.ListShopsResp
-	1,  // 15: shop.ShopService.FollowShop:output_type -> shop.OkResp
-	1,  // 16: shop.ShopService.UnfollowShop:output_type -> shop.OkResp
-	10, // 17: shop.ShopService.IsFollowing:output_type -> shop.IsFollowingResp
-	5,  // 18: shop.ShopService.ListFollowedShops:output_type -> shop.ListShopsResp
-	13, // 19: shop.ShopService.CreateShop:output_type -> shop.CreateShopResp
-	1,  // 20: shop.ShopService.UpdateShop:output_type -> shop.OkResp
-	1,  // 21: shop.ShopService.IncrProductCount:output_type -> shop.OkResp
-	12, // [12:22] is the sub-list for method output_type
-	2,  // [2:12] is the sub-list for method input_type
-	2,  // [2:2] is the sub-list for extension type_name
-	2,  // [2:2] is the sub-list for extension extendee
-	0,  // [0:2] is the sub-list for field type_name
+	16, // 2: shop.ListShopApplicationsResp.applications:type_name -> shop.ShopApplication
+	29, // 3: shop.ListShopLevelsResp.levels:type_name -> shop.ShopLevelTemplate
+	29, // 4: shop.MyLevelStatus.current_template:type_name -> shop.ShopLevelTemplate
+	29, // 5: shop.MyLevelStatus.next_template:type_name -> shop.ShopLevelTemplate
+	35, // 6: shop.ListLevelApplicationsResp.applications:type_name -> shop.ShopLevelApplication
+	39, // 7: shop.ListShopLifecycleRequestsResp.requests:type_name -> shop.ShopLifecycleRequest
+	2,  // 8: shop.ShopService.GetShop:input_type -> shop.GetShopReq
+	4,  // 9: shop.ShopService.ListShops:input_type -> shop.ListShopsReq
+	6,  // 10: shop.ShopService.ListRecommendedShops:input_type -> shop.ListRecommendedShopsReq
+	7,  // 11: shop.ShopService.FollowShop:input_type -> shop.FollowShopReq
+	8,  // 12: shop.ShopService.UnfollowShop:input_type -> shop.UnfollowShopReq
+	9,  // 13: shop.ShopService.IsFollowing:input_type -> shop.IsFollowingReq
+	11, // 14: shop.ShopService.ListFollowedShops:input_type -> shop.ListFollowedShopsReq
+	12, // 15: shop.ShopService.CreateShop:input_type -> shop.CreateShopReq
+	14, // 16: shop.ShopService.UpdateShop:input_type -> shop.UpdateShopReq
+	15, // 17: shop.ShopService.IncrProductCount:input_type -> shop.IncrProductCountReq
+	17, // 18: shop.ShopService.ApplyShop:input_type -> shop.ApplyShopReq
+	19, // 19: shop.ShopService.GetShopApplication:input_type -> shop.GetShopApplicationReq
+	20, // 20: shop.ShopService.ListShopApplications:input_type -> shop.ListShopApplicationsReq
+	23, // 21: shop.ShopService.ReviewShopApplication:input_type -> shop.ReviewShopApplicationReq
+	24, // 22: shop.ShopService.GetShopByOwnerId:input_type -> shop.GetShopByOwnerIdReq
+	25, // 23: shop.ShopService.UpdateShopStatus:input_type -> shop.UpdateShopStatusReq
+	26, // 24: shop.ShopService.AdjustCreditScore:input_type -> shop.AdjustCreditScoreReq
+	22, // 25: shop.ShopService.ListMyApplications:input_type -> shop.ListMyApplicationsReq
+	28, // 26: shop.ShopService.ListShopLevels:input_type -> shop.Empty
+	31, // 27: shop.ShopService.GetMyLevelStatus:input_type -> shop.GetMyLevelStatusReq
+	33, // 28: shop.ShopService.SubmitLevelApplication:input_type -> shop.SubmitLevelApplicationReq
+	36, // 29: shop.ShopService.ListLevelApplications:input_type -> shop.ListLevelApplicationsReq
+	38, // 30: shop.ShopService.ReviewLevelApplication:input_type -> shop.ReviewLevelApplicationReq
+	40, // 31: shop.ShopService.SubmitShopLifecycleRequest:input_type -> shop.SubmitShopLifecycleRequestReq
+	42, // 32: shop.ShopService.ListShopLifecycleRequests:input_type -> shop.ListShopLifecycleRequestsReq
+	44, // 33: shop.ShopService.ReviewShopLifecycleRequest:input_type -> shop.ReviewShopLifecycleRequestReq
+	3,  // 34: shop.ShopService.GetShop:output_type -> shop.GetShopResp
+	5,  // 35: shop.ShopService.ListShops:output_type -> shop.ListShopsResp
+	5,  // 36: shop.ShopService.ListRecommendedShops:output_type -> shop.ListShopsResp
+	1,  // 37: shop.ShopService.FollowShop:output_type -> shop.OkResp
+	1,  // 38: shop.ShopService.UnfollowShop:output_type -> shop.OkResp
+	10, // 39: shop.ShopService.IsFollowing:output_type -> shop.IsFollowingResp
+	5,  // 40: shop.ShopService.ListFollowedShops:output_type -> shop.ListShopsResp
+	13, // 41: shop.ShopService.CreateShop:output_type -> shop.CreateShopResp
+	1,  // 42: shop.ShopService.UpdateShop:output_type -> shop.OkResp
+	1,  // 43: shop.ShopService.IncrProductCount:output_type -> shop.OkResp
+	18, // 44: shop.ShopService.ApplyShop:output_type -> shop.ApplyShopResp
+	16, // 45: shop.ShopService.GetShopApplication:output_type -> shop.ShopApplication
+	21, // 46: shop.ShopService.ListShopApplications:output_type -> shop.ListShopApplicationsResp
+	1,  // 47: shop.ShopService.ReviewShopApplication:output_type -> shop.OkResp
+	27, // 48: shop.ShopService.GetShopByOwnerId:output_type -> shop.ShopDetailResp
+	1,  // 49: shop.ShopService.UpdateShopStatus:output_type -> shop.OkResp
+	1,  // 50: shop.ShopService.AdjustCreditScore:output_type -> shop.OkResp
+	21, // 51: shop.ShopService.ListMyApplications:output_type -> shop.ListShopApplicationsResp
+	30, // 52: shop.ShopService.ListShopLevels:output_type -> shop.ListShopLevelsResp
+	32, // 53: shop.ShopService.GetMyLevelStatus:output_type -> shop.MyLevelStatus
+	34, // 54: shop.ShopService.SubmitLevelApplication:output_type -> shop.SubmitLevelApplicationResp
+	37, // 55: shop.ShopService.ListLevelApplications:output_type -> shop.ListLevelApplicationsResp
+	1,  // 56: shop.ShopService.ReviewLevelApplication:output_type -> shop.OkResp
+	41, // 57: shop.ShopService.SubmitShopLifecycleRequest:output_type -> shop.SubmitShopLifecycleRequestResp
+	43, // 58: shop.ShopService.ListShopLifecycleRequests:output_type -> shop.ListShopLifecycleRequestsResp
+	1,  // 59: shop.ShopService.ReviewShopLifecycleRequest:output_type -> shop.OkResp
+	34, // [34:60] is the sub-list for method output_type
+	8,  // [8:34] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
-func init() { file_shop_proto_init() }
-func file_shop_proto_init() {
-	if File_shop_proto != nil {
+func init() { file_shop_shop_proto_init() }
+func file_shop_shop_proto_init() {
+	if File_shop_shop_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_shop_proto_rawDesc), len(file_shop_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_shop_shop_proto_rawDesc), len(file_shop_shop_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   45,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_shop_proto_goTypes,
-		DependencyIndexes: file_shop_proto_depIdxs,
-		MessageInfos:      file_shop_proto_msgTypes,
+		GoTypes:           file_shop_shop_proto_goTypes,
+		DependencyIndexes: file_shop_shop_proto_depIdxs,
+		MessageInfos:      file_shop_shop_proto_msgTypes,
 	}.Build()
-	File_shop_proto = out.File
-	file_shop_proto_goTypes = nil
-	file_shop_proto_depIdxs = nil
+	File_shop_shop_proto = out.File
+	file_shop_shop_proto_goTypes = nil
+	file_shop_shop_proto_depIdxs = nil
 }

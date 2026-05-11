@@ -63,6 +63,7 @@ SERVICES=(
     "mall-workflow-rpc:workflow.go:workflow-rpc:9012"
     "mall-activity-async-worker:worker.go:activity-async-worker:0"
     "mall-api:mall.go:mall-api:18888"
+    "../yw-mall-admin:admin.go:admin-api:18999"
 )
 
 # infra containers we care about (compose-managed). probe by name.
@@ -145,6 +146,20 @@ bootstrap_dbs() {
         $PROXY_MYSQL "$db" < "$f" 2>&1 | grep -v "^Warning" | grep . || true
         ok "$db <- $(basename "$f")"
     done
+
+    log "Applying admin migrations (idempotent — errors for existing columns are safe)..."
+    local -A MIGRATIONS=(
+        [mall_user]=mall-user-rpc/sql/admin_user.sql
+        [mall_shop]=mall-shop-rpc/sql/shop_application.sql
+        [mall_product]=mall-product-rpc/sql/product_admin.sql
+        [mall_order]=mall-order-rpc/sql/order_admin.sql
+    )
+    for db in "${!MIGRATIONS[@]}"; do
+        local f="$BASE_DIR/${MIGRATIONS[$db]}"
+        if [ ! -f "$f" ]; then warn "missing $f"; continue; fi
+        $PROXY_MYSQL "$db" < "$f" 2>/dev/null || true
+        ok "$db <- $(basename "$f") [migration]"
+    done
 }
 
 flush_stale_caches() {
@@ -215,6 +230,21 @@ bootstrap_seed() {
         ( cd "$BASE_DIR/mall-order-rpc" && go run cmd/seed/main.go ) 2>&1 | sed 's/^/  /' || warn "order seed had errors"
     fi
 
+    log "Seeding default superadmin account (admin / admin123)..."
+    $PROXY_MYSQL mall_user -e "
+      INSERT IGNORE INTO admin_user
+        (username, password_hash, email, role, permissions, status, create_time, update_time)
+      VALUES (
+        'admin',
+        '\$2a\$10\$918ykFIF5LoZpB0AylpKnuHRA/6qBeh5VtUa8XbPz1WREocgX8e.i',
+        'admin@mall.local',
+        'super_admin',
+        '[\"*\"]',
+        1,
+        UNIX_TIMESTAMP(), UNIX_TIMESTAMP()
+      );
+    " 2>/dev/null && ok "superadmin seeded (admin / admin123)" || warn "superadmin seed skipped (may already exist)"
+
     touch "$BOOTSTRAP_MARKER"
 }
 
@@ -278,7 +308,9 @@ do_start() {
     services_start
     sleep 4
     bootstrap_seed
-    log "Done. Try: curl -s -X POST http://localhost:18888/api/user/login -H 'Content-Type: application/json' -d '{\"username\":\"alice\",\"password\":\"alice123\"}'"
+    log "Done."
+    log "  C-end API  : http://localhost:18888"
+    log "  Admin API  : http://localhost:18999  (admin / admin123)"
 }
 
 do_nuke() {

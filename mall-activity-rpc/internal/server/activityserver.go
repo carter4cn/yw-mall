@@ -107,3 +107,33 @@ func (s *ActivityServer) MarkParticipationRefunded(ctx context.Context, in *acti
 	l := logic.NewMarkParticipationRefundedLogic(ctx, s.svcCtx)
 	return l.MarkParticipationRefunded(in)
 }
+
+func (s *ActivityServer) CreateShopCoupon(ctx context.Context, in *activity.CreateShopCouponReq) (*activity.CreateShopCouponResp, error) {
+	l := logic.NewCreateShopCouponLogic(ctx, s.svcCtx)
+	return l.CreateShopCoupon(in)
+}
+
+func (s *ActivityServer) ListShopCoupons(ctx context.Context, in *activity.ListShopCouponsReq) (*activity.ListShopCouponsResp, error) {
+	l := logic.NewListShopCouponsLogic(ctx, s.svcCtx)
+	return l.ListShopCoupons(in)
+}
+
+func (s *ActivityServer) UpdateShopCouponStatus(ctx context.Context, in *activity.UpdateShopCouponStatusReq) (*activity.Empty, error) {
+	l := logic.NewUpdateShopCouponStatusLogic(ctx, s.svcCtx)
+	return l.UpdateShopCouponStatus(in)
+}
+
+func (s *ActivityServer) CreateFlashDiscount(ctx context.Context, in *activity.CreateFlashDiscountReq) (*activity.CreateFlashDiscountResp, error) {
+	l := logic.NewCreateFlashDiscountLogic(ctx, s.svcCtx)
+	return l.CreateFlashDiscount(in)
+}
+
+func (s *ActivityServer) ListFlashDiscounts(ctx context.Context, in *activity.ListFlashDiscountsReq) (*activity.ListFlashDiscountsResp, error) {
+	l := logic.NewListFlashDiscountsLogic(ctx, s.svcCtx)
+	return l.ListFlashDiscounts(in)
+}
+
+func (s *ActivityServer) CancelFlashDiscount(ctx context.Context, in *activity.CancelFlashDiscountReq) (*activity.Empty, error) {
+	l := logic.NewCancelFlashDiscountLogic(ctx, s.svcCtx)
+	return l.CancelFlashDiscount(in)
+}

@@ -38,5 +38,14 @@ func (l *UpdateOrderStatusLogic) UpdateOrderStatus(in *order.UpdateOrderStatusRe
 		return nil, err
 	}
 
+	// H-2: stamp complete_time on transition to status=3 so the settlement
+	// worker can apply the T+N cooling-off window.
+	if in.Status == 3 {
+		_, _ = l.svcCtx.SqlConn.ExecCtx(l.ctx,
+			"UPDATE `order` SET complete_time = UNIX_TIMESTAMP() WHERE id = ? AND complete_time = 0",
+			in.Id,
+		)
+	}
+
 	return &order.UpdateOrderStatusResp{}, nil
 }

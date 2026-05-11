@@ -38,8 +38,87 @@ message UpdatePaymentStatusReq {
 
 message UpdatePaymentStatusResp {}
 
+// ===== P1 merchant wallet =====
+message OkResp { bool ok = 1; }
+
+message MerchantWallet {
+  int64 shop_id = 1;
+  int64 balance = 2;
+  int64 frozen = 3;
+  int64 total_income = 4;
+  int64 total_withdrawn = 5;
+  int64 update_time = 6;
+}
+
+message GetMerchantWalletReq { int64 shop_id = 1; }
+
+message CreditWalletReq {
+  int64 shop_id = 1;
+  int64 amount = 2;
+  int64 order_id = 3;
+  string type = 4;   // income/refund_deduct
+  string remark = 5;
+}
+
+message WithdrawalInfo {
+  int64 id = 1;
+  int64 shop_id = 2;
+  int64 amount = 3;
+  string bank_info = 4;
+  int32 status = 5;
+  int64 admin_id = 6;
+  string admin_remark = 7;
+  int64 create_time = 8;
+  int64 update_time = 9;
+}
+
+message CreateWithdrawalReq {
+  int64 shop_id = 1;
+  int64 amount = 2;
+  string bank_info = 3;
+}
+message CreateWithdrawalResp { int64 id = 1; }
+
+message ListWithdrawalsReq {
+  int64 shop_id = 1;  // 0=all (admin)
+  int32 status = 2;   // -1=all
+  int32 page = 3;
+  int32 page_size = 4;
+}
+message ListWithdrawalsResp { repeated WithdrawalInfo withdrawals = 1; int64 total = 2; }
+
+message AdminHandleWithdrawalReq {
+  int64 id = 1;
+  int64 admin_id = 2;
+  int32 action = 3;  // 1=approve, 2=reject
+  string remark = 4;
+}
+
+message BillRecord {
+  int64 id = 1;
+  int64 shop_id = 2;
+  string type = 3;
+  int64 amount = 4;
+  int64 order_id = 5;
+  string remark = 6;
+  int64 create_time = 7;
+}
+message ListBillRecordsReq {
+  int64 shop_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+message ListBillRecordsResp { repeated BillRecord records = 1; int64 total = 2; }
+
 service Payment {
   rpc CreatePayment(CreatePaymentReq) returns (CreatePaymentResp);
   rpc GetPayment(GetPaymentReq) returns (GetPaymentResp);
   rpc UpdatePaymentStatus(UpdatePaymentStatusReq) returns (UpdatePaymentStatusResp);
+  // ===== P1 merchant wallet =====
+  rpc GetMerchantWallet(GetMerchantWalletReq) returns (MerchantWallet);
+  rpc CreditWallet(CreditWalletReq) returns (OkResp);
+  rpc CreateWithdrawal(CreateWithdrawalReq) returns (CreateWithdrawalResp);
+  rpc ListWithdrawals(ListWithdrawalsReq) returns (ListWithdrawalsResp);
+  rpc AdminHandleWithdrawal(AdminHandleWithdrawalReq) returns (OkResp);
+  rpc ListBillRecords(ListBillRecordsReq) returns (ListBillRecordsResp);
 }

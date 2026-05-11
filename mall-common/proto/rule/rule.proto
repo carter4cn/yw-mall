@@ -107,6 +107,48 @@ message EvaluateRuleSetResp {
   int64 latency_us = 3;
 }
 
+// ===== P1 low-code activity rules =====
+message GetRuleSetReq { int64 id = 1; }
+
+message ListRuleSetsReq { int32 page = 1; int32 page_size = 2; }
+message ListRuleSetsResp { repeated RuleSet rule_sets = 1; int64 total = 2; }
+
+message ValidateExpressionReq { string expression = 1; string lang = 2; }
+message ValidateExpressionResp { bool valid = 1; string error = 2; }
+
+message ActivityRuleCondition {
+  string type = 1;      // order_amount / signin_count / activity_count
+  string operator = 2;  // gte / lte / eq
+  int64 value = 3;
+  string unit = 4;      // days / times / yuan
+}
+
+message ActivityRuleExclusion {
+  string type = 1;    // blacklist / risk_label / holiday
+  string value = 2;   // label value or holiday type
+}
+
+message ActivityRuleReward {
+  string type = 1;    // exp / credit_score / cash / coupon
+  int64 amount = 2;
+  string unit = 3;
+}
+
+message CreateActivityRuleReq {
+  string code = 1;
+  string description = 2;
+  int64 budget = 3;  // total budget in cents (0=unlimited)
+  repeated ActivityRuleCondition conditions = 4;
+  repeated ActivityRuleExclusion exclusions = 5;
+  repeated ActivityRuleReward rewards = 6;
+}
+
+message CreateActivityRuleResp {
+  int64 rule_id = 1;
+  int64 rule_set_id = 2;
+  string generated_expression = 3;
+}
+
 service Rule {
   rpc CreateRule(CreateRuleReq) returns (CreateRuleResp);
   rpc UpdateRule(UpdateRuleReq) returns (Empty);
@@ -116,4 +158,9 @@ service Rule {
   rpc BatchEvaluate(BatchEvaluateReq) returns (BatchEvaluateResp);
   rpc CreateRuleSet(CreateRuleSetReq) returns (CreateRuleSetResp);
   rpc EvaluateRuleSet(EvaluateRuleSetReq) returns (EvaluateRuleSetResp);
+  // ===== P1 low-code =====
+  rpc GetRuleSet(GetRuleSetReq) returns (RuleSet);
+  rpc ListRuleSets(ListRuleSetsReq) returns (ListRuleSetsResp);
+  rpc ValidateExpression(ValidateExpressionReq) returns (ValidateExpressionResp);
+  rpc CreateActivityRule(CreateActivityRuleReq) returns (CreateActivityRuleResp);
 }

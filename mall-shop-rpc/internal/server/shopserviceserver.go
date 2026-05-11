@@ -72,3 +72,83 @@ func (s *ShopServiceServer) IncrProductCount(ctx context.Context, in *shop.IncrP
 	l := logic.NewIncrProductCountLogic(ctx, s.svcCtx)
 	return l.IncrProductCount(in)
 }
+
+func (s *ShopServiceServer) ApplyShop(ctx context.Context, in *shop.ApplyShopReq) (*shop.ApplyShopResp, error) {
+	l := logic.NewApplyShopLogic(ctx, s.svcCtx)
+	return l.ApplyShop(in)
+}
+
+func (s *ShopServiceServer) GetShopApplication(ctx context.Context, in *shop.GetShopApplicationReq) (*shop.ShopApplication, error) {
+	l := logic.NewGetShopApplicationLogic(ctx, s.svcCtx)
+	return l.GetShopApplication(in)
+}
+
+func (s *ShopServiceServer) ListShopApplications(ctx context.Context, in *shop.ListShopApplicationsReq) (*shop.ListShopApplicationsResp, error) {
+	l := logic.NewListShopApplicationsLogic(ctx, s.svcCtx)
+	return l.ListShopApplications(in)
+}
+
+func (s *ShopServiceServer) ReviewShopApplication(ctx context.Context, in *shop.ReviewShopApplicationReq) (*shop.OkResp, error) {
+	l := logic.NewReviewShopApplicationLogic(ctx, s.svcCtx)
+	return l.ReviewShopApplication(in)
+}
+
+func (s *ShopServiceServer) GetShopByOwnerId(ctx context.Context, in *shop.GetShopByOwnerIdReq) (*shop.ShopDetailResp, error) {
+	l := logic.NewGetShopByOwnerIdLogic(ctx, s.svcCtx)
+	return l.GetShopByOwnerId(in)
+}
+
+func (s *ShopServiceServer) UpdateShopStatus(ctx context.Context, in *shop.UpdateShopStatusReq) (*shop.OkResp, error) {
+	l := logic.NewUpdateShopStatusLogic(ctx, s.svcCtx)
+	return l.UpdateShopStatus(in)
+}
+
+func (s *ShopServiceServer) AdjustCreditScore(ctx context.Context, in *shop.AdjustCreditScoreReq) (*shop.OkResp, error) {
+	l := logic.NewAdjustCreditScoreLogic(ctx, s.svcCtx)
+	return l.AdjustCreditScore(in)
+}
+
+func (s *ShopServiceServer) ListMyApplications(ctx context.Context, in *shop.ListMyApplicationsReq) (*shop.ListShopApplicationsResp, error) {
+	l := logic.NewListMyApplicationsLogic(ctx, s.svcCtx)
+	return l.ListMyApplications(in)
+}
+
+func (s *ShopServiceServer) ListShopLevels(ctx context.Context, in *shop.Empty) (*shop.ListShopLevelsResp, error) {
+	l := logic.NewListShopLevelsLogic(ctx, s.svcCtx)
+	return l.ListShopLevels(in)
+}
+
+func (s *ShopServiceServer) GetMyLevelStatus(ctx context.Context, in *shop.GetMyLevelStatusReq) (*shop.MyLevelStatus, error) {
+	l := logic.NewGetMyLevelStatusLogic(ctx, s.svcCtx)
+	return l.GetMyLevelStatus(in)
+}
+
+func (s *ShopServiceServer) SubmitLevelApplication(ctx context.Context, in *shop.SubmitLevelApplicationReq) (*shop.SubmitLevelApplicationResp, error) {
+	l := logic.NewSubmitLevelApplicationLogic(ctx, s.svcCtx)
+	return l.SubmitLevelApplication(in)
+}
+
+func (s *ShopServiceServer) ListLevelApplications(ctx context.Context, in *shop.ListLevelApplicationsReq) (*shop.ListLevelApplicationsResp, error) {
+	l := logic.NewListLevelApplicationsLogic(ctx, s.svcCtx)
+	return l.ListLevelApplications(in)
+}
+
+func (s *ShopServiceServer) ReviewLevelApplication(ctx context.Context, in *shop.ReviewLevelApplicationReq) (*shop.OkResp, error) {
+	l := logic.NewReviewLevelApplicationLogic(ctx, s.svcCtx)
+	return l.ReviewLevelApplication(in)
+}
+
+func (s *ShopServiceServer) SubmitShopLifecycleRequest(ctx context.Context, in *shop.SubmitShopLifecycleRequestReq) (*shop.SubmitShopLifecycleRequestResp, error) {
+	l := logic.NewSubmitShopLifecycleRequestLogic(ctx, s.svcCtx)
+	return l.SubmitShopLifecycleRequest(in)
+}
+
+func (s *ShopServiceServer) ListShopLifecycleRequests(ctx context.Context, in *shop.ListShopLifecycleRequestsReq) (*shop.ListShopLifecycleRequestsResp, error) {
+	l := logic.NewListShopLifecycleRequestsLogic(ctx, s.svcCtx)
+	return l.ListShopLifecycleRequests(in)
+}
+
+func (s *ShopServiceServer) ReviewShopLifecycleRequest(ctx context.Context, in *shop.ReviewShopLifecycleRequestReq) (*shop.OkResp, error) {
+	l := logic.NewReviewShopLifecycleRequestLogic(ctx, s.svcCtx)
+	return l.ReviewShopLifecycleRequest(in)
+}

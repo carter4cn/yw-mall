@@ -14,20 +14,40 @@ import (
 )
 
 type (
-	AddToBlacklistReq      = risk.AddToBlacklistReq
-	CheckBlacklistReq      = risk.CheckBlacklistReq
-	CheckBlacklistResp     = risk.CheckBlacklistResp
-	Empty                  = risk.Empty
-	GetRiskScoreReq        = risk.GetRiskScoreReq
-	GetRiskScoreResp       = risk.GetRiskScoreResp
-	IssueTokenReq          = risk.IssueTokenReq
-	IssueTokenResp         = risk.IssueTokenResp
-	RateLimitReq           = risk.RateLimitReq
-	RateLimitResp          = risk.RateLimitResp
-	RecordEventReq         = risk.RecordEventReq
-	RemoveFromBlacklistReq = risk.RemoveFromBlacklistReq
-	VerifyTokenReq         = risk.VerifyTokenReq
-	VerifyTokenResp        = risk.VerifyTokenResp
+	AddToBlacklistReq         = risk.AddToBlacklistReq
+	CheckBlacklistReq         = risk.CheckBlacklistReq
+	CheckBlacklistResp        = risk.CheckBlacklistResp
+	ComplaintTicket           = risk.ComplaintTicket
+	CreateComplaintReq        = risk.CreateComplaintReq
+	CreateComplaintResp       = risk.CreateComplaintResp
+	Empty                     = risk.Empty
+	GetComplaintReq           = risk.GetComplaintReq
+	GetRiskScoreReq           = risk.GetRiskScoreReq
+	GetRiskScoreResp          = risk.GetRiskScoreResp
+	HandleComplaintReq        = risk.HandleComplaintReq
+	IssueTokenReq             = risk.IssueTokenReq
+	IssueTokenResp            = risk.IssueTokenResp
+	ListComplaintsReq         = risk.ListComplaintsReq
+	ListComplaintsResp        = risk.ListComplaintsResp
+	ListShopRestrictionsReq   = risk.ListShopRestrictionsReq
+	ListShopRestrictionsResp  = risk.ListShopRestrictionsResp
+	RateLimitReq              = risk.RateLimitReq
+	RateLimitResp             = risk.RateLimitResp
+	RecordEventReq            = risk.RecordEventReq
+	RemoveFromBlacklistReq    = risk.RemoveFromBlacklistReq
+	RemoveShopRestrictionReq  = risk.RemoveShopRestrictionReq
+	SetShopRestrictionReq     = risk.SetShopRestrictionReq
+	ShopRestriction           = risk.ShopRestriction
+	VerifyTokenReq            = risk.VerifyTokenReq
+	VerifyTokenResp           = risk.VerifyTokenResp
+	IdReq                     = risk.IdReq
+	SensitiveWord             = risk.SensitiveWord
+	CreateSensitiveWordReq    = risk.CreateSensitiveWordReq
+	CreateSensitiveWordResp   = risk.CreateSensitiveWordResp
+	ListSensitiveWordsReq     = risk.ListSensitiveWordsReq
+	ListSensitiveWordsResp    = risk.ListSensitiveWordsResp
+	CheckTextReq              = risk.CheckTextReq
+	CheckTextResp             = risk.CheckTextResp
 
 	Risk interface {
 		IssueToken(ctx context.Context, in *IssueTokenReq, opts ...grpc.CallOption) (*IssueTokenResp, error)
@@ -38,6 +58,19 @@ type (
 		RateLimit(ctx context.Context, in *RateLimitReq, opts ...grpc.CallOption) (*RateLimitResp, error)
 		GetRiskScore(ctx context.Context, in *GetRiskScoreReq, opts ...grpc.CallOption) (*GetRiskScoreResp, error)
 		RecordEvent(ctx context.Context, in *RecordEventReq, opts ...grpc.CallOption) (*Empty, error)
+		// P1 complaint & restriction
+		CreateComplaint(ctx context.Context, in *CreateComplaintReq, opts ...grpc.CallOption) (*CreateComplaintResp, error)
+		GetComplaint(ctx context.Context, in *GetComplaintReq, opts ...grpc.CallOption) (*ComplaintTicket, error)
+		ListComplaints(ctx context.Context, in *ListComplaintsReq, opts ...grpc.CallOption) (*ListComplaintsResp, error)
+		HandleComplaint(ctx context.Context, in *HandleComplaintReq, opts ...grpc.CallOption) (*Empty, error)
+		SetShopRestriction(ctx context.Context, in *SetShopRestrictionReq, opts ...grpc.CallOption) (*Empty, error)
+		ListShopRestrictions(ctx context.Context, in *ListShopRestrictionsReq, opts ...grpc.CallOption) (*ListShopRestrictionsResp, error)
+		RemoveShopRestriction(ctx context.Context, in *RemoveShopRestrictionReq, opts ...grpc.CallOption) (*Empty, error)
+		// J-4 sensitive words
+		CreateSensitiveWord(ctx context.Context, in *CreateSensitiveWordReq, opts ...grpc.CallOption) (*CreateSensitiveWordResp, error)
+		ListSensitiveWords(ctx context.Context, in *ListSensitiveWordsReq, opts ...grpc.CallOption) (*ListSensitiveWordsResp, error)
+		DeleteSensitiveWord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Empty, error)
+		CheckText(ctx context.Context, in *CheckTextReq, opts ...grpc.CallOption) (*CheckTextResp, error)
 	}
 
 	defaultRisk struct {
@@ -89,4 +122,59 @@ func (m *defaultRisk) GetRiskScore(ctx context.Context, in *GetRiskScoreReq, opt
 func (m *defaultRisk) RecordEvent(ctx context.Context, in *RecordEventReq, opts ...grpc.CallOption) (*Empty, error) {
 	client := risk.NewRiskClient(m.cli.Conn())
 	return client.RecordEvent(ctx, in, opts...)
+}
+
+func (m *defaultRisk) CreateComplaint(ctx context.Context, in *CreateComplaintReq, opts ...grpc.CallOption) (*CreateComplaintResp, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.CreateComplaint(ctx, in, opts...)
+}
+
+func (m *defaultRisk) GetComplaint(ctx context.Context, in *GetComplaintReq, opts ...grpc.CallOption) (*ComplaintTicket, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.GetComplaint(ctx, in, opts...)
+}
+
+func (m *defaultRisk) ListComplaints(ctx context.Context, in *ListComplaintsReq, opts ...grpc.CallOption) (*ListComplaintsResp, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.ListComplaints(ctx, in, opts...)
+}
+
+func (m *defaultRisk) HandleComplaint(ctx context.Context, in *HandleComplaintReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.HandleComplaint(ctx, in, opts...)
+}
+
+func (m *defaultRisk) SetShopRestriction(ctx context.Context, in *SetShopRestrictionReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.SetShopRestriction(ctx, in, opts...)
+}
+
+func (m *defaultRisk) ListShopRestrictions(ctx context.Context, in *ListShopRestrictionsReq, opts ...grpc.CallOption) (*ListShopRestrictionsResp, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.ListShopRestrictions(ctx, in, opts...)
+}
+
+func (m *defaultRisk) RemoveShopRestriction(ctx context.Context, in *RemoveShopRestrictionReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.RemoveShopRestriction(ctx, in, opts...)
+}
+
+func (m *defaultRisk) CreateSensitiveWord(ctx context.Context, in *CreateSensitiveWordReq, opts ...grpc.CallOption) (*CreateSensitiveWordResp, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.CreateSensitiveWord(ctx, in, opts...)
+}
+
+func (m *defaultRisk) ListSensitiveWords(ctx context.Context, in *ListSensitiveWordsReq, opts ...grpc.CallOption) (*ListSensitiveWordsResp, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.ListSensitiveWords(ctx, in, opts...)
+}
+
+func (m *defaultRisk) DeleteSensitiveWord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.DeleteSensitiveWord(ctx, in, opts...)
+}
+
+func (m *defaultRisk) CheckText(ctx context.Context, in *CheckTextReq, opts ...grpc.CallOption) (*CheckTextResp, error) {
+	client := risk.NewRiskClient(m.cli.Conn())
+	return client.CheckText(ctx, in, opts...)
 }

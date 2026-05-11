@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.19.4
-// source: order.proto
+// source: order/order.proto
 
 package order
 
@@ -19,14 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Order_CreateOrder_FullMethodName       = "/order.Order/CreateOrder"
-	Order_GetOrder_FullMethodName          = "/order.Order/GetOrder"
-	Order_ListOrders_FullMethodName        = "/order.Order/ListOrders"
-	Order_UpdateOrderStatus_FullMethodName = "/order.Order/UpdateOrderStatus"
-	Order_CreatePreOrder_FullMethodName    = "/order.Order/CreatePreOrder"
-	Order_CancelPreOrder_FullMethodName    = "/order.Order/CancelPreOrder"
-	Order_GetOrderItem_FullMethodName      = "/order.Order/GetOrderItem"
-	Order_MarkShipped_FullMethodName       = "/order.Order/MarkShipped"
+	Order_CreateOrder_FullMethodName          = "/order.Order/CreateOrder"
+	Order_GetOrder_FullMethodName             = "/order.Order/GetOrder"
+	Order_ListOrders_FullMethodName           = "/order.Order/ListOrders"
+	Order_UpdateOrderStatus_FullMethodName    = "/order.Order/UpdateOrderStatus"
+	Order_CreatePreOrder_FullMethodName       = "/order.Order/CreatePreOrder"
+	Order_CancelPreOrder_FullMethodName       = "/order.Order/CancelPreOrder"
+	Order_GetOrderItem_FullMethodName         = "/order.Order/GetOrderItem"
+	Order_MarkShipped_FullMethodName          = "/order.Order/MarkShipped"
+	Order_ListShopOrders_FullMethodName       = "/order.Order/ListShopOrders"
+	Order_GetShopOrder_FullMethodName         = "/order.Order/GetShopOrder"
+	Order_ShipOrder_FullMethodName            = "/order.Order/ShipOrder"
+	Order_MerchantRejectRefund_FullMethodName = "/order.Order/MerchantRejectRefund"
 )
 
 // OrderClient is the client API for Order service.
@@ -41,6 +45,10 @@ type OrderClient interface {
 	CancelPreOrder(ctx context.Context, in *CancelPreOrderReq, opts ...grpc.CallOption) (*CancelPreOrderResp, error)
 	GetOrderItem(ctx context.Context, in *GetOrderItemReq, opts ...grpc.CallOption) (*GetOrderItemResp, error)
 	MarkShipped(ctx context.Context, in *MarkShippedReq, opts ...grpc.CallOption) (*MarkShippedResp, error)
+	ListShopOrders(ctx context.Context, in *ListShopOrdersReq, opts ...grpc.CallOption) (*ListOrdersResp, error)
+	GetShopOrder(ctx context.Context, in *GetShopOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error)
+	ShipOrder(ctx context.Context, in *ShipOrderReq, opts ...grpc.CallOption) (*OkResp, error)
+	MerchantRejectRefund(ctx context.Context, in *MerchantRejectRefundReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type orderClient struct {
@@ -131,6 +139,46 @@ func (c *orderClient) MarkShipped(ctx context.Context, in *MarkShippedReq, opts 
 	return out, nil
 }
 
+func (c *orderClient) ListShopOrders(ctx context.Context, in *ListShopOrdersReq, opts ...grpc.CallOption) (*ListOrdersResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListOrdersResp)
+	err := c.cc.Invoke(ctx, Order_ListShopOrders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) GetShopOrder(ctx context.Context, in *GetShopOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetOrderResp)
+	err := c.cc.Invoke(ctx, Order_GetShopOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) ShipOrder(ctx context.Context, in *ShipOrderReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Order_ShipOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) MerchantRejectRefund(ctx context.Context, in *MerchantRejectRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Order_MerchantRejectRefund_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServer is the server API for Order service.
 // All implementations must embed UnimplementedOrderServer
 // for forward compatibility.
@@ -143,6 +191,10 @@ type OrderServer interface {
 	CancelPreOrder(context.Context, *CancelPreOrderReq) (*CancelPreOrderResp, error)
 	GetOrderItem(context.Context, *GetOrderItemReq) (*GetOrderItemResp, error)
 	MarkShipped(context.Context, *MarkShippedReq) (*MarkShippedResp, error)
+	ListShopOrders(context.Context, *ListShopOrdersReq) (*ListOrdersResp, error)
+	GetShopOrder(context.Context, *GetShopOrderReq) (*GetOrderResp, error)
+	ShipOrder(context.Context, *ShipOrderReq) (*OkResp, error)
+	MerchantRejectRefund(context.Context, *MerchantRejectRefundReq) (*OkResp, error)
 	mustEmbedUnimplementedOrderServer()
 }
 
@@ -176,6 +228,18 @@ func (UnimplementedOrderServer) GetOrderItem(context.Context, *GetOrderItemReq) 
 }
 func (UnimplementedOrderServer) MarkShipped(context.Context, *MarkShippedReq) (*MarkShippedResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method MarkShipped not implemented")
+}
+func (UnimplementedOrderServer) ListShopOrders(context.Context, *ListShopOrdersReq) (*ListOrdersResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopOrders not implemented")
+}
+func (UnimplementedOrderServer) GetShopOrder(context.Context, *GetShopOrderReq) (*GetOrderResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetShopOrder not implemented")
+}
+func (UnimplementedOrderServer) ShipOrder(context.Context, *ShipOrderReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ShipOrder not implemented")
+}
+func (UnimplementedOrderServer) MerchantRejectRefund(context.Context, *MerchantRejectRefundReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method MerchantRejectRefund not implemented")
 }
 func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
 func (UnimplementedOrderServer) testEmbeddedByValue()               {}
@@ -342,6 +406,78 @@ func _Order_MarkShipped_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_ListShopOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListShopOrdersReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).ListShopOrders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_ListShopOrders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).ListShopOrders(ctx, req.(*ListShopOrdersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_GetShopOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetShopOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).GetShopOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_GetShopOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).GetShopOrder(ctx, req.(*GetShopOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_ShipOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShipOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).ShipOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_ShipOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).ShipOrder(ctx, req.(*ShipOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_MerchantRejectRefund_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MerchantRejectRefundReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).MerchantRejectRefund(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_MerchantRejectRefund_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).MerchantRejectRefund(ctx, req.(*MerchantRejectRefundReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Order_ServiceDesc is the grpc.ServiceDesc for Order service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -381,7 +517,23 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "MarkShipped",
 			Handler:    _Order_MarkShipped_Handler,
 		},
+		{
+			MethodName: "ListShopOrders",
+			Handler:    _Order_ListShopOrders_Handler,
+		},
+		{
+			MethodName: "GetShopOrder",
+			Handler:    _Order_GetShopOrder_Handler,
+		},
+		{
+			MethodName: "ShipOrder",
+			Handler:    _Order_ShipOrder_Handler,
+		},
+		{
+			MethodName: "MerchantRejectRefund",
+			Handler:    _Order_MerchantRejectRefund_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "order.proto",
+	Metadata: "order/order.proto",
 }

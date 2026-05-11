@@ -98,6 +98,31 @@ message GetOrderItemResp {
   int64 create_time = 7;
 }
 
+// ===== Merchant Order Management =====
+message OkResp { bool ok = 1; }
+
+message ListShopOrdersReq {
+  int64 shop_id = 1;
+  int32 status = 2;   // -1 = all
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message GetShopOrderReq { int64 id = 1; int64 shop_id = 2; }
+
+message ShipOrderReq {
+  int64  id = 1;
+  int64  shop_id = 2;
+  string carrier = 3;
+  string tracking_no = 4;
+}
+
+message MerchantRejectRefundReq {
+  int64  id = 1;
+  int64  shop_id = 2;
+  string reason = 3;
+}
+
 service Order {
   rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
   rpc GetOrder(GetOrderReq) returns (GetOrderResp);
@@ -107,6 +132,10 @@ service Order {
   rpc CancelPreOrder(CancelPreOrderReq) returns (CancelPreOrderResp);
   rpc GetOrderItem(GetOrderItemReq) returns (GetOrderItemResp);
   rpc MarkShipped(MarkShippedReq) returns (MarkShippedResp);
+  rpc ListShopOrders(ListShopOrdersReq) returns (ListOrdersResp);
+  rpc GetShopOrder(GetShopOrderReq) returns (GetOrderResp);
+  rpc ShipOrder(ShipOrderReq) returns (OkResp);
+  rpc MerchantRejectRefund(MerchantRejectRefundReq) returns (OkResp);
 }
 
 message MarkShippedReq {

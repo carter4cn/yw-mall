@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.19.4
-// source: payment.proto
+// source: payment/payment.proto
 
 package payment
 
@@ -19,9 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Payment_CreatePayment_FullMethodName       = "/payment.Payment/CreatePayment"
-	Payment_GetPayment_FullMethodName          = "/payment.Payment/GetPayment"
-	Payment_UpdatePaymentStatus_FullMethodName = "/payment.Payment/UpdatePaymentStatus"
+	Payment_CreatePayment_FullMethodName         = "/payment.Payment/CreatePayment"
+	Payment_GetPayment_FullMethodName            = "/payment.Payment/GetPayment"
+	Payment_UpdatePaymentStatus_FullMethodName   = "/payment.Payment/UpdatePaymentStatus"
+	Payment_GetMerchantWallet_FullMethodName     = "/payment.Payment/GetMerchantWallet"
+	Payment_CreditWallet_FullMethodName          = "/payment.Payment/CreditWallet"
+	Payment_CreateWithdrawal_FullMethodName      = "/payment.Payment/CreateWithdrawal"
+	Payment_ListWithdrawals_FullMethodName       = "/payment.Payment/ListWithdrawals"
+	Payment_AdminHandleWithdrawal_FullMethodName = "/payment.Payment/AdminHandleWithdrawal"
+	Payment_ListBillRecords_FullMethodName       = "/payment.Payment/ListBillRecords"
 )
 
 // PaymentClient is the client API for Payment service.
@@ -31,6 +37,13 @@ type PaymentClient interface {
 	CreatePayment(ctx context.Context, in *CreatePaymentReq, opts ...grpc.CallOption) (*CreatePaymentResp, error)
 	GetPayment(ctx context.Context, in *GetPaymentReq, opts ...grpc.CallOption) (*GetPaymentResp, error)
 	UpdatePaymentStatus(ctx context.Context, in *UpdatePaymentStatusReq, opts ...grpc.CallOption) (*UpdatePaymentStatusResp, error)
+	// ===== P1 merchant wallet =====
+	GetMerchantWallet(ctx context.Context, in *GetMerchantWalletReq, opts ...grpc.CallOption) (*MerchantWallet, error)
+	CreditWallet(ctx context.Context, in *CreditWalletReq, opts ...grpc.CallOption) (*OkResp, error)
+	CreateWithdrawal(ctx context.Context, in *CreateWithdrawalReq, opts ...grpc.CallOption) (*CreateWithdrawalResp, error)
+	ListWithdrawals(ctx context.Context, in *ListWithdrawalsReq, opts ...grpc.CallOption) (*ListWithdrawalsResp, error)
+	AdminHandleWithdrawal(ctx context.Context, in *AdminHandleWithdrawalReq, opts ...grpc.CallOption) (*OkResp, error)
+	ListBillRecords(ctx context.Context, in *ListBillRecordsReq, opts ...grpc.CallOption) (*ListBillRecordsResp, error)
 }
 
 type paymentClient struct {
@@ -71,6 +84,66 @@ func (c *paymentClient) UpdatePaymentStatus(ctx context.Context, in *UpdatePayme
 	return out, nil
 }
 
+func (c *paymentClient) GetMerchantWallet(ctx context.Context, in *GetMerchantWalletReq, opts ...grpc.CallOption) (*MerchantWallet, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MerchantWallet)
+	err := c.cc.Invoke(ctx, Payment_GetMerchantWallet_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentClient) CreditWallet(ctx context.Context, in *CreditWalletReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Payment_CreditWallet_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentClient) CreateWithdrawal(ctx context.Context, in *CreateWithdrawalReq, opts ...grpc.CallOption) (*CreateWithdrawalResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateWithdrawalResp)
+	err := c.cc.Invoke(ctx, Payment_CreateWithdrawal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentClient) ListWithdrawals(ctx context.Context, in *ListWithdrawalsReq, opts ...grpc.CallOption) (*ListWithdrawalsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListWithdrawalsResp)
+	err := c.cc.Invoke(ctx, Payment_ListWithdrawals_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentClient) AdminHandleWithdrawal(ctx context.Context, in *AdminHandleWithdrawalReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Payment_AdminHandleWithdrawal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentClient) ListBillRecords(ctx context.Context, in *ListBillRecordsReq, opts ...grpc.CallOption) (*ListBillRecordsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListBillRecordsResp)
+	err := c.cc.Invoke(ctx, Payment_ListBillRecords_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PaymentServer is the server API for Payment service.
 // All implementations must embed UnimplementedPaymentServer
 // for forward compatibility.
@@ -78,6 +151,13 @@ type PaymentServer interface {
 	CreatePayment(context.Context, *CreatePaymentReq) (*CreatePaymentResp, error)
 	GetPayment(context.Context, *GetPaymentReq) (*GetPaymentResp, error)
 	UpdatePaymentStatus(context.Context, *UpdatePaymentStatusReq) (*UpdatePaymentStatusResp, error)
+	// ===== P1 merchant wallet =====
+	GetMerchantWallet(context.Context, *GetMerchantWalletReq) (*MerchantWallet, error)
+	CreditWallet(context.Context, *CreditWalletReq) (*OkResp, error)
+	CreateWithdrawal(context.Context, *CreateWithdrawalReq) (*CreateWithdrawalResp, error)
+	ListWithdrawals(context.Context, *ListWithdrawalsReq) (*ListWithdrawalsResp, error)
+	AdminHandleWithdrawal(context.Context, *AdminHandleWithdrawalReq) (*OkResp, error)
+	ListBillRecords(context.Context, *ListBillRecordsReq) (*ListBillRecordsResp, error)
 	mustEmbedUnimplementedPaymentServer()
 }
 
@@ -96,6 +176,24 @@ func (UnimplementedPaymentServer) GetPayment(context.Context, *GetPaymentReq) (*
 }
 func (UnimplementedPaymentServer) UpdatePaymentStatus(context.Context, *UpdatePaymentStatusReq) (*UpdatePaymentStatusResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdatePaymentStatus not implemented")
+}
+func (UnimplementedPaymentServer) GetMerchantWallet(context.Context, *GetMerchantWalletReq) (*MerchantWallet, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetMerchantWallet not implemented")
+}
+func (UnimplementedPaymentServer) CreditWallet(context.Context, *CreditWalletReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreditWallet not implemented")
+}
+func (UnimplementedPaymentServer) CreateWithdrawal(context.Context, *CreateWithdrawalReq) (*CreateWithdrawalResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateWithdrawal not implemented")
+}
+func (UnimplementedPaymentServer) ListWithdrawals(context.Context, *ListWithdrawalsReq) (*ListWithdrawalsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListWithdrawals not implemented")
+}
+func (UnimplementedPaymentServer) AdminHandleWithdrawal(context.Context, *AdminHandleWithdrawalReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method AdminHandleWithdrawal not implemented")
+}
+func (UnimplementedPaymentServer) ListBillRecords(context.Context, *ListBillRecordsReq) (*ListBillRecordsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListBillRecords not implemented")
 }
 func (UnimplementedPaymentServer) mustEmbedUnimplementedPaymentServer() {}
 func (UnimplementedPaymentServer) testEmbeddedByValue()                 {}
@@ -172,6 +270,114 @@ func _Payment_UpdatePaymentStatus_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Payment_GetMerchantWallet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMerchantWalletReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).GetMerchantWallet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_GetMerchantWallet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).GetMerchantWallet(ctx, req.(*GetMerchantWalletReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Payment_CreditWallet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreditWalletReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).CreditWallet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_CreditWallet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).CreditWallet(ctx, req.(*CreditWalletReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Payment_CreateWithdrawal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateWithdrawalReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).CreateWithdrawal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_CreateWithdrawal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).CreateWithdrawal(ctx, req.(*CreateWithdrawalReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Payment_ListWithdrawals_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWithdrawalsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).ListWithdrawals(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_ListWithdrawals_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).ListWithdrawals(ctx, req.(*ListWithdrawalsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Payment_AdminHandleWithdrawal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminHandleWithdrawalReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).AdminHandleWithdrawal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_AdminHandleWithdrawal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).AdminHandleWithdrawal(ctx, req.(*AdminHandleWithdrawalReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Payment_ListBillRecords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBillRecordsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).ListBillRecords(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_ListBillRecords_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).ListBillRecords(ctx, req.(*ListBillRecordsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Payment_ServiceDesc is the grpc.ServiceDesc for Payment service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -191,7 +397,31 @@ var Payment_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "UpdatePaymentStatus",
 			Handler:    _Payment_UpdatePaymentStatus_Handler,
 		},
+		{
+			MethodName: "GetMerchantWallet",
+			Handler:    _Payment_GetMerchantWallet_Handler,
+		},
+		{
+			MethodName: "CreditWallet",
+			Handler:    _Payment_CreditWallet_Handler,
+		},
+		{
+			MethodName: "CreateWithdrawal",
+			Handler:    _Payment_CreateWithdrawal_Handler,
+		},
+		{
+			MethodName: "ListWithdrawals",
+			Handler:    _Payment_ListWithdrawals_Handler,
+		},
+		{
+			MethodName: "AdminHandleWithdrawal",
+			Handler:    _Payment_AdminHandleWithdrawal_Handler,
+		},
+		{
+			MethodName: "ListBillRecords",
+			Handler:    _Payment_ListBillRecords_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "payment.proto",
+	Metadata: "payment/payment.proto",
 }

@@ -18,17 +18,27 @@ type (
 	ActivityInfo                 = activity.ActivityInfo
 	ActivityStat                 = activity.ActivityStat
 	ActivityTemplate             = activity.ActivityTemplate
+	CancelFlashDiscountReq       = activity.CancelFlashDiscountReq
 	CreateActivityReq            = activity.CreateActivityReq
 	CreateActivityResp           = activity.CreateActivityResp
+	CreateFlashDiscountReq       = activity.CreateFlashDiscountReq
+	CreateFlashDiscountResp      = activity.CreateFlashDiscountResp
+	CreateShopCouponReq          = activity.CreateShopCouponReq
+	CreateShopCouponResp         = activity.CreateShopCouponResp
 	DecrInventoryReq             = activity.DecrInventoryReq
 	DecrInventoryResp            = activity.DecrInventoryResp
 	Empty                        = activity.Empty
+	FlashDiscount                = activity.FlashDiscount
 	GetParticipationReq          = activity.GetParticipationReq
 	IdReq                        = activity.IdReq
 	ListActivitiesReq            = activity.ListActivitiesReq
 	ListActivitiesResp           = activity.ListActivitiesResp
+	ListFlashDiscountsReq        = activity.ListFlashDiscountsReq
+	ListFlashDiscountsResp       = activity.ListFlashDiscountsResp
 	ListMyParticipationsReq      = activity.ListMyParticipationsReq
 	ListMyParticipationsResp     = activity.ListMyParticipationsResp
+	ListShopCouponsReq           = activity.ListShopCouponsReq
+	ListShopCouponsResp          = activity.ListShopCouponsResp
 	ListTemplatesResp            = activity.ListTemplatesResp
 	MarkParticipationRefundedReq = activity.MarkParticipationRefundedReq
 	MarkParticipationRewardedReq = activity.MarkParticipationRewardedReq
@@ -37,7 +47,9 @@ type (
 	ParticipationRecord          = activity.ParticipationRecord
 	RegisterTemplateReq          = activity.RegisterTemplateReq
 	RestoreInventoryReq          = activity.RestoreInventoryReq
+	ShopCoupon                   = activity.ShopCoupon
 	UpdateActivityReq            = activity.UpdateActivityReq
+	UpdateShopCouponStatusReq    = activity.UpdateShopCouponStatusReq
 
 	Activity interface {
 		CreateActivity(ctx context.Context, in *CreateActivityReq, opts ...grpc.CallOption) (*CreateActivityResp, error)
@@ -57,6 +69,12 @@ type (
 		RestoreInventory(ctx context.Context, in *RestoreInventoryReq, opts ...grpc.CallOption) (*Empty, error)
 		MarkParticipationRewarded(ctx context.Context, in *MarkParticipationRewardedReq, opts ...grpc.CallOption) (*Empty, error)
 		MarkParticipationRefunded(ctx context.Context, in *MarkParticipationRefundedReq, opts ...grpc.CallOption) (*Empty, error)
+		CreateShopCoupon(ctx context.Context, in *CreateShopCouponReq, opts ...grpc.CallOption) (*CreateShopCouponResp, error)
+		ListShopCoupons(ctx context.Context, in *ListShopCouponsReq, opts ...grpc.CallOption) (*ListShopCouponsResp, error)
+		UpdateShopCouponStatus(ctx context.Context, in *UpdateShopCouponStatusReq, opts ...grpc.CallOption) (*Empty, error)
+		CreateFlashDiscount(ctx context.Context, in *CreateFlashDiscountReq, opts ...grpc.CallOption) (*CreateFlashDiscountResp, error)
+		ListFlashDiscounts(ctx context.Context, in *ListFlashDiscountsReq, opts ...grpc.CallOption) (*ListFlashDiscountsResp, error)
+		CancelFlashDiscount(ctx context.Context, in *CancelFlashDiscountReq, opts ...grpc.CallOption) (*Empty, error)
 	}
 
 	defaultActivity struct {
@@ -153,4 +171,34 @@ func (m *defaultActivity) MarkParticipationRewarded(ctx context.Context, in *Mar
 func (m *defaultActivity) MarkParticipationRefunded(ctx context.Context, in *MarkParticipationRefundedReq, opts ...grpc.CallOption) (*Empty, error) {
 	client := activity.NewActivityClient(m.cli.Conn())
 	return client.MarkParticipationRefunded(ctx, in, opts...)
+}
+
+func (m *defaultActivity) CreateShopCoupon(ctx context.Context, in *CreateShopCouponReq, opts ...grpc.CallOption) (*CreateShopCouponResp, error) {
+	client := activity.NewActivityClient(m.cli.Conn())
+	return client.CreateShopCoupon(ctx, in, opts...)
+}
+
+func (m *defaultActivity) ListShopCoupons(ctx context.Context, in *ListShopCouponsReq, opts ...grpc.CallOption) (*ListShopCouponsResp, error) {
+	client := activity.NewActivityClient(m.cli.Conn())
+	return client.ListShopCoupons(ctx, in, opts...)
+}
+
+func (m *defaultActivity) UpdateShopCouponStatus(ctx context.Context, in *UpdateShopCouponStatusReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := activity.NewActivityClient(m.cli.Conn())
+	return client.UpdateShopCouponStatus(ctx, in, opts...)
+}
+
+func (m *defaultActivity) CreateFlashDiscount(ctx context.Context, in *CreateFlashDiscountReq, opts ...grpc.CallOption) (*CreateFlashDiscountResp, error) {
+	client := activity.NewActivityClient(m.cli.Conn())
+	return client.CreateFlashDiscount(ctx, in, opts...)
+}
+
+func (m *defaultActivity) ListFlashDiscounts(ctx context.Context, in *ListFlashDiscountsReq, opts ...grpc.CallOption) (*ListFlashDiscountsResp, error) {
+	client := activity.NewActivityClient(m.cli.Conn())
+	return client.ListFlashDiscounts(ctx, in, opts...)
+}
+
+func (m *defaultActivity) CancelFlashDiscount(ctx context.Context, in *CancelFlashDiscountReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := activity.NewActivityClient(m.cli.Conn())
+	return client.CancelFlashDiscount(ctx, in, opts...)
 }

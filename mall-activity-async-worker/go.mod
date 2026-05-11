@@ -3,11 +3,13 @@ module mall-activity-async-worker
 go 1.26.1
 
 require (
+	github.com/go-sql-driver/mysql v1.9.3
 	github.com/hibiken/asynq v0.24.1
 	github.com/zeromicro/go-zero v1.10.1
 )
 
 require (
+	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect

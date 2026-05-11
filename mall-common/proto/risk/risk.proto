@@ -80,6 +80,74 @@ message RecordEventReq {
   string payload_json = 4;
 }
 
+// ===== P1 complaint & shop restriction =====
+message ComplaintTicket {
+  int64 id = 1;
+  string complainant_type = 2;
+  int64 complainant_id = 3;
+  string defendant_type = 4;
+  int64 defendant_id = 5;
+  int64 order_id = 6;
+  string category = 7;
+  string content = 8;
+  string evidence_urls = 9;
+  int32 status = 10;
+  int64 admin_id = 11;
+  string admin_remark = 12;
+  int64 create_time = 13;
+  int64 update_time = 14;
+}
+
+message CreateComplaintReq {
+  string complainant_type = 1;
+  int64 complainant_id = 2;
+  string defendant_type = 3;
+  int64 defendant_id = 4;
+  int64 order_id = 5;
+  string category = 6;
+  string content = 7;
+  string evidence_urls = 8;
+}
+message CreateComplaintResp { int64 id = 1; }
+
+message GetComplaintReq { int64 id = 1; }
+
+message ListComplaintsReq {
+  int32 status = 1;
+  string defendant_type = 2;
+  int64 defendant_id = 3;
+  int32 page = 4;
+  int32 page_size = 5;
+}
+message ListComplaintsResp { repeated ComplaintTicket tickets = 1; int64 total = 2; }
+
+message HandleComplaintReq {
+  int64 id = 1;
+  int64 admin_id = 2;
+  int32 action = 3; // 1=support_complainant, 2=dismiss, 3=mediate
+  string remark = 4;
+}
+
+message ShopRestriction {
+  int64 id = 1;
+  int64 shop_id = 2;
+  string restriction = 3;
+  string reason = 4;
+  int64 operator_id = 5;
+  int64 expire_time = 6;
+  int64 create_time = 7;
+}
+message SetShopRestrictionReq {
+  int64 shop_id = 1;
+  string restriction = 2;
+  string reason = 3;
+  int64 operator_id = 4;
+  int64 expire_time = 5;
+}
+message ListShopRestrictionsReq { int64 shop_id = 1; }
+message ListShopRestrictionsResp { repeated ShopRestriction restrictions = 1; }
+message RemoveShopRestrictionReq { int64 id = 1; }
+
 service Risk {
   rpc IssueToken(IssueTokenReq) returns (IssueTokenResp);
   rpc VerifyToken(VerifyTokenReq) returns (VerifyTokenResp);
@@ -89,4 +157,34 @@ service Risk {
   rpc RateLimit(RateLimitReq) returns (RateLimitResp);
   rpc GetRiskScore(GetRiskScoreReq) returns (GetRiskScoreResp);
   rpc RecordEvent(RecordEventReq) returns (Empty);
+  // ===== P1 complaint & restriction =====
+  rpc CreateComplaint(CreateComplaintReq) returns (CreateComplaintResp);
+  rpc GetComplaint(GetComplaintReq) returns (ComplaintTicket);
+  rpc ListComplaints(ListComplaintsReq) returns (ListComplaintsResp);
+  rpc HandleComplaint(HandleComplaintReq) returns (Empty);
+  rpc SetShopRestriction(SetShopRestrictionReq) returns (Empty);
+  rpc ListShopRestrictions(ListShopRestrictionsReq) returns (ListShopRestrictionsResp);
+  rpc RemoveShopRestriction(RemoveShopRestrictionReq) returns (Empty);
+  // ===== J-4 sensitive word library =====
+  rpc CreateSensitiveWord(CreateSensitiveWordReq) returns (CreateSensitiveWordResp);
+  rpc ListSensitiveWords(ListSensitiveWordsReq) returns (ListSensitiveWordsResp);
+  rpc DeleteSensitiveWord(IdReq) returns (Empty);
+  rpc CheckText(CheckTextReq) returns (CheckTextResp);
 }
+
+message IdReq { int64 id = 1; }
+
+message SensitiveWord {
+  int64 id = 1;
+  string word = 2;
+  string category = 3;
+  string action = 4;
+  int32 status = 5;
+  int64 create_time = 6;
+}
+message CreateSensitiveWordReq { string word = 1; string category = 2; string action = 3; }
+message CreateSensitiveWordResp { int64 id = 1; }
+message ListSensitiveWordsReq { string category = 1; int32 page = 2; int32 page_size = 3; }
+message ListSensitiveWordsResp { repeated SensitiveWord words = 1; int64 total = 2; }
+message CheckTextReq { string text = 1; }
+message CheckTextResp { bool clean = 1; repeated SensitiveWord matches = 2; string verdict = 3; }

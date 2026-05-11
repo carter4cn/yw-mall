@@ -14,17 +14,37 @@ import (
 )
 
 type (
-	CreatePaymentReq        = payment.CreatePaymentReq
-	CreatePaymentResp       = payment.CreatePaymentResp
-	GetPaymentReq           = payment.GetPaymentReq
-	GetPaymentResp          = payment.GetPaymentResp
-	UpdatePaymentStatusReq  = payment.UpdatePaymentStatusReq
-	UpdatePaymentStatusResp = payment.UpdatePaymentStatusResp
+	AdminHandleWithdrawalReq = payment.AdminHandleWithdrawalReq
+	BillRecord               = payment.BillRecord
+	CreatePaymentReq         = payment.CreatePaymentReq
+	CreatePaymentResp        = payment.CreatePaymentResp
+	CreateWithdrawalReq      = payment.CreateWithdrawalReq
+	CreateWithdrawalResp     = payment.CreateWithdrawalResp
+	CreditWalletReq          = payment.CreditWalletReq
+	GetMerchantWalletReq     = payment.GetMerchantWalletReq
+	GetPaymentReq            = payment.GetPaymentReq
+	GetPaymentResp           = payment.GetPaymentResp
+	ListBillRecordsReq       = payment.ListBillRecordsReq
+	ListBillRecordsResp      = payment.ListBillRecordsResp
+	ListWithdrawalsReq       = payment.ListWithdrawalsReq
+	ListWithdrawalsResp      = payment.ListWithdrawalsResp
+	MerchantWallet           = payment.MerchantWallet
+	OkResp                   = payment.OkResp
+	UpdatePaymentStatusReq   = payment.UpdatePaymentStatusReq
+	UpdatePaymentStatusResp  = payment.UpdatePaymentStatusResp
+	WithdrawalInfo           = payment.WithdrawalInfo
 
 	Payment interface {
 		CreatePayment(ctx context.Context, in *CreatePaymentReq, opts ...grpc.CallOption) (*CreatePaymentResp, error)
 		GetPayment(ctx context.Context, in *GetPaymentReq, opts ...grpc.CallOption) (*GetPaymentResp, error)
 		UpdatePaymentStatus(ctx context.Context, in *UpdatePaymentStatusReq, opts ...grpc.CallOption) (*UpdatePaymentStatusResp, error)
+		// P1 merchant wallet
+		GetMerchantWallet(ctx context.Context, in *GetMerchantWalletReq, opts ...grpc.CallOption) (*MerchantWallet, error)
+		CreditWallet(ctx context.Context, in *CreditWalletReq, opts ...grpc.CallOption) (*OkResp, error)
+		CreateWithdrawal(ctx context.Context, in *CreateWithdrawalReq, opts ...grpc.CallOption) (*CreateWithdrawalResp, error)
+		ListWithdrawals(ctx context.Context, in *ListWithdrawalsReq, opts ...grpc.CallOption) (*ListWithdrawalsResp, error)
+		AdminHandleWithdrawal(ctx context.Context, in *AdminHandleWithdrawalReq, opts ...grpc.CallOption) (*OkResp, error)
+		ListBillRecords(ctx context.Context, in *ListBillRecordsReq, opts ...grpc.CallOption) (*ListBillRecordsResp, error)
 	}
 
 	defaultPayment struct {
@@ -51,4 +71,34 @@ func (m *defaultPayment) GetPayment(ctx context.Context, in *GetPaymentReq, opts
 func (m *defaultPayment) UpdatePaymentStatus(ctx context.Context, in *UpdatePaymentStatusReq, opts ...grpc.CallOption) (*UpdatePaymentStatusResp, error) {
 	client := payment.NewPaymentClient(m.cli.Conn())
 	return client.UpdatePaymentStatus(ctx, in, opts...)
+}
+
+func (m *defaultPayment) GetMerchantWallet(ctx context.Context, in *GetMerchantWalletReq, opts ...grpc.CallOption) (*MerchantWallet, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.GetMerchantWallet(ctx, in, opts...)
+}
+
+func (m *defaultPayment) CreditWallet(ctx context.Context, in *CreditWalletReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.CreditWallet(ctx, in, opts...)
+}
+
+func (m *defaultPayment) CreateWithdrawal(ctx context.Context, in *CreateWithdrawalReq, opts ...grpc.CallOption) (*CreateWithdrawalResp, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.CreateWithdrawal(ctx, in, opts...)
+}
+
+func (m *defaultPayment) ListWithdrawals(ctx context.Context, in *ListWithdrawalsReq, opts ...grpc.CallOption) (*ListWithdrawalsResp, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.ListWithdrawals(ctx, in, opts...)
+}
+
+func (m *defaultPayment) AdminHandleWithdrawal(ctx context.Context, in *AdminHandleWithdrawalReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.AdminHandleWithdrawal(ctx, in, opts...)
+}
+
+func (m *defaultPayment) ListBillRecords(ctx context.Context, in *ListBillRecordsReq, opts ...grpc.CallOption) (*ListBillRecordsResp, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.ListBillRecords(ctx, in, opts...)
 }

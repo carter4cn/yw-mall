@@ -11,3 +11,9 @@ Queues:
   seckill: 10
   coupon: 5
   default: 1
+
+# H-2 T+3 settlement
+OrderDSN: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_order?charset=utf8mb4&parseTime=true&loc=Local
+PaymentDSN: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_payment?charset=utf8mb4&parseTime=true&loc=Local
+SettlementDelaySec: 259200
+SettlementIntervalSec: 300

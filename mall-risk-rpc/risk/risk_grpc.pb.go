@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.19.4
-// source: risk.proto
+// source: risk/risk.proto
 
 package risk
 
@@ -19,14 +19,25 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Risk_IssueToken_FullMethodName          = "/risk.Risk/IssueToken"
-	Risk_VerifyToken_FullMethodName         = "/risk.Risk/VerifyToken"
-	Risk_CheckBlacklist_FullMethodName      = "/risk.Risk/CheckBlacklist"
-	Risk_AddToBlacklist_FullMethodName      = "/risk.Risk/AddToBlacklist"
-	Risk_RemoveFromBlacklist_FullMethodName = "/risk.Risk/RemoveFromBlacklist"
-	Risk_RateLimit_FullMethodName           = "/risk.Risk/RateLimit"
-	Risk_GetRiskScore_FullMethodName        = "/risk.Risk/GetRiskScore"
-	Risk_RecordEvent_FullMethodName         = "/risk.Risk/RecordEvent"
+	Risk_IssueToken_FullMethodName            = "/risk.Risk/IssueToken"
+	Risk_VerifyToken_FullMethodName           = "/risk.Risk/VerifyToken"
+	Risk_CheckBlacklist_FullMethodName        = "/risk.Risk/CheckBlacklist"
+	Risk_AddToBlacklist_FullMethodName        = "/risk.Risk/AddToBlacklist"
+	Risk_RemoveFromBlacklist_FullMethodName   = "/risk.Risk/RemoveFromBlacklist"
+	Risk_RateLimit_FullMethodName             = "/risk.Risk/RateLimit"
+	Risk_GetRiskScore_FullMethodName          = "/risk.Risk/GetRiskScore"
+	Risk_RecordEvent_FullMethodName           = "/risk.Risk/RecordEvent"
+	Risk_CreateComplaint_FullMethodName       = "/risk.Risk/CreateComplaint"
+	Risk_GetComplaint_FullMethodName          = "/risk.Risk/GetComplaint"
+	Risk_ListComplaints_FullMethodName        = "/risk.Risk/ListComplaints"
+	Risk_HandleComplaint_FullMethodName       = "/risk.Risk/HandleComplaint"
+	Risk_SetShopRestriction_FullMethodName    = "/risk.Risk/SetShopRestriction"
+	Risk_ListShopRestrictions_FullMethodName  = "/risk.Risk/ListShopRestrictions"
+	Risk_RemoveShopRestriction_FullMethodName = "/risk.Risk/RemoveShopRestriction"
+	Risk_CreateSensitiveWord_FullMethodName   = "/risk.Risk/CreateSensitiveWord"
+	Risk_ListSensitiveWords_FullMethodName    = "/risk.Risk/ListSensitiveWords"
+	Risk_DeleteSensitiveWord_FullMethodName   = "/risk.Risk/DeleteSensitiveWord"
+	Risk_CheckText_FullMethodName             = "/risk.Risk/CheckText"
 )
 
 // RiskClient is the client API for Risk service.
@@ -41,6 +52,19 @@ type RiskClient interface {
 	RateLimit(ctx context.Context, in *RateLimitReq, opts ...grpc.CallOption) (*RateLimitResp, error)
 	GetRiskScore(ctx context.Context, in *GetRiskScoreReq, opts ...grpc.CallOption) (*GetRiskScoreResp, error)
 	RecordEvent(ctx context.Context, in *RecordEventReq, opts ...grpc.CallOption) (*Empty, error)
+	// ===== P1 complaint & restriction =====
+	CreateComplaint(ctx context.Context, in *CreateComplaintReq, opts ...grpc.CallOption) (*CreateComplaintResp, error)
+	GetComplaint(ctx context.Context, in *GetComplaintReq, opts ...grpc.CallOption) (*ComplaintTicket, error)
+	ListComplaints(ctx context.Context, in *ListComplaintsReq, opts ...grpc.CallOption) (*ListComplaintsResp, error)
+	HandleComplaint(ctx context.Context, in *HandleComplaintReq, opts ...grpc.CallOption) (*Empty, error)
+	SetShopRestriction(ctx context.Context, in *SetShopRestrictionReq, opts ...grpc.CallOption) (*Empty, error)
+	ListShopRestrictions(ctx context.Context, in *ListShopRestrictionsReq, opts ...grpc.CallOption) (*ListShopRestrictionsResp, error)
+	RemoveShopRestriction(ctx context.Context, in *RemoveShopRestrictionReq, opts ...grpc.CallOption) (*Empty, error)
+	// ===== J-4 sensitive word library =====
+	CreateSensitiveWord(ctx context.Context, in *CreateSensitiveWordReq, opts ...grpc.CallOption) (*CreateSensitiveWordResp, error)
+	ListSensitiveWords(ctx context.Context, in *ListSensitiveWordsReq, opts ...grpc.CallOption) (*ListSensitiveWordsResp, error)
+	DeleteSensitiveWord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Empty, error)
+	CheckText(ctx context.Context, in *CheckTextReq, opts ...grpc.CallOption) (*CheckTextResp, error)
 }
 
 type riskClient struct {
@@ -131,6 +155,116 @@ func (c *riskClient) RecordEvent(ctx context.Context, in *RecordEventReq, opts .
 	return out, nil
 }
 
+func (c *riskClient) CreateComplaint(ctx context.Context, in *CreateComplaintReq, opts ...grpc.CallOption) (*CreateComplaintResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateComplaintResp)
+	err := c.cc.Invoke(ctx, Risk_CreateComplaint_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) GetComplaint(ctx context.Context, in *GetComplaintReq, opts ...grpc.CallOption) (*ComplaintTicket, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ComplaintTicket)
+	err := c.cc.Invoke(ctx, Risk_GetComplaint_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) ListComplaints(ctx context.Context, in *ListComplaintsReq, opts ...grpc.CallOption) (*ListComplaintsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListComplaintsResp)
+	err := c.cc.Invoke(ctx, Risk_ListComplaints_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) HandleComplaint(ctx context.Context, in *HandleComplaintReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, Risk_HandleComplaint_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) SetShopRestriction(ctx context.Context, in *SetShopRestrictionReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, Risk_SetShopRestriction_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) ListShopRestrictions(ctx context.Context, in *ListShopRestrictionsReq, opts ...grpc.CallOption) (*ListShopRestrictionsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListShopRestrictionsResp)
+	err := c.cc.Invoke(ctx, Risk_ListShopRestrictions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) RemoveShopRestriction(ctx context.Context, in *RemoveShopRestrictionReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, Risk_RemoveShopRestriction_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) CreateSensitiveWord(ctx context.Context, in *CreateSensitiveWordReq, opts ...grpc.CallOption) (*CreateSensitiveWordResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateSensitiveWordResp)
+	err := c.cc.Invoke(ctx, Risk_CreateSensitiveWord_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) ListSensitiveWords(ctx context.Context, in *ListSensitiveWordsReq, opts ...grpc.CallOption) (*ListSensitiveWordsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSensitiveWordsResp)
+	err := c.cc.Invoke(ctx, Risk_ListSensitiveWords_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) DeleteSensitiveWord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, Risk_DeleteSensitiveWord_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *riskClient) CheckText(ctx context.Context, in *CheckTextReq, opts ...grpc.CallOption) (*CheckTextResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CheckTextResp)
+	err := c.cc.Invoke(ctx, Risk_CheckText_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RiskServer is the server API for Risk service.
 // All implementations must embed UnimplementedRiskServer
 // for forward compatibility.
@@ -143,6 +277,19 @@ type RiskServer interface {
 	RateLimit(context.Context, *RateLimitReq) (*RateLimitResp, error)
 	GetRiskScore(context.Context, *GetRiskScoreReq) (*GetRiskScoreResp, error)
 	RecordEvent(context.Context, *RecordEventReq) (*Empty, error)
+	// ===== P1 complaint & restriction =====
+	CreateComplaint(context.Context, *CreateComplaintReq) (*CreateComplaintResp, error)
+	GetComplaint(context.Context, *GetComplaintReq) (*ComplaintTicket, error)
+	ListComplaints(context.Context, *ListComplaintsReq) (*ListComplaintsResp, error)
+	HandleComplaint(context.Context, *HandleComplaintReq) (*Empty, error)
+	SetShopRestriction(context.Context, *SetShopRestrictionReq) (*Empty, error)
+	ListShopRestrictions(context.Context, *ListShopRestrictionsReq) (*ListShopRestrictionsResp, error)
+	RemoveShopRestriction(context.Context, *RemoveShopRestrictionReq) (*Empty, error)
+	// ===== J-4 sensitive word library =====
+	CreateSensitiveWord(context.Context, *CreateSensitiveWordReq) (*CreateSensitiveWordResp, error)
+	ListSensitiveWords(context.Context, *ListSensitiveWordsReq) (*ListSensitiveWordsResp, error)
+	DeleteSensitiveWord(context.Context, *IdReq) (*Empty, error)
+	CheckText(context.Context, *CheckTextReq) (*CheckTextResp, error)
 	mustEmbedUnimplementedRiskServer()
 }
 
@@ -176,6 +323,39 @@ func (UnimplementedRiskServer) GetRiskScore(context.Context, *GetRiskScoreReq) (
 }
 func (UnimplementedRiskServer) RecordEvent(context.Context, *RecordEventReq) (*Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method RecordEvent not implemented")
+}
+func (UnimplementedRiskServer) CreateComplaint(context.Context, *CreateComplaintReq) (*CreateComplaintResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateComplaint not implemented")
+}
+func (UnimplementedRiskServer) GetComplaint(context.Context, *GetComplaintReq) (*ComplaintTicket, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetComplaint not implemented")
+}
+func (UnimplementedRiskServer) ListComplaints(context.Context, *ListComplaintsReq) (*ListComplaintsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListComplaints not implemented")
+}
+func (UnimplementedRiskServer) HandleComplaint(context.Context, *HandleComplaintReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method HandleComplaint not implemented")
+}
+func (UnimplementedRiskServer) SetShopRestriction(context.Context, *SetShopRestrictionReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method SetShopRestriction not implemented")
+}
+func (UnimplementedRiskServer) ListShopRestrictions(context.Context, *ListShopRestrictionsReq) (*ListShopRestrictionsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopRestrictions not implemented")
+}
+func (UnimplementedRiskServer) RemoveShopRestriction(context.Context, *RemoveShopRestrictionReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method RemoveShopRestriction not implemented")
+}
+func (UnimplementedRiskServer) CreateSensitiveWord(context.Context, *CreateSensitiveWordReq) (*CreateSensitiveWordResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateSensitiveWord not implemented")
+}
+func (UnimplementedRiskServer) ListSensitiveWords(context.Context, *ListSensitiveWordsReq) (*ListSensitiveWordsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListSensitiveWords not implemented")
+}
+func (UnimplementedRiskServer) DeleteSensitiveWord(context.Context, *IdReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteSensitiveWord not implemented")
+}
+func (UnimplementedRiskServer) CheckText(context.Context, *CheckTextReq) (*CheckTextResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CheckText not implemented")
 }
 func (UnimplementedRiskServer) mustEmbedUnimplementedRiskServer() {}
 func (UnimplementedRiskServer) testEmbeddedByValue()              {}
@@ -342,6 +522,204 @@ func _Risk_RecordEvent_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Risk_CreateComplaint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateComplaintReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).CreateComplaint(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_CreateComplaint_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).CreateComplaint(ctx, req.(*CreateComplaintReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_GetComplaint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetComplaintReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).GetComplaint(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_GetComplaint_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).GetComplaint(ctx, req.(*GetComplaintReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_ListComplaints_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListComplaintsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).ListComplaints(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_ListComplaints_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).ListComplaints(ctx, req.(*ListComplaintsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_HandleComplaint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HandleComplaintReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).HandleComplaint(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_HandleComplaint_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).HandleComplaint(ctx, req.(*HandleComplaintReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_SetShopRestriction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetShopRestrictionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).SetShopRestriction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_SetShopRestriction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).SetShopRestriction(ctx, req.(*SetShopRestrictionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_ListShopRestrictions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListShopRestrictionsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).ListShopRestrictions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_ListShopRestrictions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).ListShopRestrictions(ctx, req.(*ListShopRestrictionsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_RemoveShopRestriction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveShopRestrictionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).RemoveShopRestriction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_RemoveShopRestriction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).RemoveShopRestriction(ctx, req.(*RemoveShopRestrictionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_CreateSensitiveWord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSensitiveWordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).CreateSensitiveWord(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_CreateSensitiveWord_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).CreateSensitiveWord(ctx, req.(*CreateSensitiveWordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_ListSensitiveWords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSensitiveWordsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).ListSensitiveWords(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_ListSensitiveWords_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).ListSensitiveWords(ctx, req.(*ListSensitiveWordsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_DeleteSensitiveWord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).DeleteSensitiveWord(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_DeleteSensitiveWord_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).DeleteSensitiveWord(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Risk_CheckText_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckTextReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RiskServer).CheckText(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Risk_CheckText_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RiskServer).CheckText(ctx, req.(*CheckTextReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Risk_ServiceDesc is the grpc.ServiceDesc for Risk service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -381,7 +759,51 @@ var Risk_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "RecordEvent",
 			Handler:    _Risk_RecordEvent_Handler,
 		},
+		{
+			MethodName: "CreateComplaint",
+			Handler:    _Risk_CreateComplaint_Handler,
+		},
+		{
+			MethodName: "GetComplaint",
+			Handler:    _Risk_GetComplaint_Handler,
+		},
+		{
+			MethodName: "ListComplaints",
+			Handler:    _Risk_ListComplaints_Handler,
+		},
+		{
+			MethodName: "HandleComplaint",
+			Handler:    _Risk_HandleComplaint_Handler,
+		},
+		{
+			MethodName: "SetShopRestriction",
+			Handler:    _Risk_SetShopRestriction_Handler,
+		},
+		{
+			MethodName: "ListShopRestrictions",
+			Handler:    _Risk_ListShopRestrictions_Handler,
+		},
+		{
+			MethodName: "RemoveShopRestriction",
+			Handler:    _Risk_RemoveShopRestriction_Handler,
+		},
+		{
+			MethodName: "CreateSensitiveWord",
+			Handler:    _Risk_CreateSensitiveWord_Handler,
+		},
+		{
+			MethodName: "ListSensitiveWords",
+			Handler:    _Risk_ListSensitiveWords_Handler,
+		},
+		{
+			MethodName: "DeleteSensitiveWord",
+			Handler:    _Risk_DeleteSensitiveWord_Handler,
+		},
+		{
+			MethodName: "CheckText",
+			Handler:    _Risk_CheckText_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "risk.proto",
+	Metadata: "risk/risk.proto",
 }

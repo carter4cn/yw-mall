@@ -52,3 +52,28 @@ func (s *LogisticsServer) InjectTrack(ctx context.Context, in *logistics.InjectT
 	l := logic.NewInjectTrackLogic(ctx, s.svcCtx)
 	return l.InjectTrack(in)
 }
+
+func (s *LogisticsServer) CreateFreightTemplate(ctx context.Context, in *logistics.CreateFreightTemplateReq) (*logistics.CreateFreightTemplateResp, error) {
+	l := logic.NewCreateFreightTemplateLogic(ctx, s.svcCtx)
+	return l.CreateFreightTemplate(in)
+}
+
+func (s *LogisticsServer) ListFreightTemplates(ctx context.Context, in *logistics.ListFreightTemplatesReq) (*logistics.ListFreightTemplatesResp, error) {
+	l := logic.NewListFreightTemplatesLogic(ctx, s.svcCtx)
+	return l.ListFreightTemplates(in)
+}
+
+func (s *LogisticsServer) GetFreightTemplate(ctx context.Context, in *logistics.IdReq) (*logistics.FreightTemplate, error) {
+	l := logic.NewGetFreightTemplateLogic(ctx, s.svcCtx)
+	return l.GetFreightTemplate(in)
+}
+
+func (s *LogisticsServer) UpdateFreightTemplate(ctx context.Context, in *logistics.UpdateFreightTemplateReq) (*logistics.Empty, error) {
+	l := logic.NewUpdateFreightTemplateLogic(ctx, s.svcCtx)
+	return l.UpdateFreightTemplate(in)
+}
+
+func (s *LogisticsServer) DeleteFreightTemplate(ctx context.Context, in *logistics.IdReq) (*logistics.Empty, error) {
+	l := logic.NewDeleteFreightTemplateLogic(ctx, s.svcCtx)
+	return l.DeleteFreightTemplate(in)
+}

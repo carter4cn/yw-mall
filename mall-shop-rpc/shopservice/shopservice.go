@@ -14,22 +14,51 @@ import (
 )
 
 type (
-	CreateShopReq           = shop.CreateShopReq
-	CreateShopResp          = shop.CreateShopResp
-	FollowShopReq           = shop.FollowShopReq
-	GetShopReq              = shop.GetShopReq
-	GetShopResp             = shop.GetShopResp
-	IncrProductCountReq     = shop.IncrProductCountReq
-	IsFollowingReq          = shop.IsFollowingReq
-	IsFollowingResp         = shop.IsFollowingResp
-	ListFollowedShopsReq    = shop.ListFollowedShopsReq
-	ListRecommendedShopsReq = shop.ListRecommendedShopsReq
-	ListShopsReq            = shop.ListShopsReq
-	ListShopsResp           = shop.ListShopsResp
-	OkResp                  = shop.OkResp
-	Shop                    = shop.Shop
-	UnfollowShopReq         = shop.UnfollowShopReq
-	UpdateShopReq           = shop.UpdateShopReq
+	AdjustCreditScoreReq      = shop.AdjustCreditScoreReq
+	ApplyShopReq              = shop.ApplyShopReq
+	ApplyShopResp             = shop.ApplyShopResp
+	CreateShopReq             = shop.CreateShopReq
+	CreateShopResp            = shop.CreateShopResp
+	Empty                     = shop.Empty
+	FollowShopReq             = shop.FollowShopReq
+	GetMyLevelStatusReq       = shop.GetMyLevelStatusReq
+	GetShopApplicationReq     = shop.GetShopApplicationReq
+	GetShopByOwnerIdReq       = shop.GetShopByOwnerIdReq
+	GetShopReq                = shop.GetShopReq
+	GetShopResp               = shop.GetShopResp
+	IncrProductCountReq       = shop.IncrProductCountReq
+	IsFollowingReq            = shop.IsFollowingReq
+	IsFollowingResp           = shop.IsFollowingResp
+	ListFollowedShopsReq      = shop.ListFollowedShopsReq
+	ListLevelApplicationsReq  = shop.ListLevelApplicationsReq
+	ListLevelApplicationsResp = shop.ListLevelApplicationsResp
+	ListMyApplicationsReq     = shop.ListMyApplicationsReq
+	ListRecommendedShopsReq   = shop.ListRecommendedShopsReq
+	ListShopApplicationsReq   = shop.ListShopApplicationsReq
+	ListShopApplicationsResp  = shop.ListShopApplicationsResp
+	ListShopLevelsResp        = shop.ListShopLevelsResp
+	ListShopsReq              = shop.ListShopsReq
+	ListShopsResp             = shop.ListShopsResp
+	MyLevelStatus             = shop.MyLevelStatus
+	OkResp                    = shop.OkResp
+	ReviewLevelApplicationReq = shop.ReviewLevelApplicationReq
+	ReviewShopApplicationReq  = shop.ReviewShopApplicationReq
+	ReviewShopLifecycleRequestReq = shop.ReviewShopLifecycleRequestReq
+	Shop                      = shop.Shop
+	ShopApplication           = shop.ShopApplication
+	ShopDetailResp            = shop.ShopDetailResp
+	ShopLevelApplication      = shop.ShopLevelApplication
+	ShopLevelTemplate         = shop.ShopLevelTemplate
+	ShopLifecycleRequest      = shop.ShopLifecycleRequest
+	ListShopLifecycleRequestsReq  = shop.ListShopLifecycleRequestsReq
+	ListShopLifecycleRequestsResp = shop.ListShopLifecycleRequestsResp
+	SubmitLevelApplicationReq  = shop.SubmitLevelApplicationReq
+	SubmitLevelApplicationResp = shop.SubmitLevelApplicationResp
+	SubmitShopLifecycleRequestReq  = shop.SubmitShopLifecycleRequestReq
+	SubmitShopLifecycleRequestResp = shop.SubmitShopLifecycleRequestResp
+	UnfollowShopReq           = shop.UnfollowShopReq
+	UpdateShopReq             = shop.UpdateShopReq
+	UpdateShopStatusReq       = shop.UpdateShopStatusReq
 
 	ShopService interface {
 		GetShop(ctx context.Context, in *GetShopReq, opts ...grpc.CallOption) (*GetShopResp, error)
@@ -42,6 +71,22 @@ type (
 		CreateShop(ctx context.Context, in *CreateShopReq, opts ...grpc.CallOption) (*CreateShopResp, error)
 		UpdateShop(ctx context.Context, in *UpdateShopReq, opts ...grpc.CallOption) (*OkResp, error)
 		IncrProductCount(ctx context.Context, in *IncrProductCountReq, opts ...grpc.CallOption) (*OkResp, error)
+		ApplyShop(ctx context.Context, in *ApplyShopReq, opts ...grpc.CallOption) (*ApplyShopResp, error)
+		GetShopApplication(ctx context.Context, in *GetShopApplicationReq, opts ...grpc.CallOption) (*ShopApplication, error)
+		ListShopApplications(ctx context.Context, in *ListShopApplicationsReq, opts ...grpc.CallOption) (*ListShopApplicationsResp, error)
+		ReviewShopApplication(ctx context.Context, in *ReviewShopApplicationReq, opts ...grpc.CallOption) (*OkResp, error)
+		GetShopByOwnerId(ctx context.Context, in *GetShopByOwnerIdReq, opts ...grpc.CallOption) (*ShopDetailResp, error)
+		UpdateShopStatus(ctx context.Context, in *UpdateShopStatusReq, opts ...grpc.CallOption) (*OkResp, error)
+		AdjustCreditScore(ctx context.Context, in *AdjustCreditScoreReq, opts ...grpc.CallOption) (*OkResp, error)
+		ListMyApplications(ctx context.Context, in *ListMyApplicationsReq, opts ...grpc.CallOption) (*ListShopApplicationsResp, error)
+		ListShopLevels(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListShopLevelsResp, error)
+		GetMyLevelStatus(ctx context.Context, in *GetMyLevelStatusReq, opts ...grpc.CallOption) (*MyLevelStatus, error)
+		SubmitLevelApplication(ctx context.Context, in *SubmitLevelApplicationReq, opts ...grpc.CallOption) (*SubmitLevelApplicationResp, error)
+		ListLevelApplications(ctx context.Context, in *ListLevelApplicationsReq, opts ...grpc.CallOption) (*ListLevelApplicationsResp, error)
+		ReviewLevelApplication(ctx context.Context, in *ReviewLevelApplicationReq, opts ...grpc.CallOption) (*OkResp, error)
+		SubmitShopLifecycleRequest(ctx context.Context, in *SubmitShopLifecycleRequestReq, opts ...grpc.CallOption) (*SubmitShopLifecycleRequestResp, error)
+		ListShopLifecycleRequests(ctx context.Context, in *ListShopLifecycleRequestsReq, opts ...grpc.CallOption) (*ListShopLifecycleRequestsResp, error)
+		ReviewShopLifecycleRequest(ctx context.Context, in *ReviewShopLifecycleRequestReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultShopService struct {
@@ -103,4 +148,84 @@ func (m *defaultShopService) UpdateShop(ctx context.Context, in *UpdateShopReq, 
 func (m *defaultShopService) IncrProductCount(ctx context.Context, in *IncrProductCountReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := shop.NewShopServiceClient(m.cli.Conn())
 	return client.IncrProductCount(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ApplyShop(ctx context.Context, in *ApplyShopReq, opts ...grpc.CallOption) (*ApplyShopResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ApplyShop(ctx, in, opts...)
+}
+
+func (m *defaultShopService) GetShopApplication(ctx context.Context, in *GetShopApplicationReq, opts ...grpc.CallOption) (*ShopApplication, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.GetShopApplication(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ListShopApplications(ctx context.Context, in *ListShopApplicationsReq, opts ...grpc.CallOption) (*ListShopApplicationsResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ListShopApplications(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ReviewShopApplication(ctx context.Context, in *ReviewShopApplicationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ReviewShopApplication(ctx, in, opts...)
+}
+
+func (m *defaultShopService) GetShopByOwnerId(ctx context.Context, in *GetShopByOwnerIdReq, opts ...grpc.CallOption) (*ShopDetailResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.GetShopByOwnerId(ctx, in, opts...)
+}
+
+func (m *defaultShopService) UpdateShopStatus(ctx context.Context, in *UpdateShopStatusReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.UpdateShopStatus(ctx, in, opts...)
+}
+
+func (m *defaultShopService) AdjustCreditScore(ctx context.Context, in *AdjustCreditScoreReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.AdjustCreditScore(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ListMyApplications(ctx context.Context, in *ListMyApplicationsReq, opts ...grpc.CallOption) (*ListShopApplicationsResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ListMyApplications(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ListShopLevels(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ListShopLevelsResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ListShopLevels(ctx, in, opts...)
+}
+
+func (m *defaultShopService) GetMyLevelStatus(ctx context.Context, in *GetMyLevelStatusReq, opts ...grpc.CallOption) (*MyLevelStatus, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.GetMyLevelStatus(ctx, in, opts...)
+}
+
+func (m *defaultShopService) SubmitLevelApplication(ctx context.Context, in *SubmitLevelApplicationReq, opts ...grpc.CallOption) (*SubmitLevelApplicationResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.SubmitLevelApplication(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ListLevelApplications(ctx context.Context, in *ListLevelApplicationsReq, opts ...grpc.CallOption) (*ListLevelApplicationsResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ListLevelApplications(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ReviewLevelApplication(ctx context.Context, in *ReviewLevelApplicationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ReviewLevelApplication(ctx, in, opts...)
+}
+
+func (m *defaultShopService) SubmitShopLifecycleRequest(ctx context.Context, in *SubmitShopLifecycleRequestReq, opts ...grpc.CallOption) (*SubmitShopLifecycleRequestResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.SubmitShopLifecycleRequest(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ListShopLifecycleRequests(ctx context.Context, in *ListShopLifecycleRequestsReq, opts ...grpc.CallOption) (*ListShopLifecycleRequestsResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ListShopLifecycleRequests(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ReviewShopLifecycleRequest(ctx context.Context, in *ReviewShopLifecycleRequestReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ReviewShopLifecycleRequest(ctx, in, opts...)
 }
