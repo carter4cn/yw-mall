@@ -62,3 +62,25 @@ func (s *RuleServer) EvaluateRuleSet(ctx context.Context, in *rule.EvaluateRuleS
 	l := logic.NewEvaluateRuleSetLogic(ctx, s.svcCtx)
 	return l.EvaluateRuleSet(in)
 }
+
+// ===== P1 low-code =====
+
+func (s *RuleServer) GetRuleSet(ctx context.Context, in *rule.GetRuleSetReq) (*rule.RuleSet, error) {
+	l := logic.NewGetRuleSetLogic(ctx, s.svcCtx)
+	return l.GetRuleSet(in)
+}
+
+func (s *RuleServer) ListRuleSets(ctx context.Context, in *rule.ListRuleSetsReq) (*rule.ListRuleSetsResp, error) {
+	l := logic.NewListRuleSetsLogic(ctx, s.svcCtx)
+	return l.ListRuleSets(in)
+}
+
+func (s *RuleServer) ValidateExpression(ctx context.Context, in *rule.ValidateExpressionReq) (*rule.ValidateExpressionResp, error) {
+	l := logic.NewValidateExpressionLogic(ctx, s.svcCtx)
+	return l.ValidateExpression(in)
+}
+
+func (s *RuleServer) CreateActivityRule(ctx context.Context, in *rule.CreateActivityRuleReq) (*rule.CreateActivityRuleResp, error) {
+	l := logic.NewCreateActivityRuleLogic(ctx, s.svcCtx)
+	return l.CreateActivityRule(in)
+}

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.19.4
-// source: rule.proto
+// source: rule/rule.proto
 
 package rule
 
@@ -19,14 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Rule_CreateRule_FullMethodName      = "/rule.Rule/CreateRule"
-	Rule_UpdateRule_FullMethodName      = "/rule.Rule/UpdateRule"
-	Rule_GetRule_FullMethodName         = "/rule.Rule/GetRule"
-	Rule_ListRules_FullMethodName       = "/rule.Rule/ListRules"
-	Rule_Evaluate_FullMethodName        = "/rule.Rule/Evaluate"
-	Rule_BatchEvaluate_FullMethodName   = "/rule.Rule/BatchEvaluate"
-	Rule_CreateRuleSet_FullMethodName   = "/rule.Rule/CreateRuleSet"
-	Rule_EvaluateRuleSet_FullMethodName = "/rule.Rule/EvaluateRuleSet"
+	Rule_CreateRule_FullMethodName         = "/rule.Rule/CreateRule"
+	Rule_UpdateRule_FullMethodName         = "/rule.Rule/UpdateRule"
+	Rule_GetRule_FullMethodName            = "/rule.Rule/GetRule"
+	Rule_ListRules_FullMethodName          = "/rule.Rule/ListRules"
+	Rule_Evaluate_FullMethodName           = "/rule.Rule/Evaluate"
+	Rule_BatchEvaluate_FullMethodName      = "/rule.Rule/BatchEvaluate"
+	Rule_CreateRuleSet_FullMethodName      = "/rule.Rule/CreateRuleSet"
+	Rule_EvaluateRuleSet_FullMethodName    = "/rule.Rule/EvaluateRuleSet"
+	Rule_GetRuleSet_FullMethodName         = "/rule.Rule/GetRuleSet"
+	Rule_ListRuleSets_FullMethodName       = "/rule.Rule/ListRuleSets"
+	Rule_ValidateExpression_FullMethodName = "/rule.Rule/ValidateExpression"
+	Rule_CreateActivityRule_FullMethodName = "/rule.Rule/CreateActivityRule"
 )
 
 // RuleClient is the client API for Rule service.
@@ -41,6 +45,11 @@ type RuleClient interface {
 	BatchEvaluate(ctx context.Context, in *BatchEvaluateReq, opts ...grpc.CallOption) (*BatchEvaluateResp, error)
 	CreateRuleSet(ctx context.Context, in *CreateRuleSetReq, opts ...grpc.CallOption) (*CreateRuleSetResp, error)
 	EvaluateRuleSet(ctx context.Context, in *EvaluateRuleSetReq, opts ...grpc.CallOption) (*EvaluateRuleSetResp, error)
+	// ===== P1 low-code =====
+	GetRuleSet(ctx context.Context, in *GetRuleSetReq, opts ...grpc.CallOption) (*RuleSet, error)
+	ListRuleSets(ctx context.Context, in *ListRuleSetsReq, opts ...grpc.CallOption) (*ListRuleSetsResp, error)
+	ValidateExpression(ctx context.Context, in *ValidateExpressionReq, opts ...grpc.CallOption) (*ValidateExpressionResp, error)
+	CreateActivityRule(ctx context.Context, in *CreateActivityRuleReq, opts ...grpc.CallOption) (*CreateActivityRuleResp, error)
 }
 
 type ruleClient struct {
@@ -131,6 +140,46 @@ func (c *ruleClient) EvaluateRuleSet(ctx context.Context, in *EvaluateRuleSetReq
 	return out, nil
 }
 
+func (c *ruleClient) GetRuleSet(ctx context.Context, in *GetRuleSetReq, opts ...grpc.CallOption) (*RuleSet, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RuleSet)
+	err := c.cc.Invoke(ctx, Rule_GetRuleSet_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ruleClient) ListRuleSets(ctx context.Context, in *ListRuleSetsReq, opts ...grpc.CallOption) (*ListRuleSetsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListRuleSetsResp)
+	err := c.cc.Invoke(ctx, Rule_ListRuleSets_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ruleClient) ValidateExpression(ctx context.Context, in *ValidateExpressionReq, opts ...grpc.CallOption) (*ValidateExpressionResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ValidateExpressionResp)
+	err := c.cc.Invoke(ctx, Rule_ValidateExpression_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ruleClient) CreateActivityRule(ctx context.Context, in *CreateActivityRuleReq, opts ...grpc.CallOption) (*CreateActivityRuleResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateActivityRuleResp)
+	err := c.cc.Invoke(ctx, Rule_CreateActivityRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RuleServer is the server API for Rule service.
 // All implementations must embed UnimplementedRuleServer
 // for forward compatibility.
@@ -143,6 +192,11 @@ type RuleServer interface {
 	BatchEvaluate(context.Context, *BatchEvaluateReq) (*BatchEvaluateResp, error)
 	CreateRuleSet(context.Context, *CreateRuleSetReq) (*CreateRuleSetResp, error)
 	EvaluateRuleSet(context.Context, *EvaluateRuleSetReq) (*EvaluateRuleSetResp, error)
+	// ===== P1 low-code =====
+	GetRuleSet(context.Context, *GetRuleSetReq) (*RuleSet, error)
+	ListRuleSets(context.Context, *ListRuleSetsReq) (*ListRuleSetsResp, error)
+	ValidateExpression(context.Context, *ValidateExpressionReq) (*ValidateExpressionResp, error)
+	CreateActivityRule(context.Context, *CreateActivityRuleReq) (*CreateActivityRuleResp, error)
 	mustEmbedUnimplementedRuleServer()
 }
 
@@ -176,6 +230,18 @@ func (UnimplementedRuleServer) CreateRuleSet(context.Context, *CreateRuleSetReq)
 }
 func (UnimplementedRuleServer) EvaluateRuleSet(context.Context, *EvaluateRuleSetReq) (*EvaluateRuleSetResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method EvaluateRuleSet not implemented")
+}
+func (UnimplementedRuleServer) GetRuleSet(context.Context, *GetRuleSetReq) (*RuleSet, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetRuleSet not implemented")
+}
+func (UnimplementedRuleServer) ListRuleSets(context.Context, *ListRuleSetsReq) (*ListRuleSetsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListRuleSets not implemented")
+}
+func (UnimplementedRuleServer) ValidateExpression(context.Context, *ValidateExpressionReq) (*ValidateExpressionResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ValidateExpression not implemented")
+}
+func (UnimplementedRuleServer) CreateActivityRule(context.Context, *CreateActivityRuleReq) (*CreateActivityRuleResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateActivityRule not implemented")
 }
 func (UnimplementedRuleServer) mustEmbedUnimplementedRuleServer() {}
 func (UnimplementedRuleServer) testEmbeddedByValue()              {}
@@ -342,6 +408,78 @@ func _Rule_EvaluateRuleSet_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Rule_GetRuleSet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRuleSetReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RuleServer).GetRuleSet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Rule_GetRuleSet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RuleServer).GetRuleSet(ctx, req.(*GetRuleSetReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Rule_ListRuleSets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRuleSetsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RuleServer).ListRuleSets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Rule_ListRuleSets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RuleServer).ListRuleSets(ctx, req.(*ListRuleSetsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Rule_ValidateExpression_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateExpressionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RuleServer).ValidateExpression(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Rule_ValidateExpression_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RuleServer).ValidateExpression(ctx, req.(*ValidateExpressionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Rule_CreateActivityRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateActivityRuleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RuleServer).CreateActivityRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Rule_CreateActivityRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RuleServer).CreateActivityRule(ctx, req.(*CreateActivityRuleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Rule_ServiceDesc is the grpc.ServiceDesc for Rule service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -381,7 +519,23 @@ var Rule_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "EvaluateRuleSet",
 			Handler:    _Rule_EvaluateRuleSet_Handler,
 		},
+		{
+			MethodName: "GetRuleSet",
+			Handler:    _Rule_GetRuleSet_Handler,
+		},
+		{
+			MethodName: "ListRuleSets",
+			Handler:    _Rule_ListRuleSets_Handler,
+		},
+		{
+			MethodName: "ValidateExpression",
+			Handler:    _Rule_ValidateExpression_Handler,
+		},
+		{
+			MethodName: "CreateActivityRule",
+			Handler:    _Rule_CreateActivityRule_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "rule.proto",
+	Metadata: "rule/rule.proto",
 }

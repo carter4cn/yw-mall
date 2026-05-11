@@ -13,6 +13,11 @@ service Review {
   rpc GetProductRatingSummary(GetProductRatingSummaryReq) returns (RatingSummary);
   rpc ReplyReview(ReplyReviewReq) returns (Empty);
   rpc SoftDeleteReview(SoftDeleteReviewReq) returns (Empty);
+  // ===== P1 admin =====
+  rpc ListShopReviews(ListShopReviewsReq) returns (ListProductReviewsResp);
+  rpc RequestDeleteReview(RequestDeleteReviewReq) returns (OkResp);
+  rpc ListDeleteRequests(ListDeleteRequestsReq) returns (ListDeleteRequestsResp);
+  rpc AdminHandleDeleteRequest(AdminHandleDeleteRequestReq) returns (OkResp);
 }
 
 message Empty {}
@@ -108,4 +113,49 @@ message ReplyReviewReq {
 
 message SoftDeleteReviewReq {
   int64 review_id = 1;
+}
+
+// ===== P1 admin =====
+message OkResp { bool ok = 1; }
+
+message ListShopReviewsReq {
+  int64 shop_id = 1;
+  int32 score = 2;    // 0=all
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message ReviewDeleteRequest {
+  int64 id = 1;
+  int64 review_id = 2;
+  int64 shop_id = 3;
+  string reason = 4;
+  int32 status = 5;
+  string admin_remark = 6;
+  int64 admin_id = 7;
+  int64 create_time = 8;
+}
+
+message RequestDeleteReviewReq {
+  int64 review_id = 1;
+  int64 shop_id = 2;
+  string reason = 3;
+}
+
+message ListDeleteRequestsReq {
+  int32 status = 1;  // -1=all
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ListDeleteRequestsResp {
+  repeated ReviewDeleteRequest requests = 1;
+  int64 total = 2;
+}
+
+message AdminHandleDeleteRequestReq {
+  int64 request_id = 1;
+  int64 admin_id = 2;
+  int32 action = 3;  // 1=approve(delete review), 2=reject
+  string remark = 4;
 }

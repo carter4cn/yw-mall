@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.19.4
-// source: review.proto
+// source: review/review.proto
 
 package review
 
@@ -19,14 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Review_SubmitReview_FullMethodName            = "/review.Review/SubmitReview"
-	Review_SubmitFollowup_FullMethodName          = "/review.Review/SubmitFollowup"
-	Review_GetReview_FullMethodName               = "/review.Review/GetReview"
-	Review_ListProductReviews_FullMethodName      = "/review.Review/ListProductReviews"
-	Review_ListUserReviews_FullMethodName         = "/review.Review/ListUserReviews"
-	Review_GetProductRatingSummary_FullMethodName = "/review.Review/GetProductRatingSummary"
-	Review_ReplyReview_FullMethodName             = "/review.Review/ReplyReview"
-	Review_SoftDeleteReview_FullMethodName        = "/review.Review/SoftDeleteReview"
+	Review_SubmitReview_FullMethodName             = "/review.Review/SubmitReview"
+	Review_SubmitFollowup_FullMethodName           = "/review.Review/SubmitFollowup"
+	Review_GetReview_FullMethodName                = "/review.Review/GetReview"
+	Review_ListProductReviews_FullMethodName       = "/review.Review/ListProductReviews"
+	Review_ListUserReviews_FullMethodName          = "/review.Review/ListUserReviews"
+	Review_GetProductRatingSummary_FullMethodName  = "/review.Review/GetProductRatingSummary"
+	Review_ReplyReview_FullMethodName              = "/review.Review/ReplyReview"
+	Review_SoftDeleteReview_FullMethodName         = "/review.Review/SoftDeleteReview"
+	Review_ListShopReviews_FullMethodName          = "/review.Review/ListShopReviews"
+	Review_RequestDeleteReview_FullMethodName      = "/review.Review/RequestDeleteReview"
+	Review_ListDeleteRequests_FullMethodName       = "/review.Review/ListDeleteRequests"
+	Review_AdminHandleDeleteRequest_FullMethodName = "/review.Review/AdminHandleDeleteRequest"
 )
 
 // ReviewClient is the client API for Review service.
@@ -41,6 +45,11 @@ type ReviewClient interface {
 	GetProductRatingSummary(ctx context.Context, in *GetProductRatingSummaryReq, opts ...grpc.CallOption) (*RatingSummary, error)
 	ReplyReview(ctx context.Context, in *ReplyReviewReq, opts ...grpc.CallOption) (*Empty, error)
 	SoftDeleteReview(ctx context.Context, in *SoftDeleteReviewReq, opts ...grpc.CallOption) (*Empty, error)
+	// ===== P1 admin =====
+	ListShopReviews(ctx context.Context, in *ListShopReviewsReq, opts ...grpc.CallOption) (*ListProductReviewsResp, error)
+	RequestDeleteReview(ctx context.Context, in *RequestDeleteReviewReq, opts ...grpc.CallOption) (*OkResp, error)
+	ListDeleteRequests(ctx context.Context, in *ListDeleteRequestsReq, opts ...grpc.CallOption) (*ListDeleteRequestsResp, error)
+	AdminHandleDeleteRequest(ctx context.Context, in *AdminHandleDeleteRequestReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type reviewClient struct {
@@ -131,6 +140,46 @@ func (c *reviewClient) SoftDeleteReview(ctx context.Context, in *SoftDeleteRevie
 	return out, nil
 }
 
+func (c *reviewClient) ListShopReviews(ctx context.Context, in *ListShopReviewsReq, opts ...grpc.CallOption) (*ListProductReviewsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListProductReviewsResp)
+	err := c.cc.Invoke(ctx, Review_ListShopReviews_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reviewClient) RequestDeleteReview(ctx context.Context, in *RequestDeleteReviewReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Review_RequestDeleteReview_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reviewClient) ListDeleteRequests(ctx context.Context, in *ListDeleteRequestsReq, opts ...grpc.CallOption) (*ListDeleteRequestsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListDeleteRequestsResp)
+	err := c.cc.Invoke(ctx, Review_ListDeleteRequests_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reviewClient) AdminHandleDeleteRequest(ctx context.Context, in *AdminHandleDeleteRequestReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Review_AdminHandleDeleteRequest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReviewServer is the server API for Review service.
 // All implementations must embed UnimplementedReviewServer
 // for forward compatibility.
@@ -143,6 +192,11 @@ type ReviewServer interface {
 	GetProductRatingSummary(context.Context, *GetProductRatingSummaryReq) (*RatingSummary, error)
 	ReplyReview(context.Context, *ReplyReviewReq) (*Empty, error)
 	SoftDeleteReview(context.Context, *SoftDeleteReviewReq) (*Empty, error)
+	// ===== P1 admin =====
+	ListShopReviews(context.Context, *ListShopReviewsReq) (*ListProductReviewsResp, error)
+	RequestDeleteReview(context.Context, *RequestDeleteReviewReq) (*OkResp, error)
+	ListDeleteRequests(context.Context, *ListDeleteRequestsReq) (*ListDeleteRequestsResp, error)
+	AdminHandleDeleteRequest(context.Context, *AdminHandleDeleteRequestReq) (*OkResp, error)
 	mustEmbedUnimplementedReviewServer()
 }
 
@@ -176,6 +230,18 @@ func (UnimplementedReviewServer) ReplyReview(context.Context, *ReplyReviewReq) (
 }
 func (UnimplementedReviewServer) SoftDeleteReview(context.Context, *SoftDeleteReviewReq) (*Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method SoftDeleteReview not implemented")
+}
+func (UnimplementedReviewServer) ListShopReviews(context.Context, *ListShopReviewsReq) (*ListProductReviewsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopReviews not implemented")
+}
+func (UnimplementedReviewServer) RequestDeleteReview(context.Context, *RequestDeleteReviewReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method RequestDeleteReview not implemented")
+}
+func (UnimplementedReviewServer) ListDeleteRequests(context.Context, *ListDeleteRequestsReq) (*ListDeleteRequestsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListDeleteRequests not implemented")
+}
+func (UnimplementedReviewServer) AdminHandleDeleteRequest(context.Context, *AdminHandleDeleteRequestReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method AdminHandleDeleteRequest not implemented")
 }
 func (UnimplementedReviewServer) mustEmbedUnimplementedReviewServer() {}
 func (UnimplementedReviewServer) testEmbeddedByValue()                {}
@@ -342,6 +408,78 @@ func _Review_SoftDeleteReview_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Review_ListShopReviews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListShopReviewsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServer).ListShopReviews(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Review_ListShopReviews_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServer).ListShopReviews(ctx, req.(*ListShopReviewsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Review_RequestDeleteReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestDeleteReviewReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServer).RequestDeleteReview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Review_RequestDeleteReview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServer).RequestDeleteReview(ctx, req.(*RequestDeleteReviewReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Review_ListDeleteRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListDeleteRequestsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServer).ListDeleteRequests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Review_ListDeleteRequests_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServer).ListDeleteRequests(ctx, req.(*ListDeleteRequestsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Review_AdminHandleDeleteRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminHandleDeleteRequestReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServer).AdminHandleDeleteRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Review_AdminHandleDeleteRequest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServer).AdminHandleDeleteRequest(ctx, req.(*AdminHandleDeleteRequestReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Review_ServiceDesc is the grpc.ServiceDesc for Review service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -381,7 +519,23 @@ var Review_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SoftDeleteReview",
 			Handler:    _Review_SoftDeleteReview_Handler,
 		},
+		{
+			MethodName: "ListShopReviews",
+			Handler:    _Review_ListShopReviews_Handler,
+		},
+		{
+			MethodName: "RequestDeleteReview",
+			Handler:    _Review_RequestDeleteReview_Handler,
+		},
+		{
+			MethodName: "ListDeleteRequests",
+			Handler:    _Review_ListDeleteRequests_Handler,
+		},
+		{
+			MethodName: "AdminHandleDeleteRequest",
+			Handler:    _Review_AdminHandleDeleteRequest_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "review.proto",
+	Metadata: "review/review.proto",
 }

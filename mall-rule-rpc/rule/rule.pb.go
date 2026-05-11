@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.19.4
-// source: rule.proto
+// source: rule/rule.proto
 
 package rule
 
@@ -29,7 +29,7 @@ type Empty struct {
 
 func (x *Empty) Reset() {
 	*x = Empty{}
-	mi := &file_rule_proto_msgTypes[0]
+	mi := &file_rule_rule_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -41,7 +41,7 @@ func (x *Empty) String() string {
 func (*Empty) ProtoMessage() {}
 
 func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[0]
+	mi := &file_rule_rule_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -54,7 +54,7 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Empty.ProtoReflect.Descriptor instead.
 func (*Empty) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{0}
+	return file_rule_rule_proto_rawDescGZIP(), []int{0}
 }
 
 type IdReq struct {
@@ -66,7 +66,7 @@ type IdReq struct {
 
 func (x *IdReq) Reset() {
 	*x = IdReq{}
-	mi := &file_rule_proto_msgTypes[1]
+	mi := &file_rule_rule_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -78,7 +78,7 @@ func (x *IdReq) String() string {
 func (*IdReq) ProtoMessage() {}
 
 func (x *IdReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[1]
+	mi := &file_rule_rule_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -91,7 +91,7 @@ func (x *IdReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IdReq.ProtoReflect.Descriptor instead.
 func (*IdReq) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{1}
+	return file_rule_rule_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *IdReq) GetId() int64 {
@@ -120,7 +120,7 @@ type RuleInfo struct {
 
 func (x *RuleInfo) Reset() {
 	*x = RuleInfo{}
-	mi := &file_rule_proto_msgTypes[2]
+	mi := &file_rule_rule_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -132,7 +132,7 @@ func (x *RuleInfo) String() string {
 func (*RuleInfo) ProtoMessage() {}
 
 func (x *RuleInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[2]
+	mi := &file_rule_rule_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -145,7 +145,7 @@ func (x *RuleInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RuleInfo.ProtoReflect.Descriptor instead.
 func (*RuleInfo) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{2}
+	return file_rule_rule_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *RuleInfo) GetId() int64 {
@@ -232,7 +232,7 @@ type RuleSet struct {
 
 func (x *RuleSet) Reset() {
 	*x = RuleSet{}
-	mi := &file_rule_proto_msgTypes[3]
+	mi := &file_rule_rule_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -244,7 +244,7 @@ func (x *RuleSet) String() string {
 func (*RuleSet) ProtoMessage() {}
 
 func (x *RuleSet) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[3]
+	mi := &file_rule_rule_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -257,7 +257,7 @@ func (x *RuleSet) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RuleSet.ProtoReflect.Descriptor instead.
 func (*RuleSet) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{3}
+	return file_rule_rule_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RuleSet) GetId() int64 {
@@ -315,7 +315,7 @@ type RuleContext struct {
 
 func (x *RuleContext) Reset() {
 	*x = RuleContext{}
-	mi := &file_rule_proto_msgTypes[4]
+	mi := &file_rule_rule_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -327,7 +327,7 @@ func (x *RuleContext) String() string {
 func (*RuleContext) ProtoMessage() {}
 
 func (x *RuleContext) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[4]
+	mi := &file_rule_rule_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -340,7 +340,7 @@ func (x *RuleContext) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RuleContext.ProtoReflect.Descriptor instead.
 func (*RuleContext) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{4}
+	return file_rule_rule_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *RuleContext) GetUserId() int64 {
@@ -439,7 +439,7 @@ type CreateRuleReq struct {
 
 func (x *CreateRuleReq) Reset() {
 	*x = CreateRuleReq{}
-	mi := &file_rule_proto_msgTypes[5]
+	mi := &file_rule_rule_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -451,7 +451,7 @@ func (x *CreateRuleReq) String() string {
 func (*CreateRuleReq) ProtoMessage() {}
 
 func (x *CreateRuleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[5]
+	mi := &file_rule_rule_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -464,7 +464,7 @@ func (x *CreateRuleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRuleReq.ProtoReflect.Descriptor instead.
 func (*CreateRuleReq) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{5}
+	return file_rule_rule_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateRuleReq) GetCode() string {
@@ -504,7 +504,7 @@ type CreateRuleResp struct {
 
 func (x *CreateRuleResp) Reset() {
 	*x = CreateRuleResp{}
-	mi := &file_rule_proto_msgTypes[6]
+	mi := &file_rule_rule_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -516,7 +516,7 @@ func (x *CreateRuleResp) String() string {
 func (*CreateRuleResp) ProtoMessage() {}
 
 func (x *CreateRuleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[6]
+	mi := &file_rule_rule_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -529,7 +529,7 @@ func (x *CreateRuleResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRuleResp.ProtoReflect.Descriptor instead.
 func (*CreateRuleResp) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{6}
+	return file_rule_rule_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateRuleResp) GetId() int64 {
@@ -551,7 +551,7 @@ type UpdateRuleReq struct {
 
 func (x *UpdateRuleReq) Reset() {
 	*x = UpdateRuleReq{}
-	mi := &file_rule_proto_msgTypes[7]
+	mi := &file_rule_rule_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -563,7 +563,7 @@ func (x *UpdateRuleReq) String() string {
 func (*UpdateRuleReq) ProtoMessage() {}
 
 func (x *UpdateRuleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[7]
+	mi := &file_rule_rule_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -576,7 +576,7 @@ func (x *UpdateRuleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRuleReq.ProtoReflect.Descriptor instead.
 func (*UpdateRuleReq) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{7}
+	return file_rule_rule_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateRuleReq) GetId() int64 {
@@ -617,7 +617,7 @@ type ListRulesReq struct {
 
 func (x *ListRulesReq) Reset() {
 	*x = ListRulesReq{}
-	mi := &file_rule_proto_msgTypes[8]
+	mi := &file_rule_rule_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -629,7 +629,7 @@ func (x *ListRulesReq) String() string {
 func (*ListRulesReq) ProtoMessage() {}
 
 func (x *ListRulesReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[8]
+	mi := &file_rule_rule_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -642,7 +642,7 @@ func (x *ListRulesReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRulesReq.ProtoReflect.Descriptor instead.
 func (*ListRulesReq) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{8}
+	return file_rule_rule_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListRulesReq) GetPage() int32 {
@@ -669,7 +669,7 @@ type ListRulesResp struct {
 
 func (x *ListRulesResp) Reset() {
 	*x = ListRulesResp{}
-	mi := &file_rule_proto_msgTypes[9]
+	mi := &file_rule_rule_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -681,7 +681,7 @@ func (x *ListRulesResp) String() string {
 func (*ListRulesResp) ProtoMessage() {}
 
 func (x *ListRulesResp) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[9]
+	mi := &file_rule_rule_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -694,7 +694,7 @@ func (x *ListRulesResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRulesResp.ProtoReflect.Descriptor instead.
 func (*ListRulesResp) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{9}
+	return file_rule_rule_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListRulesResp) GetRules() []*RuleInfo {
@@ -721,7 +721,7 @@ type EvaluateReq struct {
 
 func (x *EvaluateReq) Reset() {
 	*x = EvaluateReq{}
-	mi := &file_rule_proto_msgTypes[10]
+	mi := &file_rule_rule_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -733,7 +733,7 @@ func (x *EvaluateReq) String() string {
 func (*EvaluateReq) ProtoMessage() {}
 
 func (x *EvaluateReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[10]
+	mi := &file_rule_rule_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -746,7 +746,7 @@ func (x *EvaluateReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EvaluateReq.ProtoReflect.Descriptor instead.
 func (*EvaluateReq) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{10}
+	return file_rule_rule_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *EvaluateReq) GetRuleId() int64 {
@@ -774,7 +774,7 @@ type EvaluateResp struct {
 
 func (x *EvaluateResp) Reset() {
 	*x = EvaluateResp{}
-	mi := &file_rule_proto_msgTypes[11]
+	mi := &file_rule_rule_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -786,7 +786,7 @@ func (x *EvaluateResp) String() string {
 func (*EvaluateResp) ProtoMessage() {}
 
 func (x *EvaluateResp) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[11]
+	mi := &file_rule_rule_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -799,7 +799,7 @@ func (x *EvaluateResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EvaluateResp.ProtoReflect.Descriptor instead.
 func (*EvaluateResp) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{11}
+	return file_rule_rule_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *EvaluateResp) GetResult() bool {
@@ -833,7 +833,7 @@ type BatchEvaluateReq struct {
 
 func (x *BatchEvaluateReq) Reset() {
 	*x = BatchEvaluateReq{}
-	mi := &file_rule_proto_msgTypes[12]
+	mi := &file_rule_rule_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -845,7 +845,7 @@ func (x *BatchEvaluateReq) String() string {
 func (*BatchEvaluateReq) ProtoMessage() {}
 
 func (x *BatchEvaluateReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[12]
+	mi := &file_rule_rule_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -858,7 +858,7 @@ func (x *BatchEvaluateReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchEvaluateReq.ProtoReflect.Descriptor instead.
 func (*BatchEvaluateReq) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{12}
+	return file_rule_rule_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *BatchEvaluateReq) GetRuleIds() []int64 {
@@ -886,7 +886,7 @@ type BatchEvaluateResp struct {
 
 func (x *BatchEvaluateResp) Reset() {
 	*x = BatchEvaluateResp{}
-	mi := &file_rule_proto_msgTypes[13]
+	mi := &file_rule_rule_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -898,7 +898,7 @@ func (x *BatchEvaluateResp) String() string {
 func (*BatchEvaluateResp) ProtoMessage() {}
 
 func (x *BatchEvaluateResp) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[13]
+	mi := &file_rule_rule_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -911,7 +911,7 @@ func (x *BatchEvaluateResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchEvaluateResp.ProtoReflect.Descriptor instead.
 func (*BatchEvaluateResp) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{13}
+	return file_rule_rule_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *BatchEvaluateResp) GetResults() map[int64]bool {
@@ -940,7 +940,7 @@ type CreateRuleSetReq struct {
 
 func (x *CreateRuleSetReq) Reset() {
 	*x = CreateRuleSetReq{}
-	mi := &file_rule_proto_msgTypes[14]
+	mi := &file_rule_rule_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -952,7 +952,7 @@ func (x *CreateRuleSetReq) String() string {
 func (*CreateRuleSetReq) ProtoMessage() {}
 
 func (x *CreateRuleSetReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[14]
+	mi := &file_rule_rule_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -965,7 +965,7 @@ func (x *CreateRuleSetReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRuleSetReq.ProtoReflect.Descriptor instead.
 func (*CreateRuleSetReq) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{14}
+	return file_rule_rule_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *CreateRuleSetReq) GetCode() string {
@@ -1005,7 +1005,7 @@ type CreateRuleSetResp struct {
 
 func (x *CreateRuleSetResp) Reset() {
 	*x = CreateRuleSetResp{}
-	mi := &file_rule_proto_msgTypes[15]
+	mi := &file_rule_rule_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1017,7 +1017,7 @@ func (x *CreateRuleSetResp) String() string {
 func (*CreateRuleSetResp) ProtoMessage() {}
 
 func (x *CreateRuleSetResp) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[15]
+	mi := &file_rule_rule_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1030,7 +1030,7 @@ func (x *CreateRuleSetResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRuleSetResp.ProtoReflect.Descriptor instead.
 func (*CreateRuleSetResp) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{15}
+	return file_rule_rule_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *CreateRuleSetResp) GetId() int64 {
@@ -1050,7 +1050,7 @@ type EvaluateRuleSetReq struct {
 
 func (x *EvaluateRuleSetReq) Reset() {
 	*x = EvaluateRuleSetReq{}
-	mi := &file_rule_proto_msgTypes[16]
+	mi := &file_rule_rule_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1062,7 +1062,7 @@ func (x *EvaluateRuleSetReq) String() string {
 func (*EvaluateRuleSetReq) ProtoMessage() {}
 
 func (x *EvaluateRuleSetReq) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[16]
+	mi := &file_rule_rule_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1075,7 +1075,7 @@ func (x *EvaluateRuleSetReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EvaluateRuleSetReq.ProtoReflect.Descriptor instead.
 func (*EvaluateRuleSetReq) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{16}
+	return file_rule_rule_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *EvaluateRuleSetReq) GetRuleSetId() int64 {
@@ -1103,7 +1103,7 @@ type EvaluateRuleSetResp struct {
 
 func (x *EvaluateRuleSetResp) Reset() {
 	*x = EvaluateRuleSetResp{}
-	mi := &file_rule_proto_msgTypes[17]
+	mi := &file_rule_rule_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1115,7 +1115,7 @@ func (x *EvaluateRuleSetResp) String() string {
 func (*EvaluateRuleSetResp) ProtoMessage() {}
 
 func (x *EvaluateRuleSetResp) ProtoReflect() protoreflect.Message {
-	mi := &file_rule_proto_msgTypes[17]
+	mi := &file_rule_rule_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1128,7 +1128,7 @@ func (x *EvaluateRuleSetResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EvaluateRuleSetResp.ProtoReflect.Descriptor instead.
 func (*EvaluateRuleSetResp) Descriptor() ([]byte, []int) {
-	return file_rule_proto_rawDescGZIP(), []int{17}
+	return file_rule_rule_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *EvaluateRuleSetResp) GetResult() bool {
@@ -1152,12 +1152,588 @@ func (x *EvaluateRuleSetResp) GetLatencyUs() int64 {
 	return 0
 }
 
-var File_rule_proto protoreflect.FileDescriptor
+// ===== P1 low-code activity rules =====
+type GetRuleSetReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
 
-const file_rule_proto_rawDesc = "" +
+func (x *GetRuleSetReq) Reset() {
+	*x = GetRuleSetReq{}
+	mi := &file_rule_rule_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRuleSetReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRuleSetReq) ProtoMessage() {}
+
+func (x *GetRuleSetReq) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRuleSetReq.ProtoReflect.Descriptor instead.
+func (*GetRuleSetReq) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetRuleSetReq) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ListRuleSetsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListRuleSetsReq) Reset() {
+	*x = ListRuleSetsReq{}
+	mi := &file_rule_rule_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListRuleSetsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListRuleSetsReq) ProtoMessage() {}
+
+func (x *ListRuleSetsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListRuleSetsReq.ProtoReflect.Descriptor instead.
+func (*ListRuleSetsReq) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ListRuleSetsReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListRuleSetsReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListRuleSetsResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RuleSets      []*RuleSet             `protobuf:"bytes,1,rep,name=rule_sets,json=ruleSets,proto3" json:"rule_sets,omitempty"`
+	Total         int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListRuleSetsResp) Reset() {
+	*x = ListRuleSetsResp{}
+	mi := &file_rule_rule_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListRuleSetsResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListRuleSetsResp) ProtoMessage() {}
+
+func (x *ListRuleSetsResp) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListRuleSetsResp.ProtoReflect.Descriptor instead.
+func (*ListRuleSetsResp) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *ListRuleSetsResp) GetRuleSets() []*RuleSet {
+	if x != nil {
+		return x.RuleSets
+	}
+	return nil
+}
+
+func (x *ListRuleSetsResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type ValidateExpressionReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Expression    string                 `protobuf:"bytes,1,opt,name=expression,proto3" json:"expression,omitempty"`
+	Lang          string                 `protobuf:"bytes,2,opt,name=lang,proto3" json:"lang,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateExpressionReq) Reset() {
+	*x = ValidateExpressionReq{}
+	mi := &file_rule_rule_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateExpressionReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateExpressionReq) ProtoMessage() {}
+
+func (x *ValidateExpressionReq) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateExpressionReq.ProtoReflect.Descriptor instead.
+func (*ValidateExpressionReq) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *ValidateExpressionReq) GetExpression() string {
+	if x != nil {
+		return x.Expression
+	}
+	return ""
+}
+
+func (x *ValidateExpressionReq) GetLang() string {
+	if x != nil {
+		return x.Lang
+	}
+	return ""
+}
+
+type ValidateExpressionResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Valid         bool                   `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateExpressionResp) Reset() {
+	*x = ValidateExpressionResp{}
+	mi := &file_rule_rule_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateExpressionResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateExpressionResp) ProtoMessage() {}
+
+func (x *ValidateExpressionResp) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateExpressionResp.ProtoReflect.Descriptor instead.
+func (*ValidateExpressionResp) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *ValidateExpressionResp) GetValid() bool {
+	if x != nil {
+		return x.Valid
+	}
+	return false
+}
+
+func (x *ValidateExpressionResp) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+type ActivityRuleCondition struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`         // order_amount / signin_count / activity_count
+	Operator      string                 `protobuf:"bytes,2,opt,name=operator,proto3" json:"operator,omitempty"` // gte / lte / eq
+	Value         int64                  `protobuf:"varint,3,opt,name=value,proto3" json:"value,omitempty"`
+	Unit          string                 `protobuf:"bytes,4,opt,name=unit,proto3" json:"unit,omitempty"` // days / times / yuan
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ActivityRuleCondition) Reset() {
+	*x = ActivityRuleCondition{}
+	mi := &file_rule_rule_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActivityRuleCondition) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityRuleCondition) ProtoMessage() {}
+
+func (x *ActivityRuleCondition) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityRuleCondition.ProtoReflect.Descriptor instead.
+func (*ActivityRuleCondition) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *ActivityRuleCondition) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *ActivityRuleCondition) GetOperator() string {
+	if x != nil {
+		return x.Operator
+	}
+	return ""
+}
+
+func (x *ActivityRuleCondition) GetValue() int64 {
+	if x != nil {
+		return x.Value
+	}
+	return 0
+}
+
+func (x *ActivityRuleCondition) GetUnit() string {
+	if x != nil {
+		return x.Unit
+	}
+	return ""
+}
+
+type ActivityRuleExclusion struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`   // blacklist / risk_label / holiday
+	Value         string                 `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"` // label value or holiday type
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ActivityRuleExclusion) Reset() {
+	*x = ActivityRuleExclusion{}
+	mi := &file_rule_rule_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActivityRuleExclusion) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityRuleExclusion) ProtoMessage() {}
+
+func (x *ActivityRuleExclusion) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityRuleExclusion.ProtoReflect.Descriptor instead.
+func (*ActivityRuleExclusion) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *ActivityRuleExclusion) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *ActivityRuleExclusion) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+type ActivityRuleReward struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"` // exp / credit_score / cash / coupon
+	Amount        int64                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	Unit          string                 `protobuf:"bytes,3,opt,name=unit,proto3" json:"unit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ActivityRuleReward) Reset() {
+	*x = ActivityRuleReward{}
+	mi := &file_rule_rule_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActivityRuleReward) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityRuleReward) ProtoMessage() {}
+
+func (x *ActivityRuleReward) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityRuleReward.ProtoReflect.Descriptor instead.
+func (*ActivityRuleReward) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *ActivityRuleReward) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *ActivityRuleReward) GetAmount() int64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *ActivityRuleReward) GetUnit() string {
+	if x != nil {
+		return x.Unit
+	}
+	return ""
+}
+
+type CreateActivityRuleReq struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Code          string                   `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
+	Description   string                   `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	Budget        int64                    `protobuf:"varint,3,opt,name=budget,proto3" json:"budget,omitempty"` // total budget in cents (0=unlimited)
+	Conditions    []*ActivityRuleCondition `protobuf:"bytes,4,rep,name=conditions,proto3" json:"conditions,omitempty"`
+	Exclusions    []*ActivityRuleExclusion `protobuf:"bytes,5,rep,name=exclusions,proto3" json:"exclusions,omitempty"`
+	Rewards       []*ActivityRuleReward    `protobuf:"bytes,6,rep,name=rewards,proto3" json:"rewards,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateActivityRuleReq) Reset() {
+	*x = CreateActivityRuleReq{}
+	mi := &file_rule_rule_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateActivityRuleReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateActivityRuleReq) ProtoMessage() {}
+
+func (x *CreateActivityRuleReq) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateActivityRuleReq.ProtoReflect.Descriptor instead.
+func (*CreateActivityRuleReq) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *CreateActivityRuleReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *CreateActivityRuleReq) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateActivityRuleReq) GetBudget() int64 {
+	if x != nil {
+		return x.Budget
+	}
+	return 0
+}
+
+func (x *CreateActivityRuleReq) GetConditions() []*ActivityRuleCondition {
+	if x != nil {
+		return x.Conditions
+	}
+	return nil
+}
+
+func (x *CreateActivityRuleReq) GetExclusions() []*ActivityRuleExclusion {
+	if x != nil {
+		return x.Exclusions
+	}
+	return nil
+}
+
+func (x *CreateActivityRuleReq) GetRewards() []*ActivityRuleReward {
+	if x != nil {
+		return x.Rewards
+	}
+	return nil
+}
+
+type CreateActivityRuleResp struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	RuleId              int64                  `protobuf:"varint,1,opt,name=rule_id,json=ruleId,proto3" json:"rule_id,omitempty"`
+	RuleSetId           int64                  `protobuf:"varint,2,opt,name=rule_set_id,json=ruleSetId,proto3" json:"rule_set_id,omitempty"`
+	GeneratedExpression string                 `protobuf:"bytes,3,opt,name=generated_expression,json=generatedExpression,proto3" json:"generated_expression,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *CreateActivityRuleResp) Reset() {
+	*x = CreateActivityRuleResp{}
+	mi := &file_rule_rule_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateActivityRuleResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateActivityRuleResp) ProtoMessage() {}
+
+func (x *CreateActivityRuleResp) ProtoReflect() protoreflect.Message {
+	mi := &file_rule_rule_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateActivityRuleResp.ProtoReflect.Descriptor instead.
+func (*CreateActivityRuleResp) Descriptor() ([]byte, []int) {
+	return file_rule_rule_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *CreateActivityRuleResp) GetRuleId() int64 {
+	if x != nil {
+		return x.RuleId
+	}
+	return 0
+}
+
+func (x *CreateActivityRuleResp) GetRuleSetId() int64 {
+	if x != nil {
+		return x.RuleSetId
+	}
+	return 0
+}
+
+func (x *CreateActivityRuleResp) GetGeneratedExpression() string {
+	if x != nil {
+		return x.GeneratedExpression
+	}
+	return ""
+}
+
+var File_rule_rule_proto protoreflect.FileDescriptor
+
+const file_rule_rule_proto_rawDesc = "" +
 	"\n" +
-	"\n" +
-	"rule.proto\x12\x04rule\"\a\n" +
+	"\x0frule/rule.proto\x12\x04rule\"\a\n" +
 	"\x05Empty\"\x17\n" +
 	"\x05IdReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x99\x02\n" +
@@ -1256,7 +1832,50 @@ const file_rule_proto_rawDesc = "" +
 	"\x06result\x18\x01 \x01(\bR\x06result\x12/\n" +
 	"\x14first_failed_rule_id\x18\x02 \x01(\x03R\x11firstFailedRuleId\x12\x1d\n" +
 	"\n" +
-	"latency_us\x18\x03 \x01(\x03R\tlatencyUs2\xcc\x03\n" +
+	"latency_us\x18\x03 \x01(\x03R\tlatencyUs\"\x1f\n" +
+	"\rGetRuleSetReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"B\n" +
+	"\x0fListRuleSetsReq\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\"T\n" +
+	"\x10ListRuleSetsResp\x12*\n" +
+	"\trule_sets\x18\x01 \x03(\v2\r.rule.RuleSetR\bruleSets\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"K\n" +
+	"\x15ValidateExpressionReq\x12\x1e\n" +
+	"\n" +
+	"expression\x18\x01 \x01(\tR\n" +
+	"expression\x12\x12\n" +
+	"\x04lang\x18\x02 \x01(\tR\x04lang\"D\n" +
+	"\x16ValidateExpressionResp\x12\x14\n" +
+	"\x05valid\x18\x01 \x01(\bR\x05valid\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"q\n" +
+	"\x15ActivityRuleCondition\x12\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\x12\x1a\n" +
+	"\boperator\x18\x02 \x01(\tR\boperator\x12\x14\n" +
+	"\x05value\x18\x03 \x01(\x03R\x05value\x12\x12\n" +
+	"\x04unit\x18\x04 \x01(\tR\x04unit\"A\n" +
+	"\x15ActivityRuleExclusion\x12\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value\"T\n" +
+	"\x12ActivityRuleReward\x12\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\x12\x16\n" +
+	"\x06amount\x18\x02 \x01(\x03R\x06amount\x12\x12\n" +
+	"\x04unit\x18\x03 \x01(\tR\x04unit\"\x93\x02\n" +
+	"\x15CreateActivityRuleReq\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\tR\x04code\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x16\n" +
+	"\x06budget\x18\x03 \x01(\x03R\x06budget\x12;\n" +
+	"\n" +
+	"conditions\x18\x04 \x03(\v2\x1b.rule.ActivityRuleConditionR\n" +
+	"conditions\x12;\n" +
+	"\n" +
+	"exclusions\x18\x05 \x03(\v2\x1b.rule.ActivityRuleExclusionR\n" +
+	"exclusions\x122\n" +
+	"\arewards\x18\x06 \x03(\v2\x18.rule.ActivityRuleRewardR\arewards\"\x84\x01\n" +
+	"\x16CreateActivityRuleResp\x12\x17\n" +
+	"\arule_id\x18\x01 \x01(\x03R\x06ruleId\x12\x1e\n" +
+	"\vrule_set_id\x18\x02 \x01(\x03R\truleSetId\x121\n" +
+	"\x14generated_expression\x18\x03 \x01(\tR\x13generatedExpression2\xdf\x05\n" +
 	"\x04Rule\x127\n" +
 	"\n" +
 	"CreateRule\x12\x13.rule.CreateRuleReq\x1a\x14.rule.CreateRuleResp\x12.\n" +
@@ -1267,93 +1886,120 @@ const file_rule_proto_rawDesc = "" +
 	"\bEvaluate\x12\x11.rule.EvaluateReq\x1a\x12.rule.EvaluateResp\x12@\n" +
 	"\rBatchEvaluate\x12\x16.rule.BatchEvaluateReq\x1a\x17.rule.BatchEvaluateResp\x12@\n" +
 	"\rCreateRuleSet\x12\x16.rule.CreateRuleSetReq\x1a\x17.rule.CreateRuleSetResp\x12F\n" +
-	"\x0fEvaluateRuleSet\x12\x18.rule.EvaluateRuleSetReq\x1a\x19.rule.EvaluateRuleSetRespB\bZ\x06./ruleb\x06proto3"
+	"\x0fEvaluateRuleSet\x12\x18.rule.EvaluateRuleSetReq\x1a\x19.rule.EvaluateRuleSetResp\x120\n" +
+	"\n" +
+	"GetRuleSet\x12\x13.rule.GetRuleSetReq\x1a\r.rule.RuleSet\x12=\n" +
+	"\fListRuleSets\x12\x15.rule.ListRuleSetsReq\x1a\x16.rule.ListRuleSetsResp\x12O\n" +
+	"\x12ValidateExpression\x12\x1b.rule.ValidateExpressionReq\x1a\x1c.rule.ValidateExpressionResp\x12O\n" +
+	"\x12CreateActivityRule\x12\x1b.rule.CreateActivityRuleReq\x1a\x1c.rule.CreateActivityRuleRespB\bZ\x06./ruleb\x06proto3"
 
 var (
-	file_rule_proto_rawDescOnce sync.Once
-	file_rule_proto_rawDescData []byte
+	file_rule_rule_proto_rawDescOnce sync.Once
+	file_rule_rule_proto_rawDescData []byte
 )
 
-func file_rule_proto_rawDescGZIP() []byte {
-	file_rule_proto_rawDescOnce.Do(func() {
-		file_rule_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_rule_proto_rawDesc), len(file_rule_proto_rawDesc)))
+func file_rule_rule_proto_rawDescGZIP() []byte {
+	file_rule_rule_proto_rawDescOnce.Do(func() {
+		file_rule_rule_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_rule_rule_proto_rawDesc), len(file_rule_rule_proto_rawDesc)))
 	})
-	return file_rule_proto_rawDescData
+	return file_rule_rule_proto_rawDescData
 }
 
-var file_rule_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
-var file_rule_proto_goTypes = []any{
-	(*Empty)(nil),               // 0: rule.Empty
-	(*IdReq)(nil),               // 1: rule.IdReq
-	(*RuleInfo)(nil),            // 2: rule.RuleInfo
-	(*RuleSet)(nil),             // 3: rule.RuleSet
-	(*RuleContext)(nil),         // 4: rule.RuleContext
-	(*CreateRuleReq)(nil),       // 5: rule.CreateRuleReq
-	(*CreateRuleResp)(nil),      // 6: rule.CreateRuleResp
-	(*UpdateRuleReq)(nil),       // 7: rule.UpdateRuleReq
-	(*ListRulesReq)(nil),        // 8: rule.ListRulesReq
-	(*ListRulesResp)(nil),       // 9: rule.ListRulesResp
-	(*EvaluateReq)(nil),         // 10: rule.EvaluateReq
-	(*EvaluateResp)(nil),        // 11: rule.EvaluateResp
-	(*BatchEvaluateReq)(nil),    // 12: rule.BatchEvaluateReq
-	(*BatchEvaluateResp)(nil),   // 13: rule.BatchEvaluateResp
-	(*CreateRuleSetReq)(nil),    // 14: rule.CreateRuleSetReq
-	(*CreateRuleSetResp)(nil),   // 15: rule.CreateRuleSetResp
-	(*EvaluateRuleSetReq)(nil),  // 16: rule.EvaluateRuleSetReq
-	(*EvaluateRuleSetResp)(nil), // 17: rule.EvaluateRuleSetResp
-	nil,                         // 18: rule.RuleContext.CustomKvEntry
-	nil,                         // 19: rule.BatchEvaluateResp.ResultsEntry
+var file_rule_rule_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_rule_rule_proto_goTypes = []any{
+	(*Empty)(nil),                  // 0: rule.Empty
+	(*IdReq)(nil),                  // 1: rule.IdReq
+	(*RuleInfo)(nil),               // 2: rule.RuleInfo
+	(*RuleSet)(nil),                // 3: rule.RuleSet
+	(*RuleContext)(nil),            // 4: rule.RuleContext
+	(*CreateRuleReq)(nil),          // 5: rule.CreateRuleReq
+	(*CreateRuleResp)(nil),         // 6: rule.CreateRuleResp
+	(*UpdateRuleReq)(nil),          // 7: rule.UpdateRuleReq
+	(*ListRulesReq)(nil),           // 8: rule.ListRulesReq
+	(*ListRulesResp)(nil),          // 9: rule.ListRulesResp
+	(*EvaluateReq)(nil),            // 10: rule.EvaluateReq
+	(*EvaluateResp)(nil),           // 11: rule.EvaluateResp
+	(*BatchEvaluateReq)(nil),       // 12: rule.BatchEvaluateReq
+	(*BatchEvaluateResp)(nil),      // 13: rule.BatchEvaluateResp
+	(*CreateRuleSetReq)(nil),       // 14: rule.CreateRuleSetReq
+	(*CreateRuleSetResp)(nil),      // 15: rule.CreateRuleSetResp
+	(*EvaluateRuleSetReq)(nil),     // 16: rule.EvaluateRuleSetReq
+	(*EvaluateRuleSetResp)(nil),    // 17: rule.EvaluateRuleSetResp
+	(*GetRuleSetReq)(nil),          // 18: rule.GetRuleSetReq
+	(*ListRuleSetsReq)(nil),        // 19: rule.ListRuleSetsReq
+	(*ListRuleSetsResp)(nil),       // 20: rule.ListRuleSetsResp
+	(*ValidateExpressionReq)(nil),  // 21: rule.ValidateExpressionReq
+	(*ValidateExpressionResp)(nil), // 22: rule.ValidateExpressionResp
+	(*ActivityRuleCondition)(nil),  // 23: rule.ActivityRuleCondition
+	(*ActivityRuleExclusion)(nil),  // 24: rule.ActivityRuleExclusion
+	(*ActivityRuleReward)(nil),     // 25: rule.ActivityRuleReward
+	(*CreateActivityRuleReq)(nil),  // 26: rule.CreateActivityRuleReq
+	(*CreateActivityRuleResp)(nil), // 27: rule.CreateActivityRuleResp
+	nil,                            // 28: rule.RuleContext.CustomKvEntry
+	nil,                            // 29: rule.BatchEvaluateResp.ResultsEntry
 }
-var file_rule_proto_depIdxs = []int32{
-	18, // 0: rule.RuleContext.custom_kv:type_name -> rule.RuleContext.CustomKvEntry
+var file_rule_rule_proto_depIdxs = []int32{
+	28, // 0: rule.RuleContext.custom_kv:type_name -> rule.RuleContext.CustomKvEntry
 	2,  // 1: rule.ListRulesResp.rules:type_name -> rule.RuleInfo
 	4,  // 2: rule.EvaluateReq.context:type_name -> rule.RuleContext
 	4,  // 3: rule.BatchEvaluateReq.context:type_name -> rule.RuleContext
-	19, // 4: rule.BatchEvaluateResp.results:type_name -> rule.BatchEvaluateResp.ResultsEntry
+	29, // 4: rule.BatchEvaluateResp.results:type_name -> rule.BatchEvaluateResp.ResultsEntry
 	4,  // 5: rule.EvaluateRuleSetReq.context:type_name -> rule.RuleContext
-	5,  // 6: rule.Rule.CreateRule:input_type -> rule.CreateRuleReq
-	7,  // 7: rule.Rule.UpdateRule:input_type -> rule.UpdateRuleReq
-	1,  // 8: rule.Rule.GetRule:input_type -> rule.IdReq
-	8,  // 9: rule.Rule.ListRules:input_type -> rule.ListRulesReq
-	10, // 10: rule.Rule.Evaluate:input_type -> rule.EvaluateReq
-	12, // 11: rule.Rule.BatchEvaluate:input_type -> rule.BatchEvaluateReq
-	14, // 12: rule.Rule.CreateRuleSet:input_type -> rule.CreateRuleSetReq
-	16, // 13: rule.Rule.EvaluateRuleSet:input_type -> rule.EvaluateRuleSetReq
-	6,  // 14: rule.Rule.CreateRule:output_type -> rule.CreateRuleResp
-	0,  // 15: rule.Rule.UpdateRule:output_type -> rule.Empty
-	2,  // 16: rule.Rule.GetRule:output_type -> rule.RuleInfo
-	9,  // 17: rule.Rule.ListRules:output_type -> rule.ListRulesResp
-	11, // 18: rule.Rule.Evaluate:output_type -> rule.EvaluateResp
-	13, // 19: rule.Rule.BatchEvaluate:output_type -> rule.BatchEvaluateResp
-	15, // 20: rule.Rule.CreateRuleSet:output_type -> rule.CreateRuleSetResp
-	17, // 21: rule.Rule.EvaluateRuleSet:output_type -> rule.EvaluateRuleSetResp
-	14, // [14:22] is the sub-list for method output_type
-	6,  // [6:14] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	3,  // 6: rule.ListRuleSetsResp.rule_sets:type_name -> rule.RuleSet
+	23, // 7: rule.CreateActivityRuleReq.conditions:type_name -> rule.ActivityRuleCondition
+	24, // 8: rule.CreateActivityRuleReq.exclusions:type_name -> rule.ActivityRuleExclusion
+	25, // 9: rule.CreateActivityRuleReq.rewards:type_name -> rule.ActivityRuleReward
+	5,  // 10: rule.Rule.CreateRule:input_type -> rule.CreateRuleReq
+	7,  // 11: rule.Rule.UpdateRule:input_type -> rule.UpdateRuleReq
+	1,  // 12: rule.Rule.GetRule:input_type -> rule.IdReq
+	8,  // 13: rule.Rule.ListRules:input_type -> rule.ListRulesReq
+	10, // 14: rule.Rule.Evaluate:input_type -> rule.EvaluateReq
+	12, // 15: rule.Rule.BatchEvaluate:input_type -> rule.BatchEvaluateReq
+	14, // 16: rule.Rule.CreateRuleSet:input_type -> rule.CreateRuleSetReq
+	16, // 17: rule.Rule.EvaluateRuleSet:input_type -> rule.EvaluateRuleSetReq
+	18, // 18: rule.Rule.GetRuleSet:input_type -> rule.GetRuleSetReq
+	19, // 19: rule.Rule.ListRuleSets:input_type -> rule.ListRuleSetsReq
+	21, // 20: rule.Rule.ValidateExpression:input_type -> rule.ValidateExpressionReq
+	26, // 21: rule.Rule.CreateActivityRule:input_type -> rule.CreateActivityRuleReq
+	6,  // 22: rule.Rule.CreateRule:output_type -> rule.CreateRuleResp
+	0,  // 23: rule.Rule.UpdateRule:output_type -> rule.Empty
+	2,  // 24: rule.Rule.GetRule:output_type -> rule.RuleInfo
+	9,  // 25: rule.Rule.ListRules:output_type -> rule.ListRulesResp
+	11, // 26: rule.Rule.Evaluate:output_type -> rule.EvaluateResp
+	13, // 27: rule.Rule.BatchEvaluate:output_type -> rule.BatchEvaluateResp
+	15, // 28: rule.Rule.CreateRuleSet:output_type -> rule.CreateRuleSetResp
+	17, // 29: rule.Rule.EvaluateRuleSet:output_type -> rule.EvaluateRuleSetResp
+	3,  // 30: rule.Rule.GetRuleSet:output_type -> rule.RuleSet
+	20, // 31: rule.Rule.ListRuleSets:output_type -> rule.ListRuleSetsResp
+	22, // 32: rule.Rule.ValidateExpression:output_type -> rule.ValidateExpressionResp
+	27, // 33: rule.Rule.CreateActivityRule:output_type -> rule.CreateActivityRuleResp
+	22, // [22:34] is the sub-list for method output_type
+	10, // [10:22] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
-func init() { file_rule_proto_init() }
-func file_rule_proto_init() {
-	if File_rule_proto != nil {
+func init() { file_rule_rule_proto_init() }
+func file_rule_rule_proto_init() {
+	if File_rule_rule_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_rule_proto_rawDesc), len(file_rule_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_rule_rule_proto_rawDesc), len(file_rule_rule_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   20,
+			NumMessages:   30,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_rule_proto_goTypes,
-		DependencyIndexes: file_rule_proto_depIdxs,
-		MessageInfos:      file_rule_proto_msgTypes,
+		GoTypes:           file_rule_rule_proto_goTypes,
+		DependencyIndexes: file_rule_rule_proto_depIdxs,
+		MessageInfos:      file_rule_rule_proto_msgTypes,
 	}.Build()
-	File_rule_proto = out.File
-	file_rule_proto_goTypes = nil
-	file_rule_proto_depIdxs = nil
+	File_rule_rule_proto = out.File
+	file_rule_rule_proto_goTypes = nil
+	file_rule_rule_proto_depIdxs = nil
 }

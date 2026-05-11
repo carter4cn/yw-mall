@@ -14,24 +14,34 @@ import (
 )
 
 type (
-	BatchEvaluateReq    = rule.BatchEvaluateReq
-	BatchEvaluateResp   = rule.BatchEvaluateResp
-	CreateRuleReq       = rule.CreateRuleReq
-	CreateRuleResp      = rule.CreateRuleResp
-	CreateRuleSetReq    = rule.CreateRuleSetReq
-	CreateRuleSetResp   = rule.CreateRuleSetResp
-	Empty               = rule.Empty
-	EvaluateReq         = rule.EvaluateReq
-	EvaluateResp        = rule.EvaluateResp
-	EvaluateRuleSetReq  = rule.EvaluateRuleSetReq
-	EvaluateRuleSetResp = rule.EvaluateRuleSetResp
-	IdReq               = rule.IdReq
-	ListRulesReq        = rule.ListRulesReq
-	ListRulesResp       = rule.ListRulesResp
-	RuleContext         = rule.RuleContext
-	RuleInfo            = rule.RuleInfo
-	RuleSet             = rule.RuleSet
-	UpdateRuleReq       = rule.UpdateRuleReq
+	ActivityRuleCondition  = rule.ActivityRuleCondition
+	ActivityRuleExclusion  = rule.ActivityRuleExclusion
+	ActivityRuleReward     = rule.ActivityRuleReward
+	BatchEvaluateReq       = rule.BatchEvaluateReq
+	BatchEvaluateResp      = rule.BatchEvaluateResp
+	CreateActivityRuleReq  = rule.CreateActivityRuleReq
+	CreateActivityRuleResp = rule.CreateActivityRuleResp
+	CreateRuleReq          = rule.CreateRuleReq
+	CreateRuleResp         = rule.CreateRuleResp
+	CreateRuleSetReq       = rule.CreateRuleSetReq
+	CreateRuleSetResp      = rule.CreateRuleSetResp
+	Empty                  = rule.Empty
+	EvaluateReq            = rule.EvaluateReq
+	EvaluateResp           = rule.EvaluateResp
+	EvaluateRuleSetReq     = rule.EvaluateRuleSetReq
+	EvaluateRuleSetResp    = rule.EvaluateRuleSetResp
+	GetRuleSetReq          = rule.GetRuleSetReq
+	IdReq                  = rule.IdReq
+	ListRuleSetsReq        = rule.ListRuleSetsReq
+	ListRuleSetsResp       = rule.ListRuleSetsResp
+	ListRulesReq           = rule.ListRulesReq
+	ListRulesResp          = rule.ListRulesResp
+	RuleContext            = rule.RuleContext
+	RuleInfo               = rule.RuleInfo
+	RuleSet                = rule.RuleSet
+	UpdateRuleReq          = rule.UpdateRuleReq
+	ValidateExpressionReq  = rule.ValidateExpressionReq
+	ValidateExpressionResp = rule.ValidateExpressionResp
 
 	Rule interface {
 		CreateRule(ctx context.Context, in *CreateRuleReq, opts ...grpc.CallOption) (*CreateRuleResp, error)
@@ -42,6 +52,11 @@ type (
 		BatchEvaluate(ctx context.Context, in *BatchEvaluateReq, opts ...grpc.CallOption) (*BatchEvaluateResp, error)
 		CreateRuleSet(ctx context.Context, in *CreateRuleSetReq, opts ...grpc.CallOption) (*CreateRuleSetResp, error)
 		EvaluateRuleSet(ctx context.Context, in *EvaluateRuleSetReq, opts ...grpc.CallOption) (*EvaluateRuleSetResp, error)
+		// P1 low-code
+		GetRuleSet(ctx context.Context, in *GetRuleSetReq, opts ...grpc.CallOption) (*RuleSet, error)
+		ListRuleSets(ctx context.Context, in *ListRuleSetsReq, opts ...grpc.CallOption) (*ListRuleSetsResp, error)
+		ValidateExpression(ctx context.Context, in *ValidateExpressionReq, opts ...grpc.CallOption) (*ValidateExpressionResp, error)
+		CreateActivityRule(ctx context.Context, in *CreateActivityRuleReq, opts ...grpc.CallOption) (*CreateActivityRuleResp, error)
 	}
 
 	defaultRule struct {
@@ -93,4 +108,24 @@ func (m *defaultRule) CreateRuleSet(ctx context.Context, in *CreateRuleSetReq, o
 func (m *defaultRule) EvaluateRuleSet(ctx context.Context, in *EvaluateRuleSetReq, opts ...grpc.CallOption) (*EvaluateRuleSetResp, error) {
 	client := rule.NewRuleClient(m.cli.Conn())
 	return client.EvaluateRuleSet(ctx, in, opts...)
+}
+
+func (m *defaultRule) GetRuleSet(ctx context.Context, in *GetRuleSetReq, opts ...grpc.CallOption) (*RuleSet, error) {
+	client := rule.NewRuleClient(m.cli.Conn())
+	return client.GetRuleSet(ctx, in, opts...)
+}
+
+func (m *defaultRule) ListRuleSets(ctx context.Context, in *ListRuleSetsReq, opts ...grpc.CallOption) (*ListRuleSetsResp, error) {
+	client := rule.NewRuleClient(m.cli.Conn())
+	return client.ListRuleSets(ctx, in, opts...)
+}
+
+func (m *defaultRule) ValidateExpression(ctx context.Context, in *ValidateExpressionReq, opts ...grpc.CallOption) (*ValidateExpressionResp, error) {
+	client := rule.NewRuleClient(m.cli.Conn())
+	return client.ValidateExpression(ctx, in, opts...)
+}
+
+func (m *defaultRule) CreateActivityRule(ctx context.Context, in *CreateActivityRuleReq, opts ...grpc.CallOption) (*CreateActivityRuleResp, error) {
+	client := rule.NewRuleClient(m.cli.Conn())
+	return client.CreateActivityRule(ctx, in, opts...)
 }

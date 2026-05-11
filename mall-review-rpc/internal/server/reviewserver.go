@@ -62,3 +62,25 @@ func (s *ReviewServer) SoftDeleteReview(ctx context.Context, in *review.SoftDele
 	l := logic.NewSoftDeleteReviewLogic(ctx, s.svcCtx)
 	return l.SoftDeleteReview(in)
 }
+
+// ===== P1 admin =====
+
+func (s *ReviewServer) ListShopReviews(ctx context.Context, in *review.ListShopReviewsReq) (*review.ListProductReviewsResp, error) {
+	l := logic.NewListShopReviewsLogic(ctx, s.svcCtx)
+	return l.ListShopReviews(in)
+}
+
+func (s *ReviewServer) RequestDeleteReview(ctx context.Context, in *review.RequestDeleteReviewReq) (*review.OkResp, error) {
+	l := logic.NewRequestDeleteReviewLogic(ctx, s.svcCtx)
+	return l.RequestDeleteReview(in)
+}
+
+func (s *ReviewServer) ListDeleteRequests(ctx context.Context, in *review.ListDeleteRequestsReq) (*review.ListDeleteRequestsResp, error) {
+	l := logic.NewListDeleteRequestsLogic(ctx, s.svcCtx)
+	return l.ListDeleteRequests(in)
+}
+
+func (s *ReviewServer) AdminHandleDeleteRequest(ctx context.Context, in *review.AdminHandleDeleteRequestReq) (*review.OkResp, error) {
+	l := logic.NewAdminHandleDeleteRequestLogic(ctx, s.svcCtx)
+	return l.AdminHandleDeleteRequest(in)
+}

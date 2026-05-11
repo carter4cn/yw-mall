@@ -14,19 +14,26 @@ import (
 )
 
 type (
-	Empty                      = review.Empty
-	GetProductRatingSummaryReq = review.GetProductRatingSummaryReq
-	GetReviewReq               = review.GetReviewReq
-	ListProductReviewsReq      = review.ListProductReviewsReq
-	ListProductReviewsResp     = review.ListProductReviewsResp
-	ListUserReviewsReq         = review.ListUserReviewsReq
-	RatingSummary              = review.RatingSummary
-	ReplyReviewReq             = review.ReplyReviewReq
-	ReviewItem                 = review.ReviewItem
-	SoftDeleteReviewReq        = review.SoftDeleteReviewReq
-	SubmitFollowupReq          = review.SubmitFollowupReq
-	SubmitReviewReq            = review.SubmitReviewReq
-	SubmitReviewResp           = review.SubmitReviewResp
+	AdminHandleDeleteRequestReq = review.AdminHandleDeleteRequestReq
+	Empty                       = review.Empty
+	GetProductRatingSummaryReq  = review.GetProductRatingSummaryReq
+	GetReviewReq                = review.GetReviewReq
+	ListDeleteRequestsReq       = review.ListDeleteRequestsReq
+	ListDeleteRequestsResp      = review.ListDeleteRequestsResp
+	ListProductReviewsReq       = review.ListProductReviewsReq
+	ListProductReviewsResp      = review.ListProductReviewsResp
+	ListShopReviewsReq          = review.ListShopReviewsReq
+	ListUserReviewsReq          = review.ListUserReviewsReq
+	OkResp                      = review.OkResp
+	RatingSummary               = review.RatingSummary
+	ReplyReviewReq              = review.ReplyReviewReq
+	RequestDeleteReviewReq      = review.RequestDeleteReviewReq
+	ReviewDeleteRequest         = review.ReviewDeleteRequest
+	ReviewItem                  = review.ReviewItem
+	SoftDeleteReviewReq         = review.SoftDeleteReviewReq
+	SubmitFollowupReq           = review.SubmitFollowupReq
+	SubmitReviewReq             = review.SubmitReviewReq
+	SubmitReviewResp            = review.SubmitReviewResp
 
 	Review interface {
 		SubmitReview(ctx context.Context, in *SubmitReviewReq, opts ...grpc.CallOption) (*SubmitReviewResp, error)
@@ -37,6 +44,11 @@ type (
 		GetProductRatingSummary(ctx context.Context, in *GetProductRatingSummaryReq, opts ...grpc.CallOption) (*RatingSummary, error)
 		ReplyReview(ctx context.Context, in *ReplyReviewReq, opts ...grpc.CallOption) (*Empty, error)
 		SoftDeleteReview(ctx context.Context, in *SoftDeleteReviewReq, opts ...grpc.CallOption) (*Empty, error)
+		// P1 admin
+		ListShopReviews(ctx context.Context, in *ListShopReviewsReq, opts ...grpc.CallOption) (*ListProductReviewsResp, error)
+		RequestDeleteReview(ctx context.Context, in *RequestDeleteReviewReq, opts ...grpc.CallOption) (*OkResp, error)
+		ListDeleteRequests(ctx context.Context, in *ListDeleteRequestsReq, opts ...grpc.CallOption) (*ListDeleteRequestsResp, error)
+		AdminHandleDeleteRequest(ctx context.Context, in *AdminHandleDeleteRequestReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultReview struct {
@@ -88,4 +100,24 @@ func (m *defaultReview) ReplyReview(ctx context.Context, in *ReplyReviewReq, opt
 func (m *defaultReview) SoftDeleteReview(ctx context.Context, in *SoftDeleteReviewReq, opts ...grpc.CallOption) (*Empty, error) {
 	client := review.NewReviewClient(m.cli.Conn())
 	return client.SoftDeleteReview(ctx, in, opts...)
+}
+
+func (m *defaultReview) ListShopReviews(ctx context.Context, in *ListShopReviewsReq, opts ...grpc.CallOption) (*ListProductReviewsResp, error) {
+	client := review.NewReviewClient(m.cli.Conn())
+	return client.ListShopReviews(ctx, in, opts...)
+}
+
+func (m *defaultReview) RequestDeleteReview(ctx context.Context, in *RequestDeleteReviewReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := review.NewReviewClient(m.cli.Conn())
+	return client.RequestDeleteReview(ctx, in, opts...)
+}
+
+func (m *defaultReview) ListDeleteRequests(ctx context.Context, in *ListDeleteRequestsReq, opts ...grpc.CallOption) (*ListDeleteRequestsResp, error) {
+	client := review.NewReviewClient(m.cli.Conn())
+	return client.ListDeleteRequests(ctx, in, opts...)
+}
+
+func (m *defaultReview) AdminHandleDeleteRequest(ctx context.Context, in *AdminHandleDeleteRequestReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := review.NewReviewClient(m.cli.Conn())
+	return client.AdminHandleDeleteRequest(ctx, in, opts...)
 }
