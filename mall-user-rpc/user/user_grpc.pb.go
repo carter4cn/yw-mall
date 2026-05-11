@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.19.4
-// source: user.proto
+// source: user/user.proto
 
 package user
 
@@ -32,6 +32,13 @@ const (
 	User_ListAddresses_FullMethodName     = "/user.User/ListAddresses"
 	User_GetAddress_FullMethodName        = "/user.User/GetAddress"
 	User_GetDefaultAddress_FullMethodName = "/user.User/GetDefaultAddress"
+	User_AdminLogin_FullMethodName        = "/user.User/AdminLogin"
+	User_CreateAdmin_FullMethodName       = "/user.User/CreateAdmin"
+	User_ListAdmins_FullMethodName        = "/user.User/ListAdmins"
+	User_GetAdminById_FullMethodName      = "/user.User/GetAdminById"
+	User_UpdateAdminStatus_FullMethodName = "/user.User/UpdateAdminStatus"
+	User_ListUsers_FullMethodName         = "/user.User/ListUsers"
+	User_UpdateUserStatus_FullMethodName  = "/user.User/UpdateUserStatus"
 )
 
 // UserClient is the client API for User service.
@@ -51,6 +58,13 @@ type UserClient interface {
 	ListAddresses(ctx context.Context, in *ListAddressesReq, opts ...grpc.CallOption) (*ListAddressesResp, error)
 	GetAddress(ctx context.Context, in *GetAddressReq, opts ...grpc.CallOption) (*Address, error)
 	GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*Address, error)
+	AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...grpc.CallOption) (*AdminLoginResp, error)
+	CreateAdmin(ctx context.Context, in *CreateAdminReq, opts ...grpc.CallOption) (*CreateAdminResp, error)
+	ListAdmins(ctx context.Context, in *ListAdminsReq, opts ...grpc.CallOption) (*ListAdminsResp, error)
+	GetAdminById(ctx context.Context, in *GetAdminByIdReq, opts ...grpc.CallOption) (*AdminInfo, error)
+	UpdateAdminStatus(ctx context.Context, in *UpdateAdminStatusReq, opts ...grpc.CallOption) (*OkResp, error)
+	ListUsers(ctx context.Context, in *ListUsersReq, opts ...grpc.CallOption) (*ListUsersResp, error)
+	UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type userClient struct {
@@ -191,6 +205,76 @@ func (c *userClient) GetDefaultAddress(ctx context.Context, in *GetDefaultAddres
 	return out, nil
 }
 
+func (c *userClient) AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...grpc.CallOption) (*AdminLoginResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AdminLoginResp)
+	err := c.cc.Invoke(ctx, User_AdminLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) CreateAdmin(ctx context.Context, in *CreateAdminReq, opts ...grpc.CallOption) (*CreateAdminResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateAdminResp)
+	err := c.cc.Invoke(ctx, User_CreateAdmin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ListAdmins(ctx context.Context, in *ListAdminsReq, opts ...grpc.CallOption) (*ListAdminsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListAdminsResp)
+	err := c.cc.Invoke(ctx, User_ListAdmins_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetAdminById(ctx context.Context, in *GetAdminByIdReq, opts ...grpc.CallOption) (*AdminInfo, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AdminInfo)
+	err := c.cc.Invoke(ctx, User_GetAdminById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdateAdminStatus(ctx context.Context, in *UpdateAdminStatusReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, User_UpdateAdminStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ListUsers(ctx context.Context, in *ListUsersReq, opts ...grpc.CallOption) (*ListUsersResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListUsersResp)
+	err := c.cc.Invoke(ctx, User_ListUsers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, User_UpdateUserStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
@@ -208,6 +292,13 @@ type UserServer interface {
 	ListAddresses(context.Context, *ListAddressesReq) (*ListAddressesResp, error)
 	GetAddress(context.Context, *GetAddressReq) (*Address, error)
 	GetDefaultAddress(context.Context, *GetDefaultAddressReq) (*Address, error)
+	AdminLogin(context.Context, *AdminLoginReq) (*AdminLoginResp, error)
+	CreateAdmin(context.Context, *CreateAdminReq) (*CreateAdminResp, error)
+	ListAdmins(context.Context, *ListAdminsReq) (*ListAdminsResp, error)
+	GetAdminById(context.Context, *GetAdminByIdReq) (*AdminInfo, error)
+	UpdateAdminStatus(context.Context, *UpdateAdminStatusReq) (*OkResp, error)
+	ListUsers(context.Context, *ListUsersReq) (*ListUsersResp, error)
+	UpdateUserStatus(context.Context, *UpdateUserStatusReq) (*OkResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -256,6 +347,27 @@ func (UnimplementedUserServer) GetAddress(context.Context, *GetAddressReq) (*Add
 }
 func (UnimplementedUserServer) GetDefaultAddress(context.Context, *GetDefaultAddressReq) (*Address, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetDefaultAddress not implemented")
+}
+func (UnimplementedUserServer) AdminLogin(context.Context, *AdminLoginReq) (*AdminLoginResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method AdminLogin not implemented")
+}
+func (UnimplementedUserServer) CreateAdmin(context.Context, *CreateAdminReq) (*CreateAdminResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateAdmin not implemented")
+}
+func (UnimplementedUserServer) ListAdmins(context.Context, *ListAdminsReq) (*ListAdminsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListAdmins not implemented")
+}
+func (UnimplementedUserServer) GetAdminById(context.Context, *GetAdminByIdReq) (*AdminInfo, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAdminById not implemented")
+}
+func (UnimplementedUserServer) UpdateAdminStatus(context.Context, *UpdateAdminStatusReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateAdminStatus not implemented")
+}
+func (UnimplementedUserServer) ListUsers(context.Context, *ListUsersReq) (*ListUsersResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListUsers not implemented")
+}
+func (UnimplementedUserServer) UpdateUserStatus(context.Context, *UpdateUserStatusReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateUserStatus not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -512,6 +624,132 @@ func _User_GetDefaultAddress_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_AdminLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminLoginReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).AdminLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_AdminLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).AdminLogin(ctx, req.(*AdminLoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_CreateAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAdminReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).CreateAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_CreateAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).CreateAdmin(ctx, req.(*CreateAdminReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ListAdmins_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAdminsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ListAdmins(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ListAdmins_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ListAdmins(ctx, req.(*ListAdminsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetAdminById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAdminByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetAdminById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetAdminById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetAdminById(ctx, req.(*GetAdminByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdateAdminStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAdminStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateAdminStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateAdminStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateAdminStatus(ctx, req.(*UpdateAdminStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUsersReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ListUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ListUsers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ListUsers(ctx, req.(*ListUsersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdateUserStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateUserStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateUserStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateUserStatus(ctx, req.(*UpdateUserStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -571,7 +809,35 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetDefaultAddress",
 			Handler:    _User_GetDefaultAddress_Handler,
 		},
+		{
+			MethodName: "AdminLogin",
+			Handler:    _User_AdminLogin_Handler,
+		},
+		{
+			MethodName: "CreateAdmin",
+			Handler:    _User_CreateAdmin_Handler,
+		},
+		{
+			MethodName: "ListAdmins",
+			Handler:    _User_ListAdmins_Handler,
+		},
+		{
+			MethodName: "GetAdminById",
+			Handler:    _User_GetAdminById_Handler,
+		},
+		{
+			MethodName: "UpdateAdminStatus",
+			Handler:    _User_UpdateAdminStatus_Handler,
+		},
+		{
+			MethodName: "ListUsers",
+			Handler:    _User_ListUsers_Handler,
+		},
+		{
+			MethodName: "UpdateUserStatus",
+			Handler:    _User_UpdateUserStatus_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "user.proto",
+	Metadata: "user/user.proto",
 }

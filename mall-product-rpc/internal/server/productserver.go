@@ -62,3 +62,38 @@ func (s *ProductServer) UnlockSku(ctx context.Context, in *product.UnlockSkuReq)
 	l := logic.NewUnlockSkuLogic(ctx, s.svcCtx)
 	return l.UnlockSku(in)
 }
+
+func (s *ProductServer) UpdateProduct(ctx context.Context, in *product.UpdateProductReq) (*product.OkResp, error) {
+	l := logic.NewUpdateProductLogic(ctx, s.svcCtx)
+	return l.UpdateProduct(in)
+}
+
+func (s *ProductServer) SetProductStatus(ctx context.Context, in *product.SetProductStatusReq) (*product.OkResp, error) {
+	l := logic.NewSetProductStatusLogic(ctx, s.svcCtx)
+	return l.SetProductStatus(in)
+}
+
+func (s *ProductServer) SetProductStock(ctx context.Context, in *product.SetProductStockReq) (*product.OkResp, error) {
+	l := logic.NewSetProductStockLogic(ctx, s.svcCtx)
+	return l.SetProductStock(in)
+}
+
+func (s *ProductServer) MerchantListProducts(ctx context.Context, in *product.MerchantListProductsReq) (*product.ListProductsResp, error) {
+	l := logic.NewMerchantListProductsLogic(ctx, s.svcCtx)
+	return l.MerchantListProducts(in)
+}
+
+func (s *ProductServer) AdminListReviewProducts(ctx context.Context, in *product.AdminListReviewProductsReq) (*product.ListProductsResp, error) {
+	l := logic.NewAdminListReviewProductsLogic(ctx, s.svcCtx)
+	return l.AdminListReviewProducts(in)
+}
+
+func (s *ProductServer) AdminReviewProduct(ctx context.Context, in *product.AdminReviewProductReq) (*product.OkResp, error) {
+	l := logic.NewAdminReviewProductLogic(ctx, s.svcCtx)
+	return l.AdminReviewProduct(in)
+}
+
+func (s *ProductServer) GetProductDetail(ctx context.Context, in *product.GetProductReq) (*product.ProductDetailResp, error) {
+	l := logic.NewGetProductDetailLogic(ctx, s.svcCtx)
+	return l.GetProductDetail(in)
+}

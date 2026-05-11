@@ -87,3 +87,38 @@ func (s *UserServer) GetDefaultAddress(ctx context.Context, in *user.GetDefaultA
 	l := logic.NewGetDefaultAddressLogic(ctx, s.svcCtx)
 	return l.GetDefaultAddress(in)
 }
+
+func (s *UserServer) AdminLogin(ctx context.Context, in *user.AdminLoginReq) (*user.AdminLoginResp, error) {
+	l := logic.NewAdminLoginLogic(ctx, s.svcCtx)
+	return l.AdminLogin(in)
+}
+
+func (s *UserServer) CreateAdmin(ctx context.Context, in *user.CreateAdminReq) (*user.CreateAdminResp, error) {
+	l := logic.NewCreateAdminLogic(ctx, s.svcCtx)
+	return l.CreateAdmin(in)
+}
+
+func (s *UserServer) ListAdmins(ctx context.Context, in *user.ListAdminsReq) (*user.ListAdminsResp, error) {
+	l := logic.NewListAdminsLogic(ctx, s.svcCtx)
+	return l.ListAdmins(in)
+}
+
+func (s *UserServer) GetAdminById(ctx context.Context, in *user.GetAdminByIdReq) (*user.AdminInfo, error) {
+	l := logic.NewGetAdminByIdLogic(ctx, s.svcCtx)
+	return l.GetAdminById(in)
+}
+
+func (s *UserServer) UpdateAdminStatus(ctx context.Context, in *user.UpdateAdminStatusReq) (*user.OkResp, error) {
+	l := logic.NewUpdateAdminStatusLogic(ctx, s.svcCtx)
+	return l.UpdateAdminStatus(in)
+}
+
+func (s *UserServer) ListUsers(ctx context.Context, in *user.ListUsersReq) (*user.ListUsersResp, error) {
+	l := logic.NewListUsersLogic(ctx, s.svcCtx)
+	return l.ListUsers(in)
+}
+
+func (s *UserServer) UpdateUserStatus(ctx context.Context, in *user.UpdateUserStatusReq) (*user.OkResp, error) {
+	l := logic.NewUpdateUserStatusLogic(ctx, s.svcCtx)
+	return l.UpdateUserStatus(in)
+}

@@ -19,15 +19,25 @@ type (
 	AddPointsReq         = user.AddPointsReq
 	AddPointsResp        = user.AddPointsResp
 	Address              = user.Address
+	AdminInfo            = user.AdminInfo
+	AdminLoginReq        = user.AdminLoginReq
+	AdminLoginResp       = user.AdminLoginResp
+	CreateAdminReq       = user.CreateAdminReq
+	CreateAdminResp      = user.CreateAdminResp
 	DeductPointsReq      = user.DeductPointsReq
 	DeductPointsResp     = user.DeductPointsResp
 	DeleteAddressReq     = user.DeleteAddressReq
 	GetAddressReq        = user.GetAddressReq
+	GetAdminByIdReq      = user.GetAdminByIdReq
 	GetDefaultAddressReq = user.GetDefaultAddressReq
 	GetUserReq           = user.GetUserReq
 	GetUserResp          = user.GetUserResp
 	ListAddressesReq     = user.ListAddressesReq
 	ListAddressesResp    = user.ListAddressesResp
+	ListAdminsReq        = user.ListAdminsReq
+	ListAdminsResp       = user.ListAdminsResp
+	ListUsersReq         = user.ListUsersReq
+	ListUsersResp        = user.ListUsersResp
 	LoginReq             = user.LoginReq
 	LoginResp            = user.LoginResp
 	OkResp               = user.OkResp
@@ -35,8 +45,10 @@ type (
 	RegisterResp         = user.RegisterResp
 	SetDefaultAddressReq = user.SetDefaultAddressReq
 	UpdateAddressReq     = user.UpdateAddressReq
+	UpdateAdminStatusReq = user.UpdateAdminStatusReq
 	UpdateUserReq        = user.UpdateUserReq
 	UpdateUserResp       = user.UpdateUserResp
+	UpdateUserStatusReq  = user.UpdateUserStatusReq
 
 	User interface {
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
@@ -52,6 +64,13 @@ type (
 		ListAddresses(ctx context.Context, in *ListAddressesReq, opts ...grpc.CallOption) (*ListAddressesResp, error)
 		GetAddress(ctx context.Context, in *GetAddressReq, opts ...grpc.CallOption) (*Address, error)
 		GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*Address, error)
+		AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...grpc.CallOption) (*AdminLoginResp, error)
+		CreateAdmin(ctx context.Context, in *CreateAdminReq, opts ...grpc.CallOption) (*CreateAdminResp, error)
+		ListAdmins(ctx context.Context, in *ListAdminsReq, opts ...grpc.CallOption) (*ListAdminsResp, error)
+		GetAdminById(ctx context.Context, in *GetAdminByIdReq, opts ...grpc.CallOption) (*AdminInfo, error)
+		UpdateAdminStatus(ctx context.Context, in *UpdateAdminStatusReq, opts ...grpc.CallOption) (*OkResp, error)
+		ListUsers(ctx context.Context, in *ListUsersReq, opts ...grpc.CallOption) (*ListUsersResp, error)
+		UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultUser struct {
@@ -128,4 +147,39 @@ func (m *defaultUser) GetAddress(ctx context.Context, in *GetAddressReq, opts ..
 func (m *defaultUser) GetDefaultAddress(ctx context.Context, in *GetDefaultAddressReq, opts ...grpc.CallOption) (*Address, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.GetDefaultAddress(ctx, in, opts...)
+}
+
+func (m *defaultUser) AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...grpc.CallOption) (*AdminLoginResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.AdminLogin(ctx, in, opts...)
+}
+
+func (m *defaultUser) CreateAdmin(ctx context.Context, in *CreateAdminReq, opts ...grpc.CallOption) (*CreateAdminResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.CreateAdmin(ctx, in, opts...)
+}
+
+func (m *defaultUser) ListAdmins(ctx context.Context, in *ListAdminsReq, opts ...grpc.CallOption) (*ListAdminsResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.ListAdmins(ctx, in, opts...)
+}
+
+func (m *defaultUser) GetAdminById(ctx context.Context, in *GetAdminByIdReq, opts ...grpc.CallOption) (*AdminInfo, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetAdminById(ctx, in, opts...)
+}
+
+func (m *defaultUser) UpdateAdminStatus(ctx context.Context, in *UpdateAdminStatusReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateAdminStatus(ctx, in, opts...)
+}
+
+func (m *defaultUser) ListUsers(ctx context.Context, in *ListUsersReq, opts ...grpc.CallOption) (*ListUsersResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.ListUsers(ctx, in, opts...)
+}
+
+func (m *defaultUser) UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateUserStatus(ctx, in, opts...)
 }

@@ -94,6 +94,36 @@ message ListAddressesResp    { repeated Address addresses = 1; }
 message GetAddressReq        { int64 user_id = 1; int64 id = 2; }
 message GetDefaultAddressReq { int64 user_id = 1; }
 
+// ===== Admin Account =====
+message AdminInfo {
+  int64 id = 1;
+  string username = 2;
+  string email = 3;
+  string role = 4;
+  string permissions = 5;
+  int32 status = 6;
+  int64 create_time = 7;
+}
+
+message AdminLoginReq { string username = 1; string password = 2; }
+message AdminLoginResp { int64 id = 1; string username = 2; string role = 3; string permissions = 4; }
+
+message CreateAdminReq { string username = 1; string password = 2; string email = 3; string role = 4; string permissions = 5; }
+message CreateAdminResp { int64 id = 1; }
+
+message ListAdminsReq { int32 page = 1; int32 page_size = 2; }
+message ListAdminsResp { repeated AdminInfo admins = 1; int64 total = 2; }
+
+message GetAdminByIdReq { int64 id = 1; }
+
+message UpdateAdminStatusReq { int64 id = 1; int32 status = 2; }
+
+// ===== User Admin Management =====
+message ListUsersReq { int32 page = 1; int32 page_size = 2; string keyword = 3; }
+message ListUsersResp { repeated GetUserResp users = 1; int64 total = 2; }
+
+message UpdateUserStatusReq { int64 id = 1; int32 status = 2; }
+
 service User {
   rpc Register(RegisterReq) returns (RegisterResp);
   rpc Login(LoginReq) returns (LoginResp);
@@ -108,4 +138,11 @@ service User {
   rpc ListAddresses(ListAddressesReq) returns (ListAddressesResp);
   rpc GetAddress(GetAddressReq) returns (Address);
   rpc GetDefaultAddress(GetDefaultAddressReq) returns (Address);
+  rpc AdminLogin(AdminLoginReq) returns (AdminLoginResp);
+  rpc CreateAdmin(CreateAdminReq) returns (CreateAdminResp);
+  rpc ListAdmins(ListAdminsReq) returns (ListAdminsResp);
+  rpc GetAdminById(GetAdminByIdReq) returns (AdminInfo);
+  rpc UpdateAdminStatus(UpdateAdminStatusReq) returns (OkResp);
+  rpc ListUsers(ListUsersReq) returns (ListUsersResp);
+  rpc UpdateUserStatus(UpdateUserStatusReq) returns (OkResp);
 }

@@ -92,6 +92,65 @@ message ListShopProductsReq {
   int32 page_size = 3;
 }
 
+// ===== Merchant & Admin Product Management =====
+message OkResp { bool ok = 1; }
+
+message UpdateProductReq {
+  int64  id = 1;
+  int64  shop_id = 2;
+  string name = 3;
+  string description = 4;
+  int64  price = 5;
+  int64  category_id = 6;
+  string images = 7;
+  string detail = 8;
+  string brand = 9;
+  double weight = 10;
+}
+
+message SetProductStatusReq { int64 id = 1; int64 shop_id = 2; int32 status = 3; }
+
+message SetProductStockReq { int64 id = 1; int64 stock = 2; }
+
+message MerchantListProductsReq {
+  int64 shop_id = 1;
+  int32 status = 2;        // -1 = all
+  int32 review_status = 3; // -1 = all
+  int32 page = 4;
+  int32 page_size = 5;
+}
+
+message AdminListReviewProductsReq {
+  int32 review_status = 1; // 0=pending,1=approved,2=rejected
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message AdminReviewProductReq {
+  int64  id = 1;
+  int32  action = 2; // 1=approve, 2=reject
+  string remark = 3;
+  int64  reviewer_id = 4;
+}
+
+message ProductDetailResp {
+  int64  id = 1;
+  string name = 2;
+  string description = 3;
+  int64  price = 4;
+  int64  stock = 5;
+  int64  category_id = 6;
+  string images = 7;
+  int32  status = 8;
+  int64  create_time = 9;
+  int64  shop_id = 10;
+  int32  review_status = 11;
+  string review_remark = 12;
+  string detail = 13;
+  string brand = 14;
+  double weight = 15;
+}
+
 service Product {
   rpc CreateProduct(CreateProductReq) returns (CreateProductResp);
   rpc GetProduct(GetProductReq) returns (GetProductResp);
@@ -101,4 +160,11 @@ service Product {
   rpc SearchProducts(SearchProductsReq) returns (SearchProductsResp);
   rpc LockSku(LockSkuReq) returns (LockSkuResp);
   rpc UnlockSku(UnlockSkuReq) returns (UnlockSkuResp);
+  rpc UpdateProduct(UpdateProductReq) returns (OkResp);
+  rpc SetProductStatus(SetProductStatusReq) returns (OkResp);
+  rpc SetProductStock(SetProductStockReq) returns (OkResp);
+  rpc MerchantListProducts(MerchantListProductsReq) returns (ListProductsResp);
+  rpc AdminListReviewProducts(AdminListReviewProductsReq) returns (ListProductsResp);
+  rpc AdminReviewProduct(AdminReviewProductReq) returns (OkResp);
+  rpc GetProductDetail(GetProductReq) returns (ProductDetailResp);
 }

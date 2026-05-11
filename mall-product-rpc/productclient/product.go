@@ -14,21 +14,29 @@ import (
 )
 
 type (
-	CreateProductReq    = product.CreateProductReq
-	CreateProductResp   = product.CreateProductResp
-	GetProductReq       = product.GetProductReq
-	GetProductResp      = product.GetProductResp
-	ListProductsReq     = product.ListProductsReq
-	ListProductsResp    = product.ListProductsResp
-	ListShopProductsReq = product.ListShopProductsReq
-	LockSkuReq          = product.LockSkuReq
-	LockSkuResp         = product.LockSkuResp
-	SearchProductsReq   = product.SearchProductsReq
-	SearchProductsResp  = product.SearchProductsResp
-	UnlockSkuReq        = product.UnlockSkuReq
-	UnlockSkuResp       = product.UnlockSkuResp
-	UpdateStockReq      = product.UpdateStockReq
-	UpdateStockResp     = product.UpdateStockResp
+	AdminListReviewProductsReq = product.AdminListReviewProductsReq
+	AdminReviewProductReq      = product.AdminReviewProductReq
+	CreateProductReq           = product.CreateProductReq
+	CreateProductResp          = product.CreateProductResp
+	GetProductReq              = product.GetProductReq
+	GetProductResp             = product.GetProductResp
+	ListProductsReq            = product.ListProductsReq
+	ListProductsResp           = product.ListProductsResp
+	ListShopProductsReq        = product.ListShopProductsReq
+	LockSkuReq                 = product.LockSkuReq
+	LockSkuResp                = product.LockSkuResp
+	MerchantListProductsReq    = product.MerchantListProductsReq
+	OkResp                     = product.OkResp
+	ProductDetailResp          = product.ProductDetailResp
+	SearchProductsReq          = product.SearchProductsReq
+	SearchProductsResp         = product.SearchProductsResp
+	SetProductStatusReq        = product.SetProductStatusReq
+	SetProductStockReq         = product.SetProductStockReq
+	UnlockSkuReq               = product.UnlockSkuReq
+	UnlockSkuResp              = product.UnlockSkuResp
+	UpdateProductReq           = product.UpdateProductReq
+	UpdateStockReq             = product.UpdateStockReq
+	UpdateStockResp            = product.UpdateStockResp
 
 	Product interface {
 		CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductResp, error)
@@ -39,6 +47,13 @@ type (
 		SearchProducts(ctx context.Context, in *SearchProductsReq, opts ...grpc.CallOption) (*SearchProductsResp, error)
 		LockSku(ctx context.Context, in *LockSkuReq, opts ...grpc.CallOption) (*LockSkuResp, error)
 		UnlockSku(ctx context.Context, in *UnlockSkuReq, opts ...grpc.CallOption) (*UnlockSkuResp, error)
+		UpdateProduct(ctx context.Context, in *UpdateProductReq, opts ...grpc.CallOption) (*OkResp, error)
+		SetProductStatus(ctx context.Context, in *SetProductStatusReq, opts ...grpc.CallOption) (*OkResp, error)
+		SetProductStock(ctx context.Context, in *SetProductStockReq, opts ...grpc.CallOption) (*OkResp, error)
+		MerchantListProducts(ctx context.Context, in *MerchantListProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error)
+		AdminListReviewProducts(ctx context.Context, in *AdminListReviewProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error)
+		AdminReviewProduct(ctx context.Context, in *AdminReviewProductReq, opts ...grpc.CallOption) (*OkResp, error)
+		GetProductDetail(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*ProductDetailResp, error)
 	}
 
 	defaultProduct struct {
@@ -90,4 +105,39 @@ func (m *defaultProduct) LockSku(ctx context.Context, in *LockSkuReq, opts ...gr
 func (m *defaultProduct) UnlockSku(ctx context.Context, in *UnlockSkuReq, opts ...grpc.CallOption) (*UnlockSkuResp, error) {
 	client := product.NewProductClient(m.cli.Conn())
 	return client.UnlockSku(ctx, in, opts...)
+}
+
+func (m *defaultProduct) UpdateProduct(ctx context.Context, in *UpdateProductReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.UpdateProduct(ctx, in, opts...)
+}
+
+func (m *defaultProduct) SetProductStatus(ctx context.Context, in *SetProductStatusReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.SetProductStatus(ctx, in, opts...)
+}
+
+func (m *defaultProduct) SetProductStock(ctx context.Context, in *SetProductStockReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.SetProductStock(ctx, in, opts...)
+}
+
+func (m *defaultProduct) MerchantListProducts(ctx context.Context, in *MerchantListProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.MerchantListProducts(ctx, in, opts...)
+}
+
+func (m *defaultProduct) AdminListReviewProducts(ctx context.Context, in *AdminListReviewProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.AdminListReviewProducts(ctx, in, opts...)
+}
+
+func (m *defaultProduct) AdminReviewProduct(ctx context.Context, in *AdminReviewProductReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.AdminReviewProduct(ctx, in, opts...)
+}
+
+func (m *defaultProduct) GetProductDetail(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*ProductDetailResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.GetProductDetail(ctx, in, opts...)
 }
