@@ -30,7 +30,7 @@ func (l *ShipOrderLogic) ShipOrder(in *order.ShipOrderReq) (*order.OkResp, error
 		return nil, errors.New("carrier and tracking_no are required")
 	}
 	res, err := l.svcCtx.SqlConn.ExecCtx(l.ctx,
-		"UPDATE `order` SET status=2, tracking_no=?, carrier=? WHERE id=? AND shop_id=? AND status=1",
+		"UPDATE `order` SET status=2, tracking_no=?, carrier=?, ship_time=UNIX_TIMESTAMP() WHERE id=? AND shop_id=? AND status=1",
 		in.TrackingNo, in.Carrier, in.Id, in.ShopId)
 	if err != nil {
 		return nil, err

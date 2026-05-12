@@ -29,7 +29,7 @@ func NewGetShopOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetS
 func (l *GetShopOrderLogic) GetShopOrder(in *order.GetShopOrderReq) (*order.GetOrderResp, error) {
 	var o orderRow
 	err := l.svcCtx.SqlConn.QueryRowCtx(l.ctx, &o,
-		"SELECT `id`, `order_no`, `user_id`, `total_amount`, `status`, `create_time`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail` FROM `order` WHERE `id` = ? AND `shop_id` = ? LIMIT 1",
+		"SELECT "+orderTimelineCols+" FROM `order` WHERE `id` = ? AND `shop_id` = ? LIMIT 1",
 		in.Id, in.ShopId)
 	if err != nil {
 		if err == sqlx.ErrNotFound {
@@ -70,5 +70,10 @@ func (l *GetShopOrderLogic) GetShopOrder(in *order.GetShopOrderReq) (*order.GetO
 		ReceiverCity:     o.ReceiverCity,
 		ReceiverDistrict: o.ReceiverDistrict,
 		ReceiverDetail:   o.ReceiverDetail,
+		PayTime:          o.PayTime,
+		ShipTime:         o.ShipTime,
+		CompleteTime:     o.CompleteTime,
+		CancelTime:       o.CancelTime,
+		CancelReason:     o.CancelReason,
 	}, nil
 }

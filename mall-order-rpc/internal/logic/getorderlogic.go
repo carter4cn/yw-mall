@@ -39,12 +39,21 @@ type orderRow struct {
 	ReceiverCity     string    `db:"receiver_city"`
 	ReceiverDistrict string    `db:"receiver_district"`
 	ReceiverDetail   string    `db:"receiver_detail"`
+	PayTime          int64     `db:"pay_time"`
+	ShipTime         int64     `db:"ship_time"`
+	CompleteTime     int64     `db:"complete_time"`
+	CancelTime       int64     `db:"cancel_time"`
+	CancelReason     string    `db:"cancel_reason"`
 }
+
+// orderTimelineCols is the SELECT clause covering identity + receiver fields
+// plus the S1.5 lifecycle timestamps used by both GetOrder and GetShopOrder.
+const orderTimelineCols = "`id`, `order_no`, `user_id`, `total_amount`, `status`, `create_time`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail`, `pay_time`, `ship_time`, `complete_time`, `cancel_time`, `cancel_reason`"
 
 func (l *GetOrderLogic) GetOrder(in *order.GetOrderReq) (*order.GetOrderResp, error) {
 	var o orderRow
 	err := l.svcCtx.SqlConn.QueryRowCtx(l.ctx, &o,
-		"SELECT `id`, `order_no`, `user_id`, `total_amount`, `status`, `create_time`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail` FROM `order` WHERE `id` = ? LIMIT 1",
+		"SELECT "+orderTimelineCols+" FROM `order` WHERE `id` = ? LIMIT 1",
 		in.Id,
 	)
 	if err == model.ErrNotFound {
@@ -88,5 +97,10 @@ func (l *GetOrderLogic) GetOrder(in *order.GetOrderReq) (*order.GetOrderResp, er
 		ReceiverCity:     o.ReceiverCity,
 		ReceiverDistrict: o.ReceiverDistrict,
 		ReceiverDetail:   o.ReceiverDetail,
+		PayTime:          o.PayTime,
+		ShipTime:         o.ShipTime,
+		CompleteTime:     o.CompleteTime,
+		CancelTime:       o.CancelTime,
+		CancelReason:     o.CancelReason,
 	}, nil
 }

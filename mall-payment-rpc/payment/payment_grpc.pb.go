@@ -28,6 +28,8 @@ const (
 	Payment_ListWithdrawals_FullMethodName       = "/payment.Payment/ListWithdrawals"
 	Payment_AdminHandleWithdrawal_FullMethodName = "/payment.Payment/AdminHandleWithdrawal"
 	Payment_ListBillRecords_FullMethodName       = "/payment.Payment/ListBillRecords"
+	Payment_GetCashier_FullMethodName            = "/payment.Payment/GetCashier"
+	Payment_ConfirmMockPay_FullMethodName        = "/payment.Payment/ConfirmMockPay"
 )
 
 // PaymentClient is the client API for Payment service.
@@ -44,6 +46,9 @@ type PaymentClient interface {
 	ListWithdrawals(ctx context.Context, in *ListWithdrawalsReq, opts ...grpc.CallOption) (*ListWithdrawalsResp, error)
 	AdminHandleWithdrawal(ctx context.Context, in *AdminHandleWithdrawalReq, opts ...grpc.CallOption) (*OkResp, error)
 	ListBillRecords(ctx context.Context, in *ListBillRecordsReq, opts ...grpc.CallOption) (*ListBillRecordsResp, error)
+	// ===== S1 cashier + mock pay =====
+	GetCashier(ctx context.Context, in *GetCashierReq, opts ...grpc.CallOption) (*CashierInfo, error)
+	ConfirmMockPay(ctx context.Context, in *ConfirmMockPayReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type paymentClient struct {
@@ -144,6 +149,26 @@ func (c *paymentClient) ListBillRecords(ctx context.Context, in *ListBillRecords
 	return out, nil
 }
 
+func (c *paymentClient) GetCashier(ctx context.Context, in *GetCashierReq, opts ...grpc.CallOption) (*CashierInfo, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CashierInfo)
+	err := c.cc.Invoke(ctx, Payment_GetCashier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentClient) ConfirmMockPay(ctx context.Context, in *ConfirmMockPayReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Payment_ConfirmMockPay_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PaymentServer is the server API for Payment service.
 // All implementations must embed UnimplementedPaymentServer
 // for forward compatibility.
@@ -158,6 +183,9 @@ type PaymentServer interface {
 	ListWithdrawals(context.Context, *ListWithdrawalsReq) (*ListWithdrawalsResp, error)
 	AdminHandleWithdrawal(context.Context, *AdminHandleWithdrawalReq) (*OkResp, error)
 	ListBillRecords(context.Context, *ListBillRecordsReq) (*ListBillRecordsResp, error)
+	// ===== S1 cashier + mock pay =====
+	GetCashier(context.Context, *GetCashierReq) (*CashierInfo, error)
+	ConfirmMockPay(context.Context, *ConfirmMockPayReq) (*OkResp, error)
 	mustEmbedUnimplementedPaymentServer()
 }
 
@@ -194,6 +222,12 @@ func (UnimplementedPaymentServer) AdminHandleWithdrawal(context.Context, *AdminH
 }
 func (UnimplementedPaymentServer) ListBillRecords(context.Context, *ListBillRecordsReq) (*ListBillRecordsResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListBillRecords not implemented")
+}
+func (UnimplementedPaymentServer) GetCashier(context.Context, *GetCashierReq) (*CashierInfo, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetCashier not implemented")
+}
+func (UnimplementedPaymentServer) ConfirmMockPay(context.Context, *ConfirmMockPayReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ConfirmMockPay not implemented")
 }
 func (UnimplementedPaymentServer) mustEmbedUnimplementedPaymentServer() {}
 func (UnimplementedPaymentServer) testEmbeddedByValue()                 {}
@@ -378,6 +412,42 @@ func _Payment_ListBillRecords_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Payment_GetCashier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCashierReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).GetCashier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_GetCashier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).GetCashier(ctx, req.(*GetCashierReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Payment_ConfirmMockPay_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmMockPayReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).ConfirmMockPay(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_ConfirmMockPay_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).ConfirmMockPay(ctx, req.(*ConfirmMockPayReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Payment_ServiceDesc is the grpc.ServiceDesc for Payment service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -420,6 +490,14 @@ var Payment_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListBillRecords",
 			Handler:    _Payment_ListBillRecords_Handler,
+		},
+		{
+			MethodName: "GetCashier",
+			Handler:    _Payment_GetCashier_Handler,
+		},
+		{
+			MethodName: "ConfirmMockPay",
+			Handler:    _Payment_ConfirmMockPay_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

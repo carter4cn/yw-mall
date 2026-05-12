@@ -38,12 +38,28 @@ func (l *UpdateOrderStatusLogic) UpdateOrderStatus(in *order.UpdateOrderStatusRe
 		return nil, err
 	}
 
-	// H-2: stamp complete_time on transition to status=3 so the settlement
-	// worker can apply the T+N cooling-off window.
-	if in.Status == 3 {
+	// S1.5: stamp the per-transition timeline column. H-2's complete_time
+	// branch is preserved for the settlement worker's T+N cooling-off window.
+	switch in.Status {
+	case 1:
+		_, _ = l.svcCtx.SqlConn.ExecCtx(l.ctx,
+			"UPDATE `order` SET pay_time = UNIX_TIMESTAMP() WHERE id = ? AND pay_time = 0",
+			in.Id,
+		)
+	case 2:
+		_, _ = l.svcCtx.SqlConn.ExecCtx(l.ctx,
+			"UPDATE `order` SET ship_time = UNIX_TIMESTAMP() WHERE id = ? AND ship_time = 0",
+			in.Id,
+		)
+	case 3:
 		_, _ = l.svcCtx.SqlConn.ExecCtx(l.ctx,
 			"UPDATE `order` SET complete_time = UNIX_TIMESTAMP() WHERE id = ? AND complete_time = 0",
 			in.Id,
+		)
+	case 4:
+		_, _ = l.svcCtx.SqlConn.ExecCtx(l.ctx,
+			"UPDATE `order` SET cancel_time = UNIX_TIMESTAMP(), cancel_reason = ? WHERE id = ? AND cancel_time = 0",
+			"manual:update_status", in.Id,
 		)
 	}
 

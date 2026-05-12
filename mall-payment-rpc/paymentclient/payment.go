@@ -16,11 +16,14 @@ import (
 type (
 	AdminHandleWithdrawalReq = payment.AdminHandleWithdrawalReq
 	BillRecord               = payment.BillRecord
+	CashierInfo              = payment.CashierInfo
+	ConfirmMockPayReq        = payment.ConfirmMockPayReq
 	CreatePaymentReq         = payment.CreatePaymentReq
 	CreatePaymentResp        = payment.CreatePaymentResp
 	CreateWithdrawalReq      = payment.CreateWithdrawalReq
 	CreateWithdrawalResp     = payment.CreateWithdrawalResp
 	CreditWalletReq          = payment.CreditWalletReq
+	GetCashierReq            = payment.GetCashierReq
 	GetMerchantWalletReq     = payment.GetMerchantWalletReq
 	GetPaymentReq            = payment.GetPaymentReq
 	GetPaymentResp           = payment.GetPaymentResp
@@ -45,6 +48,9 @@ type (
 		ListWithdrawals(ctx context.Context, in *ListWithdrawalsReq, opts ...grpc.CallOption) (*ListWithdrawalsResp, error)
 		AdminHandleWithdrawal(ctx context.Context, in *AdminHandleWithdrawalReq, opts ...grpc.CallOption) (*OkResp, error)
 		ListBillRecords(ctx context.Context, in *ListBillRecordsReq, opts ...grpc.CallOption) (*ListBillRecordsResp, error)
+		// S1 cashier + mock pay
+		GetCashier(ctx context.Context, in *GetCashierReq, opts ...grpc.CallOption) (*CashierInfo, error)
+		ConfirmMockPay(ctx context.Context, in *ConfirmMockPayReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultPayment struct {
@@ -101,4 +107,14 @@ func (m *defaultPayment) AdminHandleWithdrawal(ctx context.Context, in *AdminHan
 func (m *defaultPayment) ListBillRecords(ctx context.Context, in *ListBillRecordsReq, opts ...grpc.CallOption) (*ListBillRecordsResp, error) {
 	client := payment.NewPaymentClient(m.cli.Conn())
 	return client.ListBillRecords(ctx, in, opts...)
+}
+
+func (m *defaultPayment) GetCashier(ctx context.Context, in *GetCashierReq, opts ...grpc.CallOption) (*CashierInfo, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.GetCashier(ctx, in, opts...)
+}
+
+func (m *defaultPayment) ConfirmMockPay(ctx context.Context, in *ConfirmMockPayReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.ConfirmMockPay(ctx, in, opts...)
 }

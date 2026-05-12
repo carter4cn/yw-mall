@@ -184,6 +184,25 @@ type CreatePaymentResp struct {
 	PaymentNo string `json:"paymentNo"`
 }
 
+// S1.2 cashier
+type GetCashierReq struct {
+	OrderId int64 `path:"order_id"`
+}
+
+type CashierInfoResp struct {
+	OrderId     int64    `json:"orderId"`
+	OrderNo     string   `json:"orderNo"`
+	Amount      int64    `json:"amount"`
+	ExpireAt    int64    `json:"expireAt"`
+	Channels    []string `json:"channels"`
+	MockEnabled bool     `json:"mockEnabled"`
+}
+
+// S1.3 mock confirm
+type ConfirmMockPayReq struct {
+	OrderId int64 `path:"order_id"`
+}
+
 type GetRatingSummaryReq struct {
 	ProductId int64 `path:"productId"`
 }
@@ -278,14 +297,19 @@ type OrderDetailReq struct {
 }
 
 type OrderDetailResp struct {
-	Id          int64             `json:"id"`
-	OrderNo     string            `json:"orderNo"`
-	UserId      int64             `json:"userId"`
-	TotalAmount int64             `json:"totalAmount"`
-	Status      int32             `json:"status"`
-	Items       []CreateOrderItem `json:"items"`
-	CreateTime  int64             `json:"createTime"`
-	Shipments   []ShipmentDTO     `json:"shipments,omitempty"`
+	Id           int64             `json:"id"`
+	OrderNo      string            `json:"orderNo"`
+	UserId       int64             `json:"userId"`
+	TotalAmount  int64             `json:"totalAmount"`
+	Status       int32             `json:"status"`
+	Items        []CreateOrderItem `json:"items"`
+	CreateTime   int64             `json:"createTime"`
+	PayTime      int64             `json:"payTime,omitempty"`
+	ShipTime     int64             `json:"shipTime,omitempty"`
+	CompleteTime int64             `json:"completeTime,omitempty"`
+	CancelTime   int64             `json:"cancelTime,omitempty"`
+	CancelReason string            `json:"cancelReason,omitempty"`
+	Shipments    []ShipmentDTO     `json:"shipments,omitempty"`
 }
 
 type OrderListReq struct {

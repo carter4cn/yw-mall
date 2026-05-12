@@ -17,3 +17,7 @@ OrderDSN: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_order?charset=utf8mb4&pa
 PaymentDSN: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_payment?charset=utf8mb4&parseTime=true&loc=Local
 SettlementDelaySec: 259200
 SettlementIntervalSec: 300
+
+# S1.4 auto-cancel pending orders past cashier TTL
+PendingOrderTimeoutSec: 900
+CancelIntervalSec: 60

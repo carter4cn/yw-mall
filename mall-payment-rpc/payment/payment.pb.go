@@ -1226,6 +1226,195 @@ func (x *ListBillRecordsResp) GetTotal() int64 {
 	return 0
 }
 
+// ===== S1 cashier + mock pay =====
+type GetCashierReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrderId       int64                  `protobuf:"varint,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCashierReq) Reset() {
+	*x = GetCashierReq{}
+	mi := &file_payment_payment_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCashierReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCashierReq) ProtoMessage() {}
+
+func (x *GetCashierReq) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCashierReq.ProtoReflect.Descriptor instead.
+func (*GetCashierReq) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetCashierReq) GetOrderId() int64 {
+	if x != nil {
+		return x.OrderId
+	}
+	return 0
+}
+
+func (x *GetCashierReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+type CashierInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrderId       int64                  `protobuf:"varint,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	OrderNo       string                 `protobuf:"bytes,2,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`
+	Amount        int64                  `protobuf:"varint,3,opt,name=amount,proto3" json:"amount,omitempty"`                     // cents
+	ExpireAt      int64                  `protobuf:"varint,4,opt,name=expire_at,json=expireAt,proto3" json:"expire_at,omitempty"` // 待支付剩余时间 unix sec
+	Channels      []string               `protobuf:"bytes,5,rep,name=channels,proto3" json:"channels,omitempty"`                  // ["mock","wechat","alipay","unionpay"]
+	MockEnabled   bool                   `protobuf:"varint,6,opt,name=mock_enabled,json=mockEnabled,proto3" json:"mock_enabled,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CashierInfo) Reset() {
+	*x = CashierInfo{}
+	mi := &file_payment_payment_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CashierInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CashierInfo) ProtoMessage() {}
+
+func (x *CashierInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CashierInfo.ProtoReflect.Descriptor instead.
+func (*CashierInfo) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *CashierInfo) GetOrderId() int64 {
+	if x != nil {
+		return x.OrderId
+	}
+	return 0
+}
+
+func (x *CashierInfo) GetOrderNo() string {
+	if x != nil {
+		return x.OrderNo
+	}
+	return ""
+}
+
+func (x *CashierInfo) GetAmount() int64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *CashierInfo) GetExpireAt() int64 {
+	if x != nil {
+		return x.ExpireAt
+	}
+	return 0
+}
+
+func (x *CashierInfo) GetChannels() []string {
+	if x != nil {
+		return x.Channels
+	}
+	return nil
+}
+
+func (x *CashierInfo) GetMockEnabled() bool {
+	if x != nil {
+		return x.MockEnabled
+	}
+	return false
+}
+
+type ConfirmMockPayReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrderId       int64                  `protobuf:"varint,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ConfirmMockPayReq) Reset() {
+	*x = ConfirmMockPayReq{}
+	mi := &file_payment_payment_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConfirmMockPayReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConfirmMockPayReq) ProtoMessage() {}
+
+func (x *ConfirmMockPayReq) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConfirmMockPayReq.ProtoReflect.Descriptor instead.
+func (*ConfirmMockPayReq) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *ConfirmMockPayReq) GetOrderId() int64 {
+	if x != nil {
+		return x.OrderId
+	}
+	return 0
+}
+
+func (x *ConfirmMockPayReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
 var File_payment_payment_proto protoreflect.FileDescriptor
 
 const file_payment_payment_proto_rawDesc = "" +
@@ -1321,7 +1510,20 @@ const file_payment_payment_proto_rawDesc = "" +
 	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"Z\n" +
 	"\x13ListBillRecordsResp\x12-\n" +
 	"\arecords\x18\x01 \x03(\v2\x13.payment.BillRecordR\arecords\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x03R\x05total2\xac\x05\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"C\n" +
+	"\rGetCashierReq\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\x03R\aorderId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\"\xb7\x01\n" +
+	"\vCashierInfo\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\x03R\aorderId\x12\x19\n" +
+	"\border_no\x18\x02 \x01(\tR\aorderNo\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\x03R\x06amount\x12\x1b\n" +
+	"\texpire_at\x18\x04 \x01(\x03R\bexpireAt\x12\x1a\n" +
+	"\bchannels\x18\x05 \x03(\tR\bchannels\x12!\n" +
+	"\fmock_enabled\x18\x06 \x01(\bR\vmockEnabled\"G\n" +
+	"\x11ConfirmMockPayReq\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\x03R\aorderId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId2\xa7\x06\n" +
 	"\aPayment\x12F\n" +
 	"\rCreatePayment\x12\x19.payment.CreatePaymentReq\x1a\x1a.payment.CreatePaymentResp\x12=\n" +
 	"\n" +
@@ -1332,7 +1534,10 @@ const file_payment_payment_proto_rawDesc = "" +
 	"\x10CreateWithdrawal\x12\x1c.payment.CreateWithdrawalReq\x1a\x1d.payment.CreateWithdrawalResp\x12L\n" +
 	"\x0fListWithdrawals\x12\x1b.payment.ListWithdrawalsReq\x1a\x1c.payment.ListWithdrawalsResp\x12K\n" +
 	"\x15AdminHandleWithdrawal\x12!.payment.AdminHandleWithdrawalReq\x1a\x0f.payment.OkResp\x12L\n" +
-	"\x0fListBillRecords\x12\x1b.payment.ListBillRecordsReq\x1a\x1c.payment.ListBillRecordsRespB\vZ\t./paymentb\x06proto3"
+	"\x0fListBillRecords\x12\x1b.payment.ListBillRecordsReq\x1a\x1c.payment.ListBillRecordsResp\x12:\n" +
+	"\n" +
+	"GetCashier\x12\x16.payment.GetCashierReq\x1a\x14.payment.CashierInfo\x12=\n" +
+	"\x0eConfirmMockPay\x12\x1a.payment.ConfirmMockPayReq\x1a\x0f.payment.OkRespB\vZ\t./paymentb\x06proto3"
 
 var (
 	file_payment_payment_proto_rawDescOnce sync.Once
@@ -1346,7 +1551,7 @@ func file_payment_payment_proto_rawDescGZIP() []byte {
 	return file_payment_payment_proto_rawDescData
 }
 
-var file_payment_payment_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_payment_payment_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_payment_payment_proto_goTypes = []any{
 	(*CreatePaymentReq)(nil),         // 0: payment.CreatePaymentReq
 	(*CreatePaymentResp)(nil),        // 1: payment.CreatePaymentResp
@@ -1367,6 +1572,9 @@ var file_payment_payment_proto_goTypes = []any{
 	(*BillRecord)(nil),               // 16: payment.BillRecord
 	(*ListBillRecordsReq)(nil),       // 17: payment.ListBillRecordsReq
 	(*ListBillRecordsResp)(nil),      // 18: payment.ListBillRecordsResp
+	(*GetCashierReq)(nil),            // 19: payment.GetCashierReq
+	(*CashierInfo)(nil),              // 20: payment.CashierInfo
+	(*ConfirmMockPayReq)(nil),        // 21: payment.ConfirmMockPayReq
 }
 var file_payment_payment_proto_depIdxs = []int32{
 	10, // 0: payment.ListWithdrawalsResp.withdrawals:type_name -> payment.WithdrawalInfo
@@ -1380,17 +1588,21 @@ var file_payment_payment_proto_depIdxs = []int32{
 	13, // 8: payment.Payment.ListWithdrawals:input_type -> payment.ListWithdrawalsReq
 	15, // 9: payment.Payment.AdminHandleWithdrawal:input_type -> payment.AdminHandleWithdrawalReq
 	17, // 10: payment.Payment.ListBillRecords:input_type -> payment.ListBillRecordsReq
-	1,  // 11: payment.Payment.CreatePayment:output_type -> payment.CreatePaymentResp
-	3,  // 12: payment.Payment.GetPayment:output_type -> payment.GetPaymentResp
-	5,  // 13: payment.Payment.UpdatePaymentStatus:output_type -> payment.UpdatePaymentStatusResp
-	7,  // 14: payment.Payment.GetMerchantWallet:output_type -> payment.MerchantWallet
-	6,  // 15: payment.Payment.CreditWallet:output_type -> payment.OkResp
-	12, // 16: payment.Payment.CreateWithdrawal:output_type -> payment.CreateWithdrawalResp
-	14, // 17: payment.Payment.ListWithdrawals:output_type -> payment.ListWithdrawalsResp
-	6,  // 18: payment.Payment.AdminHandleWithdrawal:output_type -> payment.OkResp
-	18, // 19: payment.Payment.ListBillRecords:output_type -> payment.ListBillRecordsResp
-	11, // [11:20] is the sub-list for method output_type
-	2,  // [2:11] is the sub-list for method input_type
+	19, // 11: payment.Payment.GetCashier:input_type -> payment.GetCashierReq
+	21, // 12: payment.Payment.ConfirmMockPay:input_type -> payment.ConfirmMockPayReq
+	1,  // 13: payment.Payment.CreatePayment:output_type -> payment.CreatePaymentResp
+	3,  // 14: payment.Payment.GetPayment:output_type -> payment.GetPaymentResp
+	5,  // 15: payment.Payment.UpdatePaymentStatus:output_type -> payment.UpdatePaymentStatusResp
+	7,  // 16: payment.Payment.GetMerchantWallet:output_type -> payment.MerchantWallet
+	6,  // 17: payment.Payment.CreditWallet:output_type -> payment.OkResp
+	12, // 18: payment.Payment.CreateWithdrawal:output_type -> payment.CreateWithdrawalResp
+	14, // 19: payment.Payment.ListWithdrawals:output_type -> payment.ListWithdrawalsResp
+	6,  // 20: payment.Payment.AdminHandleWithdrawal:output_type -> payment.OkResp
+	18, // 21: payment.Payment.ListBillRecords:output_type -> payment.ListBillRecordsResp
+	20, // 22: payment.Payment.GetCashier:output_type -> payment.CashierInfo
+	6,  // 23: payment.Payment.ConfirmMockPay:output_type -> payment.OkResp
+	13, // [13:24] is the sub-list for method output_type
+	2,  // [2:13] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -1407,7 +1619,7 @@ func file_payment_payment_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_payment_payment_proto_rawDesc), len(file_payment_payment_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   19,
+			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -15,4 +15,8 @@ type Config struct {
 	PaymentDSN            string `json:",optional"`
 	SettlementDelaySec    int    `json:",default=259200"` // 3 days
 	SettlementIntervalSec int    `json:",default=300"`    // 5 minutes
+
+	// S1.4 auto-cancel of pending orders past cashier TTL
+	PendingOrderTimeoutSec int `json:",default=900"` // 15 minutes
+	CancelIntervalSec      int `json:",default=60"`
 }

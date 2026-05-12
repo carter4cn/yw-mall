@@ -6,6 +6,12 @@ Etcd:
   Key: yw-mall/payment-rpc
 
 DataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_payment?charset=utf8mb4&parseTime=true&loc=Local
+# S1: cross-DB read of mall_order for cashier + mock-confirm flow
+OrderDataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_order?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 
 Cache:
   - Host: 127.0.0.1:6379
+
+# S1.8 feature flag — set to false in production builds
+PaymentMockEnabled: true
+DefaultChannel: mock

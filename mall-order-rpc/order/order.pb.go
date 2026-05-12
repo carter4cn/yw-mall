@@ -269,6 +269,11 @@ type GetOrderResp struct {
 	ReceiverCity     string                 `protobuf:"bytes,12,opt,name=receiver_city,json=receiverCity,proto3" json:"receiver_city,omitempty"`
 	ReceiverDistrict string                 `protobuf:"bytes,13,opt,name=receiver_district,json=receiverDistrict,proto3" json:"receiver_district,omitempty"`
 	ReceiverDetail   string                 `protobuf:"bytes,14,opt,name=receiver_detail,json=receiverDetail,proto3" json:"receiver_detail,omitempty"`
+	PayTime          int64                  `protobuf:"varint,15,opt,name=pay_time,json=payTime,proto3" json:"pay_time,omitempty"`
+	ShipTime         int64                  `protobuf:"varint,16,opt,name=ship_time,json=shipTime,proto3" json:"ship_time,omitempty"`
+	CompleteTime     int64                  `protobuf:"varint,17,opt,name=complete_time,json=completeTime,proto3" json:"complete_time,omitempty"`
+	CancelTime       int64                  `protobuf:"varint,18,opt,name=cancel_time,json=cancelTime,proto3" json:"cancel_time,omitempty"`
+	CancelReason     string                 `protobuf:"bytes,19,opt,name=cancel_reason,json=cancelReason,proto3" json:"cancel_reason,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -397,6 +402,41 @@ func (x *GetOrderResp) GetReceiverDistrict() string {
 func (x *GetOrderResp) GetReceiverDetail() string {
 	if x != nil {
 		return x.ReceiverDetail
+	}
+	return ""
+}
+
+func (x *GetOrderResp) GetPayTime() int64 {
+	if x != nil {
+		return x.PayTime
+	}
+	return 0
+}
+
+func (x *GetOrderResp) GetShipTime() int64 {
+	if x != nil {
+		return x.ShipTime
+	}
+	return 0
+}
+
+func (x *GetOrderResp) GetCompleteTime() int64 {
+	if x != nil {
+		return x.CompleteTime
+	}
+	return 0
+}
+
+func (x *GetOrderResp) GetCancelTime() int64 {
+	if x != nil {
+		return x.CancelTime
+	}
+	return 0
+}
+
+func (x *GetOrderResp) GetCancelReason() string {
+	if x != nil {
+		return x.CancelReason
 	}
 	return ""
 }
@@ -1380,7 +1420,7 @@ const file_order_order_proto_rawDesc = "" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12!\n" +
 	"\ftotal_amount\x18\x03 \x01(\x03R\vtotalAmount\"\x1d\n" +
 	"\vGetOrderReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\xe9\x03\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\x8c\x05\n" +
 	"\fGetOrderResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12\x17\n" +
@@ -1398,7 +1438,13 @@ const file_order_order_proto_rawDesc = "" +
 	"\x11receiver_province\x18\v \x01(\tR\x10receiverProvince\x12#\n" +
 	"\rreceiver_city\x18\f \x01(\tR\freceiverCity\x12+\n" +
 	"\x11receiver_district\x18\r \x01(\tR\x10receiverDistrict\x12'\n" +
-	"\x0freceiver_detail\x18\x0e \x01(\tR\x0ereceiverDetail\"q\n" +
+	"\x0freceiver_detail\x18\x0e \x01(\tR\x0ereceiverDetail\x12\x19\n" +
+	"\bpay_time\x18\x0f \x01(\x03R\apayTime\x12\x1b\n" +
+	"\tship_time\x18\x10 \x01(\x03R\bshipTime\x12#\n" +
+	"\rcomplete_time\x18\x11 \x01(\x03R\fcompleteTime\x12\x1f\n" +
+	"\vcancel_time\x18\x12 \x01(\x03R\n" +
+	"cancelTime\x12#\n" +
+	"\rcancel_reason\x18\x13 \x01(\tR\fcancelReason\"q\n" +
 	"\rListOrdersReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\x05R\x06status\x12\x12\n" +

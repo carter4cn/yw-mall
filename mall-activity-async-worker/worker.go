@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"mall-activity-async-worker/internal/cancel"
 	"mall-activity-async-worker/internal/config"
 	"mall-activity-async-worker/internal/handlers"
 	"mall-activity-async-worker/internal/settlement"
@@ -43,6 +44,18 @@ func main() {
 		fmt.Printf("Settlement loop started: delay=%ds tick=%ds\n", c.SettlementDelaySec, c.SettlementIntervalSec)
 	} else {
 		fmt.Println("Settlement disabled (OrderDSN/PaymentDSN not set)")
+	}
+
+	// S1.4 auto-cancel pending orders that outlive the cashier TTL.
+	if c.OrderDSN != "" {
+		canceller, err := cancel.New(c.OrderDSN, c.PendingOrderTimeoutSec, c.CancelIntervalSec)
+		if err != nil {
+			log.Fatalf("cancel init failed: %v", err)
+		}
+		go canceller.Run(ctx)
+		fmt.Printf("Cancel loop started: timeout=%ds tick=%ds\n", c.PendingOrderTimeoutSec, c.CancelIntervalSec)
+	} else {
+		fmt.Println("Cancel loop disabled (OrderDSN not set)")
 	}
 
 	srv := asynq.NewServer(

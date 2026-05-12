@@ -69,3 +69,15 @@ func (s *PaymentServer) ListBillRecords(ctx context.Context, in *payment.ListBil
 	l := logic.NewListBillRecordsLogic(ctx, s.svcCtx)
 	return l.ListBillRecords(in)
 }
+
+// ===== S1 cashier + mock pay =====
+
+func (s *PaymentServer) GetCashier(ctx context.Context, in *payment.GetCashierReq) (*payment.CashierInfo, error) {
+	l := logic.NewGetCashierLogic(ctx, s.svcCtx)
+	return l.GetCashier(in)
+}
+
+func (s *PaymentServer) ConfirmMockPay(ctx context.Context, in *payment.ConfirmMockPayReq) (*payment.OkResp, error) {
+	l := logic.NewConfirmMockPayLogic(ctx, s.svcCtx)
+	return l.ConfirmMockPay(in)
+}

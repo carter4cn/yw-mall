@@ -42,6 +42,11 @@ message GetOrderResp {
   string receiver_city = 12;
   string receiver_district = 13;
   string receiver_detail = 14;
+  int64 pay_time = 15;
+  int64 ship_time = 16;
+  int64 complete_time = 17;
+  int64 cancel_time = 18;
+  string cancel_reason = 19;
 }
 
 message ListOrdersReq {

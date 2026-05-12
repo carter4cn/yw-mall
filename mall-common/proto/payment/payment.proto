@@ -110,6 +110,26 @@ message ListBillRecordsReq {
 }
 message ListBillRecordsResp { repeated BillRecord records = 1; int64 total = 2; }
 
+// ===== S1 cashier + mock pay =====
+message GetCashierReq {
+  int64 order_id = 1;
+  int64 user_id = 2;
+}
+
+message CashierInfo {
+  int64 order_id = 1;
+  string order_no = 2;
+  int64 amount = 3;             // cents
+  int64 expire_at = 4;          // 待支付剩余时间 unix sec
+  repeated string channels = 5; // ["mock","wechat","alipay","unionpay"]
+  bool mock_enabled = 6;
+}
+
+message ConfirmMockPayReq {
+  int64 order_id = 1;
+  int64 user_id = 2;
+}
+
 service Payment {
   rpc CreatePayment(CreatePaymentReq) returns (CreatePaymentResp);
   rpc GetPayment(GetPaymentReq) returns (GetPaymentResp);
@@ -121,4 +141,7 @@ service Payment {
   rpc ListWithdrawals(ListWithdrawalsReq) returns (ListWithdrawalsResp);
   rpc AdminHandleWithdrawal(AdminHandleWithdrawalReq) returns (OkResp);
   rpc ListBillRecords(ListBillRecordsReq) returns (ListBillRecordsResp);
+  // ===== S1 cashier + mock pay =====
+  rpc GetCashier(GetCashierReq) returns (CashierInfo);
+  rpc ConfirmMockPay(ConfirmMockPayReq) returns (OkResp);
 }

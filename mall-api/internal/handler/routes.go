@@ -132,6 +132,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/status/:id",
 				Handler: PaymentStatusHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/cashier/:order_id",
+				Handler: GetCashierHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/mock-confirm/:order_id",
+				Handler: ConfirmMockPayHandler(serverCtx),
+			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/payment"),
