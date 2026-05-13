@@ -39,13 +39,18 @@ func (l *SubmitRefundLogic) SubmitRefund(req *types.SubmitRefundReq) (*types.Sub
 			Amount:   it.Amount,
 		})
 	}
+	refundType := req.RefundType
+	if refundType == 0 {
+		refundType = 1
+	}
 	resp, err := l.svcCtx.OrderRpc.SubmitRefundRequest(l.ctx, &order.SubmitRefundRequestReq{
-		OrderId:  req.OrderId,
-		UserId:   uid,
-		Amount:   req.Amount,
-		Reason:   req.Reason,
-		Evidence: req.Evidence,
-		Items:    items,
+		OrderId:    req.OrderId,
+		UserId:     uid,
+		Amount:     req.Amount,
+		Reason:     req.Reason,
+		Evidence:   req.Evidence,
+		Items:      items,
+		RefundType: refundType,
 	})
 	if err != nil {
 		return nil, err

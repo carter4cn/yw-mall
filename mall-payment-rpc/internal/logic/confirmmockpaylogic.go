@@ -101,6 +101,10 @@ func (l *ConfirmMockPayLogic) ConfirmMockPay(in *payment.ConfirmMockPayReq) (*pa
 			); ierr != nil {
 				return ierr
 			}
+			// S3: credit order_income to ledger.
+			if ierr := writeLedgerEntry(l.ctx, tx, row.ShopId, 1, "order_income", row.TotalAmount, row.Id, 0, 0, row.OrderNo, "order paid"); ierr != nil {
+				return ierr
+			}
 		}
 		return nil
 	})

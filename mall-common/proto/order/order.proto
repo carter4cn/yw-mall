@@ -158,6 +158,13 @@ message RefundRequest {
   string refund_no = 19;
   int64 refund_complete_time = 20;
   int64 create_time = 21;
+  int32 refund_type = 22;                // 1=refund_only 2=return_refund 3=exchange
+  string return_tracking_no = 23;
+  string return_carrier = 24;
+  int64 return_ship_time = 25;
+  int64 return_received_time = 26;
+  int32 return_inspection_passed = 27;   // 0=未验 1=通过 2=拒收
+  int64 exchange_new_order_id = 28;
 }
 
 message SubmitRefundRequestReq {
@@ -167,6 +174,34 @@ message SubmitRefundRequestReq {
   string reason = 4;
   repeated string evidence = 5;
   repeated RefundItem items = 6;
+  int32 refund_type = 7;   // default 1
+}
+
+message UserShipReturnReq {
+  int64 refund_id = 1;
+  int64 user_id = 2;
+  string tracking_no = 3;
+  string carrier = 4;
+}
+
+message MerchantInspectReturnReq {
+  int64 refund_id = 1;
+  int64 shop_id = 2;
+  int64 merchant_user_id = 3;
+  bool passed = 4;
+  string remark = 5;
+}
+
+message MerchantShipExchangeReq {
+  int64 refund_id = 1;
+  int64 shop_id = 2;
+  int64 merchant_user_id = 3;
+  string tracking_no = 4;
+  string carrier = 5;
+}
+message MerchantShipExchangeResp {
+  int64 new_order_id = 1;
+  string new_order_no = 2;
 }
 message SubmitRefundRequestResp { int64 refund_id = 1; }
 
@@ -217,6 +252,11 @@ service Order {
   rpc MerchantHandleRefund(MerchantHandleRefundReq) returns (OkResp);
   rpc UserAppealRefund(UserAppealRefundReq) returns (OkResp);
   rpc AdminArbitrateRefund(AdminArbitrateRefundReq) returns (OkResp);
+
+  // ===== S3 Return / Exchange =====
+  rpc UserShipReturn(UserShipReturnReq) returns (OkResp);
+  rpc MerchantInspectReturn(MerchantInspectReturnReq) returns (OkResp);
+  rpc MerchantShipExchange(MerchantShipExchangeReq) returns (MerchantShipExchangeResp);
 }
 
 message MarkShippedReq {

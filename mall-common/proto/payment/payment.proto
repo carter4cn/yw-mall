@@ -138,11 +138,72 @@ message ExecuteRefundReq {
   int64 amount = 4;
   string reason = 5;
   string refund_no = 6;
+  int64 refund_id = 7;
 }
 message ExecuteRefundResp {
   bool success = 1;
   string refund_no = 2;
   string channel = 3;
+}
+
+// ===== S3 account ledger =====
+message LedgerEntry {
+  int64 id = 1;
+  int64 shop_id = 2;
+  int32 direction = 3;
+  string category = 4;
+  int64 amount = 5;
+  int64 running_balance = 6;
+  int64 order_id = 7;
+  int64 refund_id = 8;
+  string ref_no = 9;
+  string description = 10;
+  int64 create_time = 11;
+}
+
+message ListLedgerReq {
+  int64 shop_id = 1;
+  string category = 2; // 空=全部
+  int64 start_time = 3;
+  int64 end_time = 4;
+  int32 page = 5;
+  int32 page_size = 6;
+}
+message ListLedgerResp {
+  repeated LedgerEntry entries = 1;
+  int64 total = 2;
+}
+
+message GetShopLedgerSummaryReq {
+  int64 shop_id = 1;
+  int64 start_time = 2;
+  int64 end_time = 3;
+}
+message LedgerSummary {
+  int64 total_income = 1;
+  int64 total_refund = 2;
+  int64 total_commission = 3;
+  int64 total_withdrawal = 4;
+  int64 net_balance = 5;
+}
+
+message RunReconciliationReq { int64 shop_id = 1; }
+message ShopReconcileResult {
+  int64 shop_id = 1;
+  int64 ledger_credit = 2;
+  int64 ledger_debit = 3;
+  int64 ledger_net = 4;
+  int64 wallet_balance = 5;
+  int64 wallet_frozen = 6;
+  int64 wallet_total = 7;
+  int64 diff = 8;
+  bool passed = 9;
+}
+message ReconciliationReport {
+  int32 total_checked = 1;
+  int32 passed = 2;
+  int32 failed = 3;
+  repeated ShopReconcileResult results = 4;
 }
 
 service Payment {
@@ -161,4 +222,8 @@ service Payment {
   rpc ConfirmMockPay(ConfirmMockPayReq) returns (OkResp);
   // ===== S2 refund execution =====
   rpc ExecuteRefund(ExecuteRefundReq) returns (ExecuteRefundResp);
+  // ===== S3 account ledger =====
+  rpc ListLedger(ListLedgerReq) returns (ListLedgerResp);
+  rpc GetShopLedgerSummary(GetShopLedgerSummaryReq) returns (LedgerSummary);
+  rpc RunReconciliation(RunReconciliationReq) returns (ReconciliationReport);
 }

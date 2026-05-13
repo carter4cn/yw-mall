@@ -41,6 +41,16 @@ type (
 	ExecuteRefundReq  = payment.ExecuteRefundReq
 	ExecuteRefundResp = payment.ExecuteRefundResp
 
+	// S3 ledger
+	LedgerEntry             = payment.LedgerEntry
+	ListLedgerReq           = payment.ListLedgerReq
+	ListLedgerResp          = payment.ListLedgerResp
+	GetShopLedgerSummaryReq = payment.GetShopLedgerSummaryReq
+	LedgerSummary           = payment.LedgerSummary
+	RunReconciliationReq    = payment.RunReconciliationReq
+	ReconciliationReport    = payment.ReconciliationReport
+	ShopReconcileResult     = payment.ShopReconcileResult
+
 	Payment interface {
 		CreatePayment(ctx context.Context, in *CreatePaymentReq, opts ...grpc.CallOption) (*CreatePaymentResp, error)
 		GetPayment(ctx context.Context, in *GetPaymentReq, opts ...grpc.CallOption) (*GetPaymentResp, error)
@@ -57,6 +67,10 @@ type (
 		ConfirmMockPay(ctx context.Context, in *ConfirmMockPayReq, opts ...grpc.CallOption) (*OkResp, error)
 		// S2 refund execution
 		ExecuteRefund(ctx context.Context, in *ExecuteRefundReq, opts ...grpc.CallOption) (*ExecuteRefundResp, error)
+		// S3 ledger
+		ListLedger(ctx context.Context, in *ListLedgerReq, opts ...grpc.CallOption) (*ListLedgerResp, error)
+		GetShopLedgerSummary(ctx context.Context, in *GetShopLedgerSummaryReq, opts ...grpc.CallOption) (*LedgerSummary, error)
+		RunReconciliation(ctx context.Context, in *RunReconciliationReq, opts ...grpc.CallOption) (*ReconciliationReport, error)
 	}
 
 	defaultPayment struct {
@@ -128,4 +142,19 @@ func (m *defaultPayment) ConfirmMockPay(ctx context.Context, in *ConfirmMockPayR
 func (m *defaultPayment) ExecuteRefund(ctx context.Context, in *ExecuteRefundReq, opts ...grpc.CallOption) (*ExecuteRefundResp, error) {
 	client := payment.NewPaymentClient(m.cli.Conn())
 	return client.ExecuteRefund(ctx, in, opts...)
+}
+
+func (m *defaultPayment) ListLedger(ctx context.Context, in *ListLedgerReq, opts ...grpc.CallOption) (*ListLedgerResp, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.ListLedger(ctx, in, opts...)
+}
+
+func (m *defaultPayment) GetShopLedgerSummary(ctx context.Context, in *GetShopLedgerSummaryReq, opts ...grpc.CallOption) (*LedgerSummary, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.GetShopLedgerSummary(ctx, in, opts...)
+}
+
+func (m *defaultPayment) RunReconciliation(ctx context.Context, in *RunReconciliationReq, opts ...grpc.CallOption) (*ReconciliationReport, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.RunReconciliation(ctx, in, opts...)
 }

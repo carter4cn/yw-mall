@@ -39,6 +39,9 @@ const (
 	Order_MerchantHandleRefund_FullMethodName    = "/order.Order/MerchantHandleRefund"
 	Order_UserAppealRefund_FullMethodName        = "/order.Order/UserAppealRefund"
 	Order_AdminArbitrateRefund_FullMethodName    = "/order.Order/AdminArbitrateRefund"
+	Order_UserShipReturn_FullMethodName          = "/order.Order/UserShipReturn"
+	Order_MerchantInspectReturn_FullMethodName   = "/order.Order/MerchantInspectReturn"
+	Order_MerchantShipExchange_FullMethodName    = "/order.Order/MerchantShipExchange"
 )
 
 // OrderClient is the client API for Order service.
@@ -66,6 +69,10 @@ type OrderClient interface {
 	MerchantHandleRefund(ctx context.Context, in *MerchantHandleRefundReq, opts ...grpc.CallOption) (*OkResp, error)
 	UserAppealRefund(ctx context.Context, in *UserAppealRefundReq, opts ...grpc.CallOption) (*OkResp, error)
 	AdminArbitrateRefund(ctx context.Context, in *AdminArbitrateRefundReq, opts ...grpc.CallOption) (*OkResp, error)
+	// ===== S3 Return / Exchange =====
+	UserShipReturn(ctx context.Context, in *UserShipReturnReq, opts ...grpc.CallOption) (*OkResp, error)
+	MerchantInspectReturn(ctx context.Context, in *MerchantInspectReturnReq, opts ...grpc.CallOption) (*OkResp, error)
+	MerchantShipExchange(ctx context.Context, in *MerchantShipExchangeReq, opts ...grpc.CallOption) (*MerchantShipExchangeResp, error)
 }
 
 type orderClient struct {
@@ -276,6 +283,36 @@ func (c *orderClient) AdminArbitrateRefund(ctx context.Context, in *AdminArbitra
 	return out, nil
 }
 
+func (c *orderClient) UserShipReturn(ctx context.Context, in *UserShipReturnReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Order_UserShipReturn_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) MerchantInspectReturn(ctx context.Context, in *MerchantInspectReturnReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Order_MerchantInspectReturn_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) MerchantShipExchange(ctx context.Context, in *MerchantShipExchangeReq, opts ...grpc.CallOption) (*MerchantShipExchangeResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MerchantShipExchangeResp)
+	err := c.cc.Invoke(ctx, Order_MerchantShipExchange_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServer is the server API for Order service.
 // All implementations must embed UnimplementedOrderServer
 // for forward compatibility.
@@ -301,6 +338,10 @@ type OrderServer interface {
 	MerchantHandleRefund(context.Context, *MerchantHandleRefundReq) (*OkResp, error)
 	UserAppealRefund(context.Context, *UserAppealRefundReq) (*OkResp, error)
 	AdminArbitrateRefund(context.Context, *AdminArbitrateRefundReq) (*OkResp, error)
+	// ===== S3 Return / Exchange =====
+	UserShipReturn(context.Context, *UserShipReturnReq) (*OkResp, error)
+	MerchantInspectReturn(context.Context, *MerchantInspectReturnReq) (*OkResp, error)
+	MerchantShipExchange(context.Context, *MerchantShipExchangeReq) (*MerchantShipExchangeResp, error)
 	mustEmbedUnimplementedOrderServer()
 }
 
@@ -370,6 +411,15 @@ func (UnimplementedOrderServer) UserAppealRefund(context.Context, *UserAppealRef
 }
 func (UnimplementedOrderServer) AdminArbitrateRefund(context.Context, *AdminArbitrateRefundReq) (*OkResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method AdminArbitrateRefund not implemented")
+}
+func (UnimplementedOrderServer) UserShipReturn(context.Context, *UserShipReturnReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UserShipReturn not implemented")
+}
+func (UnimplementedOrderServer) MerchantInspectReturn(context.Context, *MerchantInspectReturnReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method MerchantInspectReturn not implemented")
+}
+func (UnimplementedOrderServer) MerchantShipExchange(context.Context, *MerchantShipExchangeReq) (*MerchantShipExchangeResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method MerchantShipExchange not implemented")
 }
 func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
 func (UnimplementedOrderServer) testEmbeddedByValue()               {}
@@ -752,6 +802,60 @@ func _Order_AdminArbitrateRefund_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_UserShipReturn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserShipReturnReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).UserShipReturn(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_UserShipReturn_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).UserShipReturn(ctx, req.(*UserShipReturnReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_MerchantInspectReturn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MerchantInspectReturnReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).MerchantInspectReturn(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_MerchantInspectReturn_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).MerchantInspectReturn(ctx, req.(*MerchantInspectReturnReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_MerchantShipExchange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MerchantShipExchangeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).MerchantShipExchange(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_MerchantShipExchange_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).MerchantShipExchange(ctx, req.(*MerchantShipExchangeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Order_ServiceDesc is the grpc.ServiceDesc for Order service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -838,6 +942,18 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AdminArbitrateRefund",
 			Handler:    _Order_AdminArbitrateRefund_Handler,
+		},
+		{
+			MethodName: "UserShipReturn",
+			Handler:    _Order_UserShipReturn_Handler,
+		},
+		{
+			MethodName: "MerchantInspectReturn",
+			Handler:    _Order_MerchantInspectReturn_Handler,
+		},
+		{
+			MethodName: "MerchantShipExchange",
+			Handler:    _Order_MerchantShipExchange_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -106,8 +106,8 @@ func (l *SubmitRefundRequestLogic) SubmitRefundRequest(in *order.SubmitRefundReq
 
 	// 5) INSERT refund_request.
 	res, err := l.svcCtx.SqlConn.ExecCtx(l.ctx,
-		"INSERT INTO refund_request (order_id, order_no, user_id, shop_id, amount, reason, evidence, items, status, create_time, update_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)",
-		row.Id, row.OrderNo, row.UserId, row.ShopId, in.Amount, in.Reason, evidenceJSON, itemsJSON, now, now,
+		"INSERT INTO refund_request (order_id, order_no, user_id, shop_id, amount, reason, evidence, items, status, refund_type, create_time, update_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?)",
+		row.Id, row.OrderNo, row.UserId, row.ShopId, in.Amount, in.Reason, evidenceJSON, itemsJSON, refundTypeOrDefault(in.RefundType), now, now,
 	)
 	if err != nil {
 		return nil, err

@@ -31,6 +31,9 @@ const (
 	Payment_GetCashier_FullMethodName            = "/payment.Payment/GetCashier"
 	Payment_ConfirmMockPay_FullMethodName        = "/payment.Payment/ConfirmMockPay"
 	Payment_ExecuteRefund_FullMethodName         = "/payment.Payment/ExecuteRefund"
+	Payment_ListLedger_FullMethodName            = "/payment.Payment/ListLedger"
+	Payment_GetShopLedgerSummary_FullMethodName  = "/payment.Payment/GetShopLedgerSummary"
+	Payment_RunReconciliation_FullMethodName     = "/payment.Payment/RunReconciliation"
 )
 
 // PaymentClient is the client API for Payment service.
@@ -52,6 +55,10 @@ type PaymentClient interface {
 	ConfirmMockPay(ctx context.Context, in *ConfirmMockPayReq, opts ...grpc.CallOption) (*OkResp, error)
 	// ===== S2 refund execution =====
 	ExecuteRefund(ctx context.Context, in *ExecuteRefundReq, opts ...grpc.CallOption) (*ExecuteRefundResp, error)
+	// ===== S3 account ledger =====
+	ListLedger(ctx context.Context, in *ListLedgerReq, opts ...grpc.CallOption) (*ListLedgerResp, error)
+	GetShopLedgerSummary(ctx context.Context, in *GetShopLedgerSummaryReq, opts ...grpc.CallOption) (*LedgerSummary, error)
+	RunReconciliation(ctx context.Context, in *RunReconciliationReq, opts ...grpc.CallOption) (*ReconciliationReport, error)
 }
 
 type paymentClient struct {
@@ -182,6 +189,36 @@ func (c *paymentClient) ExecuteRefund(ctx context.Context, in *ExecuteRefundReq,
 	return out, nil
 }
 
+func (c *paymentClient) ListLedger(ctx context.Context, in *ListLedgerReq, opts ...grpc.CallOption) (*ListLedgerResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListLedgerResp)
+	err := c.cc.Invoke(ctx, Payment_ListLedger_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentClient) GetShopLedgerSummary(ctx context.Context, in *GetShopLedgerSummaryReq, opts ...grpc.CallOption) (*LedgerSummary, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LedgerSummary)
+	err := c.cc.Invoke(ctx, Payment_GetShopLedgerSummary_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentClient) RunReconciliation(ctx context.Context, in *RunReconciliationReq, opts ...grpc.CallOption) (*ReconciliationReport, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReconciliationReport)
+	err := c.cc.Invoke(ctx, Payment_RunReconciliation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PaymentServer is the server API for Payment service.
 // All implementations must embed UnimplementedPaymentServer
 // for forward compatibility.
@@ -201,6 +238,10 @@ type PaymentServer interface {
 	ConfirmMockPay(context.Context, *ConfirmMockPayReq) (*OkResp, error)
 	// ===== S2 refund execution =====
 	ExecuteRefund(context.Context, *ExecuteRefundReq) (*ExecuteRefundResp, error)
+	// ===== S3 account ledger =====
+	ListLedger(context.Context, *ListLedgerReq) (*ListLedgerResp, error)
+	GetShopLedgerSummary(context.Context, *GetShopLedgerSummaryReq) (*LedgerSummary, error)
+	RunReconciliation(context.Context, *RunReconciliationReq) (*ReconciliationReport, error)
 	mustEmbedUnimplementedPaymentServer()
 }
 
@@ -246,6 +287,15 @@ func (UnimplementedPaymentServer) ConfirmMockPay(context.Context, *ConfirmMockPa
 }
 func (UnimplementedPaymentServer) ExecuteRefund(context.Context, *ExecuteRefundReq) (*ExecuteRefundResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method ExecuteRefund not implemented")
+}
+func (UnimplementedPaymentServer) ListLedger(context.Context, *ListLedgerReq) (*ListLedgerResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListLedger not implemented")
+}
+func (UnimplementedPaymentServer) GetShopLedgerSummary(context.Context, *GetShopLedgerSummaryReq) (*LedgerSummary, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetShopLedgerSummary not implemented")
+}
+func (UnimplementedPaymentServer) RunReconciliation(context.Context, *RunReconciliationReq) (*ReconciliationReport, error) {
+	return nil, status.Error(codes.Unimplemented, "method RunReconciliation not implemented")
 }
 func (UnimplementedPaymentServer) mustEmbedUnimplementedPaymentServer() {}
 func (UnimplementedPaymentServer) testEmbeddedByValue()                 {}
@@ -484,6 +534,60 @@ func _Payment_ExecuteRefund_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Payment_ListLedger_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListLedgerReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).ListLedger(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_ListLedger_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).ListLedger(ctx, req.(*ListLedgerReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Payment_GetShopLedgerSummary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetShopLedgerSummaryReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).GetShopLedgerSummary(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_GetShopLedgerSummary_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).GetShopLedgerSummary(ctx, req.(*GetShopLedgerSummaryReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Payment_RunReconciliation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RunReconciliationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServer).RunReconciliation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Payment_RunReconciliation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServer).RunReconciliation(ctx, req.(*RunReconciliationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Payment_ServiceDesc is the grpc.ServiceDesc for Payment service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -538,6 +642,18 @@ var Payment_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExecuteRefund",
 			Handler:    _Payment_ExecuteRefund_Handler,
+		},
+		{
+			MethodName: "ListLedger",
+			Handler:    _Payment_ListLedger_Handler,
+		},
+		{
+			MethodName: "GetShopLedgerSummary",
+			Handler:    _Payment_GetShopLedgerSummary_Handler,
+		},
+		{
+			MethodName: "RunReconciliation",
+			Handler:    _Payment_RunReconciliation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

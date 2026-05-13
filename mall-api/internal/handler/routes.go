@@ -383,6 +383,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/:id/appeal",
 				Handler: AppealRefundHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/:id/ship-return",
+				Handler: ShipReturnHandler(serverCtx),
+			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/refund"),

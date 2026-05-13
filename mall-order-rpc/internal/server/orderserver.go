@@ -124,3 +124,20 @@ func (s *OrderServer) AdminArbitrateRefund(ctx context.Context, in *order.AdminA
 	l := logic.NewAdminArbitrateRefundLogic(ctx, s.svcCtx)
 	return l.AdminArbitrateRefund(in)
 }
+
+// ===== S3 Return / Exchange =====
+
+func (s *OrderServer) UserShipReturn(ctx context.Context, in *order.UserShipReturnReq) (*order.OkResp, error) {
+	l := logic.NewUserShipReturnLogic(ctx, s.svcCtx)
+	return l.UserShipReturn(in)
+}
+
+func (s *OrderServer) MerchantInspectReturn(ctx context.Context, in *order.MerchantInspectReturnReq) (*order.OkResp, error) {
+	l := logic.NewMerchantInspectReturnLogic(ctx, s.svcCtx)
+	return l.MerchantInspectReturn(in)
+}
+
+func (s *OrderServer) MerchantShipExchange(ctx context.Context, in *order.MerchantShipExchangeReq) (*order.MerchantShipExchangeResp, error) {
+	l := logic.NewMerchantShipExchangeLogic(ctx, s.svcCtx)
+	return l.MerchantShipExchange(in)
+}

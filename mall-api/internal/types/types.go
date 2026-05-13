@@ -622,11 +622,12 @@ type RefundRequestDTO struct {
 }
 
 type SubmitRefundReq struct {
-	OrderId  int64           `json:"orderId"`
-	Amount   int64           `json:"amount"`
-	Reason   string          `json:"reason"`
-	Evidence []string        `json:"evidence,optional"`
-	Items    []RefundItemDTO `json:"items,optional"`
+	OrderId    int64           `json:"orderId"`
+	Amount     int64           `json:"amount"`
+	Reason     string          `json:"reason"`
+	Evidence   []string        `json:"evidence,optional"`
+	Items      []RefundItemDTO `json:"items,optional"`
+	RefundType int32           `json:"refundType,optional"`
 }
 
 type SubmitRefundResp struct {
@@ -651,4 +652,10 @@ type ListRefundsResp struct {
 type AppealRefundReq struct {
 	Id     int64  `path:"id"`
 	Reason string `json:"reason"`
+}
+
+type ShipReturnReq struct {
+	Id         int64  `path:"id"`
+	TrackingNo string `json:"trackingNo"`
+	Carrier    string `json:"carrier,optional"`
 }

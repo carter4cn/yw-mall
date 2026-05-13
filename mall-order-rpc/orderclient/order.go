@@ -47,6 +47,12 @@ type (
 	UserAppealRefundReq        = order.UserAppealRefundReq
 	AdminArbitrateRefundReq    = order.AdminArbitrateRefundReq
 
+	// ===== S3 Return / Exchange =====
+	UserShipReturnReq        = order.UserShipReturnReq
+	MerchantInspectReturnReq = order.MerchantInspectReturnReq
+	MerchantShipExchangeReq  = order.MerchantShipExchangeReq
+	MerchantShipExchangeResp = order.MerchantShipExchangeResp
+
 	Order interface {
 		CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderResp, error)
 		GetOrder(ctx context.Context, in *GetOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error)
@@ -68,6 +74,11 @@ type (
 		MerchantHandleRefund(ctx context.Context, in *MerchantHandleRefundReq, opts ...grpc.CallOption) (*OkResp, error)
 		UserAppealRefund(ctx context.Context, in *UserAppealRefundReq, opts ...grpc.CallOption) (*OkResp, error)
 		AdminArbitrateRefund(ctx context.Context, in *AdminArbitrateRefundReq, opts ...grpc.CallOption) (*OkResp, error)
+
+		// ===== S3 Return / Exchange =====
+		UserShipReturn(ctx context.Context, in *UserShipReturnReq, opts ...grpc.CallOption) (*OkResp, error)
+		MerchantInspectReturn(ctx context.Context, in *MerchantInspectReturnReq, opts ...grpc.CallOption) (*OkResp, error)
+		MerchantShipExchange(ctx context.Context, in *MerchantShipExchangeReq, opts ...grpc.CallOption) (*MerchantShipExchangeResp, error)
 	}
 
 	defaultOrder struct {
@@ -171,4 +182,21 @@ func (m *defaultOrder) UserAppealRefund(ctx context.Context, in *UserAppealRefun
 func (m *defaultOrder) AdminArbitrateRefund(ctx context.Context, in *AdminArbitrateRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := order.NewOrderClient(m.cli.Conn())
 	return client.AdminArbitrateRefund(ctx, in, opts...)
+}
+
+// ===== S3 Return / Exchange =====
+
+func (m *defaultOrder) UserShipReturn(ctx context.Context, in *UserShipReturnReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.UserShipReturn(ctx, in, opts...)
+}
+
+func (m *defaultOrder) MerchantInspectReturn(ctx context.Context, in *MerchantInspectReturnReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.MerchantInspectReturn(ctx, in, opts...)
+}
+
+func (m *defaultOrder) MerchantShipExchange(ctx context.Context, in *MerchantShipExchangeReq, opts ...grpc.CallOption) (*MerchantShipExchangeResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.MerchantShipExchange(ctx, in, opts...)
 }

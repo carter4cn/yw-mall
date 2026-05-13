@@ -104,6 +104,10 @@ func (l *ExecuteRefundLogic) ExecuteRefund(in *payment.ExecuteRefundReq) (*payme
 		); err != nil {
 			return err
 		}
+		// S3: debit refund to ledger.
+		if err := writeLedgerEntry(ctx, tx, in.ShopId, 2, "refund", in.Amount, in.OrderId, 0, 0, refundNo, "refund: "+in.Reason); err != nil {
+			return err
+		}
 		return nil
 	})
 	if err != nil {

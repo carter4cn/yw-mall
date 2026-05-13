@@ -88,3 +88,20 @@ func (s *PaymentServer) ExecuteRefund(ctx context.Context, in *payment.ExecuteRe
 	l := logic.NewExecuteRefundLogic(ctx, s.svcCtx)
 	return l.ExecuteRefund(in)
 }
+
+// ===== S3 account ledger =====
+
+func (s *PaymentServer) ListLedger(ctx context.Context, in *payment.ListLedgerReq) (*payment.ListLedgerResp, error) {
+	l := logic.NewListLedgerLogic(ctx, s.svcCtx)
+	return l.ListLedger(in)
+}
+
+func (s *PaymentServer) GetShopLedgerSummary(ctx context.Context, in *payment.GetShopLedgerSummaryReq) (*payment.LedgerSummary, error) {
+	l := logic.NewGetShopLedgerSummaryLogic(ctx, s.svcCtx)
+	return l.GetShopLedgerSummary(in)
+}
+
+func (s *PaymentServer) RunReconciliation(ctx context.Context, in *payment.RunReconciliationReq) (*payment.ReconciliationReport, error) {
+	l := logic.NewRunReconciliationLogic(ctx, s.svcCtx)
+	return l.RunReconciliation(in)
+}

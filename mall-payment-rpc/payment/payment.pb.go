@@ -1424,6 +1424,7 @@ type ExecuteRefundReq struct {
 	Amount        int64                  `protobuf:"varint,4,opt,name=amount,proto3" json:"amount,omitempty"`
 	Reason        string                 `protobuf:"bytes,5,opt,name=reason,proto3" json:"reason,omitempty"`
 	RefundNo      string                 `protobuf:"bytes,6,opt,name=refund_no,json=refundNo,proto3" json:"refund_no,omitempty"`
+	RefundId      int64                  `protobuf:"varint,7,opt,name=refund_id,json=refundId,proto3" json:"refund_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1500,6 +1501,13 @@ func (x *ExecuteRefundReq) GetRefundNo() string {
 	return ""
 }
 
+func (x *ExecuteRefundReq) GetRefundId() int64 {
+	if x != nil {
+		return x.RefundId
+	}
+	return 0
+}
+
 type ExecuteRefundResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
@@ -1558,6 +1566,623 @@ func (x *ExecuteRefundResp) GetChannel() string {
 		return x.Channel
 	}
 	return ""
+}
+
+// ===== S3 account ledger =====
+type LedgerEntry struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ShopId         int64                  `protobuf:"varint,2,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Direction      int32                  `protobuf:"varint,3,opt,name=direction,proto3" json:"direction,omitempty"`
+	Category       string                 `protobuf:"bytes,4,opt,name=category,proto3" json:"category,omitempty"`
+	Amount         int64                  `protobuf:"varint,5,opt,name=amount,proto3" json:"amount,omitempty"`
+	RunningBalance int64                  `protobuf:"varint,6,opt,name=running_balance,json=runningBalance,proto3" json:"running_balance,omitempty"`
+	OrderId        int64                  `protobuf:"varint,7,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	RefundId       int64                  `protobuf:"varint,8,opt,name=refund_id,json=refundId,proto3" json:"refund_id,omitempty"`
+	RefNo          string                 `protobuf:"bytes,9,opt,name=ref_no,json=refNo,proto3" json:"ref_no,omitempty"`
+	Description    string                 `protobuf:"bytes,10,opt,name=description,proto3" json:"description,omitempty"`
+	CreateTime     int64                  `protobuf:"varint,11,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *LedgerEntry) Reset() {
+	*x = LedgerEntry{}
+	mi := &file_payment_payment_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LedgerEntry) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LedgerEntry) ProtoMessage() {}
+
+func (x *LedgerEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LedgerEntry.ProtoReflect.Descriptor instead.
+func (*LedgerEntry) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *LedgerEntry) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *LedgerEntry) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *LedgerEntry) GetDirection() int32 {
+	if x != nil {
+		return x.Direction
+	}
+	return 0
+}
+
+func (x *LedgerEntry) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *LedgerEntry) GetAmount() int64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *LedgerEntry) GetRunningBalance() int64 {
+	if x != nil {
+		return x.RunningBalance
+	}
+	return 0
+}
+
+func (x *LedgerEntry) GetOrderId() int64 {
+	if x != nil {
+		return x.OrderId
+	}
+	return 0
+}
+
+func (x *LedgerEntry) GetRefundId() int64 {
+	if x != nil {
+		return x.RefundId
+	}
+	return 0
+}
+
+func (x *LedgerEntry) GetRefNo() string {
+	if x != nil {
+		return x.RefNo
+	}
+	return ""
+}
+
+func (x *LedgerEntry) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *LedgerEntry) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type ListLedgerReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Category      string                 `protobuf:"bytes,2,opt,name=category,proto3" json:"category,omitempty"` // 空=全部
+	StartTime     int64                  `protobuf:"varint,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime       int64                  `protobuf:"varint,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	Page          int32                  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListLedgerReq) Reset() {
+	*x = ListLedgerReq{}
+	mi := &file_payment_payment_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListLedgerReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListLedgerReq) ProtoMessage() {}
+
+func (x *ListLedgerReq) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListLedgerReq.ProtoReflect.Descriptor instead.
+func (*ListLedgerReq) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *ListLedgerReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *ListLedgerReq) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *ListLedgerReq) GetStartTime() int64 {
+	if x != nil {
+		return x.StartTime
+	}
+	return 0
+}
+
+func (x *ListLedgerReq) GetEndTime() int64 {
+	if x != nil {
+		return x.EndTime
+	}
+	return 0
+}
+
+func (x *ListLedgerReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListLedgerReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListLedgerResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Entries       []*LedgerEntry         `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries,omitempty"`
+	Total         int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListLedgerResp) Reset() {
+	*x = ListLedgerResp{}
+	mi := &file_payment_payment_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListLedgerResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListLedgerResp) ProtoMessage() {}
+
+func (x *ListLedgerResp) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListLedgerResp.ProtoReflect.Descriptor instead.
+func (*ListLedgerResp) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *ListLedgerResp) GetEntries() []*LedgerEntry {
+	if x != nil {
+		return x.Entries
+	}
+	return nil
+}
+
+func (x *ListLedgerResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type GetShopLedgerSummaryReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	StartTime     int64                  `protobuf:"varint,2,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime       int64                  `protobuf:"varint,3,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetShopLedgerSummaryReq) Reset() {
+	*x = GetShopLedgerSummaryReq{}
+	mi := &file_payment_payment_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetShopLedgerSummaryReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetShopLedgerSummaryReq) ProtoMessage() {}
+
+func (x *GetShopLedgerSummaryReq) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetShopLedgerSummaryReq.ProtoReflect.Descriptor instead.
+func (*GetShopLedgerSummaryReq) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *GetShopLedgerSummaryReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *GetShopLedgerSummaryReq) GetStartTime() int64 {
+	if x != nil {
+		return x.StartTime
+	}
+	return 0
+}
+
+func (x *GetShopLedgerSummaryReq) GetEndTime() int64 {
+	if x != nil {
+		return x.EndTime
+	}
+	return 0
+}
+
+type LedgerSummary struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	TotalIncome     int64                  `protobuf:"varint,1,opt,name=total_income,json=totalIncome,proto3" json:"total_income,omitempty"`
+	TotalRefund     int64                  `protobuf:"varint,2,opt,name=total_refund,json=totalRefund,proto3" json:"total_refund,omitempty"`
+	TotalCommission int64                  `protobuf:"varint,3,opt,name=total_commission,json=totalCommission,proto3" json:"total_commission,omitempty"`
+	TotalWithdrawal int64                  `protobuf:"varint,4,opt,name=total_withdrawal,json=totalWithdrawal,proto3" json:"total_withdrawal,omitempty"`
+	NetBalance      int64                  `protobuf:"varint,5,opt,name=net_balance,json=netBalance,proto3" json:"net_balance,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *LedgerSummary) Reset() {
+	*x = LedgerSummary{}
+	mi := &file_payment_payment_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LedgerSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LedgerSummary) ProtoMessage() {}
+
+func (x *LedgerSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LedgerSummary.ProtoReflect.Descriptor instead.
+func (*LedgerSummary) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *LedgerSummary) GetTotalIncome() int64 {
+	if x != nil {
+		return x.TotalIncome
+	}
+	return 0
+}
+
+func (x *LedgerSummary) GetTotalRefund() int64 {
+	if x != nil {
+		return x.TotalRefund
+	}
+	return 0
+}
+
+func (x *LedgerSummary) GetTotalCommission() int64 {
+	if x != nil {
+		return x.TotalCommission
+	}
+	return 0
+}
+
+func (x *LedgerSummary) GetTotalWithdrawal() int64 {
+	if x != nil {
+		return x.TotalWithdrawal
+	}
+	return 0
+}
+
+func (x *LedgerSummary) GetNetBalance() int64 {
+	if x != nil {
+		return x.NetBalance
+	}
+	return 0
+}
+
+type RunReconciliationReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RunReconciliationReq) Reset() {
+	*x = RunReconciliationReq{}
+	mi := &file_payment_payment_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RunReconciliationReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RunReconciliationReq) ProtoMessage() {}
+
+func (x *RunReconciliationReq) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RunReconciliationReq.ProtoReflect.Descriptor instead.
+func (*RunReconciliationReq) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *RunReconciliationReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+type ShopReconcileResult struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	LedgerCredit  int64                  `protobuf:"varint,2,opt,name=ledger_credit,json=ledgerCredit,proto3" json:"ledger_credit,omitempty"`
+	LedgerDebit   int64                  `protobuf:"varint,3,opt,name=ledger_debit,json=ledgerDebit,proto3" json:"ledger_debit,omitempty"`
+	LedgerNet     int64                  `protobuf:"varint,4,opt,name=ledger_net,json=ledgerNet,proto3" json:"ledger_net,omitempty"`
+	WalletBalance int64                  `protobuf:"varint,5,opt,name=wallet_balance,json=walletBalance,proto3" json:"wallet_balance,omitempty"`
+	WalletFrozen  int64                  `protobuf:"varint,6,opt,name=wallet_frozen,json=walletFrozen,proto3" json:"wallet_frozen,omitempty"`
+	WalletTotal   int64                  `protobuf:"varint,7,opt,name=wallet_total,json=walletTotal,proto3" json:"wallet_total,omitempty"`
+	Diff          int64                  `protobuf:"varint,8,opt,name=diff,proto3" json:"diff,omitempty"`
+	Passed        bool                   `protobuf:"varint,9,opt,name=passed,proto3" json:"passed,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ShopReconcileResult) Reset() {
+	*x = ShopReconcileResult{}
+	mi := &file_payment_payment_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShopReconcileResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShopReconcileResult) ProtoMessage() {}
+
+func (x *ShopReconcileResult) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShopReconcileResult.ProtoReflect.Descriptor instead.
+func (*ShopReconcileResult) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *ShopReconcileResult) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *ShopReconcileResult) GetLedgerCredit() int64 {
+	if x != nil {
+		return x.LedgerCredit
+	}
+	return 0
+}
+
+func (x *ShopReconcileResult) GetLedgerDebit() int64 {
+	if x != nil {
+		return x.LedgerDebit
+	}
+	return 0
+}
+
+func (x *ShopReconcileResult) GetLedgerNet() int64 {
+	if x != nil {
+		return x.LedgerNet
+	}
+	return 0
+}
+
+func (x *ShopReconcileResult) GetWalletBalance() int64 {
+	if x != nil {
+		return x.WalletBalance
+	}
+	return 0
+}
+
+func (x *ShopReconcileResult) GetWalletFrozen() int64 {
+	if x != nil {
+		return x.WalletFrozen
+	}
+	return 0
+}
+
+func (x *ShopReconcileResult) GetWalletTotal() int64 {
+	if x != nil {
+		return x.WalletTotal
+	}
+	return 0
+}
+
+func (x *ShopReconcileResult) GetDiff() int64 {
+	if x != nil {
+		return x.Diff
+	}
+	return 0
+}
+
+func (x *ShopReconcileResult) GetPassed() bool {
+	if x != nil {
+		return x.Passed
+	}
+	return false
+}
+
+type ReconciliationReport struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TotalChecked  int32                  `protobuf:"varint,1,opt,name=total_checked,json=totalChecked,proto3" json:"total_checked,omitempty"`
+	Passed        int32                  `protobuf:"varint,2,opt,name=passed,proto3" json:"passed,omitempty"`
+	Failed        int32                  `protobuf:"varint,3,opt,name=failed,proto3" json:"failed,omitempty"`
+	Results       []*ShopReconcileResult `protobuf:"bytes,4,rep,name=results,proto3" json:"results,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReconciliationReport) Reset() {
+	*x = ReconciliationReport{}
+	mi := &file_payment_payment_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReconciliationReport) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReconciliationReport) ProtoMessage() {}
+
+func (x *ReconciliationReport) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_payment_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReconciliationReport.ProtoReflect.Descriptor instead.
+func (*ReconciliationReport) Descriptor() ([]byte, []int) {
+	return file_payment_payment_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *ReconciliationReport) GetTotalChecked() int32 {
+	if x != nil {
+		return x.TotalChecked
+	}
+	return 0
+}
+
+func (x *ReconciliationReport) GetPassed() int32 {
+	if x != nil {
+		return x.Passed
+	}
+	return 0
+}
+
+func (x *ReconciliationReport) GetFailed() int32 {
+	if x != nil {
+		return x.Failed
+	}
+	return 0
+}
+
+func (x *ReconciliationReport) GetResults() []*ShopReconcileResult {
+	if x != nil {
+		return x.Results
+	}
+	return nil
 }
 
 var File_payment_payment_proto protoreflect.FileDescriptor
@@ -1668,18 +2293,74 @@ const file_payment_payment_proto_rawDesc = "" +
 	"\fmock_enabled\x18\x06 \x01(\bR\vmockEnabled\"G\n" +
 	"\x11ConfirmMockPayReq\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\x03R\aorderId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\x03R\x06userId\"\xae\x01\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\"\xcb\x01\n" +
 	"\x10ExecuteRefundReq\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\x03R\aorderId\x12\x19\n" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12\x17\n" +
 	"\ashop_id\x18\x03 \x01(\x03R\x06shopId\x12\x16\n" +
 	"\x06amount\x18\x04 \x01(\x03R\x06amount\x12\x16\n" +
 	"\x06reason\x18\x05 \x01(\tR\x06reason\x12\x1b\n" +
-	"\trefund_no\x18\x06 \x01(\tR\brefundNo\"d\n" +
+	"\trefund_no\x18\x06 \x01(\tR\brefundNo\x12\x1b\n" +
+	"\trefund_id\x18\a \x01(\x03R\brefundId\"d\n" +
 	"\x11ExecuteRefundResp\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x1b\n" +
 	"\trefund_no\x18\x02 \x01(\tR\brefundNo\x12\x18\n" +
-	"\achannel\x18\x03 \x01(\tR\achannel2\xef\x06\n" +
+	"\achannel\x18\x03 \x01(\tR\achannel\"\xc3\x02\n" +
+	"\vLedgerEntry\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\ashop_id\x18\x02 \x01(\x03R\x06shopId\x12\x1c\n" +
+	"\tdirection\x18\x03 \x01(\x05R\tdirection\x12\x1a\n" +
+	"\bcategory\x18\x04 \x01(\tR\bcategory\x12\x16\n" +
+	"\x06amount\x18\x05 \x01(\x03R\x06amount\x12'\n" +
+	"\x0frunning_balance\x18\x06 \x01(\x03R\x0erunningBalance\x12\x19\n" +
+	"\border_id\x18\a \x01(\x03R\aorderId\x12\x1b\n" +
+	"\trefund_id\x18\b \x01(\x03R\brefundId\x12\x15\n" +
+	"\x06ref_no\x18\t \x01(\tR\x05refNo\x12 \n" +
+	"\vdescription\x18\n" +
+	" \x01(\tR\vdescription\x12\x1f\n" +
+	"\vcreate_time\x18\v \x01(\x03R\n" +
+	"createTime\"\xaf\x01\n" +
+	"\rListLedgerReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x1a\n" +
+	"\bcategory\x18\x02 \x01(\tR\bcategory\x12\x1d\n" +
+	"\n" +
+	"start_time\x18\x03 \x01(\x03R\tstartTime\x12\x19\n" +
+	"\bend_time\x18\x04 \x01(\x03R\aendTime\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x06 \x01(\x05R\bpageSize\"V\n" +
+	"\x0eListLedgerResp\x12.\n" +
+	"\aentries\x18\x01 \x03(\v2\x14.payment.LedgerEntryR\aentries\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"l\n" +
+	"\x17GetShopLedgerSummaryReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x1d\n" +
+	"\n" +
+	"start_time\x18\x02 \x01(\x03R\tstartTime\x12\x19\n" +
+	"\bend_time\x18\x03 \x01(\x03R\aendTime\"\xcc\x01\n" +
+	"\rLedgerSummary\x12!\n" +
+	"\ftotal_income\x18\x01 \x01(\x03R\vtotalIncome\x12!\n" +
+	"\ftotal_refund\x18\x02 \x01(\x03R\vtotalRefund\x12)\n" +
+	"\x10total_commission\x18\x03 \x01(\x03R\x0ftotalCommission\x12)\n" +
+	"\x10total_withdrawal\x18\x04 \x01(\x03R\x0ftotalWithdrawal\x12\x1f\n" +
+	"\vnet_balance\x18\x05 \x01(\x03R\n" +
+	"netBalance\"/\n" +
+	"\x14RunReconciliationReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\"\xb0\x02\n" +
+	"\x13ShopReconcileResult\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12#\n" +
+	"\rledger_credit\x18\x02 \x01(\x03R\fledgerCredit\x12!\n" +
+	"\fledger_debit\x18\x03 \x01(\x03R\vledgerDebit\x12\x1d\n" +
+	"\n" +
+	"ledger_net\x18\x04 \x01(\x03R\tledgerNet\x12%\n" +
+	"\x0ewallet_balance\x18\x05 \x01(\x03R\rwalletBalance\x12#\n" +
+	"\rwallet_frozen\x18\x06 \x01(\x03R\fwalletFrozen\x12!\n" +
+	"\fwallet_total\x18\a \x01(\x03R\vwalletTotal\x12\x12\n" +
+	"\x04diff\x18\b \x01(\x03R\x04diff\x12\x16\n" +
+	"\x06passed\x18\t \x01(\bR\x06passed\"\xa3\x01\n" +
+	"\x14ReconciliationReport\x12#\n" +
+	"\rtotal_checked\x18\x01 \x01(\x05R\ftotalChecked\x12\x16\n" +
+	"\x06passed\x18\x02 \x01(\x05R\x06passed\x12\x16\n" +
+	"\x06failed\x18\x03 \x01(\x05R\x06failed\x126\n" +
+	"\aresults\x18\x04 \x03(\v2\x1c.payment.ShopReconcileResultR\aresults2\xd3\b\n" +
 	"\aPayment\x12F\n" +
 	"\rCreatePayment\x12\x19.payment.CreatePaymentReq\x1a\x1a.payment.CreatePaymentResp\x12=\n" +
 	"\n" +
@@ -1694,7 +2375,11 @@ const file_payment_payment_proto_rawDesc = "" +
 	"\n" +
 	"GetCashier\x12\x16.payment.GetCashierReq\x1a\x14.payment.CashierInfo\x12=\n" +
 	"\x0eConfirmMockPay\x12\x1a.payment.ConfirmMockPayReq\x1a\x0f.payment.OkResp\x12F\n" +
-	"\rExecuteRefund\x12\x19.payment.ExecuteRefundReq\x1a\x1a.payment.ExecuteRefundRespB\vZ\t./paymentb\x06proto3"
+	"\rExecuteRefund\x12\x19.payment.ExecuteRefundReq\x1a\x1a.payment.ExecuteRefundResp\x12=\n" +
+	"\n" +
+	"ListLedger\x12\x16.payment.ListLedgerReq\x1a\x17.payment.ListLedgerResp\x12P\n" +
+	"\x14GetShopLedgerSummary\x12 .payment.GetShopLedgerSummaryReq\x1a\x16.payment.LedgerSummary\x12Q\n" +
+	"\x11RunReconciliation\x12\x1d.payment.RunReconciliationReq\x1a\x1d.payment.ReconciliationReportB\vZ\t./paymentb\x06proto3"
 
 var (
 	file_payment_payment_proto_rawDescOnce sync.Once
@@ -1708,7 +2393,7 @@ func file_payment_payment_proto_rawDescGZIP() []byte {
 	return file_payment_payment_proto_rawDescData
 }
 
-var file_payment_payment_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_payment_payment_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
 var file_payment_payment_proto_goTypes = []any{
 	(*CreatePaymentReq)(nil),         // 0: payment.CreatePaymentReq
 	(*CreatePaymentResp)(nil),        // 1: payment.CreatePaymentResp
@@ -1734,39 +2419,55 @@ var file_payment_payment_proto_goTypes = []any{
 	(*ConfirmMockPayReq)(nil),        // 21: payment.ConfirmMockPayReq
 	(*ExecuteRefundReq)(nil),         // 22: payment.ExecuteRefundReq
 	(*ExecuteRefundResp)(nil),        // 23: payment.ExecuteRefundResp
+	(*LedgerEntry)(nil),              // 24: payment.LedgerEntry
+	(*ListLedgerReq)(nil),            // 25: payment.ListLedgerReq
+	(*ListLedgerResp)(nil),           // 26: payment.ListLedgerResp
+	(*GetShopLedgerSummaryReq)(nil),  // 27: payment.GetShopLedgerSummaryReq
+	(*LedgerSummary)(nil),            // 28: payment.LedgerSummary
+	(*RunReconciliationReq)(nil),     // 29: payment.RunReconciliationReq
+	(*ShopReconcileResult)(nil),      // 30: payment.ShopReconcileResult
+	(*ReconciliationReport)(nil),     // 31: payment.ReconciliationReport
 }
 var file_payment_payment_proto_depIdxs = []int32{
 	10, // 0: payment.ListWithdrawalsResp.withdrawals:type_name -> payment.WithdrawalInfo
 	16, // 1: payment.ListBillRecordsResp.records:type_name -> payment.BillRecord
-	0,  // 2: payment.Payment.CreatePayment:input_type -> payment.CreatePaymentReq
-	2,  // 3: payment.Payment.GetPayment:input_type -> payment.GetPaymentReq
-	4,  // 4: payment.Payment.UpdatePaymentStatus:input_type -> payment.UpdatePaymentStatusReq
-	8,  // 5: payment.Payment.GetMerchantWallet:input_type -> payment.GetMerchantWalletReq
-	9,  // 6: payment.Payment.CreditWallet:input_type -> payment.CreditWalletReq
-	11, // 7: payment.Payment.CreateWithdrawal:input_type -> payment.CreateWithdrawalReq
-	13, // 8: payment.Payment.ListWithdrawals:input_type -> payment.ListWithdrawalsReq
-	15, // 9: payment.Payment.AdminHandleWithdrawal:input_type -> payment.AdminHandleWithdrawalReq
-	17, // 10: payment.Payment.ListBillRecords:input_type -> payment.ListBillRecordsReq
-	19, // 11: payment.Payment.GetCashier:input_type -> payment.GetCashierReq
-	21, // 12: payment.Payment.ConfirmMockPay:input_type -> payment.ConfirmMockPayReq
-	22, // 13: payment.Payment.ExecuteRefund:input_type -> payment.ExecuteRefundReq
-	1,  // 14: payment.Payment.CreatePayment:output_type -> payment.CreatePaymentResp
-	3,  // 15: payment.Payment.GetPayment:output_type -> payment.GetPaymentResp
-	5,  // 16: payment.Payment.UpdatePaymentStatus:output_type -> payment.UpdatePaymentStatusResp
-	7,  // 17: payment.Payment.GetMerchantWallet:output_type -> payment.MerchantWallet
-	6,  // 18: payment.Payment.CreditWallet:output_type -> payment.OkResp
-	12, // 19: payment.Payment.CreateWithdrawal:output_type -> payment.CreateWithdrawalResp
-	14, // 20: payment.Payment.ListWithdrawals:output_type -> payment.ListWithdrawalsResp
-	6,  // 21: payment.Payment.AdminHandleWithdrawal:output_type -> payment.OkResp
-	18, // 22: payment.Payment.ListBillRecords:output_type -> payment.ListBillRecordsResp
-	20, // 23: payment.Payment.GetCashier:output_type -> payment.CashierInfo
-	6,  // 24: payment.Payment.ConfirmMockPay:output_type -> payment.OkResp
-	23, // 25: payment.Payment.ExecuteRefund:output_type -> payment.ExecuteRefundResp
-	14, // [14:26] is the sub-list for method output_type
-	2,  // [2:14] is the sub-list for method input_type
-	2,  // [2:2] is the sub-list for extension type_name
-	2,  // [2:2] is the sub-list for extension extendee
-	0,  // [0:2] is the sub-list for field type_name
+	24, // 2: payment.ListLedgerResp.entries:type_name -> payment.LedgerEntry
+	30, // 3: payment.ReconciliationReport.results:type_name -> payment.ShopReconcileResult
+	0,  // 4: payment.Payment.CreatePayment:input_type -> payment.CreatePaymentReq
+	2,  // 5: payment.Payment.GetPayment:input_type -> payment.GetPaymentReq
+	4,  // 6: payment.Payment.UpdatePaymentStatus:input_type -> payment.UpdatePaymentStatusReq
+	8,  // 7: payment.Payment.GetMerchantWallet:input_type -> payment.GetMerchantWalletReq
+	9,  // 8: payment.Payment.CreditWallet:input_type -> payment.CreditWalletReq
+	11, // 9: payment.Payment.CreateWithdrawal:input_type -> payment.CreateWithdrawalReq
+	13, // 10: payment.Payment.ListWithdrawals:input_type -> payment.ListWithdrawalsReq
+	15, // 11: payment.Payment.AdminHandleWithdrawal:input_type -> payment.AdminHandleWithdrawalReq
+	17, // 12: payment.Payment.ListBillRecords:input_type -> payment.ListBillRecordsReq
+	19, // 13: payment.Payment.GetCashier:input_type -> payment.GetCashierReq
+	21, // 14: payment.Payment.ConfirmMockPay:input_type -> payment.ConfirmMockPayReq
+	22, // 15: payment.Payment.ExecuteRefund:input_type -> payment.ExecuteRefundReq
+	25, // 16: payment.Payment.ListLedger:input_type -> payment.ListLedgerReq
+	27, // 17: payment.Payment.GetShopLedgerSummary:input_type -> payment.GetShopLedgerSummaryReq
+	29, // 18: payment.Payment.RunReconciliation:input_type -> payment.RunReconciliationReq
+	1,  // 19: payment.Payment.CreatePayment:output_type -> payment.CreatePaymentResp
+	3,  // 20: payment.Payment.GetPayment:output_type -> payment.GetPaymentResp
+	5,  // 21: payment.Payment.UpdatePaymentStatus:output_type -> payment.UpdatePaymentStatusResp
+	7,  // 22: payment.Payment.GetMerchantWallet:output_type -> payment.MerchantWallet
+	6,  // 23: payment.Payment.CreditWallet:output_type -> payment.OkResp
+	12, // 24: payment.Payment.CreateWithdrawal:output_type -> payment.CreateWithdrawalResp
+	14, // 25: payment.Payment.ListWithdrawals:output_type -> payment.ListWithdrawalsResp
+	6,  // 26: payment.Payment.AdminHandleWithdrawal:output_type -> payment.OkResp
+	18, // 27: payment.Payment.ListBillRecords:output_type -> payment.ListBillRecordsResp
+	20, // 28: payment.Payment.GetCashier:output_type -> payment.CashierInfo
+	6,  // 29: payment.Payment.ConfirmMockPay:output_type -> payment.OkResp
+	23, // 30: payment.Payment.ExecuteRefund:output_type -> payment.ExecuteRefundResp
+	26, // 31: payment.Payment.ListLedger:output_type -> payment.ListLedgerResp
+	28, // 32: payment.Payment.GetShopLedgerSummary:output_type -> payment.LedgerSummary
+	31, // 33: payment.Payment.RunReconciliation:output_type -> payment.ReconciliationReport
+	19, // [19:34] is the sub-list for method output_type
+	4,  // [4:19] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_payment_payment_proto_init() }
@@ -1780,7 +2481,7 @@ func file_payment_payment_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_payment_payment_proto_rawDesc), len(file_payment_payment_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   24,
+			NumMessages:   32,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
