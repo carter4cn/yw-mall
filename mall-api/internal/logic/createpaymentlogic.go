@@ -5,8 +5,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-payment-rpc/payment"
@@ -29,8 +29,7 @@ func NewCreatePaymentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cre
 }
 
 func (l *CreatePaymentLogic) CreatePayment(req *types.CreatePaymentReq) (resp *types.CreatePaymentResp, err error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	res, err := l.svcCtx.PaymentRpc.CreatePayment(l.ctx, &payment.CreatePaymentReq{
 		OrderNo: req.OrderNo,

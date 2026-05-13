@@ -2,16 +2,14 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/types"
 	reviewpb "mall-review-rpc/review"
 )
 
 func currentUserId(ctx context.Context) int64 {
-	uid, _ := ctx.Value("uid").(json.Number)
-	id, _ := uid.Int64()
-	return id
+	return middleware.UidFromCtx(ctx)
 }
 
 func protoMediaList(in []*reviewpb.Media) []types.ReviewMediaItem {

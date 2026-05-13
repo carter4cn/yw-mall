@@ -2,8 +2,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-user-rpc/userclient"
@@ -26,8 +26,7 @@ func NewGetDefaultAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *GetDefaultAddressLogic) GetDefaultAddress() (*types.AddressItem, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	a, err := l.svcCtx.UserRpc.GetDefaultAddress(l.ctx, &userclient.GetDefaultAddressReq{UserId: userId})
 	if err != nil {

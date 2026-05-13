@@ -2,8 +2,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-user-rpc/userclient"
@@ -26,8 +26,7 @@ func NewListAddressesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Lis
 }
 
 func (l *ListAddressesLogic) ListAddresses() (*types.ListAddressesResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	res, err := l.svcCtx.UserRpc.ListAddresses(l.ctx, &userclient.ListAddressesReq{UserId: userId})
 	if err != nil {

@@ -12,3 +12,14 @@ Cache:
 
 JwtAuth:
   AccessSecret: "mall-secret-key-change-in-production"
+
+# P0 login revamp: opaque token + Redis session.
+# All three knobs accept env-override via configcenter / etcd reload.
+Session:
+  Redis:
+    Host: 127.0.0.1:6379
+    Pass: ""
+    DB: 0
+  AccessTTLSeconds: 1800        # 30 min, sliding-renewed by ValidateSession
+  RefreshTTLSeconds: 604800     # 7 days
+  MaxRotateCount: 10            # refresh-token rotation cap

@@ -122,3 +122,28 @@ func (s *UserServer) UpdateUserStatus(ctx context.Context, in *user.UpdateUserSt
 	l := logic.NewUpdateUserStatusLogic(ctx, s.svcCtx)
 	return l.UpdateUserStatus(in)
 }
+
+func (s *UserServer) CreateSession(ctx context.Context, in *user.CreateSessionReq) (*user.SessionInfo, error) {
+	l := logic.NewCreateSessionLogic(ctx, s.svcCtx)
+	return l.CreateSession(in)
+}
+
+func (s *UserServer) ValidateSession(ctx context.Context, in *user.ValidateSessionReq) (*user.SessionInfo, error) {
+	l := logic.NewValidateSessionLogic(ctx, s.svcCtx)
+	return l.ValidateSession(in)
+}
+
+func (s *UserServer) RefreshSession(ctx context.Context, in *user.RefreshSessionReq) (*user.SessionInfo, error) {
+	l := logic.NewRefreshSessionLogic(ctx, s.svcCtx)
+	return l.RefreshSession(in)
+}
+
+func (s *UserServer) DestroySession(ctx context.Context, in *user.DestroySessionReq) (*user.Empty, error) {
+	l := logic.NewDestroySessionLogic(ctx, s.svcCtx)
+	return l.DestroySession(in)
+}
+
+func (s *UserServer) DestroyAllUserSessions(ctx context.Context, in *user.DestroyAllUserSessionsReq) (*user.Empty, error) {
+	l := logic.NewDestroyAllUserSessionsLogic(ctx, s.svcCtx)
+	return l.DestroyAllUserSessions(in)
+}

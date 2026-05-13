@@ -5,8 +5,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-user-rpc/user"
@@ -29,8 +29,7 @@ func NewUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserInfo
 }
 
 func (l *UserInfoLogic) UserInfo() (resp *types.UserInfoResp, err error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	res, err := l.svcCtx.UserRpc.GetUser(l.ctx, &user.GetUserReq{
 		Id: userId,

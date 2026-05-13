@@ -659,3 +659,30 @@ type ShipReturnReq struct {
 	TrackingNo string `json:"trackingNo"`
 	Carrier    string `json:"carrier,optional"`
 }
+
+// ---- P0 login revamp (Opaque token + Redis) ----
+
+type AuthLoginReq struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type AuthLoginResp struct {
+	Uid          int64  `json:"uid"`
+	Username     string `json:"username"`
+	AccessToken  string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+	ExpiresIn    int32  `json:"expiresIn"`
+	CsrfToken    string `json:"csrfToken"`
+}
+
+type AuthRefreshReq struct {
+	RefreshToken string `json:"refreshToken"`
+	DeviceId     string `json:"deviceId,optional"`
+}
+
+type AuthRefreshResp = AuthLoginResp
+
+type AuthLogoutResp struct {
+	Ok bool `json:"ok"`
+}

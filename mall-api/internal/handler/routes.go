@@ -11,7 +11,44 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 )
 
+// withSessionAuth wraps the given routes with the Redis-session middleware.
+// Local helper so the call-sites read like the original `rest.WithJwt(...)`
+// one-liner; go-zero's WithMiddlewares takes routes inline rather than as a
+// trailing RouteOption.
+func withSessionAuth(serverCtx *svc.ServiceContext, rs []rest.Route) []rest.Route {
+	return rest.WithMiddlewares([]rest.Middleware{serverCtx.SessionAuth}, rs...)
+}
+
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
+	// New auth endpoints (P0 login revamp): opaque token + Redis session.
+	// /api/auth/login + /refresh are public; /logout needs a valid session.
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/login",
+				Handler: AuthLoginHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/refresh",
+				Handler: AuthRefreshHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/auth"),
+	)
+
+	server.AddRoutes(
+		withSessionAuth(serverCtx, []rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/logout",
+				Handler: AuthLogoutHandler(serverCtx),
+			},
+		}),
+		rest.WithPrefix("/api/auth"),
+	)
+
 	server.AddRoutes(
 		[]rest.Route{
 			{
@@ -29,7 +66,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodGet,
 				Path:    "/info",
@@ -40,8 +77,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/update",
 				Handler: UpdateUserHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api/user"),
 	)
 
@@ -67,7 +103,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/create",
@@ -83,13 +119,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/list",
 				Handler: OrderListHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api/order"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/add",
@@ -115,13 +150,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/update-quantity",
 				Handler: CartUpdateQuantityHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api/cart"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/create",
@@ -142,13 +176,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/mock-confirm/:order_id",
 				Handler: ConfirmMockPayHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api/payment"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/review/followup",
@@ -169,8 +202,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/user/reviews",
 				Handler: ListUserReviewsHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api"),
 	)
 
@@ -215,7 +247,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodGet,
 				Path:    "/logistics/shipment/:id",
@@ -226,8 +258,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/order/:id/shipments",
 				Handler: ListOrderShipmentsHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api"),
 	)
 
@@ -267,7 +298,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/add",
@@ -303,8 +334,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/:id",
 				Handler: GetAddressHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api/address"),
 	)
 
@@ -335,7 +365,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/:id/follow",
@@ -356,13 +386,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/followed",
 				Handler: ListFollowedShopsHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api/shop"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/submit",
@@ -388,13 +417,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/:id/ship-return",
 				Handler: ShipReturnHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api/refund"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
+		withSessionAuth(serverCtx, []rest.Route{
 			{
 				Method:  http.MethodGet,
 				Path:    "/:id",
@@ -435,8 +463,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/my/rewards",
 				Handler: MyRewardsHandler(serverCtx),
 			},
-		},
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		}),
 		rest.WithPrefix("/api/activity"),
 	)
 }

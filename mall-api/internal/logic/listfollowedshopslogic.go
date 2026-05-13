@@ -2,8 +2,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-shop-rpc/shopservice"
@@ -26,8 +26,7 @@ func NewListFollowedShopsLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *ListFollowedShopsLogic) ListFollowedShops(req *types.ListFollowedShopsReq) (*types.ShopListResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	res, err := l.svcCtx.ShopRpc.ListFollowedShops(l.ctx, &shopservice.ListFollowedShopsReq{
 		UserId:   userId,

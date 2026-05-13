@@ -5,8 +5,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-cart-rpc/cart"
@@ -29,8 +29,7 @@ func NewCartRemoveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CartRe
 }
 
 func (l *CartRemoveLogic) CartRemove(req *types.CartRemoveReq) error {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	_, err := l.svcCtx.CartRpc.RemoveItem(l.ctx, &cart.RemoveItemReq{
 		UserId:    userId,

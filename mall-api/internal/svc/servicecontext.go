@@ -86,8 +86,9 @@ type ServiceContext struct {
 	LogisticsRpc logisticsclient.Logistics
 	ShopRpc      shopservice.ShopService
 
-	Minio      ObjectStore
-	AdminToken rest.Middleware
+	Minio       ObjectStore
+	AdminToken  rest.Middleware
+	SessionAuth rest.Middleware
 
 	// hot-reloadable fields (updated by etcd watcher without restart)
 	adminTokenHot *configcenter.HotConfig[string]
@@ -119,6 +120,9 @@ func NewServiceContext(c config.Config, etcdHosts []string) *ServiceContext {
 		adminTokenHot: adminTokenHot,
 		minioHot:      minioHot,
 	}
+	// P0 login revamp: opaque-token Redis-session check. Needs UserRpc, which
+	// is initialised above, so we wire it after the struct literal.
+	svc.SessionAuth = middleware.NewSessionAuthMiddleware(svc.UserRpc)
 
 	if len(etcdHosts) > 0 {
 		go configcenter.NewWatcher(etcdHosts).Watch(configcenter.ServiceKey("yw-mall", "api-gateway"), svc.onConfigChange)

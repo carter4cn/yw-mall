@@ -2,9 +2,9 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
 	"mall-activity-rpc/activity"
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-risk-rpc/risk"
@@ -75,11 +75,8 @@ func needsToken(activityType string) bool {
 	return activityType == "lottery" || activityType == "seckill"
 }
 
+// uidFromCtx pulls the authenticated uid out of the request context.
+// P0 login revamp: backed by SessionAuth middleware instead of JWT claims.
 func uidFromCtx(ctx context.Context) int64 {
-	v, ok := ctx.Value("uid").(json.Number)
-	if !ok {
-		return 0
-	}
-	id, _ := v.Int64()
-	return id
+	return middleware.UidFromCtx(ctx)
 }

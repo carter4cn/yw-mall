@@ -4,8 +4,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-payment-rpc/payment"
@@ -28,8 +28,7 @@ func NewGetCashierLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetCas
 }
 
 func (l *GetCashierLogic) GetCashier(req *types.GetCashierReq) (*types.CashierInfoResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	res, err := l.svcCtx.PaymentRpc.GetCashier(l.ctx, &payment.GetCashierReq{
 		OrderId: req.OrderId,

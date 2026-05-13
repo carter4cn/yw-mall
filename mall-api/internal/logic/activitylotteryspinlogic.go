@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 
 	"mall-activity-rpc/activity"
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 
@@ -26,8 +27,7 @@ func NewActivityLotterySpinLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *ActivityLotterySpinLogic) ActivityLotterySpin(req *types.ActivityLotterySpinReq) (*types.ActivityLotterySpinResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	res, err := l.svcCtx.ActivityRpc.Participate(l.ctx, &activity.ParticipateReq{
 		ActivityId: req.Id,

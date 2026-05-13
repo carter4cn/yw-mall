@@ -5,8 +5,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-cart-rpc/cart"
@@ -29,8 +29,7 @@ func NewCartListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CartList
 }
 
 func (l *CartListLogic) CartList() (resp *types.CartListResp, err error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	res, err := l.svcCtx.CartRpc.ListItems(l.ctx, &cart.ListItemsReq{
 		UserId: userId,

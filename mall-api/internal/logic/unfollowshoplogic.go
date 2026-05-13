@@ -2,8 +2,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-shop-rpc/shopservice"
@@ -26,8 +26,7 @@ func NewUnfollowShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Unfo
 }
 
 func (l *UnfollowShopLogic) UnfollowShop(req *types.FollowShopReq) (*types.FollowShopResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	_, err := l.svcCtx.ShopRpc.UnfollowShop(l.ctx, &shopservice.UnfollowShopReq{
 		UserId: userId,

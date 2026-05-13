@@ -2,8 +2,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-reward-rpc/reward"
@@ -26,8 +26,7 @@ func NewMyRewardsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MyRewar
 }
 
 func (l *MyRewardsLogic) MyRewards(req *types.MyRewardsReq) (*types.MyRewardsResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	page := req.Page
 	if page <= 0 {

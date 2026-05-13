@@ -2,8 +2,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-user-rpc/userclient"
@@ -26,8 +26,7 @@ func NewAddAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddAdd
 }
 
 func (l *AddAddressLogic) AddAddress(req *types.AddAddressReq) (*types.AddAddressResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	res, err := l.svcCtx.UserRpc.AddAddress(l.ctx, &userclient.AddAddressReq{
 		UserId:       userId,

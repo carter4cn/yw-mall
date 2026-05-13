@@ -4,8 +4,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 	"mall-payment-rpc/payment"
@@ -28,8 +28,7 @@ func NewConfirmMockPayLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Co
 }
 
 func (l *ConfirmMockPayLogic) ConfirmMockPay(req *types.ConfirmMockPayReq) (*types.OkResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	if _, err := l.svcCtx.PaymentRpc.ConfirmMockPay(l.ctx, &payment.ConfirmMockPayReq{
 		OrderId: req.OrderId,

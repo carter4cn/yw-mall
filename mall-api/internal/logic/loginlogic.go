@@ -27,7 +27,12 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 	}
 }
 
+// Login is the legacy /api/user/login compat layer. After the P0 revamp the
+// returned `token` is the opaque access_token (not a JWT). Clients that need
+// refresh/csrf/expiry should migrate to /api/auth/login.
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
+	l.Logger.Infow("legacy /api/user/login hit; migrate to /api/auth/login",
+		logx.Field("username", req.Username))
 	res, err := l.svcCtx.UserRpc.Login(l.ctx, &user.LoginReq{
 		Username: req.Username,
 		Password: req.Password,

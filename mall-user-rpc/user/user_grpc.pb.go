@@ -19,26 +19,31 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_Register_FullMethodName          = "/user.User/Register"
-	User_Login_FullMethodName             = "/user.User/Login"
-	User_GetUser_FullMethodName           = "/user.User/GetUser"
-	User_UpdateUser_FullMethodName        = "/user.User/UpdateUser"
-	User_AddPoints_FullMethodName         = "/user.User/AddPoints"
-	User_DeductPoints_FullMethodName      = "/user.User/DeductPoints"
-	User_AddAddress_FullMethodName        = "/user.User/AddAddress"
-	User_UpdateAddress_FullMethodName     = "/user.User/UpdateAddress"
-	User_DeleteAddress_FullMethodName     = "/user.User/DeleteAddress"
-	User_SetDefaultAddress_FullMethodName = "/user.User/SetDefaultAddress"
-	User_ListAddresses_FullMethodName     = "/user.User/ListAddresses"
-	User_GetAddress_FullMethodName        = "/user.User/GetAddress"
-	User_GetDefaultAddress_FullMethodName = "/user.User/GetDefaultAddress"
-	User_AdminLogin_FullMethodName        = "/user.User/AdminLogin"
-	User_CreateAdmin_FullMethodName       = "/user.User/CreateAdmin"
-	User_ListAdmins_FullMethodName        = "/user.User/ListAdmins"
-	User_GetAdminById_FullMethodName      = "/user.User/GetAdminById"
-	User_UpdateAdminStatus_FullMethodName = "/user.User/UpdateAdminStatus"
-	User_ListUsers_FullMethodName         = "/user.User/ListUsers"
-	User_UpdateUserStatus_FullMethodName  = "/user.User/UpdateUserStatus"
+	User_Register_FullMethodName               = "/user.User/Register"
+	User_Login_FullMethodName                  = "/user.User/Login"
+	User_GetUser_FullMethodName                = "/user.User/GetUser"
+	User_UpdateUser_FullMethodName             = "/user.User/UpdateUser"
+	User_AddPoints_FullMethodName              = "/user.User/AddPoints"
+	User_DeductPoints_FullMethodName           = "/user.User/DeductPoints"
+	User_AddAddress_FullMethodName             = "/user.User/AddAddress"
+	User_UpdateAddress_FullMethodName          = "/user.User/UpdateAddress"
+	User_DeleteAddress_FullMethodName          = "/user.User/DeleteAddress"
+	User_SetDefaultAddress_FullMethodName      = "/user.User/SetDefaultAddress"
+	User_ListAddresses_FullMethodName          = "/user.User/ListAddresses"
+	User_GetAddress_FullMethodName             = "/user.User/GetAddress"
+	User_GetDefaultAddress_FullMethodName      = "/user.User/GetDefaultAddress"
+	User_AdminLogin_FullMethodName             = "/user.User/AdminLogin"
+	User_CreateAdmin_FullMethodName            = "/user.User/CreateAdmin"
+	User_ListAdmins_FullMethodName             = "/user.User/ListAdmins"
+	User_GetAdminById_FullMethodName           = "/user.User/GetAdminById"
+	User_UpdateAdminStatus_FullMethodName      = "/user.User/UpdateAdminStatus"
+	User_ListUsers_FullMethodName              = "/user.User/ListUsers"
+	User_UpdateUserStatus_FullMethodName       = "/user.User/UpdateUserStatus"
+	User_CreateSession_FullMethodName          = "/user.User/CreateSession"
+	User_ValidateSession_FullMethodName        = "/user.User/ValidateSession"
+	User_RefreshSession_FullMethodName         = "/user.User/RefreshSession"
+	User_DestroySession_FullMethodName         = "/user.User/DestroySession"
+	User_DestroyAllUserSessions_FullMethodName = "/user.User/DestroyAllUserSessions"
 )
 
 // UserClient is the client API for User service.
@@ -65,6 +70,12 @@ type UserClient interface {
 	UpdateAdminStatus(ctx context.Context, in *UpdateAdminStatusReq, opts ...grpc.CallOption) (*OkResp, error)
 	ListUsers(ctx context.Context, in *ListUsersReq, opts ...grpc.CallOption) (*ListUsersResp, error)
 	UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*OkResp, error)
+	// Session RPCs (opaque token + Redis-backed)
+	CreateSession(ctx context.Context, in *CreateSessionReq, opts ...grpc.CallOption) (*SessionInfo, error)
+	ValidateSession(ctx context.Context, in *ValidateSessionReq, opts ...grpc.CallOption) (*SessionInfo, error)
+	RefreshSession(ctx context.Context, in *RefreshSessionReq, opts ...grpc.CallOption) (*SessionInfo, error)
+	DestroySession(ctx context.Context, in *DestroySessionReq, opts ...grpc.CallOption) (*Empty, error)
+	DestroyAllUserSessions(ctx context.Context, in *DestroyAllUserSessionsReq, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type userClient struct {
@@ -275,6 +286,56 @@ func (c *userClient) UpdateUserStatus(ctx context.Context, in *UpdateUserStatusR
 	return out, nil
 }
 
+func (c *userClient) CreateSession(ctx context.Context, in *CreateSessionReq, opts ...grpc.CallOption) (*SessionInfo, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SessionInfo)
+	err := c.cc.Invoke(ctx, User_CreateSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ValidateSession(ctx context.Context, in *ValidateSessionReq, opts ...grpc.CallOption) (*SessionInfo, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SessionInfo)
+	err := c.cc.Invoke(ctx, User_ValidateSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) RefreshSession(ctx context.Context, in *RefreshSessionReq, opts ...grpc.CallOption) (*SessionInfo, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SessionInfo)
+	err := c.cc.Invoke(ctx, User_RefreshSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DestroySession(ctx context.Context, in *DestroySessionReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, User_DestroySession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DestroyAllUserSessions(ctx context.Context, in *DestroyAllUserSessionsReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, User_DestroyAllUserSessions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
@@ -299,6 +360,12 @@ type UserServer interface {
 	UpdateAdminStatus(context.Context, *UpdateAdminStatusReq) (*OkResp, error)
 	ListUsers(context.Context, *ListUsersReq) (*ListUsersResp, error)
 	UpdateUserStatus(context.Context, *UpdateUserStatusReq) (*OkResp, error)
+	// Session RPCs (opaque token + Redis-backed)
+	CreateSession(context.Context, *CreateSessionReq) (*SessionInfo, error)
+	ValidateSession(context.Context, *ValidateSessionReq) (*SessionInfo, error)
+	RefreshSession(context.Context, *RefreshSessionReq) (*SessionInfo, error)
+	DestroySession(context.Context, *DestroySessionReq) (*Empty, error)
+	DestroyAllUserSessions(context.Context, *DestroyAllUserSessionsReq) (*Empty, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -368,6 +435,21 @@ func (UnimplementedUserServer) ListUsers(context.Context, *ListUsersReq) (*ListU
 }
 func (UnimplementedUserServer) UpdateUserStatus(context.Context, *UpdateUserStatusReq) (*OkResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateUserStatus not implemented")
+}
+func (UnimplementedUserServer) CreateSession(context.Context, *CreateSessionReq) (*SessionInfo, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateSession not implemented")
+}
+func (UnimplementedUserServer) ValidateSession(context.Context, *ValidateSessionReq) (*SessionInfo, error) {
+	return nil, status.Error(codes.Unimplemented, "method ValidateSession not implemented")
+}
+func (UnimplementedUserServer) RefreshSession(context.Context, *RefreshSessionReq) (*SessionInfo, error) {
+	return nil, status.Error(codes.Unimplemented, "method RefreshSession not implemented")
+}
+func (UnimplementedUserServer) DestroySession(context.Context, *DestroySessionReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method DestroySession not implemented")
+}
+func (UnimplementedUserServer) DestroyAllUserSessions(context.Context, *DestroyAllUserSessionsReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method DestroyAllUserSessions not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -750,6 +832,96 @@ func _User_UpdateUserStatus_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_CreateSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSessionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).CreateSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_CreateSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).CreateSession(ctx, req.(*CreateSessionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ValidateSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateSessionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ValidateSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ValidateSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ValidateSession(ctx, req.(*ValidateSessionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_RefreshSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshSessionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).RefreshSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_RefreshSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).RefreshSession(ctx, req.(*RefreshSessionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DestroySession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DestroySessionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DestroySession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DestroySession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DestroySession(ctx, req.(*DestroySessionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DestroyAllUserSessions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DestroyAllUserSessionsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DestroyAllUserSessions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DestroyAllUserSessions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DestroyAllUserSessions(ctx, req.(*DestroyAllUserSessionsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -836,6 +1008,26 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUserStatus",
 			Handler:    _User_UpdateUserStatus_Handler,
+		},
+		{
+			MethodName: "CreateSession",
+			Handler:    _User_CreateSession_Handler,
+		},
+		{
+			MethodName: "ValidateSession",
+			Handler:    _User_ValidateSession_Handler,
+		},
+		{
+			MethodName: "RefreshSession",
+			Handler:    _User_RefreshSession_Handler,
+		},
+		{
+			MethodName: "DestroySession",
+			Handler:    _User_DestroySession_Handler,
+		},
+		{
+			MethodName: "DestroyAllUserSessions",
+			Handler:    _User_DestroyAllUserSessions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -2,20 +2,17 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
+	"mall-api/internal/middleware"
 	"mall-api/internal/types"
 	"mall-order-rpc/order"
 )
 
-// uidFromContext lifts the JWT uid claim (set by go-zero JWT middleware) into an
-// int64. Returns 0 if absent so logic layers can decide whether to reject.
+// uidFromContext lifts the authenticated uid (set by SessionAuth middleware)
+// into an int64. Returns 0 if absent so logic layers can decide whether to
+// reject. P0 login revamp: replaces the old JWT-claim path.
 func uidFromContext(ctx context.Context) int64 {
-	if v, ok := ctx.Value("uid").(json.Number); ok {
-		uid, _ := v.Int64()
-		return uid
-	}
-	return 0
+	return middleware.UidFromCtx(ctx)
 }
 
 // refundProtoToDTO converts the protobuf RefundRequest into the JSON wire type

@@ -14,41 +14,48 @@ import (
 )
 
 type (
-	AddAddressReq        = user.AddAddressReq
-	AddAddressResp       = user.AddAddressResp
-	AddPointsReq         = user.AddPointsReq
-	AddPointsResp        = user.AddPointsResp
-	Address              = user.Address
-	AdminInfo            = user.AdminInfo
-	AdminLoginReq        = user.AdminLoginReq
-	AdminLoginResp       = user.AdminLoginResp
-	CreateAdminReq       = user.CreateAdminReq
-	CreateAdminResp      = user.CreateAdminResp
-	DeductPointsReq      = user.DeductPointsReq
-	DeductPointsResp     = user.DeductPointsResp
-	DeleteAddressReq     = user.DeleteAddressReq
-	GetAddressReq        = user.GetAddressReq
-	GetAdminByIdReq      = user.GetAdminByIdReq
-	GetDefaultAddressReq = user.GetDefaultAddressReq
-	GetUserReq           = user.GetUserReq
-	GetUserResp          = user.GetUserResp
-	ListAddressesReq     = user.ListAddressesReq
-	ListAddressesResp    = user.ListAddressesResp
-	ListAdminsReq        = user.ListAdminsReq
-	ListAdminsResp       = user.ListAdminsResp
-	ListUsersReq         = user.ListUsersReq
-	ListUsersResp        = user.ListUsersResp
-	LoginReq             = user.LoginReq
-	LoginResp            = user.LoginResp
-	OkResp               = user.OkResp
-	RegisterReq          = user.RegisterReq
-	RegisterResp         = user.RegisterResp
-	SetDefaultAddressReq = user.SetDefaultAddressReq
-	UpdateAddressReq     = user.UpdateAddressReq
-	UpdateAdminStatusReq = user.UpdateAdminStatusReq
-	UpdateUserReq        = user.UpdateUserReq
-	UpdateUserResp       = user.UpdateUserResp
-	UpdateUserStatusReq  = user.UpdateUserStatusReq
+	AddAddressReq             = user.AddAddressReq
+	AddAddressResp            = user.AddAddressResp
+	AddPointsReq              = user.AddPointsReq
+	AddPointsResp             = user.AddPointsResp
+	Address                   = user.Address
+	AdminInfo                 = user.AdminInfo
+	AdminLoginReq             = user.AdminLoginReq
+	AdminLoginResp            = user.AdminLoginResp
+	CreateAdminReq            = user.CreateAdminReq
+	CreateAdminResp           = user.CreateAdminResp
+	CreateSessionReq          = user.CreateSessionReq
+	DeductPointsReq           = user.DeductPointsReq
+	DeductPointsResp          = user.DeductPointsResp
+	DeleteAddressReq          = user.DeleteAddressReq
+	DestroyAllUserSessionsReq = user.DestroyAllUserSessionsReq
+	DestroySessionReq         = user.DestroySessionReq
+	Empty                     = user.Empty
+	GetAddressReq             = user.GetAddressReq
+	GetAdminByIdReq           = user.GetAdminByIdReq
+	GetDefaultAddressReq      = user.GetDefaultAddressReq
+	GetUserReq                = user.GetUserReq
+	GetUserResp               = user.GetUserResp
+	ListAddressesReq          = user.ListAddressesReq
+	ListAddressesResp         = user.ListAddressesResp
+	ListAdminsReq             = user.ListAdminsReq
+	ListAdminsResp            = user.ListAdminsResp
+	ListUsersReq              = user.ListUsersReq
+	ListUsersResp             = user.ListUsersResp
+	LoginReq                  = user.LoginReq
+	LoginResp                 = user.LoginResp
+	OkResp                    = user.OkResp
+	RefreshSessionReq         = user.RefreshSessionReq
+	RegisterReq               = user.RegisterReq
+	RegisterResp              = user.RegisterResp
+	SessionInfo               = user.SessionInfo
+	SetDefaultAddressReq      = user.SetDefaultAddressReq
+	UpdateAddressReq          = user.UpdateAddressReq
+	UpdateAdminStatusReq      = user.UpdateAdminStatusReq
+	UpdateUserReq             = user.UpdateUserReq
+	UpdateUserResp            = user.UpdateUserResp
+	UpdateUserStatusReq       = user.UpdateUserStatusReq
+	ValidateSessionReq        = user.ValidateSessionReq
 
 	User interface {
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
@@ -71,6 +78,11 @@ type (
 		UpdateAdminStatus(ctx context.Context, in *UpdateAdminStatusReq, opts ...grpc.CallOption) (*OkResp, error)
 		ListUsers(ctx context.Context, in *ListUsersReq, opts ...grpc.CallOption) (*ListUsersResp, error)
 		UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*OkResp, error)
+		CreateSession(ctx context.Context, in *CreateSessionReq, opts ...grpc.CallOption) (*SessionInfo, error)
+		ValidateSession(ctx context.Context, in *ValidateSessionReq, opts ...grpc.CallOption) (*SessionInfo, error)
+		RefreshSession(ctx context.Context, in *RefreshSessionReq, opts ...grpc.CallOption) (*SessionInfo, error)
+		DestroySession(ctx context.Context, in *DestroySessionReq, opts ...grpc.CallOption) (*Empty, error)
+		DestroyAllUserSessions(ctx context.Context, in *DestroyAllUserSessionsReq, opts ...grpc.CallOption) (*Empty, error)
 	}
 
 	defaultUser struct {
@@ -182,4 +194,29 @@ func (m *defaultUser) ListUsers(ctx context.Context, in *ListUsersReq, opts ...g
 func (m *defaultUser) UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.UpdateUserStatus(ctx, in, opts...)
+}
+
+func (m *defaultUser) CreateSession(ctx context.Context, in *CreateSessionReq, opts ...grpc.CallOption) (*SessionInfo, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.CreateSession(ctx, in, opts...)
+}
+
+func (m *defaultUser) ValidateSession(ctx context.Context, in *ValidateSessionReq, opts ...grpc.CallOption) (*SessionInfo, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.ValidateSession(ctx, in, opts...)
+}
+
+func (m *defaultUser) RefreshSession(ctx context.Context, in *RefreshSessionReq, opts ...grpc.CallOption) (*SessionInfo, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.RefreshSession(ctx, in, opts...)
+}
+
+func (m *defaultUser) DestroySession(ctx context.Context, in *DestroySessionReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.DestroySession(ctx, in, opts...)
+}
+
+func (m *defaultUser) DestroyAllUserSessions(ctx context.Context, in *DestroyAllUserSessionsReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.DestroyAllUserSessions(ctx, in, opts...)
 }

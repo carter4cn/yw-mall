@@ -5,10 +5,10 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 
 	"mall-cart-rpc/cart"
 	"github.com/zeromicro/go-zero/core/logx"
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 )
 
@@ -27,8 +27,7 @@ func NewCartClearLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CartCle
 }
 
 func (l *CartClearLogic) CartClear() error {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	_, err := l.svcCtx.CartRpc.ClearCart(l.ctx, &cart.ClearCartReq{
 		UserId: userId,

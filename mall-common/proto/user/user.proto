@@ -21,7 +21,51 @@ message LoginReq {
 
 message LoginResp {
   int64 id = 1;
-  string token = 2;
+  string token = 2;            // = access_token, kept for backward compatibility
+  string refresh_token = 3;
+  int32 expires_in = 4;        // access_token TTL in seconds
+  string csrf_token = 5;
+}
+
+// ===== Session (P0 login revamp: opaque token + Redis) =====
+message Empty {}
+
+message SessionInfo {
+  int64 uid = 1;
+  string username = 2;
+  string role = 3;             // user / admin / merchant
+  int64 shop_id = 4;           // only meaningful for merchant
+  string access_token = 5;
+  string refresh_token = 6;
+  int32 expires_in = 7;        // access_token TTL in seconds
+  string csrf_token = 8;
+  int64 login_time = 9;
+}
+
+message CreateSessionReq {
+  int64 uid = 1;
+  string username = 2;
+  string role = 3;
+  int64 shop_id = 4;
+  string device_id = 5;
+  string ip = 6;
+}
+
+message ValidateSessionReq {
+  string access_token = 1;
+}
+
+message RefreshSessionReq {
+  string refresh_token = 1;
+  string device_id = 2;
+}
+
+message DestroySessionReq {
+  string access_token = 1;
+}
+
+message DestroyAllUserSessionsReq {
+  int64 uid = 1;
 }
 
 message GetUserReq {
@@ -145,4 +189,11 @@ service User {
   rpc UpdateAdminStatus(UpdateAdminStatusReq) returns (OkResp);
   rpc ListUsers(ListUsersReq) returns (ListUsersResp);
   rpc UpdateUserStatus(UpdateUserStatusReq) returns (OkResp);
+
+  // Session RPCs (opaque token + Redis-backed)
+  rpc CreateSession(CreateSessionReq) returns (SessionInfo);
+  rpc ValidateSession(ValidateSessionReq) returns (SessionInfo);
+  rpc RefreshSession(RefreshSessionReq) returns (SessionInfo);
+  rpc DestroySession(DestroySessionReq) returns (Empty);
+  rpc DestroyAllUserSessions(DestroyAllUserSessionsReq) returns (Empty);
 }

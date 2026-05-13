@@ -2,16 +2,14 @@ package logic
 
 import (
 	"context"
-	"time"
 
 	"mall-user-rpc/internal/model"
 	"mall-user-rpc/internal/svc"
 	"mall-user-rpc/user"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"github.com/zeromicro/go-zero/core/logx"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -29,6 +27,12 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 	}
 }
 
+// Login validates the credentials and mints an opaque-token session.
+//
+// The legacy JWT path is gone — the response now carries access_token,
+// refresh_token, expires_in and csrf_token so mall-api can pass them straight
+// through to the browser in one RPC. `token` stays populated (= access_token)
+// for backward compatibility with the old `/api/user/login` contract.
 func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 	u, err := l.lookupUser(in.Username)
 	if err != nil {
@@ -39,17 +43,22 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 		return nil, err
 	}
 
-	now := time.Now().Unix()
-	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"uid": u.Id,
-		"iat": now,
-		"exp": now + 86400*7,
-	}).SignedString([]byte(l.svcCtx.JwtSecretHot.Get()))
+	sess, err := NewCreateSessionLogic(l.ctx, l.svcCtx).CreateSession(&user.CreateSessionReq{
+		Uid:      int64(u.Id),
+		Username: u.Username,
+		Role:     "user",
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &user.LoginResp{Id: int64(u.Id), Token: token}, nil
+	return &user.LoginResp{
+		Id:           sess.Uid,
+		Token:        sess.AccessToken,
+		RefreshToken: sess.RefreshToken,
+		ExpiresIn:    sess.ExpiresIn,
+		CsrfToken:    sess.CsrfToken,
+	}, nil
 }
 
 // lookupUser tries the cached path first, then falls back to a master-pinned

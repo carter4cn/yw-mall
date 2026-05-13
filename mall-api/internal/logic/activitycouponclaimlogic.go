@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 
 	"mall-activity-rpc/activity"
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 
@@ -26,8 +27,7 @@ func NewActivityCouponClaimLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *ActivityCouponClaimLogic) ActivityCouponClaim(req *types.ActivityCouponClaimReq) (*types.ActivityCouponClaimResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	var payload string
 	if req.CouponCodeId != 0 {

@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"mall-activity-rpc/activity"
+	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
 
@@ -27,8 +28,7 @@ func NewActivitySeckillBuyLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *ActivitySeckillBuyLogic) ActivitySeckillBuy(req *types.ActivitySeckillBuyReq) (*types.ActivitySeckillBuyResp, error) {
-	uid, _ := l.ctx.Value("uid").(json.Number)
-	userId, _ := uid.Int64()
+	userId := middleware.UidFromCtx(l.ctx)
 
 	qty := req.Quantity
 	if qty <= 0 {
