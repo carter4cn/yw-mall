@@ -87,6 +87,7 @@ func (l *RefreshSessionLogic) RefreshSession(in *user.RefreshSessionReq) (*user.
 		LoginTime:    old.LoginTime,
 		LastActive:   now,
 		RefreshToken: newRefresh,
+		Perms:        old.Perms,
 	}
 	sessData, err := json.Marshal(sess)
 	if err != nil {
@@ -103,6 +104,7 @@ func (l *RefreshSessionLogic) RefreshSession(in *user.RefreshSessionReq) (*user.
 		AccessToken: newAccess,
 		RotateCount: old.RotateCount + 1,
 		LoginTime:   old.LoginTime,
+		Perms:       old.Perms,
 	}
 	refData, err := json.Marshal(newRefPayload)
 	if err != nil {
@@ -138,5 +140,6 @@ func (l *RefreshSessionLogic) RefreshSession(in *user.RefreshSessionReq) (*user.
 		ExpiresIn:    int32(accessTTLDur / time.Second),
 		CsrfToken:    csrf,
 		LoginTime:    old.LoginTime,
+		Perms:        old.Perms,
 	}, nil
 }

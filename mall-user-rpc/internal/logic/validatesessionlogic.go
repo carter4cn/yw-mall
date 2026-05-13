@@ -76,5 +76,6 @@ func (l *ValidateSessionLogic) ValidateSession(in *user.ValidateSessionReq) (*us
 		ExpiresIn:    int32(ttl / time.Second),
 		CsrfToken:    sess.CsrfToken,
 		LoginTime:    sess.LoginTime,
+		Perms:        sess.Perms,
 	}, nil
 }

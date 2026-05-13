@@ -301,6 +301,7 @@ type SessionInfo struct {
 	ExpiresIn     int32                  `protobuf:"varint,7,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in,omitempty"` // access_token TTL in seconds
 	CsrfToken     string                 `protobuf:"bytes,8,opt,name=csrf_token,json=csrfToken,proto3" json:"csrf_token,omitempty"`
 	LoginTime     int64                  `protobuf:"varint,9,opt,name=login_time,json=loginTime,proto3" json:"login_time,omitempty"`
+	Perms         []string               `protobuf:"bytes,10,rep,name=perms,proto3" json:"perms,omitempty"` // admin RBAC perms; empty for non-admin
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -398,6 +399,13 @@ func (x *SessionInfo) GetLoginTime() int64 {
 	return 0
 }
 
+func (x *SessionInfo) GetPerms() []string {
+	if x != nil {
+		return x.Perms
+	}
+	return nil
+}
+
 type CreateSessionReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Uid           int64                  `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
@@ -406,6 +414,7 @@ type CreateSessionReq struct {
 	ShopId        int64                  `protobuf:"varint,4,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
 	DeviceId      string                 `protobuf:"bytes,5,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
 	Ip            string                 `protobuf:"bytes,6,opt,name=ip,proto3" json:"ip,omitempty"`
+	Perms         []string               `protobuf:"bytes,7,rep,name=perms,proto3" json:"perms,omitempty"` // admin RBAC perms; pass nil for non-admin
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -480,6 +489,13 @@ func (x *CreateSessionReq) GetIp() string {
 		return x.Ip
 	}
 	return ""
+}
+
+func (x *CreateSessionReq) GetPerms() []string {
+	if x != nil {
+		return x.Perms
+	}
+	return nil
 }
 
 type ValidateSessionReq struct {
@@ -2521,7 +2537,7 @@ const file_user_user_proto_rawDesc = "" +
 	"expires_in\x18\x04 \x01(\x05R\texpiresIn\x12\x1d\n" +
 	"\n" +
 	"csrf_token\x18\x05 \x01(\tR\tcsrfToken\"\a\n" +
-	"\x05Empty\"\x8d\x02\n" +
+	"\x05Empty\"\xa3\x02\n" +
 	"\vSessionInfo\x12\x10\n" +
 	"\x03uid\x18\x01 \x01(\x03R\x03uid\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x12\n" +
@@ -2534,14 +2550,17 @@ const file_user_user_proto_rawDesc = "" +
 	"\n" +
 	"csrf_token\x18\b \x01(\tR\tcsrfToken\x12\x1d\n" +
 	"\n" +
-	"login_time\x18\t \x01(\x03R\tloginTime\"\x9a\x01\n" +
+	"login_time\x18\t \x01(\x03R\tloginTime\x12\x14\n" +
+	"\x05perms\x18\n" +
+	" \x03(\tR\x05perms\"\xb0\x01\n" +
 	"\x10CreateSessionReq\x12\x10\n" +
 	"\x03uid\x18\x01 \x01(\x03R\x03uid\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x12\n" +
 	"\x04role\x18\x03 \x01(\tR\x04role\x12\x17\n" +
 	"\ashop_id\x18\x04 \x01(\x03R\x06shopId\x12\x1b\n" +
 	"\tdevice_id\x18\x05 \x01(\tR\bdeviceId\x12\x0e\n" +
-	"\x02ip\x18\x06 \x01(\tR\x02ip\"7\n" +
+	"\x02ip\x18\x06 \x01(\tR\x02ip\x12\x14\n" +
+	"\x05perms\x18\a \x03(\tR\x05perms\"7\n" +
 	"\x12ValidateSessionReq\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"U\n" +
 	"\x11RefreshSessionReq\x12#\n" +

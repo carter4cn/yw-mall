@@ -50,6 +50,7 @@ func (l *CreateSessionLogic) CreateSession(in *user.CreateSessionReq) (*user.Ses
 		LoginTime:    now,
 		LastActive:   now,
 		RefreshToken: refresh,
+		Perms:        in.Perms,
 	}
 	sessData, err := json.Marshal(sess)
 	if err != nil {
@@ -66,6 +67,7 @@ func (l *CreateSessionLogic) CreateSession(in *user.CreateSessionReq) (*user.Ses
 		AccessToken: access,
 		RotateCount: 0,
 		LoginTime:   now,
+		Perms:       in.Perms,
 	}
 	refData, err := json.Marshal(rp)
 	if err != nil {
@@ -97,5 +99,6 @@ func (l *CreateSessionLogic) CreateSession(in *user.CreateSessionReq) (*user.Ses
 		ExpiresIn:    int32(accessTTLDur / time.Second),
 		CsrfToken:    csrf,
 		LoginTime:    now,
+		Perms:        in.Perms,
 	}, nil
 }

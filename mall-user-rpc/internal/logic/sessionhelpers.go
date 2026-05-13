@@ -26,29 +26,31 @@ const (
 
 // sessionPayload is what we store under session:{access_token}.
 type sessionPayload struct {
-	Uid          int64  `json:"uid"`
-	Username     string `json:"username"`
-	Role         string `json:"role"`
-	ShopId       int64  `json:"shopId,omitempty"`
-	DeviceId     string `json:"deviceId,omitempty"`
-	IP           string `json:"ip,omitempty"`
-	CsrfToken    string `json:"csrfToken"`
-	LoginTime    int64  `json:"loginTime"`
-	LastActive   int64  `json:"lastActive"`
-	RefreshToken string `json:"refreshToken"`
+	Uid          int64    `json:"uid"`
+	Username     string   `json:"username"`
+	Role         string   `json:"role"`
+	ShopId       int64    `json:"shopId,omitempty"`
+	DeviceId     string   `json:"deviceId,omitempty"`
+	IP           string   `json:"ip,omitempty"`
+	CsrfToken    string   `json:"csrfToken"`
+	LoginTime    int64    `json:"loginTime"`
+	LastActive   int64    `json:"lastActive"`
+	RefreshToken string   `json:"refreshToken"`
+	Perms        []string `json:"perms,omitempty"`
 }
 
 // refreshPayload is what we store under refresh:{refresh_token}.
 type refreshPayload struct {
-	Uid         int64  `json:"uid"`
-	Username    string `json:"username"`
-	Role        string `json:"role"`
-	ShopId      int64  `json:"shopId,omitempty"`
-	DeviceId    string `json:"deviceId,omitempty"`
-	IP          string `json:"ip,omitempty"`
-	AccessToken string `json:"accessToken"`
-	RotateCount int32  `json:"rotateCount"`
-	LoginTime   int64  `json:"loginTime"`
+	Uid         int64    `json:"uid"`
+	Username    string   `json:"username"`
+	Role        string   `json:"role"`
+	ShopId      int64    `json:"shopId,omitempty"`
+	DeviceId    string   `json:"deviceId,omitempty"`
+	IP          string   `json:"ip,omitempty"`
+	AccessToken string   `json:"accessToken"`
+	RotateCount int32    `json:"rotateCount"`
+	LoginTime   int64    `json:"loginTime"`
+	Perms       []string `json:"perms,omitempty"`
 }
 
 // randomToken returns 32 random bytes encoded as URL-safe base64 (no padding).
