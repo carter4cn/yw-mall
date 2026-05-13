@@ -1,0 +1,31 @@
+USE mall_order;
+
+CREATE TABLE IF NOT EXISTS `refund_request` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` bigint NOT NULL DEFAULT 0,
+  `order_no` varchar(64) NOT NULL DEFAULT '',
+  `user_id` bigint NOT NULL DEFAULT 0,
+  `shop_id` bigint NOT NULL DEFAULT 0,
+  `amount` bigint NOT NULL DEFAULT 0 COMMENT 'cents',
+  `reason` varchar(500) NOT NULL DEFAULT '',
+  `evidence` varchar(2000) NOT NULL DEFAULT '' COMMENT 'JSON array of urls',
+  `items` varchar(2000) NOT NULL DEFAULT '' COMMENT 'JSON: 部分退款的 SKU 明细，空 = 全单退',
+  `status` tinyint NOT NULL DEFAULT 0 COMMENT '0=pending,1=approved,2=rejected,3=arbitrating,4=refunded,5=final_rejected',
+  `merchant_user_id` bigint NOT NULL DEFAULT 0,
+  `merchant_remark` varchar(500) NOT NULL DEFAULT '',
+  `merchant_handle_time` bigint NOT NULL DEFAULT 0,
+  `admin_id` bigint NOT NULL DEFAULT 0,
+  `admin_remark` varchar(500) NOT NULL DEFAULT '',
+  `admin_handle_time` bigint NOT NULL DEFAULT 0,
+  `appeal_reason` varchar(500) NOT NULL DEFAULT '',
+  `appeal_time` bigint NOT NULL DEFAULT 0,
+  `refund_no` varchar(64) NOT NULL DEFAULT '',
+  `refund_complete_time` bigint NOT NULL DEFAULT 0,
+  `create_time` bigint NOT NULL DEFAULT 0,
+  `update_time` bigint NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_order_id` (`order_id`),
+  KEY `idx_user_id` (`user_id`, `status`),
+  KEY `idx_shop_id` (`shop_id`, `status`),
+  KEY `idx_status_create` (`status`, `create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

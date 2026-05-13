@@ -590,3 +590,65 @@ type ListFollowedShopsReq struct {
 	Page     int32 `form:"page,optional"`
 	PageSize int32 `form:"pageSize,optional"`
 }
+
+// ===== S2 Refund =====
+type RefundItemDTO struct {
+	SkuId    int64  `json:"skuId"`
+	SkuName  string `json:"skuName"`
+	Quantity int32  `json:"quantity"`
+	Amount   int64  `json:"amount"`
+}
+
+type RefundRequestDTO struct {
+	Id                 int64           `json:"id"`
+	OrderId            int64           `json:"orderId"`
+	OrderNo            string          `json:"orderNo"`
+	UserId             int64           `json:"userId"`
+	ShopId             int64           `json:"shopId"`
+	Amount             int64           `json:"amount"`
+	Reason             string          `json:"reason"`
+	Evidence           []string        `json:"evidence"`
+	Items              []RefundItemDTO `json:"items"`
+	Status             int32           `json:"status"`
+	MerchantRemark     string          `json:"merchantRemark"`
+	MerchantHandleTime int64           `json:"merchantHandleTime"`
+	AdminRemark        string          `json:"adminRemark"`
+	AdminHandleTime    int64           `json:"adminHandleTime"`
+	AppealReason       string          `json:"appealReason"`
+	AppealTime         int64           `json:"appealTime"`
+	RefundNo           string          `json:"refundNo"`
+	RefundCompleteTime int64           `json:"refundCompleteTime"`
+	CreateTime         int64           `json:"createTime"`
+}
+
+type SubmitRefundReq struct {
+	OrderId  int64           `json:"orderId"`
+	Amount   int64           `json:"amount"`
+	Reason   string          `json:"reason"`
+	Evidence []string        `json:"evidence,optional"`
+	Items    []RefundItemDTO `json:"items,optional"`
+}
+
+type SubmitRefundResp struct {
+	RefundId int64 `json:"refundId"`
+}
+
+type GetRefundReq struct {
+	Id int64 `path:"id"`
+}
+
+type ListMyRefundsReq struct {
+	Status   int32 `form:"status,optional,default=-1"`
+	Page     int32 `form:"page,optional"`
+	PageSize int32 `form:"pageSize,optional"`
+}
+
+type ListRefundsResp struct {
+	Requests []RefundRequestDTO `json:"requests"`
+	Total    int64              `json:"total"`
+}
+
+type AppealRefundReq struct {
+	Id     int64  `path:"id"`
+	Reason string `json:"reason"`
+}

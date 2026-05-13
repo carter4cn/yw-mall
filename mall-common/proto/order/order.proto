@@ -128,6 +128,72 @@ message MerchantRejectRefundReq {
   string reason = 3;
 }
 
+// ===== S2 Refund state machine =====
+message RefundItem {
+  int64 sku_id = 1;
+  string sku_name = 2;
+  int32 quantity = 3;
+  int64 amount = 4;  // cents
+}
+
+message RefundRequest {
+  int64 id = 1;
+  int64 order_id = 2;
+  string order_no = 3;
+  int64 user_id = 4;
+  int64 shop_id = 5;
+  int64 amount = 6;
+  string reason = 7;
+  repeated string evidence = 8;
+  repeated RefundItem items = 9;   // empty = full-order refund
+  int32 status = 10;
+  int64 merchant_user_id = 11;
+  string merchant_remark = 12;
+  int64 merchant_handle_time = 13;
+  int64 admin_id = 14;
+  string admin_remark = 15;
+  int64 admin_handle_time = 16;
+  string appeal_reason = 17;
+  int64 appeal_time = 18;
+  string refund_no = 19;
+  int64 refund_complete_time = 20;
+  int64 create_time = 21;
+}
+
+message SubmitRefundRequestReq {
+  int64 order_id = 1;
+  int64 user_id = 2;
+  int64 amount = 3;
+  string reason = 4;
+  repeated string evidence = 5;
+  repeated RefundItem items = 6;
+}
+message SubmitRefundRequestResp { int64 refund_id = 1; }
+
+message GetRefundRequestReq { int64 id = 1; int64 user_id = 2; }
+message ListUserRefundRequestsReq { int64 user_id = 1; int32 status = 2; int32 page = 3; int32 page_size = 4; }
+message ListShopRefundRequestsReq { int64 shop_id = 1; int32 status = 2; int32 page = 3; int32 page_size = 4; }
+message ListPendingArbitrationsReq { int32 page = 1; int32 page_size = 2; }
+message ListRefundRequestsResp { repeated RefundRequest requests = 1; int64 total = 2; }
+message MerchantHandleRefundReq {
+  int64 refund_id = 1;
+  int64 shop_id = 2;
+  int64 merchant_user_id = 3;
+  int32 action = 4;  // 1=approve 2=reject
+  string remark = 5;
+}
+message UserAppealRefundReq {
+  int64 refund_id = 1;
+  int64 user_id = 2;
+  string reason = 3;
+}
+message AdminArbitrateRefundReq {
+  int64 refund_id = 1;
+  int64 admin_id = 2;
+  int32 action = 3;  // 1=force_refund 2=final_reject
+  string remark = 5;
+}
+
 service Order {
   rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
   rpc GetOrder(GetOrderReq) returns (GetOrderResp);
@@ -141,6 +207,16 @@ service Order {
   rpc GetShopOrder(GetShopOrderReq) returns (GetOrderResp);
   rpc ShipOrder(ShipOrderReq) returns (OkResp);
   rpc MerchantRejectRefund(MerchantRejectRefundReq) returns (OkResp);
+
+  // ===== S2 Refund state machine =====
+  rpc SubmitRefundRequest(SubmitRefundRequestReq) returns (SubmitRefundRequestResp);
+  rpc GetRefundRequest(GetRefundRequestReq) returns (RefundRequest);
+  rpc ListUserRefundRequests(ListUserRefundRequestsReq) returns (ListRefundRequestsResp);
+  rpc ListShopRefundRequests(ListShopRefundRequestsReq) returns (ListRefundRequestsResp);
+  rpc ListPendingArbitrations(ListPendingArbitrationsReq) returns (ListRefundRequestsResp);
+  rpc MerchantHandleRefund(MerchantHandleRefundReq) returns (OkResp);
+  rpc UserAppealRefund(UserAppealRefundReq) returns (OkResp);
+  rpc AdminArbitrateRefund(AdminArbitrateRefundReq) returns (OkResp);
 }
 
 message MarkShippedReq {

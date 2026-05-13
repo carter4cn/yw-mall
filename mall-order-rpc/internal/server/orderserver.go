@@ -82,3 +82,45 @@ func (s *OrderServer) MerchantRejectRefund(ctx context.Context, in *order.Mercha
 	l := logic.NewMerchantRejectRefundLogic(ctx, s.svcCtx)
 	return l.MerchantRejectRefund(in)
 }
+
+// ===== S2 Refund =====
+
+func (s *OrderServer) SubmitRefundRequest(ctx context.Context, in *order.SubmitRefundRequestReq) (*order.SubmitRefundRequestResp, error) {
+	l := logic.NewSubmitRefundRequestLogic(ctx, s.svcCtx)
+	return l.SubmitRefundRequest(in)
+}
+
+func (s *OrderServer) GetRefundRequest(ctx context.Context, in *order.GetRefundRequestReq) (*order.RefundRequest, error) {
+	l := logic.NewGetRefundRequestLogic(ctx, s.svcCtx)
+	return l.GetRefundRequest(in)
+}
+
+func (s *OrderServer) ListUserRefundRequests(ctx context.Context, in *order.ListUserRefundRequestsReq) (*order.ListRefundRequestsResp, error) {
+	l := logic.NewListUserRefundRequestsLogic(ctx, s.svcCtx)
+	return l.ListUserRefundRequests(in)
+}
+
+func (s *OrderServer) ListShopRefundRequests(ctx context.Context, in *order.ListShopRefundRequestsReq) (*order.ListRefundRequestsResp, error) {
+	l := logic.NewListShopRefundRequestsLogic(ctx, s.svcCtx)
+	return l.ListShopRefundRequests(in)
+}
+
+func (s *OrderServer) ListPendingArbitrations(ctx context.Context, in *order.ListPendingArbitrationsReq) (*order.ListRefundRequestsResp, error) {
+	l := logic.NewListPendingArbitrationsLogic(ctx, s.svcCtx)
+	return l.ListPendingArbitrations(in)
+}
+
+func (s *OrderServer) MerchantHandleRefund(ctx context.Context, in *order.MerchantHandleRefundReq) (*order.OkResp, error) {
+	l := logic.NewMerchantHandleRefundLogic(ctx, s.svcCtx)
+	return l.MerchantHandleRefund(in)
+}
+
+func (s *OrderServer) UserAppealRefund(ctx context.Context, in *order.UserAppealRefundReq) (*order.OkResp, error) {
+	l := logic.NewUserAppealRefundLogic(ctx, s.svcCtx)
+	return l.UserAppealRefund(in)
+}
+
+func (s *OrderServer) AdminArbitrateRefund(ctx context.Context, in *order.AdminArbitrateRefundReq) (*order.OkResp, error) {
+	l := logic.NewAdminArbitrateRefundLogic(ctx, s.svcCtx)
+	return l.AdminArbitrateRefund(in)
+}

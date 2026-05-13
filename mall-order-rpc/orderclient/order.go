@@ -33,6 +33,20 @@ type (
 	MarkShippedReq          = order.MarkShippedReq
 	MarkShippedResp         = order.MarkShippedResp
 
+	// ===== S2 Refund =====
+	RefundItem                 = order.RefundItem
+	RefundRequest              = order.RefundRequest
+	SubmitRefundRequestReq     = order.SubmitRefundRequestReq
+	SubmitRefundRequestResp    = order.SubmitRefundRequestResp
+	GetRefundRequestReq        = order.GetRefundRequestReq
+	ListUserRefundRequestsReq  = order.ListUserRefundRequestsReq
+	ListShopRefundRequestsReq  = order.ListShopRefundRequestsReq
+	ListPendingArbitrationsReq = order.ListPendingArbitrationsReq
+	ListRefundRequestsResp     = order.ListRefundRequestsResp
+	MerchantHandleRefundReq    = order.MerchantHandleRefundReq
+	UserAppealRefundReq        = order.UserAppealRefundReq
+	AdminArbitrateRefundReq    = order.AdminArbitrateRefundReq
+
 	Order interface {
 		CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderResp, error)
 		GetOrder(ctx context.Context, in *GetOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error)
@@ -44,6 +58,16 @@ type (
 		GetShopOrder(ctx context.Context, in *GetShopOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error)
 		ShipOrder(ctx context.Context, in *ShipOrderReq, opts ...grpc.CallOption) (*OkResp, error)
 		MerchantRejectRefund(ctx context.Context, in *MerchantRejectRefundReq, opts ...grpc.CallOption) (*OkResp, error)
+
+		// ===== S2 Refund =====
+		SubmitRefundRequest(ctx context.Context, in *SubmitRefundRequestReq, opts ...grpc.CallOption) (*SubmitRefundRequestResp, error)
+		GetRefundRequest(ctx context.Context, in *GetRefundRequestReq, opts ...grpc.CallOption) (*RefundRequest, error)
+		ListUserRefundRequests(ctx context.Context, in *ListUserRefundRequestsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error)
+		ListShopRefundRequests(ctx context.Context, in *ListShopRefundRequestsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error)
+		ListPendingArbitrations(ctx context.Context, in *ListPendingArbitrationsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error)
+		MerchantHandleRefund(ctx context.Context, in *MerchantHandleRefundReq, opts ...grpc.CallOption) (*OkResp, error)
+		UserAppealRefund(ctx context.Context, in *UserAppealRefundReq, opts ...grpc.CallOption) (*OkResp, error)
+		AdminArbitrateRefund(ctx context.Context, in *AdminArbitrateRefundReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultOrder struct {
@@ -105,4 +129,46 @@ func (m *defaultOrder) ShipOrder(ctx context.Context, in *ShipOrderReq, opts ...
 func (m *defaultOrder) MerchantRejectRefund(ctx context.Context, in *MerchantRejectRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := order.NewOrderClient(m.cli.Conn())
 	return client.MerchantRejectRefund(ctx, in, opts...)
+}
+
+// ===== S2 Refund =====
+
+func (m *defaultOrder) SubmitRefundRequest(ctx context.Context, in *SubmitRefundRequestReq, opts ...grpc.CallOption) (*SubmitRefundRequestResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.SubmitRefundRequest(ctx, in, opts...)
+}
+
+func (m *defaultOrder) GetRefundRequest(ctx context.Context, in *GetRefundRequestReq, opts ...grpc.CallOption) (*RefundRequest, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.GetRefundRequest(ctx, in, opts...)
+}
+
+func (m *defaultOrder) ListUserRefundRequests(ctx context.Context, in *ListUserRefundRequestsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.ListUserRefundRequests(ctx, in, opts...)
+}
+
+func (m *defaultOrder) ListShopRefundRequests(ctx context.Context, in *ListShopRefundRequestsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.ListShopRefundRequests(ctx, in, opts...)
+}
+
+func (m *defaultOrder) ListPendingArbitrations(ctx context.Context, in *ListPendingArbitrationsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.ListPendingArbitrations(ctx, in, opts...)
+}
+
+func (m *defaultOrder) MerchantHandleRefund(ctx context.Context, in *MerchantHandleRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.MerchantHandleRefund(ctx, in, opts...)
+}
+
+func (m *defaultOrder) UserAppealRefund(ctx context.Context, in *UserAppealRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.UserAppealRefund(ctx, in, opts...)
+}
+
+func (m *defaultOrder) AdminArbitrateRefund(ctx context.Context, in *AdminArbitrateRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.AdminArbitrateRefund(ctx, in, opts...)
 }

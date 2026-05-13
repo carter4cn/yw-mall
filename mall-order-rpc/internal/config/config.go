@@ -13,5 +13,6 @@ type Config struct {
 		Brokers           []string
 		OrderShippedTopic string
 	}
-	UserRpc zrpc.RpcClientConf
+	UserRpc    zrpc.RpcClientConf
+	PaymentRpc zrpc.RpcClientConf `json:",optional"`
 }

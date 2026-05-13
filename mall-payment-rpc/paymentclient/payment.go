@@ -37,6 +37,10 @@ type (
 	UpdatePaymentStatusResp  = payment.UpdatePaymentStatusResp
 	WithdrawalInfo           = payment.WithdrawalInfo
 
+	// S2 refund execution
+	ExecuteRefundReq  = payment.ExecuteRefundReq
+	ExecuteRefundResp = payment.ExecuteRefundResp
+
 	Payment interface {
 		CreatePayment(ctx context.Context, in *CreatePaymentReq, opts ...grpc.CallOption) (*CreatePaymentResp, error)
 		GetPayment(ctx context.Context, in *GetPaymentReq, opts ...grpc.CallOption) (*GetPaymentResp, error)
@@ -51,6 +55,8 @@ type (
 		// S1 cashier + mock pay
 		GetCashier(ctx context.Context, in *GetCashierReq, opts ...grpc.CallOption) (*CashierInfo, error)
 		ConfirmMockPay(ctx context.Context, in *ConfirmMockPayReq, opts ...grpc.CallOption) (*OkResp, error)
+		// S2 refund execution
+		ExecuteRefund(ctx context.Context, in *ExecuteRefundReq, opts ...grpc.CallOption) (*ExecuteRefundResp, error)
 	}
 
 	defaultPayment struct {
@@ -117,4 +123,9 @@ func (m *defaultPayment) GetCashier(ctx context.Context, in *GetCashierReq, opts
 func (m *defaultPayment) ConfirmMockPay(ctx context.Context, in *ConfirmMockPayReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := payment.NewPaymentClient(m.cli.Conn())
 	return client.ConfirmMockPay(ctx, in, opts...)
+}
+
+func (m *defaultPayment) ExecuteRefund(ctx context.Context, in *ExecuteRefundReq, opts ...grpc.CallOption) (*ExecuteRefundResp, error) {
+	client := payment.NewPaymentClient(m.cli.Conn())
+	return client.ExecuteRefund(ctx, in, opts...)
 }

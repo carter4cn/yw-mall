@@ -19,18 +19,26 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Order_CreateOrder_FullMethodName          = "/order.Order/CreateOrder"
-	Order_GetOrder_FullMethodName             = "/order.Order/GetOrder"
-	Order_ListOrders_FullMethodName           = "/order.Order/ListOrders"
-	Order_UpdateOrderStatus_FullMethodName    = "/order.Order/UpdateOrderStatus"
-	Order_CreatePreOrder_FullMethodName       = "/order.Order/CreatePreOrder"
-	Order_CancelPreOrder_FullMethodName       = "/order.Order/CancelPreOrder"
-	Order_GetOrderItem_FullMethodName         = "/order.Order/GetOrderItem"
-	Order_MarkShipped_FullMethodName          = "/order.Order/MarkShipped"
-	Order_ListShopOrders_FullMethodName       = "/order.Order/ListShopOrders"
-	Order_GetShopOrder_FullMethodName         = "/order.Order/GetShopOrder"
-	Order_ShipOrder_FullMethodName            = "/order.Order/ShipOrder"
-	Order_MerchantRejectRefund_FullMethodName = "/order.Order/MerchantRejectRefund"
+	Order_CreateOrder_FullMethodName             = "/order.Order/CreateOrder"
+	Order_GetOrder_FullMethodName                = "/order.Order/GetOrder"
+	Order_ListOrders_FullMethodName              = "/order.Order/ListOrders"
+	Order_UpdateOrderStatus_FullMethodName       = "/order.Order/UpdateOrderStatus"
+	Order_CreatePreOrder_FullMethodName          = "/order.Order/CreatePreOrder"
+	Order_CancelPreOrder_FullMethodName          = "/order.Order/CancelPreOrder"
+	Order_GetOrderItem_FullMethodName            = "/order.Order/GetOrderItem"
+	Order_MarkShipped_FullMethodName             = "/order.Order/MarkShipped"
+	Order_ListShopOrders_FullMethodName          = "/order.Order/ListShopOrders"
+	Order_GetShopOrder_FullMethodName            = "/order.Order/GetShopOrder"
+	Order_ShipOrder_FullMethodName               = "/order.Order/ShipOrder"
+	Order_MerchantRejectRefund_FullMethodName    = "/order.Order/MerchantRejectRefund"
+	Order_SubmitRefundRequest_FullMethodName     = "/order.Order/SubmitRefundRequest"
+	Order_GetRefundRequest_FullMethodName        = "/order.Order/GetRefundRequest"
+	Order_ListUserRefundRequests_FullMethodName  = "/order.Order/ListUserRefundRequests"
+	Order_ListShopRefundRequests_FullMethodName  = "/order.Order/ListShopRefundRequests"
+	Order_ListPendingArbitrations_FullMethodName = "/order.Order/ListPendingArbitrations"
+	Order_MerchantHandleRefund_FullMethodName    = "/order.Order/MerchantHandleRefund"
+	Order_UserAppealRefund_FullMethodName        = "/order.Order/UserAppealRefund"
+	Order_AdminArbitrateRefund_FullMethodName    = "/order.Order/AdminArbitrateRefund"
 )
 
 // OrderClient is the client API for Order service.
@@ -49,6 +57,15 @@ type OrderClient interface {
 	GetShopOrder(ctx context.Context, in *GetShopOrderReq, opts ...grpc.CallOption) (*GetOrderResp, error)
 	ShipOrder(ctx context.Context, in *ShipOrderReq, opts ...grpc.CallOption) (*OkResp, error)
 	MerchantRejectRefund(ctx context.Context, in *MerchantRejectRefundReq, opts ...grpc.CallOption) (*OkResp, error)
+	// ===== S2 Refund state machine =====
+	SubmitRefundRequest(ctx context.Context, in *SubmitRefundRequestReq, opts ...grpc.CallOption) (*SubmitRefundRequestResp, error)
+	GetRefundRequest(ctx context.Context, in *GetRefundRequestReq, opts ...grpc.CallOption) (*RefundRequest, error)
+	ListUserRefundRequests(ctx context.Context, in *ListUserRefundRequestsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error)
+	ListShopRefundRequests(ctx context.Context, in *ListShopRefundRequestsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error)
+	ListPendingArbitrations(ctx context.Context, in *ListPendingArbitrationsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error)
+	MerchantHandleRefund(ctx context.Context, in *MerchantHandleRefundReq, opts ...grpc.CallOption) (*OkResp, error)
+	UserAppealRefund(ctx context.Context, in *UserAppealRefundReq, opts ...grpc.CallOption) (*OkResp, error)
+	AdminArbitrateRefund(ctx context.Context, in *AdminArbitrateRefundReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type orderClient struct {
@@ -179,6 +196,86 @@ func (c *orderClient) MerchantRejectRefund(ctx context.Context, in *MerchantReje
 	return out, nil
 }
 
+func (c *orderClient) SubmitRefundRequest(ctx context.Context, in *SubmitRefundRequestReq, opts ...grpc.CallOption) (*SubmitRefundRequestResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SubmitRefundRequestResp)
+	err := c.cc.Invoke(ctx, Order_SubmitRefundRequest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) GetRefundRequest(ctx context.Context, in *GetRefundRequestReq, opts ...grpc.CallOption) (*RefundRequest, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RefundRequest)
+	err := c.cc.Invoke(ctx, Order_GetRefundRequest_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) ListUserRefundRequests(ctx context.Context, in *ListUserRefundRequestsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListRefundRequestsResp)
+	err := c.cc.Invoke(ctx, Order_ListUserRefundRequests_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) ListShopRefundRequests(ctx context.Context, in *ListShopRefundRequestsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListRefundRequestsResp)
+	err := c.cc.Invoke(ctx, Order_ListShopRefundRequests_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) ListPendingArbitrations(ctx context.Context, in *ListPendingArbitrationsReq, opts ...grpc.CallOption) (*ListRefundRequestsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListRefundRequestsResp)
+	err := c.cc.Invoke(ctx, Order_ListPendingArbitrations_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) MerchantHandleRefund(ctx context.Context, in *MerchantHandleRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Order_MerchantHandleRefund_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) UserAppealRefund(ctx context.Context, in *UserAppealRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Order_UserAppealRefund_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) AdminArbitrateRefund(ctx context.Context, in *AdminArbitrateRefundReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Order_AdminArbitrateRefund_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServer is the server API for Order service.
 // All implementations must embed UnimplementedOrderServer
 // for forward compatibility.
@@ -195,6 +292,15 @@ type OrderServer interface {
 	GetShopOrder(context.Context, *GetShopOrderReq) (*GetOrderResp, error)
 	ShipOrder(context.Context, *ShipOrderReq) (*OkResp, error)
 	MerchantRejectRefund(context.Context, *MerchantRejectRefundReq) (*OkResp, error)
+	// ===== S2 Refund state machine =====
+	SubmitRefundRequest(context.Context, *SubmitRefundRequestReq) (*SubmitRefundRequestResp, error)
+	GetRefundRequest(context.Context, *GetRefundRequestReq) (*RefundRequest, error)
+	ListUserRefundRequests(context.Context, *ListUserRefundRequestsReq) (*ListRefundRequestsResp, error)
+	ListShopRefundRequests(context.Context, *ListShopRefundRequestsReq) (*ListRefundRequestsResp, error)
+	ListPendingArbitrations(context.Context, *ListPendingArbitrationsReq) (*ListRefundRequestsResp, error)
+	MerchantHandleRefund(context.Context, *MerchantHandleRefundReq) (*OkResp, error)
+	UserAppealRefund(context.Context, *UserAppealRefundReq) (*OkResp, error)
+	AdminArbitrateRefund(context.Context, *AdminArbitrateRefundReq) (*OkResp, error)
 	mustEmbedUnimplementedOrderServer()
 }
 
@@ -240,6 +346,30 @@ func (UnimplementedOrderServer) ShipOrder(context.Context, *ShipOrderReq) (*OkRe
 }
 func (UnimplementedOrderServer) MerchantRejectRefund(context.Context, *MerchantRejectRefundReq) (*OkResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method MerchantRejectRefund not implemented")
+}
+func (UnimplementedOrderServer) SubmitRefundRequest(context.Context, *SubmitRefundRequestReq) (*SubmitRefundRequestResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method SubmitRefundRequest not implemented")
+}
+func (UnimplementedOrderServer) GetRefundRequest(context.Context, *GetRefundRequestReq) (*RefundRequest, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetRefundRequest not implemented")
+}
+func (UnimplementedOrderServer) ListUserRefundRequests(context.Context, *ListUserRefundRequestsReq) (*ListRefundRequestsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListUserRefundRequests not implemented")
+}
+func (UnimplementedOrderServer) ListShopRefundRequests(context.Context, *ListShopRefundRequestsReq) (*ListRefundRequestsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopRefundRequests not implemented")
+}
+func (UnimplementedOrderServer) ListPendingArbitrations(context.Context, *ListPendingArbitrationsReq) (*ListRefundRequestsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListPendingArbitrations not implemented")
+}
+func (UnimplementedOrderServer) MerchantHandleRefund(context.Context, *MerchantHandleRefundReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method MerchantHandleRefund not implemented")
+}
+func (UnimplementedOrderServer) UserAppealRefund(context.Context, *UserAppealRefundReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UserAppealRefund not implemented")
+}
+func (UnimplementedOrderServer) AdminArbitrateRefund(context.Context, *AdminArbitrateRefundReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method AdminArbitrateRefund not implemented")
 }
 func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
 func (UnimplementedOrderServer) testEmbeddedByValue()               {}
@@ -478,6 +608,150 @@ func _Order_MerchantRejectRefund_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_SubmitRefundRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitRefundRequestReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).SubmitRefundRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_SubmitRefundRequest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).SubmitRefundRequest(ctx, req.(*SubmitRefundRequestReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_GetRefundRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRefundRequestReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).GetRefundRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_GetRefundRequest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).GetRefundRequest(ctx, req.(*GetRefundRequestReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_ListUserRefundRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUserRefundRequestsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).ListUserRefundRequests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_ListUserRefundRequests_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).ListUserRefundRequests(ctx, req.(*ListUserRefundRequestsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_ListShopRefundRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListShopRefundRequestsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).ListShopRefundRequests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_ListShopRefundRequests_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).ListShopRefundRequests(ctx, req.(*ListShopRefundRequestsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_ListPendingArbitrations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPendingArbitrationsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).ListPendingArbitrations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_ListPendingArbitrations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).ListPendingArbitrations(ctx, req.(*ListPendingArbitrationsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_MerchantHandleRefund_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MerchantHandleRefundReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).MerchantHandleRefund(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_MerchantHandleRefund_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).MerchantHandleRefund(ctx, req.(*MerchantHandleRefundReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_UserAppealRefund_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserAppealRefundReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).UserAppealRefund(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_UserAppealRefund_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).UserAppealRefund(ctx, req.(*UserAppealRefundReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_AdminArbitrateRefund_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminArbitrateRefundReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).AdminArbitrateRefund(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_AdminArbitrateRefund_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).AdminArbitrateRefund(ctx, req.(*AdminArbitrateRefundReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Order_ServiceDesc is the grpc.ServiceDesc for Order service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -532,6 +806,38 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MerchantRejectRefund",
 			Handler:    _Order_MerchantRejectRefund_Handler,
+		},
+		{
+			MethodName: "SubmitRefundRequest",
+			Handler:    _Order_SubmitRefundRequest_Handler,
+		},
+		{
+			MethodName: "GetRefundRequest",
+			Handler:    _Order_GetRefundRequest_Handler,
+		},
+		{
+			MethodName: "ListUserRefundRequests",
+			Handler:    _Order_ListUserRefundRequests_Handler,
+		},
+		{
+			MethodName: "ListShopRefundRequests",
+			Handler:    _Order_ListShopRefundRequests_Handler,
+		},
+		{
+			MethodName: "ListPendingArbitrations",
+			Handler:    _Order_ListPendingArbitrations_Handler,
+		},
+		{
+			MethodName: "MerchantHandleRefund",
+			Handler:    _Order_MerchantHandleRefund_Handler,
+		},
+		{
+			MethodName: "UserAppealRefund",
+			Handler:    _Order_UserAppealRefund_Handler,
+		},
+		{
+			MethodName: "AdminArbitrateRefund",
+			Handler:    _Order_AdminArbitrateRefund_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

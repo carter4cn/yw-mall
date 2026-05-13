@@ -81,3 +81,10 @@ func (s *PaymentServer) ConfirmMockPay(ctx context.Context, in *payment.ConfirmM
 	l := logic.NewConfirmMockPayLogic(ctx, s.svcCtx)
 	return l.ConfirmMockPay(in)
 }
+
+// ===== S2 refund execution =====
+
+func (s *PaymentServer) ExecuteRefund(ctx context.Context, in *payment.ExecuteRefundReq) (*payment.ExecuteRefundResp, error) {
+	l := logic.NewExecuteRefundLogic(ctx, s.svcCtx)
+	return l.ExecuteRefund(in)
+}

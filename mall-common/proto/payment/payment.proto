@@ -130,6 +130,21 @@ message ConfirmMockPayReq {
   int64 user_id = 2;
 }
 
+// ===== S2 refund execution =====
+message ExecuteRefundReq {
+  int64 order_id = 1;
+  string order_no = 2;
+  int64 shop_id = 3;
+  int64 amount = 4;
+  string reason = 5;
+  string refund_no = 6;
+}
+message ExecuteRefundResp {
+  bool success = 1;
+  string refund_no = 2;
+  string channel = 3;
+}
+
 service Payment {
   rpc CreatePayment(CreatePaymentReq) returns (CreatePaymentResp);
   rpc GetPayment(GetPaymentReq) returns (GetPaymentResp);
@@ -144,4 +159,6 @@ service Payment {
   // ===== S1 cashier + mock pay =====
   rpc GetCashier(GetCashierReq) returns (CashierInfo);
   rpc ConfirmMockPay(ConfirmMockPayReq) returns (OkResp);
+  // ===== S2 refund execution =====
+  rpc ExecuteRefund(ExecuteRefundReq) returns (ExecuteRefundResp);
 }
