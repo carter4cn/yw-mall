@@ -7,6 +7,7 @@ import (
 	"mall-cart-rpc/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type ListItemsLogic struct {
@@ -30,11 +31,18 @@ type cartItemRow struct {
 }
 
 func (l *ListItemsLogic) ListItems(in *cart.ListItemsReq) (*cart.ListItemsResp, error) {
+	// ProxySQL routes plain SELECTs to read replicas (hostgroup 20) which lag
+	// behind master by 1-2 s. Wrapping the read in a transaction pins it to
+	// the default hostgroup (10 = master), giving us read-after-write freshness
+	// — critical for cart UX where the user expects an item to appear in the
+	// list immediately after `Add`.
 	var rows []cartItemRow
-	err := l.svcCtx.SqlConn.QueryRowsCtx(l.ctx, &rows,
-		"SELECT product_id, quantity, selected FROM cart_item WHERE user_id = ?",
-		in.UserId,
-	)
+	err := l.svcCtx.SqlConn.TransactCtx(l.ctx, func(ctx context.Context, sess sqlx.Session) error {
+		return sess.QueryRowsCtx(ctx, &rows,
+			"SELECT product_id, quantity, selected FROM cart_item WHERE user_id = ?",
+			in.UserId,
+		)
+	})
 	if err != nil {
 		return nil, err
 	}
