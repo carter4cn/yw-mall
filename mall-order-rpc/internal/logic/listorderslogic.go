@@ -51,9 +51,12 @@ func (l *ListOrdersLogic) ListOrders(in *order.ListOrdersReq) (*order.ListOrders
 		return nil, err
 	}
 
+	// orderTimelineCols matches the orderRow struct (18 fields incl. S1.5
+	// pay/ship/complete/cancel timestamps + cancel_reason). The earlier
+	// 13-column SELECT triggered sqlx "not matching destination to scan".
 	listQuery := fmt.Sprintf(
-		"SELECT `id`, `order_no`, `user_id`, `total_amount`, `status`, `create_time`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail` FROM `order` WHERE %s ORDER BY `id` DESC LIMIT ? OFFSET ?",
-		whereClause,
+		"SELECT %s FROM `order` WHERE %s ORDER BY `id` DESC LIMIT ? OFFSET ?",
+		orderTimelineCols, whereClause,
 	)
 	listArgs := append(args, pageSize, offset)
 
@@ -97,6 +100,11 @@ func (l *ListOrdersLogic) ListOrders(in *order.ListOrdersReq) (*order.ListOrders
 			ReceiverCity:     o.ReceiverCity,
 			ReceiverDistrict: o.ReceiverDistrict,
 			ReceiverDetail:   o.ReceiverDetail,
+			PayTime:          o.PayTime,
+			ShipTime:         o.ShipTime,
+			CompleteTime:     o.CompleteTime,
+			CancelTime:       o.CancelTime,
+			CancelReason:     o.CancelReason,
 		})
 	}
 

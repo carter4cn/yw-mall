@@ -9,6 +9,7 @@ import (
 	"mall-payment-rpc/payment"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 const pendingOrderTTLSec = 15 * 60 // S1.4 / S1.2 default cashier expiry
@@ -42,10 +43,16 @@ func (l *GetCashierLogic) GetCashier(in *payment.GetCashierReq) (*payment.Cashie
 		Status      int64  `db:"status"`
 		CreateTime  int64  `db:"create_time"`
 	}
-	err := l.svcCtx.OrderDB.QueryRowCtx(l.ctx, &row,
-		"SELECT id, order_no, user_id, total_amount, status, UNIX_TIMESTAMP(create_time) AS create_time FROM `order` WHERE id = ? LIMIT 1",
-		in.OrderId,
-	)
+	// Wrap in TransactCtx to pin the read to ProxySQL's default hostgroup
+	// (master, hg=10). Without this, ProxySQL routes plain SELECTs to slaves
+	// (hg=20) which lag 1-2s behind master, so a cashier load fired
+	// immediately after order creation will fail with "order not found".
+	err := l.svcCtx.OrderDB.TransactCtx(l.ctx, func(ctx context.Context, sess sqlx.Session) error {
+		return sess.QueryRowCtx(ctx, &row,
+			"SELECT id, order_no, user_id, total_amount, status, UNIX_TIMESTAMP(create_time) AS create_time FROM `order` WHERE id = ? LIMIT 1",
+			in.OrderId,
+		)
+	})
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, errors.New("order not found")
 	}
