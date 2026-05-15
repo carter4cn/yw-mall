@@ -178,14 +178,16 @@ func (x *LoginReq) GetPassword() string {
 }
 
 type LoginResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Token         string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"` // = access_token, kept for backward compatibility
-	RefreshToken  string                 `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
-	ExpiresIn     int32                  `protobuf:"varint,4,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in,omitempty"` // access_token TTL in seconds
-	CsrfToken     string                 `protobuf:"bytes,5,opt,name=csrf_token,json=csrfToken,proto3" json:"csrf_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Id           int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Token        string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"` // = access_token, kept for backward compatibility
+	RefreshToken string                 `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	ExpiresIn    int32                  `protobuf:"varint,4,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in,omitempty"` // access_token TTL in seconds
+	CsrfToken    string                 `protobuf:"bytes,5,opt,name=csrf_token,json=csrfToken,proto3" json:"csrf_token,omitempty"`
+	// S4.3 password expiry: front-end must reLaunch to change-password.
+	PasswordExpired bool `protobuf:"varint,6,opt,name=password_expired,json=passwordExpired,proto3" json:"password_expired,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *LoginResp) Reset() {
@@ -251,6 +253,13 @@ func (x *LoginResp) GetCsrfToken() string {
 		return x.CsrfToken
 	}
 	return ""
+}
+
+func (x *LoginResp) GetPasswordExpired() bool {
+	if x != nil {
+		return x.PasswordExpired
+	}
+	return false
 }
 
 // ===== Session (P0 login revamp: opaque token + Redis) =====
@@ -1963,13 +1972,20 @@ func (x *AdminLoginReq) GetPassword() string {
 }
 
 type AdminLoginResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
-	Role          string                 `protobuf:"bytes,3,opt,name=role,proto3" json:"role,omitempty"`
-	Permissions   string                 `protobuf:"bytes,4,opt,name=permissions,proto3" json:"permissions,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Id          int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Username    string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	Role        string                 `protobuf:"bytes,3,opt,name=role,proto3" json:"role,omitempty"`
+	Permissions string                 `protobuf:"bytes,4,opt,name=permissions,proto3" json:"permissions,omitempty"`
+	// S4.3: when the stored last_password_change is older than the policy's
+	// MaxAgeDays the gateway must redirect the admin to the change-password page.
+	PasswordExpired bool `protobuf:"varint,5,opt,name=password_expired,json=passwordExpired,proto3" json:"password_expired,omitempty"`
+	// S4.1: when the admin has MFA enabled the gateway must NOT mint a session;
+	// it returns mfa_required + a short-lived challenge token instead.
+	MfaRequired    bool   `protobuf:"varint,6,opt,name=mfa_required,json=mfaRequired,proto3" json:"mfa_required,omitempty"`
+	ChallengeToken string `protobuf:"bytes,7,opt,name=challenge_token,json=challengeToken,proto3" json:"challenge_token,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *AdminLoginResp) Reset() {
@@ -2026,6 +2042,27 @@ func (x *AdminLoginResp) GetRole() string {
 func (x *AdminLoginResp) GetPermissions() string {
 	if x != nil {
 		return x.Permissions
+	}
+	return ""
+}
+
+func (x *AdminLoginResp) GetPasswordExpired() bool {
+	if x != nil {
+		return x.PasswordExpired
+	}
+	return false
+}
+
+func (x *AdminLoginResp) GetMfaRequired() bool {
+	if x != nil {
+		return x.MfaRequired
+	}
+	return false
+}
+
+func (x *AdminLoginResp) GetChallengeToken() string {
+	if x != nil {
+		return x.ChallengeToken
 	}
 	return ""
 }
@@ -2515,6 +2552,1344 @@ func (x *UpdateUserStatusReq) GetStatus() int32 {
 	return 0
 }
 
+// ===== S4.3 ChangePassword =====
+// SubjectType: 1=user, 2=admin. The RPC verifies oldPassword, runs the
+// strength + history check on newPassword, and bumps last_password_change.
+type ChangePasswordReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SubjectType   int32                  `protobuf:"varint,1,opt,name=subject_type,json=subjectType,proto3" json:"subject_type,omitempty"`
+	SubjectId     int64                  `protobuf:"varint,2,opt,name=subject_id,json=subjectId,proto3" json:"subject_id,omitempty"`
+	OldPassword   string                 `protobuf:"bytes,3,opt,name=old_password,json=oldPassword,proto3" json:"old_password,omitempty"`
+	NewPassword   string                 `protobuf:"bytes,4,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChangePasswordReq) Reset() {
+	*x = ChangePasswordReq{}
+	mi := &file_user_user_proto_msgTypes[42]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChangePasswordReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChangePasswordReq) ProtoMessage() {}
+
+func (x *ChangePasswordReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[42]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChangePasswordReq.ProtoReflect.Descriptor instead.
+func (*ChangePasswordReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *ChangePasswordReq) GetSubjectType() int32 {
+	if x != nil {
+		return x.SubjectType
+	}
+	return 0
+}
+
+func (x *ChangePasswordReq) GetSubjectId() int64 {
+	if x != nil {
+		return x.SubjectId
+	}
+	return 0
+}
+
+func (x *ChangePasswordReq) GetOldPassword() string {
+	if x != nil {
+		return x.OldPassword
+	}
+	return ""
+}
+
+func (x *ChangePasswordReq) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+type ChangePasswordResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChangePasswordResp) Reset() {
+	*x = ChangePasswordResp{}
+	mi := &file_user_user_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChangePasswordResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChangePasswordResp) ProtoMessage() {}
+
+func (x *ChangePasswordResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChangePasswordResp.ProtoReflect.Descriptor instead.
+func (*ChangePasswordResp) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *ChangePasswordResp) GetOk() bool {
+	if x != nil {
+		return x.Ok
+	}
+	return false
+}
+
+// ===== S4.2 Admin IP whitelist =====
+type AdminIpWhitelistEntry struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	AdminId       int64                  `protobuf:"varint,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	Cidr          string                 `protobuf:"bytes,3,opt,name=cidr,proto3" json:"cidr,omitempty"`
+	Note          string                 `protobuf:"bytes,4,opt,name=note,proto3" json:"note,omitempty"`
+	CreateTime    int64                  `protobuf:"varint,5,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AdminIpWhitelistEntry) Reset() {
+	*x = AdminIpWhitelistEntry{}
+	mi := &file_user_user_proto_msgTypes[44]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdminIpWhitelistEntry) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminIpWhitelistEntry) ProtoMessage() {}
+
+func (x *AdminIpWhitelistEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[44]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminIpWhitelistEntry.ProtoReflect.Descriptor instead.
+func (*AdminIpWhitelistEntry) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *AdminIpWhitelistEntry) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *AdminIpWhitelistEntry) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *AdminIpWhitelistEntry) GetCidr() string {
+	if x != nil {
+		return x.Cidr
+	}
+	return ""
+}
+
+func (x *AdminIpWhitelistEntry) GetNote() string {
+	if x != nil {
+		return x.Note
+	}
+	return ""
+}
+
+func (x *AdminIpWhitelistEntry) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type ListAdminIpWhitelistReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AdminId       int64                  `protobuf:"varint,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListAdminIpWhitelistReq) Reset() {
+	*x = ListAdminIpWhitelistReq{}
+	mi := &file_user_user_proto_msgTypes[45]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListAdminIpWhitelistReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAdminIpWhitelistReq) ProtoMessage() {}
+
+func (x *ListAdminIpWhitelistReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[45]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAdminIpWhitelistReq.ProtoReflect.Descriptor instead.
+func (*ListAdminIpWhitelistReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *ListAdminIpWhitelistReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+type ListAdminIpWhitelistResp struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Items         []*AdminIpWhitelistEntry `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListAdminIpWhitelistResp) Reset() {
+	*x = ListAdminIpWhitelistResp{}
+	mi := &file_user_user_proto_msgTypes[46]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListAdminIpWhitelistResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAdminIpWhitelistResp) ProtoMessage() {}
+
+func (x *ListAdminIpWhitelistResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[46]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAdminIpWhitelistResp.ProtoReflect.Descriptor instead.
+func (*ListAdminIpWhitelistResp) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *ListAdminIpWhitelistResp) GetItems() []*AdminIpWhitelistEntry {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type AddAdminIpWhitelistReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AdminId       int64                  `protobuf:"varint,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	Cidr          string                 `protobuf:"bytes,2,opt,name=cidr,proto3" json:"cidr,omitempty"`
+	Note          string                 `protobuf:"bytes,3,opt,name=note,proto3" json:"note,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddAdminIpWhitelistReq) Reset() {
+	*x = AddAdminIpWhitelistReq{}
+	mi := &file_user_user_proto_msgTypes[47]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddAdminIpWhitelistReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddAdminIpWhitelistReq) ProtoMessage() {}
+
+func (x *AddAdminIpWhitelistReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[47]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddAdminIpWhitelistReq.ProtoReflect.Descriptor instead.
+func (*AddAdminIpWhitelistReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{47}
+}
+
+func (x *AddAdminIpWhitelistReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *AddAdminIpWhitelistReq) GetCidr() string {
+	if x != nil {
+		return x.Cidr
+	}
+	return ""
+}
+
+func (x *AddAdminIpWhitelistReq) GetNote() string {
+	if x != nil {
+		return x.Note
+	}
+	return ""
+}
+
+type AddAdminIpWhitelistResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddAdminIpWhitelistResp) Reset() {
+	*x = AddAdminIpWhitelistResp{}
+	mi := &file_user_user_proto_msgTypes[48]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddAdminIpWhitelistResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddAdminIpWhitelistResp) ProtoMessage() {}
+
+func (x *AddAdminIpWhitelistResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[48]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddAdminIpWhitelistResp.ProtoReflect.Descriptor instead.
+func (*AddAdminIpWhitelistResp) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{48}
+}
+
+func (x *AddAdminIpWhitelistResp) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type DeleteAdminIpWhitelistReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	AdminId       int64                  `protobuf:"varint,2,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteAdminIpWhitelistReq) Reset() {
+	*x = DeleteAdminIpWhitelistReq{}
+	mi := &file_user_user_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteAdminIpWhitelistReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteAdminIpWhitelistReq) ProtoMessage() {}
+
+func (x *DeleteAdminIpWhitelistReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteAdminIpWhitelistReq.ProtoReflect.Descriptor instead.
+func (*DeleteAdminIpWhitelistReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *DeleteAdminIpWhitelistReq) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *DeleteAdminIpWhitelistReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+// ===== S4.1 Admin MFA (TOTP) =====
+type EnableAdminMfaReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AdminId       int64                  `protobuf:"varint,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnableAdminMfaReq) Reset() {
+	*x = EnableAdminMfaReq{}
+	mi := &file_user_user_proto_msgTypes[50]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnableAdminMfaReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnableAdminMfaReq) ProtoMessage() {}
+
+func (x *EnableAdminMfaReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[50]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnableAdminMfaReq.ProtoReflect.Descriptor instead.
+func (*EnableAdminMfaReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{50}
+}
+
+func (x *EnableAdminMfaReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+type EnableAdminMfaResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TotpSecret    string                 `protobuf:"bytes,1,opt,name=totp_secret,json=totpSecret,proto3" json:"totp_secret,omitempty"`
+	QrUrl         string                 `protobuf:"bytes,2,opt,name=qr_url,json=qrUrl,proto3" json:"qr_url,omitempty"`
+	BackupCodes   []string               `protobuf:"bytes,3,rep,name=backup_codes,json=backupCodes,proto3" json:"backup_codes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnableAdminMfaResp) Reset() {
+	*x = EnableAdminMfaResp{}
+	mi := &file_user_user_proto_msgTypes[51]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnableAdminMfaResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnableAdminMfaResp) ProtoMessage() {}
+
+func (x *EnableAdminMfaResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[51]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnableAdminMfaResp.ProtoReflect.Descriptor instead.
+func (*EnableAdminMfaResp) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{51}
+}
+
+func (x *EnableAdminMfaResp) GetTotpSecret() string {
+	if x != nil {
+		return x.TotpSecret
+	}
+	return ""
+}
+
+func (x *EnableAdminMfaResp) GetQrUrl() string {
+	if x != nil {
+		return x.QrUrl
+	}
+	return ""
+}
+
+func (x *EnableAdminMfaResp) GetBackupCodes() []string {
+	if x != nil {
+		return x.BackupCodes
+	}
+	return nil
+}
+
+type ConfirmAdminMfaReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AdminId       int64                  `protobuf:"varint,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ConfirmAdminMfaReq) Reset() {
+	*x = ConfirmAdminMfaReq{}
+	mi := &file_user_user_proto_msgTypes[52]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConfirmAdminMfaReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConfirmAdminMfaReq) ProtoMessage() {}
+
+func (x *ConfirmAdminMfaReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[52]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConfirmAdminMfaReq.ProtoReflect.Descriptor instead.
+func (*ConfirmAdminMfaReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{52}
+}
+
+func (x *ConfirmAdminMfaReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *ConfirmAdminMfaReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type VerifyAdminMfaReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AdminId       int64                  `protobuf:"varint,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyAdminMfaReq) Reset() {
+	*x = VerifyAdminMfaReq{}
+	mi := &file_user_user_proto_msgTypes[53]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyAdminMfaReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyAdminMfaReq) ProtoMessage() {}
+
+func (x *VerifyAdminMfaReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[53]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyAdminMfaReq.ProtoReflect.Descriptor instead.
+func (*VerifyAdminMfaReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{53}
+}
+
+func (x *VerifyAdminMfaReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *VerifyAdminMfaReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type DisableAdminMfaReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AdminId       int64                  `protobuf:"varint,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DisableAdminMfaReq) Reset() {
+	*x = DisableAdminMfaReq{}
+	mi := &file_user_user_proto_msgTypes[54]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DisableAdminMfaReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DisableAdminMfaReq) ProtoMessage() {}
+
+func (x *DisableAdminMfaReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[54]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DisableAdminMfaReq.ProtoReflect.Descriptor instead.
+func (*DisableAdminMfaReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{54}
+}
+
+func (x *DisableAdminMfaReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *DisableAdminMfaReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type GetAdminMfaStatusReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AdminId       int64                  `protobuf:"varint,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAdminMfaStatusReq) Reset() {
+	*x = GetAdminMfaStatusReq{}
+	mi := &file_user_user_proto_msgTypes[55]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAdminMfaStatusReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAdminMfaStatusReq) ProtoMessage() {}
+
+func (x *GetAdminMfaStatusReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[55]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAdminMfaStatusReq.ProtoReflect.Descriptor instead.
+func (*GetAdminMfaStatusReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{55}
+}
+
+func (x *GetAdminMfaStatusReq) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+type GetAdminMfaStatusResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Enabled       bool                   `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	LastUsedAt    int64                  `protobuf:"varint,2,opt,name=last_used_at,json=lastUsedAt,proto3" json:"last_used_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAdminMfaStatusResp) Reset() {
+	*x = GetAdminMfaStatusResp{}
+	mi := &file_user_user_proto_msgTypes[56]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAdminMfaStatusResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAdminMfaStatusResp) ProtoMessage() {}
+
+func (x *GetAdminMfaStatusResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[56]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAdminMfaStatusResp.ProtoReflect.Descriptor instead.
+func (*GetAdminMfaStatusResp) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{56}
+}
+
+func (x *GetAdminMfaStatusResp) GetEnabled() bool {
+	if x != nil {
+		return x.Enabled
+	}
+	return false
+}
+
+func (x *GetAdminMfaStatusResp) GetLastUsedAt() int64 {
+	if x != nil {
+		return x.LastUsedAt
+	}
+	return 0
+}
+
+// ===== S4.4 KYC =====
+type SubmitKycReq struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	UserId         int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	RealName       string                 `protobuf:"bytes,2,opt,name=real_name,json=realName,proto3" json:"real_name,omitempty"`
+	IdCardNo       string                 `protobuf:"bytes,3,opt,name=id_card_no,json=idCardNo,proto3" json:"id_card_no,omitempty"`
+	IdCardFrontUrl string                 `protobuf:"bytes,4,opt,name=id_card_front_url,json=idCardFrontUrl,proto3" json:"id_card_front_url,omitempty"`
+	IdCardBackUrl  string                 `protobuf:"bytes,5,opt,name=id_card_back_url,json=idCardBackUrl,proto3" json:"id_card_back_url,omitempty"`
+	FaceVideoUrl   string                 `protobuf:"bytes,6,opt,name=face_video_url,json=faceVideoUrl,proto3" json:"face_video_url,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *SubmitKycReq) Reset() {
+	*x = SubmitKycReq{}
+	mi := &file_user_user_proto_msgTypes[57]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitKycReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitKycReq) ProtoMessage() {}
+
+func (x *SubmitKycReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[57]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitKycReq.ProtoReflect.Descriptor instead.
+func (*SubmitKycReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{57}
+}
+
+func (x *SubmitKycReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *SubmitKycReq) GetRealName() string {
+	if x != nil {
+		return x.RealName
+	}
+	return ""
+}
+
+func (x *SubmitKycReq) GetIdCardNo() string {
+	if x != nil {
+		return x.IdCardNo
+	}
+	return ""
+}
+
+func (x *SubmitKycReq) GetIdCardFrontUrl() string {
+	if x != nil {
+		return x.IdCardFrontUrl
+	}
+	return ""
+}
+
+func (x *SubmitKycReq) GetIdCardBackUrl() string {
+	if x != nil {
+		return x.IdCardBackUrl
+	}
+	return ""
+}
+
+func (x *SubmitKycReq) GetFaceVideoUrl() string {
+	if x != nil {
+		return x.FaceVideoUrl
+	}
+	return ""
+}
+
+type SubmitKycResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RequestId     string                 `protobuf:"bytes,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	Status        int32                  `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SubmitKycResp) Reset() {
+	*x = SubmitKycResp{}
+	mi := &file_user_user_proto_msgTypes[58]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitKycResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitKycResp) ProtoMessage() {}
+
+func (x *SubmitKycResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[58]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitKycResp.ProtoReflect.Descriptor instead.
+func (*SubmitKycResp) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{58}
+}
+
+func (x *SubmitKycResp) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
+	}
+	return ""
+}
+
+func (x *SubmitKycResp) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+type GetKycStatusReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetKycStatusReq) Reset() {
+	*x = GetKycStatusReq{}
+	mi := &file_user_user_proto_msgTypes[59]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetKycStatusReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetKycStatusReq) ProtoMessage() {}
+
+func (x *GetKycStatusReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[59]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetKycStatusReq.ProtoReflect.Descriptor instead.
+func (*GetKycStatusReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{59}
+}
+
+func (x *GetKycStatusReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+type GetKycStatusResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"` // 0=未提交 1=审核中 2=通过 3=拒绝
+	RejectReason  string                 `protobuf:"bytes,2,opt,name=reject_reason,json=rejectReason,proto3" json:"reject_reason,omitempty"`
+	SubmitTime    int64                  `protobuf:"varint,3,opt,name=submit_time,json=submitTime,proto3" json:"submit_time,omitempty"`
+	AuditTime     int64                  `protobuf:"varint,4,opt,name=audit_time,json=auditTime,proto3" json:"audit_time,omitempty"`
+	RealName      string                 `protobuf:"bytes,5,opt,name=real_name,json=realName,proto3" json:"real_name,omitempty"`   // already decrypted
+	IdCardNo      string                 `protobuf:"bytes,6,opt,name=id_card_no,json=idCardNo,proto3" json:"id_card_no,omitempty"` // already decrypted (masked client-side)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetKycStatusResp) Reset() {
+	*x = GetKycStatusResp{}
+	mi := &file_user_user_proto_msgTypes[60]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetKycStatusResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetKycStatusResp) ProtoMessage() {}
+
+func (x *GetKycStatusResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[60]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetKycStatusResp.ProtoReflect.Descriptor instead.
+func (*GetKycStatusResp) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{60}
+}
+
+func (x *GetKycStatusResp) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *GetKycStatusResp) GetRejectReason() string {
+	if x != nil {
+		return x.RejectReason
+	}
+	return ""
+}
+
+func (x *GetKycStatusResp) GetSubmitTime() int64 {
+	if x != nil {
+		return x.SubmitTime
+	}
+	return 0
+}
+
+func (x *GetKycStatusResp) GetAuditTime() int64 {
+	if x != nil {
+		return x.AuditTime
+	}
+	return 0
+}
+
+func (x *GetKycStatusResp) GetRealName() string {
+	if x != nil {
+		return x.RealName
+	}
+	return ""
+}
+
+func (x *GetKycStatusResp) GetIdCardNo() string {
+	if x != nil {
+		return x.IdCardNo
+	}
+	return ""
+}
+
+type ListPendingKycReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListPendingKycReq) Reset() {
+	*x = ListPendingKycReq{}
+	mi := &file_user_user_proto_msgTypes[61]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListPendingKycReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListPendingKycReq) ProtoMessage() {}
+
+func (x *ListPendingKycReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[61]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListPendingKycReq.ProtoReflect.Descriptor instead.
+func (*ListPendingKycReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{61}
+}
+
+func (x *ListPendingKycReq) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListPendingKycReq) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type KycPendingItem struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	UserId         int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Username       string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	RealName       string                 `protobuf:"bytes,3,opt,name=real_name,json=realName,proto3" json:"real_name,omitempty"`
+	IdCardNo       string                 `protobuf:"bytes,4,opt,name=id_card_no,json=idCardNo,proto3" json:"id_card_no,omitempty"`
+	IdCardFrontUrl string                 `protobuf:"bytes,5,opt,name=id_card_front_url,json=idCardFrontUrl,proto3" json:"id_card_front_url,omitempty"`
+	IdCardBackUrl  string                 `protobuf:"bytes,6,opt,name=id_card_back_url,json=idCardBackUrl,proto3" json:"id_card_back_url,omitempty"`
+	FaceVideoUrl   string                 `protobuf:"bytes,7,opt,name=face_video_url,json=faceVideoUrl,proto3" json:"face_video_url,omitempty"`
+	SubmitTime     int64                  `protobuf:"varint,8,opt,name=submit_time,json=submitTime,proto3" json:"submit_time,omitempty"`
+	Status         int32                  `protobuf:"varint,9,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *KycPendingItem) Reset() {
+	*x = KycPendingItem{}
+	mi := &file_user_user_proto_msgTypes[62]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *KycPendingItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*KycPendingItem) ProtoMessage() {}
+
+func (x *KycPendingItem) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[62]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use KycPendingItem.ProtoReflect.Descriptor instead.
+func (*KycPendingItem) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{62}
+}
+
+func (x *KycPendingItem) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *KycPendingItem) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *KycPendingItem) GetRealName() string {
+	if x != nil {
+		return x.RealName
+	}
+	return ""
+}
+
+func (x *KycPendingItem) GetIdCardNo() string {
+	if x != nil {
+		return x.IdCardNo
+	}
+	return ""
+}
+
+func (x *KycPendingItem) GetIdCardFrontUrl() string {
+	if x != nil {
+		return x.IdCardFrontUrl
+	}
+	return ""
+}
+
+func (x *KycPendingItem) GetIdCardBackUrl() string {
+	if x != nil {
+		return x.IdCardBackUrl
+	}
+	return ""
+}
+
+func (x *KycPendingItem) GetFaceVideoUrl() string {
+	if x != nil {
+		return x.FaceVideoUrl
+	}
+	return ""
+}
+
+func (x *KycPendingItem) GetSubmitTime() int64 {
+	if x != nil {
+		return x.SubmitTime
+	}
+	return 0
+}
+
+func (x *KycPendingItem) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+type ListPendingKycResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*KycPendingItem      `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	Total         int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListPendingKycResp) Reset() {
+	*x = ListPendingKycResp{}
+	mi := &file_user_user_proto_msgTypes[63]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListPendingKycResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListPendingKycResp) ProtoMessage() {}
+
+func (x *ListPendingKycResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[63]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListPendingKycResp.ProtoReflect.Descriptor instead.
+func (*ListPendingKycResp) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{63}
+}
+
+func (x *ListPendingKycResp) GetItems() []*KycPendingItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *ListPendingKycResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type AdminAuditKycReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Pass          bool                   `protobuf:"varint,2,opt,name=pass,proto3" json:"pass,omitempty"`
+	Reason        string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	AuditAdminId  int64                  `protobuf:"varint,4,opt,name=audit_admin_id,json=auditAdminId,proto3" json:"audit_admin_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AdminAuditKycReq) Reset() {
+	*x = AdminAuditKycReq{}
+	mi := &file_user_user_proto_msgTypes[64]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdminAuditKycReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminAuditKycReq) ProtoMessage() {}
+
+func (x *AdminAuditKycReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[64]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminAuditKycReq.ProtoReflect.Descriptor instead.
+func (*AdminAuditKycReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{64}
+}
+
+func (x *AdminAuditKycReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *AdminAuditKycReq) GetPass() bool {
+	if x != nil {
+		return x.Pass
+	}
+	return false
+}
+
+func (x *AdminAuditKycReq) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *AdminAuditKycReq) GetAuditAdminId() int64 {
+	if x != nil {
+		return x.AuditAdminId
+	}
+	return 0
+}
+
 var File_user_user_proto protoreflect.FileDescriptor
 
 const file_user_user_proto_rawDesc = "" +
@@ -2528,7 +3903,7 @@ const file_user_user_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"B\n" +
 	"\bLoginReq\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x94\x01\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\xbf\x01\n" +
 	"\tLoginResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
 	"\x05token\x18\x02 \x01(\tR\x05token\x12#\n" +
@@ -2536,7 +3911,8 @@ const file_user_user_proto_rawDesc = "" +
 	"\n" +
 	"expires_in\x18\x04 \x01(\x05R\texpiresIn\x12\x1d\n" +
 	"\n" +
-	"csrf_token\x18\x05 \x01(\tR\tcsrfToken\"\a\n" +
+	"csrf_token\x18\x05 \x01(\tR\tcsrfToken\x12)\n" +
+	"\x10password_expired\x18\x06 \x01(\bR\x0fpasswordExpired\"\a\n" +
 	"\x05Empty\"\xa3\x02\n" +
 	"\vSessionInfo\x12\x10\n" +
 	"\x03uid\x18\x01 \x01(\x03R\x03uid\x12\x1a\n" +
@@ -2662,12 +4038,15 @@ const file_user_user_proto_rawDesc = "" +
 	"createTime\"G\n" +
 	"\rAdminLoginReq\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"r\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\xe9\x01\n" +
 	"\x0eAdminLoginResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x12\n" +
 	"\x04role\x18\x03 \x01(\tR\x04role\x12 \n" +
-	"\vpermissions\x18\x04 \x01(\tR\vpermissions\"\x94\x01\n" +
+	"\vpermissions\x18\x04 \x01(\tR\vpermissions\x12)\n" +
+	"\x10password_expired\x18\x05 \x01(\bR\x0fpasswordExpired\x12!\n" +
+	"\fmfa_required\x18\x06 \x01(\bR\vmfaRequired\x12'\n" +
+	"\x0fchallenge_token\x18\a \x01(\tR\x0echallengeToken\"\x94\x01\n" +
 	"\x0eCreateAdminReq\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x14\n" +
@@ -2696,7 +4075,104 @@ const file_user_user_proto_rawDesc = "" +
 	"\x05total\x18\x02 \x01(\x03R\x05total\"=\n" +
 	"\x13UpdateUserStatusReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\x05R\x06status2\xad\v\n" +
+	"\x06status\x18\x02 \x01(\x05R\x06status\"\x9b\x01\n" +
+	"\x11ChangePasswordReq\x12!\n" +
+	"\fsubject_type\x18\x01 \x01(\x05R\vsubjectType\x12\x1d\n" +
+	"\n" +
+	"subject_id\x18\x02 \x01(\x03R\tsubjectId\x12!\n" +
+	"\fold_password\x18\x03 \x01(\tR\voldPassword\x12!\n" +
+	"\fnew_password\x18\x04 \x01(\tR\vnewPassword\"$\n" +
+	"\x12ChangePasswordResp\x12\x0e\n" +
+	"\x02ok\x18\x01 \x01(\bR\x02ok\"\x8b\x01\n" +
+	"\x15AdminIpWhitelistEntry\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
+	"\badmin_id\x18\x02 \x01(\x03R\aadminId\x12\x12\n" +
+	"\x04cidr\x18\x03 \x01(\tR\x04cidr\x12\x12\n" +
+	"\x04note\x18\x04 \x01(\tR\x04note\x12\x1f\n" +
+	"\vcreate_time\x18\x05 \x01(\x03R\n" +
+	"createTime\"4\n" +
+	"\x17ListAdminIpWhitelistReq\x12\x19\n" +
+	"\badmin_id\x18\x01 \x01(\x03R\aadminId\"M\n" +
+	"\x18ListAdminIpWhitelistResp\x121\n" +
+	"\x05items\x18\x01 \x03(\v2\x1b.user.AdminIpWhitelistEntryR\x05items\"[\n" +
+	"\x16AddAdminIpWhitelistReq\x12\x19\n" +
+	"\badmin_id\x18\x01 \x01(\x03R\aadminId\x12\x12\n" +
+	"\x04cidr\x18\x02 \x01(\tR\x04cidr\x12\x12\n" +
+	"\x04note\x18\x03 \x01(\tR\x04note\")\n" +
+	"\x17AddAdminIpWhitelistResp\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"F\n" +
+	"\x19DeleteAdminIpWhitelistReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
+	"\badmin_id\x18\x02 \x01(\x03R\aadminId\".\n" +
+	"\x11EnableAdminMfaReq\x12\x19\n" +
+	"\badmin_id\x18\x01 \x01(\x03R\aadminId\"o\n" +
+	"\x12EnableAdminMfaResp\x12\x1f\n" +
+	"\vtotp_secret\x18\x01 \x01(\tR\n" +
+	"totpSecret\x12\x15\n" +
+	"\x06qr_url\x18\x02 \x01(\tR\x05qrUrl\x12!\n" +
+	"\fbackup_codes\x18\x03 \x03(\tR\vbackupCodes\"C\n" +
+	"\x12ConfirmAdminMfaReq\x12\x19\n" +
+	"\badmin_id\x18\x01 \x01(\x03R\aadminId\x12\x12\n" +
+	"\x04code\x18\x02 \x01(\tR\x04code\"B\n" +
+	"\x11VerifyAdminMfaReq\x12\x19\n" +
+	"\badmin_id\x18\x01 \x01(\x03R\aadminId\x12\x12\n" +
+	"\x04code\x18\x02 \x01(\tR\x04code\"C\n" +
+	"\x12DisableAdminMfaReq\x12\x19\n" +
+	"\badmin_id\x18\x01 \x01(\x03R\aadminId\x12\x12\n" +
+	"\x04code\x18\x02 \x01(\tR\x04code\"1\n" +
+	"\x14GetAdminMfaStatusReq\x12\x19\n" +
+	"\badmin_id\x18\x01 \x01(\x03R\aadminId\"S\n" +
+	"\x15GetAdminMfaStatusResp\x12\x18\n" +
+	"\aenabled\x18\x01 \x01(\bR\aenabled\x12 \n" +
+	"\flast_used_at\x18\x02 \x01(\x03R\n" +
+	"lastUsedAt\"\xdc\x01\n" +
+	"\fSubmitKycReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1b\n" +
+	"\treal_name\x18\x02 \x01(\tR\brealName\x12\x1c\n" +
+	"\n" +
+	"id_card_no\x18\x03 \x01(\tR\bidCardNo\x12)\n" +
+	"\x11id_card_front_url\x18\x04 \x01(\tR\x0eidCardFrontUrl\x12'\n" +
+	"\x10id_card_back_url\x18\x05 \x01(\tR\ridCardBackUrl\x12$\n" +
+	"\x0eface_video_url\x18\x06 \x01(\tR\ffaceVideoUrl\"F\n" +
+	"\rSubmitKycResp\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\x01 \x01(\tR\trequestId\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\x05R\x06status\"*\n" +
+	"\x0fGetKycStatusReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\"\xca\x01\n" +
+	"\x10GetKycStatusResp\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\x12#\n" +
+	"\rreject_reason\x18\x02 \x01(\tR\frejectReason\x12\x1f\n" +
+	"\vsubmit_time\x18\x03 \x01(\x03R\n" +
+	"submitTime\x12\x1d\n" +
+	"\n" +
+	"audit_time\x18\x04 \x01(\x03R\tauditTime\x12\x1b\n" +
+	"\treal_name\x18\x05 \x01(\tR\brealName\x12\x1c\n" +
+	"\n" +
+	"id_card_no\x18\x06 \x01(\tR\bidCardNo\"D\n" +
+	"\x11ListPendingKycReq\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\"\xb3\x02\n" +
+	"\x0eKycPendingItem\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1a\n" +
+	"\busername\x18\x02 \x01(\tR\busername\x12\x1b\n" +
+	"\treal_name\x18\x03 \x01(\tR\brealName\x12\x1c\n" +
+	"\n" +
+	"id_card_no\x18\x04 \x01(\tR\bidCardNo\x12)\n" +
+	"\x11id_card_front_url\x18\x05 \x01(\tR\x0eidCardFrontUrl\x12'\n" +
+	"\x10id_card_back_url\x18\x06 \x01(\tR\ridCardBackUrl\x12$\n" +
+	"\x0eface_video_url\x18\a \x01(\tR\ffaceVideoUrl\x12\x1f\n" +
+	"\vsubmit_time\x18\b \x01(\x03R\n" +
+	"submitTime\x12\x16\n" +
+	"\x06status\x18\t \x01(\x05R\x06status\"V\n" +
+	"\x12ListPendingKycResp\x12*\n" +
+	"\x05items\x18\x01 \x03(\v2\x14.user.KycPendingItemR\x05items\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"}\n" +
+	"\x10AdminAuditKycReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
+	"\x04pass\x18\x02 \x01(\bR\x04pass\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\x12$\n" +
+	"\x0eaudit_admin_id\x18\x04 \x01(\x03R\fauditAdminId2\x99\x12\n" +
 	"\x04User\x121\n" +
 	"\bRegister\x12\x11.user.RegisterReq\x1a\x12.user.RegisterResp\x12(\n" +
 	"\x05Login\x12\x0e.user.LoginReq\x1a\x0f.user.LoginResp\x12.\n" +
@@ -2727,7 +4203,20 @@ const file_user_user_proto_rawDesc = "" +
 	"\x0fValidateSession\x12\x18.user.ValidateSessionReq\x1a\x11.user.SessionInfo\x12<\n" +
 	"\x0eRefreshSession\x12\x17.user.RefreshSessionReq\x1a\x11.user.SessionInfo\x126\n" +
 	"\x0eDestroySession\x12\x17.user.DestroySessionReq\x1a\v.user.Empty\x12F\n" +
-	"\x16DestroyAllUserSessions\x12\x1f.user.DestroyAllUserSessionsReq\x1a\v.user.EmptyB\bZ\x06./userb\x06proto3"
+	"\x16DestroyAllUserSessions\x12\x1f.user.DestroyAllUserSessionsReq\x1a\v.user.Empty\x12C\n" +
+	"\x0eChangePassword\x12\x17.user.ChangePasswordReq\x1a\x18.user.ChangePasswordResp\x12U\n" +
+	"\x14ListAdminIpWhitelist\x12\x1d.user.ListAdminIpWhitelistReq\x1a\x1e.user.ListAdminIpWhitelistResp\x12R\n" +
+	"\x13AddAdminIpWhitelist\x12\x1c.user.AddAdminIpWhitelistReq\x1a\x1d.user.AddAdminIpWhitelistResp\x12G\n" +
+	"\x16DeleteAdminIpWhitelist\x12\x1f.user.DeleteAdminIpWhitelistReq\x1a\f.user.OkResp\x12C\n" +
+	"\x0eEnableAdminMfa\x12\x17.user.EnableAdminMfaReq\x1a\x18.user.EnableAdminMfaResp\x129\n" +
+	"\x0fConfirmAdminMfa\x12\x18.user.ConfirmAdminMfaReq\x1a\f.user.OkResp\x127\n" +
+	"\x0eVerifyAdminMfa\x12\x17.user.VerifyAdminMfaReq\x1a\f.user.OkResp\x129\n" +
+	"\x0fDisableAdminMfa\x12\x18.user.DisableAdminMfaReq\x1a\f.user.OkResp\x12L\n" +
+	"\x11GetAdminMfaStatus\x12\x1a.user.GetAdminMfaStatusReq\x1a\x1b.user.GetAdminMfaStatusResp\x124\n" +
+	"\tSubmitKyc\x12\x12.user.SubmitKycReq\x1a\x13.user.SubmitKycResp\x12=\n" +
+	"\fGetKycStatus\x12\x15.user.GetKycStatusReq\x1a\x16.user.GetKycStatusResp\x12C\n" +
+	"\x0eListPendingKyc\x12\x17.user.ListPendingKycReq\x1a\x18.user.ListPendingKycResp\x125\n" +
+	"\rAdminAuditKyc\x12\x16.user.AdminAuditKycReq\x1a\f.user.OkRespB\bZ\x06./userb\x06proto3"
 
 var (
 	file_user_user_proto_rawDescOnce sync.Once
@@ -2741,7 +4230,7 @@ func file_user_user_proto_rawDescGZIP() []byte {
 	return file_user_user_proto_rawDescData
 }
 
-var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 42)
+var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 65)
 var file_user_user_proto_goTypes = []any{
 	(*RegisterReq)(nil),               // 0: user.RegisterReq
 	(*RegisterResp)(nil),              // 1: user.RegisterResp
@@ -2785,66 +4274,117 @@ var file_user_user_proto_goTypes = []any{
 	(*ListUsersReq)(nil),              // 39: user.ListUsersReq
 	(*ListUsersResp)(nil),             // 40: user.ListUsersResp
 	(*UpdateUserStatusReq)(nil),       // 41: user.UpdateUserStatusReq
+	(*ChangePasswordReq)(nil),         // 42: user.ChangePasswordReq
+	(*ChangePasswordResp)(nil),        // 43: user.ChangePasswordResp
+	(*AdminIpWhitelistEntry)(nil),     // 44: user.AdminIpWhitelistEntry
+	(*ListAdminIpWhitelistReq)(nil),   // 45: user.ListAdminIpWhitelistReq
+	(*ListAdminIpWhitelistResp)(nil),  // 46: user.ListAdminIpWhitelistResp
+	(*AddAdminIpWhitelistReq)(nil),    // 47: user.AddAdminIpWhitelistReq
+	(*AddAdminIpWhitelistResp)(nil),   // 48: user.AddAdminIpWhitelistResp
+	(*DeleteAdminIpWhitelistReq)(nil), // 49: user.DeleteAdminIpWhitelistReq
+	(*EnableAdminMfaReq)(nil),         // 50: user.EnableAdminMfaReq
+	(*EnableAdminMfaResp)(nil),        // 51: user.EnableAdminMfaResp
+	(*ConfirmAdminMfaReq)(nil),        // 52: user.ConfirmAdminMfaReq
+	(*VerifyAdminMfaReq)(nil),         // 53: user.VerifyAdminMfaReq
+	(*DisableAdminMfaReq)(nil),        // 54: user.DisableAdminMfaReq
+	(*GetAdminMfaStatusReq)(nil),      // 55: user.GetAdminMfaStatusReq
+	(*GetAdminMfaStatusResp)(nil),     // 56: user.GetAdminMfaStatusResp
+	(*SubmitKycReq)(nil),              // 57: user.SubmitKycReq
+	(*SubmitKycResp)(nil),             // 58: user.SubmitKycResp
+	(*GetKycStatusReq)(nil),           // 59: user.GetKycStatusReq
+	(*GetKycStatusResp)(nil),          // 60: user.GetKycStatusResp
+	(*ListPendingKycReq)(nil),         // 61: user.ListPendingKycReq
+	(*KycPendingItem)(nil),            // 62: user.KycPendingItem
+	(*ListPendingKycResp)(nil),        // 63: user.ListPendingKycResp
+	(*AdminAuditKycReq)(nil),          // 64: user.AdminAuditKycReq
 }
 var file_user_user_proto_depIdxs = []int32{
 	20, // 0: user.ListAddressesResp.addresses:type_name -> user.Address
 	30, // 1: user.ListAdminsResp.admins:type_name -> user.AdminInfo
 	12, // 2: user.ListUsersResp.users:type_name -> user.GetUserResp
-	0,  // 3: user.User.Register:input_type -> user.RegisterReq
-	2,  // 4: user.User.Login:input_type -> user.LoginReq
-	11, // 5: user.User.GetUser:input_type -> user.GetUserReq
-	13, // 6: user.User.UpdateUser:input_type -> user.UpdateUserReq
-	15, // 7: user.User.AddPoints:input_type -> user.AddPointsReq
-	17, // 8: user.User.DeductPoints:input_type -> user.DeductPointsReq
-	21, // 9: user.User.AddAddress:input_type -> user.AddAddressReq
-	23, // 10: user.User.UpdateAddress:input_type -> user.UpdateAddressReq
-	24, // 11: user.User.DeleteAddress:input_type -> user.DeleteAddressReq
-	25, // 12: user.User.SetDefaultAddress:input_type -> user.SetDefaultAddressReq
-	26, // 13: user.User.ListAddresses:input_type -> user.ListAddressesReq
-	28, // 14: user.User.GetAddress:input_type -> user.GetAddressReq
-	29, // 15: user.User.GetDefaultAddress:input_type -> user.GetDefaultAddressReq
-	31, // 16: user.User.AdminLogin:input_type -> user.AdminLoginReq
-	33, // 17: user.User.CreateAdmin:input_type -> user.CreateAdminReq
-	35, // 18: user.User.ListAdmins:input_type -> user.ListAdminsReq
-	37, // 19: user.User.GetAdminById:input_type -> user.GetAdminByIdReq
-	38, // 20: user.User.UpdateAdminStatus:input_type -> user.UpdateAdminStatusReq
-	39, // 21: user.User.ListUsers:input_type -> user.ListUsersReq
-	41, // 22: user.User.UpdateUserStatus:input_type -> user.UpdateUserStatusReq
-	6,  // 23: user.User.CreateSession:input_type -> user.CreateSessionReq
-	7,  // 24: user.User.ValidateSession:input_type -> user.ValidateSessionReq
-	8,  // 25: user.User.RefreshSession:input_type -> user.RefreshSessionReq
-	9,  // 26: user.User.DestroySession:input_type -> user.DestroySessionReq
-	10, // 27: user.User.DestroyAllUserSessions:input_type -> user.DestroyAllUserSessionsReq
-	1,  // 28: user.User.Register:output_type -> user.RegisterResp
-	3,  // 29: user.User.Login:output_type -> user.LoginResp
-	12, // 30: user.User.GetUser:output_type -> user.GetUserResp
-	14, // 31: user.User.UpdateUser:output_type -> user.UpdateUserResp
-	16, // 32: user.User.AddPoints:output_type -> user.AddPointsResp
-	18, // 33: user.User.DeductPoints:output_type -> user.DeductPointsResp
-	22, // 34: user.User.AddAddress:output_type -> user.AddAddressResp
-	19, // 35: user.User.UpdateAddress:output_type -> user.OkResp
-	19, // 36: user.User.DeleteAddress:output_type -> user.OkResp
-	19, // 37: user.User.SetDefaultAddress:output_type -> user.OkResp
-	27, // 38: user.User.ListAddresses:output_type -> user.ListAddressesResp
-	20, // 39: user.User.GetAddress:output_type -> user.Address
-	20, // 40: user.User.GetDefaultAddress:output_type -> user.Address
-	32, // 41: user.User.AdminLogin:output_type -> user.AdminLoginResp
-	34, // 42: user.User.CreateAdmin:output_type -> user.CreateAdminResp
-	36, // 43: user.User.ListAdmins:output_type -> user.ListAdminsResp
-	30, // 44: user.User.GetAdminById:output_type -> user.AdminInfo
-	19, // 45: user.User.UpdateAdminStatus:output_type -> user.OkResp
-	40, // 46: user.User.ListUsers:output_type -> user.ListUsersResp
-	19, // 47: user.User.UpdateUserStatus:output_type -> user.OkResp
-	5,  // 48: user.User.CreateSession:output_type -> user.SessionInfo
-	5,  // 49: user.User.ValidateSession:output_type -> user.SessionInfo
-	5,  // 50: user.User.RefreshSession:output_type -> user.SessionInfo
-	4,  // 51: user.User.DestroySession:output_type -> user.Empty
-	4,  // 52: user.User.DestroyAllUserSessions:output_type -> user.Empty
-	28, // [28:53] is the sub-list for method output_type
-	3,  // [3:28] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	44, // 3: user.ListAdminIpWhitelistResp.items:type_name -> user.AdminIpWhitelistEntry
+	62, // 4: user.ListPendingKycResp.items:type_name -> user.KycPendingItem
+	0,  // 5: user.User.Register:input_type -> user.RegisterReq
+	2,  // 6: user.User.Login:input_type -> user.LoginReq
+	11, // 7: user.User.GetUser:input_type -> user.GetUserReq
+	13, // 8: user.User.UpdateUser:input_type -> user.UpdateUserReq
+	15, // 9: user.User.AddPoints:input_type -> user.AddPointsReq
+	17, // 10: user.User.DeductPoints:input_type -> user.DeductPointsReq
+	21, // 11: user.User.AddAddress:input_type -> user.AddAddressReq
+	23, // 12: user.User.UpdateAddress:input_type -> user.UpdateAddressReq
+	24, // 13: user.User.DeleteAddress:input_type -> user.DeleteAddressReq
+	25, // 14: user.User.SetDefaultAddress:input_type -> user.SetDefaultAddressReq
+	26, // 15: user.User.ListAddresses:input_type -> user.ListAddressesReq
+	28, // 16: user.User.GetAddress:input_type -> user.GetAddressReq
+	29, // 17: user.User.GetDefaultAddress:input_type -> user.GetDefaultAddressReq
+	31, // 18: user.User.AdminLogin:input_type -> user.AdminLoginReq
+	33, // 19: user.User.CreateAdmin:input_type -> user.CreateAdminReq
+	35, // 20: user.User.ListAdmins:input_type -> user.ListAdminsReq
+	37, // 21: user.User.GetAdminById:input_type -> user.GetAdminByIdReq
+	38, // 22: user.User.UpdateAdminStatus:input_type -> user.UpdateAdminStatusReq
+	39, // 23: user.User.ListUsers:input_type -> user.ListUsersReq
+	41, // 24: user.User.UpdateUserStatus:input_type -> user.UpdateUserStatusReq
+	6,  // 25: user.User.CreateSession:input_type -> user.CreateSessionReq
+	7,  // 26: user.User.ValidateSession:input_type -> user.ValidateSessionReq
+	8,  // 27: user.User.RefreshSession:input_type -> user.RefreshSessionReq
+	9,  // 28: user.User.DestroySession:input_type -> user.DestroySessionReq
+	10, // 29: user.User.DestroyAllUserSessions:input_type -> user.DestroyAllUserSessionsReq
+	42, // 30: user.User.ChangePassword:input_type -> user.ChangePasswordReq
+	45, // 31: user.User.ListAdminIpWhitelist:input_type -> user.ListAdminIpWhitelistReq
+	47, // 32: user.User.AddAdminIpWhitelist:input_type -> user.AddAdminIpWhitelistReq
+	49, // 33: user.User.DeleteAdminIpWhitelist:input_type -> user.DeleteAdminIpWhitelistReq
+	50, // 34: user.User.EnableAdminMfa:input_type -> user.EnableAdminMfaReq
+	52, // 35: user.User.ConfirmAdminMfa:input_type -> user.ConfirmAdminMfaReq
+	53, // 36: user.User.VerifyAdminMfa:input_type -> user.VerifyAdminMfaReq
+	54, // 37: user.User.DisableAdminMfa:input_type -> user.DisableAdminMfaReq
+	55, // 38: user.User.GetAdminMfaStatus:input_type -> user.GetAdminMfaStatusReq
+	57, // 39: user.User.SubmitKyc:input_type -> user.SubmitKycReq
+	59, // 40: user.User.GetKycStatus:input_type -> user.GetKycStatusReq
+	61, // 41: user.User.ListPendingKyc:input_type -> user.ListPendingKycReq
+	64, // 42: user.User.AdminAuditKyc:input_type -> user.AdminAuditKycReq
+	1,  // 43: user.User.Register:output_type -> user.RegisterResp
+	3,  // 44: user.User.Login:output_type -> user.LoginResp
+	12, // 45: user.User.GetUser:output_type -> user.GetUserResp
+	14, // 46: user.User.UpdateUser:output_type -> user.UpdateUserResp
+	16, // 47: user.User.AddPoints:output_type -> user.AddPointsResp
+	18, // 48: user.User.DeductPoints:output_type -> user.DeductPointsResp
+	22, // 49: user.User.AddAddress:output_type -> user.AddAddressResp
+	19, // 50: user.User.UpdateAddress:output_type -> user.OkResp
+	19, // 51: user.User.DeleteAddress:output_type -> user.OkResp
+	19, // 52: user.User.SetDefaultAddress:output_type -> user.OkResp
+	27, // 53: user.User.ListAddresses:output_type -> user.ListAddressesResp
+	20, // 54: user.User.GetAddress:output_type -> user.Address
+	20, // 55: user.User.GetDefaultAddress:output_type -> user.Address
+	32, // 56: user.User.AdminLogin:output_type -> user.AdminLoginResp
+	34, // 57: user.User.CreateAdmin:output_type -> user.CreateAdminResp
+	36, // 58: user.User.ListAdmins:output_type -> user.ListAdminsResp
+	30, // 59: user.User.GetAdminById:output_type -> user.AdminInfo
+	19, // 60: user.User.UpdateAdminStatus:output_type -> user.OkResp
+	40, // 61: user.User.ListUsers:output_type -> user.ListUsersResp
+	19, // 62: user.User.UpdateUserStatus:output_type -> user.OkResp
+	5,  // 63: user.User.CreateSession:output_type -> user.SessionInfo
+	5,  // 64: user.User.ValidateSession:output_type -> user.SessionInfo
+	5,  // 65: user.User.RefreshSession:output_type -> user.SessionInfo
+	4,  // 66: user.User.DestroySession:output_type -> user.Empty
+	4,  // 67: user.User.DestroyAllUserSessions:output_type -> user.Empty
+	43, // 68: user.User.ChangePassword:output_type -> user.ChangePasswordResp
+	46, // 69: user.User.ListAdminIpWhitelist:output_type -> user.ListAdminIpWhitelistResp
+	48, // 70: user.User.AddAdminIpWhitelist:output_type -> user.AddAdminIpWhitelistResp
+	19, // 71: user.User.DeleteAdminIpWhitelist:output_type -> user.OkResp
+	51, // 72: user.User.EnableAdminMfa:output_type -> user.EnableAdminMfaResp
+	19, // 73: user.User.ConfirmAdminMfa:output_type -> user.OkResp
+	19, // 74: user.User.VerifyAdminMfa:output_type -> user.OkResp
+	19, // 75: user.User.DisableAdminMfa:output_type -> user.OkResp
+	56, // 76: user.User.GetAdminMfaStatus:output_type -> user.GetAdminMfaStatusResp
+	58, // 77: user.User.SubmitKyc:output_type -> user.SubmitKycResp
+	60, // 78: user.User.GetKycStatus:output_type -> user.GetKycStatusResp
+	63, // 79: user.User.ListPendingKyc:output_type -> user.ListPendingKycResp
+	19, // 80: user.User.AdminAuditKyc:output_type -> user.OkResp
+	43, // [43:81] is the sub-list for method output_type
+	5,  // [5:43] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_user_user_proto_init() }
@@ -2858,7 +4398,7 @@ func file_user_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_user_proto_rawDesc), len(file_user_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   42,
+			NumMessages:   65,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

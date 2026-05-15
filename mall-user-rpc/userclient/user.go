@@ -57,6 +57,37 @@ type (
 	UpdateUserStatusReq       = user.UpdateUserStatusReq
 	ValidateSessionReq        = user.ValidateSessionReq
 
+	// S4.3 password policy
+	ChangePasswordReq  = user.ChangePasswordReq
+	ChangePasswordResp = user.ChangePasswordResp
+
+	// S4.2 admin IP whitelist
+	AdminIpWhitelistEntry     = user.AdminIpWhitelistEntry
+	ListAdminIpWhitelistReq   = user.ListAdminIpWhitelistReq
+	ListAdminIpWhitelistResp  = user.ListAdminIpWhitelistResp
+	AddAdminIpWhitelistReq    = user.AddAdminIpWhitelistReq
+	AddAdminIpWhitelistResp   = user.AddAdminIpWhitelistResp
+	DeleteAdminIpWhitelistReq = user.DeleteAdminIpWhitelistReq
+
+	// S4.1 admin MFA
+	EnableAdminMfaReq     = user.EnableAdminMfaReq
+	EnableAdminMfaResp    = user.EnableAdminMfaResp
+	ConfirmAdminMfaReq    = user.ConfirmAdminMfaReq
+	VerifyAdminMfaReq     = user.VerifyAdminMfaReq
+	DisableAdminMfaReq    = user.DisableAdminMfaReq
+	GetAdminMfaStatusReq  = user.GetAdminMfaStatusReq
+	GetAdminMfaStatusResp = user.GetAdminMfaStatusResp
+
+	// S4.4 KYC
+	SubmitKycReq       = user.SubmitKycReq
+	SubmitKycResp      = user.SubmitKycResp
+	GetKycStatusReq    = user.GetKycStatusReq
+	GetKycStatusResp   = user.GetKycStatusResp
+	ListPendingKycReq  = user.ListPendingKycReq
+	ListPendingKycResp = user.ListPendingKycResp
+	KycPendingItem     = user.KycPendingItem
+	AdminAuditKycReq   = user.AdminAuditKycReq
+
 	User interface {
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
@@ -83,6 +114,27 @@ type (
 		RefreshSession(ctx context.Context, in *RefreshSessionReq, opts ...grpc.CallOption) (*SessionInfo, error)
 		DestroySession(ctx context.Context, in *DestroySessionReq, opts ...grpc.CallOption) (*Empty, error)
 		DestroyAllUserSessions(ctx context.Context, in *DestroyAllUserSessionsReq, opts ...grpc.CallOption) (*Empty, error)
+
+		// S4.3 password policy
+		ChangePassword(ctx context.Context, in *ChangePasswordReq, opts ...grpc.CallOption) (*ChangePasswordResp, error)
+
+		// S4.2 admin IP whitelist
+		ListAdminIpWhitelist(ctx context.Context, in *ListAdminIpWhitelistReq, opts ...grpc.CallOption) (*ListAdminIpWhitelistResp, error)
+		AddAdminIpWhitelist(ctx context.Context, in *AddAdminIpWhitelistReq, opts ...grpc.CallOption) (*AddAdminIpWhitelistResp, error)
+		DeleteAdminIpWhitelist(ctx context.Context, in *DeleteAdminIpWhitelistReq, opts ...grpc.CallOption) (*OkResp, error)
+
+		// S4.1 admin MFA
+		EnableAdminMfa(ctx context.Context, in *EnableAdminMfaReq, opts ...grpc.CallOption) (*EnableAdminMfaResp, error)
+		ConfirmAdminMfa(ctx context.Context, in *ConfirmAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error)
+		VerifyAdminMfa(ctx context.Context, in *VerifyAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error)
+		DisableAdminMfa(ctx context.Context, in *DisableAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error)
+		GetAdminMfaStatus(ctx context.Context, in *GetAdminMfaStatusReq, opts ...grpc.CallOption) (*GetAdminMfaStatusResp, error)
+
+		// S4.4 KYC
+		SubmitKyc(ctx context.Context, in *SubmitKycReq, opts ...grpc.CallOption) (*SubmitKycResp, error)
+		GetKycStatus(ctx context.Context, in *GetKycStatusReq, opts ...grpc.CallOption) (*GetKycStatusResp, error)
+		ListPendingKyc(ctx context.Context, in *ListPendingKycReq, opts ...grpc.CallOption) (*ListPendingKycResp, error)
+		AdminAuditKyc(ctx context.Context, in *AdminAuditKycReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultUser struct {
@@ -219,4 +271,56 @@ func (m *defaultUser) DestroySession(ctx context.Context, in *DestroySessionReq,
 func (m *defaultUser) DestroyAllUserSessions(ctx context.Context, in *DestroyAllUserSessionsReq, opts ...grpc.CallOption) (*Empty, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.DestroyAllUserSessions(ctx, in, opts...)
+}
+
+func (m *defaultUser) ChangePassword(ctx context.Context, in *ChangePasswordReq, opts ...grpc.CallOption) (*ChangePasswordResp, error) {
+	return user.NewUserClient(m.cli.Conn()).ChangePassword(ctx, in, opts...)
+}
+
+func (m *defaultUser) ListAdminIpWhitelist(ctx context.Context, in *ListAdminIpWhitelistReq, opts ...grpc.CallOption) (*ListAdminIpWhitelistResp, error) {
+	return user.NewUserClient(m.cli.Conn()).ListAdminIpWhitelist(ctx, in, opts...)
+}
+
+func (m *defaultUser) AddAdminIpWhitelist(ctx context.Context, in *AddAdminIpWhitelistReq, opts ...grpc.CallOption) (*AddAdminIpWhitelistResp, error) {
+	return user.NewUserClient(m.cli.Conn()).AddAdminIpWhitelist(ctx, in, opts...)
+}
+
+func (m *defaultUser) DeleteAdminIpWhitelist(ctx context.Context, in *DeleteAdminIpWhitelistReq, opts ...grpc.CallOption) (*OkResp, error) {
+	return user.NewUserClient(m.cli.Conn()).DeleteAdminIpWhitelist(ctx, in, opts...)
+}
+
+func (m *defaultUser) EnableAdminMfa(ctx context.Context, in *EnableAdminMfaReq, opts ...grpc.CallOption) (*EnableAdminMfaResp, error) {
+	return user.NewUserClient(m.cli.Conn()).EnableAdminMfa(ctx, in, opts...)
+}
+
+func (m *defaultUser) ConfirmAdminMfa(ctx context.Context, in *ConfirmAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error) {
+	return user.NewUserClient(m.cli.Conn()).ConfirmAdminMfa(ctx, in, opts...)
+}
+
+func (m *defaultUser) VerifyAdminMfa(ctx context.Context, in *VerifyAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error) {
+	return user.NewUserClient(m.cli.Conn()).VerifyAdminMfa(ctx, in, opts...)
+}
+
+func (m *defaultUser) DisableAdminMfa(ctx context.Context, in *DisableAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error) {
+	return user.NewUserClient(m.cli.Conn()).DisableAdminMfa(ctx, in, opts...)
+}
+
+func (m *defaultUser) GetAdminMfaStatus(ctx context.Context, in *GetAdminMfaStatusReq, opts ...grpc.CallOption) (*GetAdminMfaStatusResp, error) {
+	return user.NewUserClient(m.cli.Conn()).GetAdminMfaStatus(ctx, in, opts...)
+}
+
+func (m *defaultUser) SubmitKyc(ctx context.Context, in *SubmitKycReq, opts ...grpc.CallOption) (*SubmitKycResp, error) {
+	return user.NewUserClient(m.cli.Conn()).SubmitKyc(ctx, in, opts...)
+}
+
+func (m *defaultUser) GetKycStatus(ctx context.Context, in *GetKycStatusReq, opts ...grpc.CallOption) (*GetKycStatusResp, error) {
+	return user.NewUserClient(m.cli.Conn()).GetKycStatus(ctx, in, opts...)
+}
+
+func (m *defaultUser) ListPendingKyc(ctx context.Context, in *ListPendingKycReq, opts ...grpc.CallOption) (*ListPendingKycResp, error) {
+	return user.NewUserClient(m.cli.Conn()).ListPendingKyc(ctx, in, opts...)
+}
+
+func (m *defaultUser) AdminAuditKyc(ctx context.Context, in *AdminAuditKycReq, opts ...grpc.CallOption) (*OkResp, error) {
+	return user.NewUserClient(m.cli.Conn()).AdminAuditKyc(ctx, in, opts...)
 }

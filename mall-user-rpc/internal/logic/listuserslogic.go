@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"mall-common/cryptox"
 	"mall-user-rpc/internal/svc"
 	"mall-user-rpc/user"
 
@@ -70,10 +71,17 @@ func (l *ListUsersLogic) ListUsers(in *user.ListUsersReq) (*user.ListUsersResp, 
 
 	out := make([]*user.GetUserResp, 0, len(rows))
 	for _, r := range rows {
+		// S4.6 dual-read: decrypt v1: blobs, pass legacy plaintext through.
+		// On decrypt error log + show empty so admin UI doesn't leak garbage.
+		phone, err := cryptox.DecryptIfCiphertext(r.Phone)
+		if err != nil {
+			l.Logger.Errorf("ListUsers: decrypt phone for uid=%d failed: %v", r.Id, err)
+			phone = ""
+		}
 		out = append(out, &user.GetUserResp{
 			Id:         int64(r.Id),
 			Username:   r.Username,
-			Phone:      r.Phone,
+			Phone:      phone,
 			Avatar:     r.Avatar,
 			CreateTime: r.CreateTime.Unix(),
 		})

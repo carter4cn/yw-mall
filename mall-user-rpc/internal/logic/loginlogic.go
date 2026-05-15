@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"errors"
 
 	"mall-user-rpc/internal/model"
 	"mall-user-rpc/internal/svc"
@@ -33,6 +34,9 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 // refresh_token, expires_in and csrf_token so mall-api can pass them straight
 // through to the browser in one RPC. `token` stays populated (= access_token)
 // for backward compatibility with the old `/api/user/login` contract.
+//
+// S4.5 hardening: refuse login when status=2 (account erased per data/erase).
+// S4.3 hardening: surface password_expired so the gateway can force a rotation.
 func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 	u, err := l.lookupUser(in.Username)
 	if err != nil {
@@ -42,6 +46,26 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 	if err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(in.Password)); err != nil {
 		return nil, err
 	}
+
+	// Account-erased gate (S4.5). user table column `status` is owned by an
+	// earlier migration; 0=disabled, 1=active, 2=erased. We rely on a raw
+	// SELECT because the goctl-generated model ignores the column.
+	var status int32
+	if err := l.svcCtx.DB.QueryRowCtx(l.ctx, &status,
+		"SELECT status FROM `user` WHERE id=? LIMIT 1", u.Id); err == nil {
+		if status == 2 {
+			return nil, errors.New("账号已注销，无法登录")
+		}
+		if status == 0 {
+			return nil, errors.New("账号已停用")
+		}
+	}
+
+	// last_password_change for S4.3 expiry. Column added by S4.3 DDL; if the
+	// query errors out (column not present yet) we treat it as 0 = never.
+	var lastChange int64
+	_ = l.svcCtx.DB.QueryRowCtx(l.ctx, &lastChange,
+		"SELECT COALESCE(last_password_change,0) FROM `user` WHERE id=? LIMIT 1", u.Id)
 
 	sess, err := NewCreateSessionLogic(l.ctx, l.svcCtx).CreateSession(&user.CreateSessionReq{
 		Uid:      int64(u.Id),
@@ -53,11 +77,12 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 	}
 
 	return &user.LoginResp{
-		Id:           sess.Uid,
-		Token:        sess.AccessToken,
-		RefreshToken: sess.RefreshToken,
-		ExpiresIn:    sess.ExpiresIn,
-		CsrfToken:    sess.CsrfToken,
+		Id:              sess.Uid,
+		Token:           sess.AccessToken,
+		RefreshToken:    sess.RefreshToken,
+		ExpiresIn:       sess.ExpiresIn,
+		CsrfToken:       sess.CsrfToken,
+		PasswordExpired: passwordExpired(lastChange, l.svcCtx.PasswordPolicy.MaxAgeDays),
 	}, nil
 }
 

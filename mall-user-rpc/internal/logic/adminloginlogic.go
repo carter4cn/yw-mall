@@ -43,10 +43,24 @@ func (l *AdminLoginLogic) AdminLogin(in *user.AdminLoginReq) (*user.AdminLoginRe
 	if err := bcrypt.CompareHashAndPassword([]byte(a.PasswordHash), []byte(in.Password)); err != nil {
 		return nil, errors.New("wrong password")
 	}
+
+	// S4.3 expiry hint. Column added by S4.3 DDL; if absent, default 0 = never.
+	var lastChange int64
+	_ = l.svcCtx.DB.QueryRowCtx(l.ctx, &lastChange,
+		"SELECT COALESCE(last_password_change,0) FROM admin_user WHERE id=? LIMIT 1", a.Id)
+
+	// S4.1 MFA hint. Gateway uses this to issue the challenge token instead of
+	// minting a session right away. Column belongs to admin_mfa.enabled.
+	var mfaEnabled int32
+	_ = l.svcCtx.DB.QueryRowCtx(l.ctx, &mfaEnabled,
+		"SELECT enabled FROM admin_mfa WHERE admin_id=? LIMIT 1", a.Id)
+
 	return &user.AdminLoginResp{
-		Id:          int64(a.Id),
-		Username:    a.Username,
-		Role:        a.Role,
-		Permissions: a.Permissions,
+		Id:              int64(a.Id),
+		Username:        a.Username,
+		Role:            a.Role,
+		Permissions:     a.Permissions,
+		PasswordExpired: passwordExpired(lastChange, l.svcCtx.PasswordPolicy.MaxAgeDays),
+		MfaRequired:     mfaEnabled == 1,
 	}, nil
 }

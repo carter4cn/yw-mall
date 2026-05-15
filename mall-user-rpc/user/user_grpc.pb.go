@@ -44,6 +44,19 @@ const (
 	User_RefreshSession_FullMethodName         = "/user.User/RefreshSession"
 	User_DestroySession_FullMethodName         = "/user.User/DestroySession"
 	User_DestroyAllUserSessions_FullMethodName = "/user.User/DestroyAllUserSessions"
+	User_ChangePassword_FullMethodName         = "/user.User/ChangePassword"
+	User_ListAdminIpWhitelist_FullMethodName   = "/user.User/ListAdminIpWhitelist"
+	User_AddAdminIpWhitelist_FullMethodName    = "/user.User/AddAdminIpWhitelist"
+	User_DeleteAdminIpWhitelist_FullMethodName = "/user.User/DeleteAdminIpWhitelist"
+	User_EnableAdminMfa_FullMethodName         = "/user.User/EnableAdminMfa"
+	User_ConfirmAdminMfa_FullMethodName        = "/user.User/ConfirmAdminMfa"
+	User_VerifyAdminMfa_FullMethodName         = "/user.User/VerifyAdminMfa"
+	User_DisableAdminMfa_FullMethodName        = "/user.User/DisableAdminMfa"
+	User_GetAdminMfaStatus_FullMethodName      = "/user.User/GetAdminMfaStatus"
+	User_SubmitKyc_FullMethodName              = "/user.User/SubmitKyc"
+	User_GetKycStatus_FullMethodName           = "/user.User/GetKycStatus"
+	User_ListPendingKyc_FullMethodName         = "/user.User/ListPendingKyc"
+	User_AdminAuditKyc_FullMethodName          = "/user.User/AdminAuditKyc"
 )
 
 // UserClient is the client API for User service.
@@ -76,6 +89,23 @@ type UserClient interface {
 	RefreshSession(ctx context.Context, in *RefreshSessionReq, opts ...grpc.CallOption) (*SessionInfo, error)
 	DestroySession(ctx context.Context, in *DestroySessionReq, opts ...grpc.CallOption) (*Empty, error)
 	DestroyAllUserSessions(ctx context.Context, in *DestroyAllUserSessionsReq, opts ...grpc.CallOption) (*Empty, error)
+	// S4.3 password policy
+	ChangePassword(ctx context.Context, in *ChangePasswordReq, opts ...grpc.CallOption) (*ChangePasswordResp, error)
+	// S4.2 admin IP whitelist
+	ListAdminIpWhitelist(ctx context.Context, in *ListAdminIpWhitelistReq, opts ...grpc.CallOption) (*ListAdminIpWhitelistResp, error)
+	AddAdminIpWhitelist(ctx context.Context, in *AddAdminIpWhitelistReq, opts ...grpc.CallOption) (*AddAdminIpWhitelistResp, error)
+	DeleteAdminIpWhitelist(ctx context.Context, in *DeleteAdminIpWhitelistReq, opts ...grpc.CallOption) (*OkResp, error)
+	// S4.1 admin MFA
+	EnableAdminMfa(ctx context.Context, in *EnableAdminMfaReq, opts ...grpc.CallOption) (*EnableAdminMfaResp, error)
+	ConfirmAdminMfa(ctx context.Context, in *ConfirmAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error)
+	VerifyAdminMfa(ctx context.Context, in *VerifyAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error)
+	DisableAdminMfa(ctx context.Context, in *DisableAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error)
+	GetAdminMfaStatus(ctx context.Context, in *GetAdminMfaStatusReq, opts ...grpc.CallOption) (*GetAdminMfaStatusResp, error)
+	// S4.4 KYC
+	SubmitKyc(ctx context.Context, in *SubmitKycReq, opts ...grpc.CallOption) (*SubmitKycResp, error)
+	GetKycStatus(ctx context.Context, in *GetKycStatusReq, opts ...grpc.CallOption) (*GetKycStatusResp, error)
+	ListPendingKyc(ctx context.Context, in *ListPendingKycReq, opts ...grpc.CallOption) (*ListPendingKycResp, error)
+	AdminAuditKyc(ctx context.Context, in *AdminAuditKycReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type userClient struct {
@@ -336,6 +366,136 @@ func (c *userClient) DestroyAllUserSessions(ctx context.Context, in *DestroyAllU
 	return out, nil
 }
 
+func (c *userClient) ChangePassword(ctx context.Context, in *ChangePasswordReq, opts ...grpc.CallOption) (*ChangePasswordResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ChangePasswordResp)
+	err := c.cc.Invoke(ctx, User_ChangePassword_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ListAdminIpWhitelist(ctx context.Context, in *ListAdminIpWhitelistReq, opts ...grpc.CallOption) (*ListAdminIpWhitelistResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListAdminIpWhitelistResp)
+	err := c.cc.Invoke(ctx, User_ListAdminIpWhitelist_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) AddAdminIpWhitelist(ctx context.Context, in *AddAdminIpWhitelistReq, opts ...grpc.CallOption) (*AddAdminIpWhitelistResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddAdminIpWhitelistResp)
+	err := c.cc.Invoke(ctx, User_AddAdminIpWhitelist_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DeleteAdminIpWhitelist(ctx context.Context, in *DeleteAdminIpWhitelistReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, User_DeleteAdminIpWhitelist_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) EnableAdminMfa(ctx context.Context, in *EnableAdminMfaReq, opts ...grpc.CallOption) (*EnableAdminMfaResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EnableAdminMfaResp)
+	err := c.cc.Invoke(ctx, User_EnableAdminMfa_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ConfirmAdminMfa(ctx context.Context, in *ConfirmAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, User_ConfirmAdminMfa_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) VerifyAdminMfa(ctx context.Context, in *VerifyAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, User_VerifyAdminMfa_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DisableAdminMfa(ctx context.Context, in *DisableAdminMfaReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, User_DisableAdminMfa_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetAdminMfaStatus(ctx context.Context, in *GetAdminMfaStatusReq, opts ...grpc.CallOption) (*GetAdminMfaStatusResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAdminMfaStatusResp)
+	err := c.cc.Invoke(ctx, User_GetAdminMfaStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) SubmitKyc(ctx context.Context, in *SubmitKycReq, opts ...grpc.CallOption) (*SubmitKycResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SubmitKycResp)
+	err := c.cc.Invoke(ctx, User_SubmitKyc_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetKycStatus(ctx context.Context, in *GetKycStatusReq, opts ...grpc.CallOption) (*GetKycStatusResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetKycStatusResp)
+	err := c.cc.Invoke(ctx, User_GetKycStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ListPendingKyc(ctx context.Context, in *ListPendingKycReq, opts ...grpc.CallOption) (*ListPendingKycResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListPendingKycResp)
+	err := c.cc.Invoke(ctx, User_ListPendingKyc_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) AdminAuditKyc(ctx context.Context, in *AdminAuditKycReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, User_AdminAuditKyc_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
@@ -366,6 +526,23 @@ type UserServer interface {
 	RefreshSession(context.Context, *RefreshSessionReq) (*SessionInfo, error)
 	DestroySession(context.Context, *DestroySessionReq) (*Empty, error)
 	DestroyAllUserSessions(context.Context, *DestroyAllUserSessionsReq) (*Empty, error)
+	// S4.3 password policy
+	ChangePassword(context.Context, *ChangePasswordReq) (*ChangePasswordResp, error)
+	// S4.2 admin IP whitelist
+	ListAdminIpWhitelist(context.Context, *ListAdminIpWhitelistReq) (*ListAdminIpWhitelistResp, error)
+	AddAdminIpWhitelist(context.Context, *AddAdminIpWhitelistReq) (*AddAdminIpWhitelistResp, error)
+	DeleteAdminIpWhitelist(context.Context, *DeleteAdminIpWhitelistReq) (*OkResp, error)
+	// S4.1 admin MFA
+	EnableAdminMfa(context.Context, *EnableAdminMfaReq) (*EnableAdminMfaResp, error)
+	ConfirmAdminMfa(context.Context, *ConfirmAdminMfaReq) (*OkResp, error)
+	VerifyAdminMfa(context.Context, *VerifyAdminMfaReq) (*OkResp, error)
+	DisableAdminMfa(context.Context, *DisableAdminMfaReq) (*OkResp, error)
+	GetAdminMfaStatus(context.Context, *GetAdminMfaStatusReq) (*GetAdminMfaStatusResp, error)
+	// S4.4 KYC
+	SubmitKyc(context.Context, *SubmitKycReq) (*SubmitKycResp, error)
+	GetKycStatus(context.Context, *GetKycStatusReq) (*GetKycStatusResp, error)
+	ListPendingKyc(context.Context, *ListPendingKycReq) (*ListPendingKycResp, error)
+	AdminAuditKyc(context.Context, *AdminAuditKycReq) (*OkResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -450,6 +627,45 @@ func (UnimplementedUserServer) DestroySession(context.Context, *DestroySessionRe
 }
 func (UnimplementedUserServer) DestroyAllUserSessions(context.Context, *DestroyAllUserSessionsReq) (*Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method DestroyAllUserSessions not implemented")
+}
+func (UnimplementedUserServer) ChangePassword(context.Context, *ChangePasswordReq) (*ChangePasswordResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ChangePassword not implemented")
+}
+func (UnimplementedUserServer) ListAdminIpWhitelist(context.Context, *ListAdminIpWhitelistReq) (*ListAdminIpWhitelistResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListAdminIpWhitelist not implemented")
+}
+func (UnimplementedUserServer) AddAdminIpWhitelist(context.Context, *AddAdminIpWhitelistReq) (*AddAdminIpWhitelistResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddAdminIpWhitelist not implemented")
+}
+func (UnimplementedUserServer) DeleteAdminIpWhitelist(context.Context, *DeleteAdminIpWhitelistReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteAdminIpWhitelist not implemented")
+}
+func (UnimplementedUserServer) EnableAdminMfa(context.Context, *EnableAdminMfaReq) (*EnableAdminMfaResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method EnableAdminMfa not implemented")
+}
+func (UnimplementedUserServer) ConfirmAdminMfa(context.Context, *ConfirmAdminMfaReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ConfirmAdminMfa not implemented")
+}
+func (UnimplementedUserServer) VerifyAdminMfa(context.Context, *VerifyAdminMfaReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method VerifyAdminMfa not implemented")
+}
+func (UnimplementedUserServer) DisableAdminMfa(context.Context, *DisableAdminMfaReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method DisableAdminMfa not implemented")
+}
+func (UnimplementedUserServer) GetAdminMfaStatus(context.Context, *GetAdminMfaStatusReq) (*GetAdminMfaStatusResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAdminMfaStatus not implemented")
+}
+func (UnimplementedUserServer) SubmitKyc(context.Context, *SubmitKycReq) (*SubmitKycResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method SubmitKyc not implemented")
+}
+func (UnimplementedUserServer) GetKycStatus(context.Context, *GetKycStatusReq) (*GetKycStatusResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetKycStatus not implemented")
+}
+func (UnimplementedUserServer) ListPendingKyc(context.Context, *ListPendingKycReq) (*ListPendingKycResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListPendingKyc not implemented")
+}
+func (UnimplementedUserServer) AdminAuditKyc(context.Context, *AdminAuditKycReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method AdminAuditKyc not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -922,6 +1138,240 @@ func _User_DestroyAllUserSessions_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangePasswordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ChangePassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ChangePassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ChangePassword(ctx, req.(*ChangePasswordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ListAdminIpWhitelist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAdminIpWhitelistReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ListAdminIpWhitelist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ListAdminIpWhitelist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ListAdminIpWhitelist(ctx, req.(*ListAdminIpWhitelistReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_AddAdminIpWhitelist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddAdminIpWhitelistReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).AddAdminIpWhitelist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_AddAdminIpWhitelist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).AddAdminIpWhitelist(ctx, req.(*AddAdminIpWhitelistReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DeleteAdminIpWhitelist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAdminIpWhitelistReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DeleteAdminIpWhitelist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DeleteAdminIpWhitelist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DeleteAdminIpWhitelist(ctx, req.(*DeleteAdminIpWhitelistReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_EnableAdminMfa_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EnableAdminMfaReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).EnableAdminMfa(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_EnableAdminMfa_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).EnableAdminMfa(ctx, req.(*EnableAdminMfaReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ConfirmAdminMfa_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmAdminMfaReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ConfirmAdminMfa(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ConfirmAdminMfa_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ConfirmAdminMfa(ctx, req.(*ConfirmAdminMfaReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_VerifyAdminMfa_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyAdminMfaReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).VerifyAdminMfa(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_VerifyAdminMfa_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).VerifyAdminMfa(ctx, req.(*VerifyAdminMfaReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DisableAdminMfa_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DisableAdminMfaReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DisableAdminMfa(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DisableAdminMfa_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DisableAdminMfa(ctx, req.(*DisableAdminMfaReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetAdminMfaStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAdminMfaStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetAdminMfaStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetAdminMfaStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetAdminMfaStatus(ctx, req.(*GetAdminMfaStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_SubmitKyc_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitKycReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).SubmitKyc(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_SubmitKyc_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).SubmitKyc(ctx, req.(*SubmitKycReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetKycStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKycStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetKycStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetKycStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetKycStatus(ctx, req.(*GetKycStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ListPendingKyc_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPendingKycReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ListPendingKyc(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ListPendingKyc_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ListPendingKyc(ctx, req.(*ListPendingKycReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_AdminAuditKyc_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminAuditKycReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).AdminAuditKyc(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_AdminAuditKyc_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).AdminAuditKyc(ctx, req.(*AdminAuditKycReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1028,6 +1478,58 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DestroyAllUserSessions",
 			Handler:    _User_DestroyAllUserSessions_Handler,
+		},
+		{
+			MethodName: "ChangePassword",
+			Handler:    _User_ChangePassword_Handler,
+		},
+		{
+			MethodName: "ListAdminIpWhitelist",
+			Handler:    _User_ListAdminIpWhitelist_Handler,
+		},
+		{
+			MethodName: "AddAdminIpWhitelist",
+			Handler:    _User_AddAdminIpWhitelist_Handler,
+		},
+		{
+			MethodName: "DeleteAdminIpWhitelist",
+			Handler:    _User_DeleteAdminIpWhitelist_Handler,
+		},
+		{
+			MethodName: "EnableAdminMfa",
+			Handler:    _User_EnableAdminMfa_Handler,
+		},
+		{
+			MethodName: "ConfirmAdminMfa",
+			Handler:    _User_ConfirmAdminMfa_Handler,
+		},
+		{
+			MethodName: "VerifyAdminMfa",
+			Handler:    _User_VerifyAdminMfa_Handler,
+		},
+		{
+			MethodName: "DisableAdminMfa",
+			Handler:    _User_DisableAdminMfa_Handler,
+		},
+		{
+			MethodName: "GetAdminMfaStatus",
+			Handler:    _User_GetAdminMfaStatus_Handler,
+		},
+		{
+			MethodName: "SubmitKyc",
+			Handler:    _User_SubmitKyc_Handler,
+		},
+		{
+			MethodName: "GetKycStatus",
+			Handler:    _User_GetKycStatus_Handler,
+		},
+		{
+			MethodName: "ListPendingKyc",
+			Handler:    _User_ListPendingKyc_Handler,
+		},
+		{
+			MethodName: "AdminAuditKyc",
+			Handler:    _User_AdminAuditKyc_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

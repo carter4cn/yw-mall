@@ -147,3 +147,57 @@ func (s *UserServer) DestroyAllUserSessions(ctx context.Context, in *user.Destro
 	l := logic.NewDestroyAllUserSessionsLogic(ctx, s.svcCtx)
 	return l.DestroyAllUserSessions(in)
 }
+
+// ===== Sprint 4 =====
+
+func (s *UserServer) ChangePassword(ctx context.Context, in *user.ChangePasswordReq) (*user.ChangePasswordResp, error) {
+	return logic.NewChangePasswordLogic(ctx, s.svcCtx).ChangePassword(in)
+}
+
+func (s *UserServer) ListAdminIpWhitelist(ctx context.Context, in *user.ListAdminIpWhitelistReq) (*user.ListAdminIpWhitelistResp, error) {
+	return logic.NewIpWhitelistLogic(ctx, s.svcCtx).List(in)
+}
+
+func (s *UserServer) AddAdminIpWhitelist(ctx context.Context, in *user.AddAdminIpWhitelistReq) (*user.AddAdminIpWhitelistResp, error) {
+	return logic.NewIpWhitelistLogic(ctx, s.svcCtx).Add(in)
+}
+
+func (s *UserServer) DeleteAdminIpWhitelist(ctx context.Context, in *user.DeleteAdminIpWhitelistReq) (*user.OkResp, error) {
+	return logic.NewIpWhitelistLogic(ctx, s.svcCtx).Delete(in)
+}
+
+func (s *UserServer) EnableAdminMfa(ctx context.Context, in *user.EnableAdminMfaReq) (*user.EnableAdminMfaResp, error) {
+	return logic.NewMfaLogic(ctx, s.svcCtx).Enable(in)
+}
+
+func (s *UserServer) ConfirmAdminMfa(ctx context.Context, in *user.ConfirmAdminMfaReq) (*user.OkResp, error) {
+	return logic.NewMfaLogic(ctx, s.svcCtx).Confirm(in)
+}
+
+func (s *UserServer) VerifyAdminMfa(ctx context.Context, in *user.VerifyAdminMfaReq) (*user.OkResp, error) {
+	return logic.NewMfaLogic(ctx, s.svcCtx).Verify(in)
+}
+
+func (s *UserServer) DisableAdminMfa(ctx context.Context, in *user.DisableAdminMfaReq) (*user.OkResp, error) {
+	return logic.NewMfaLogic(ctx, s.svcCtx).Disable(in)
+}
+
+func (s *UserServer) GetAdminMfaStatus(ctx context.Context, in *user.GetAdminMfaStatusReq) (*user.GetAdminMfaStatusResp, error) {
+	return logic.NewMfaLogic(ctx, s.svcCtx).Status(in)
+}
+
+func (s *UserServer) SubmitKyc(ctx context.Context, in *user.SubmitKycReq) (*user.SubmitKycResp, error) {
+	return logic.NewKycLogic(ctx, s.svcCtx).Submit(in)
+}
+
+func (s *UserServer) GetKycStatus(ctx context.Context, in *user.GetKycStatusReq) (*user.GetKycStatusResp, error) {
+	return logic.NewKycLogic(ctx, s.svcCtx).Status(in)
+}
+
+func (s *UserServer) ListPendingKyc(ctx context.Context, in *user.ListPendingKycReq) (*user.ListPendingKycResp, error) {
+	return logic.NewKycLogic(ctx, s.svcCtx).ListPending(in)
+}
+
+func (s *UserServer) AdminAuditKyc(ctx context.Context, in *user.AdminAuditKycReq) (*user.OkResp, error) {
+	return logic.NewKycLogic(ctx, s.svcCtx).AdminAudit(in)
+}

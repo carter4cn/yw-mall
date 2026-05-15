@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 
+	"mall-common/cryptox"
 	"mall-user-rpc/internal/svc"
 	"mall-user-rpc/user"
 
@@ -29,7 +30,12 @@ func (l *UpdateUserLogic) UpdateUser(in *user.UpdateUserReq) (*user.UpdateUserRe
 		return nil, err
 	}
 
-	u.Phone = in.Phone
+	// S4.6 always encrypt phone before persisting; empty stays empty.
+	phoneEnc, err := cryptox.Encrypt(in.Phone)
+	if err != nil {
+		return nil, err
+	}
+	u.Phone = phoneEnc
 	u.Avatar = in.Avatar
 	err = l.svcCtx.UserModel.Update(l.ctx, u)
 	if err != nil {

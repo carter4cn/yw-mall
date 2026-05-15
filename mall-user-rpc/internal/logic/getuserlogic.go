@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 
+	"mall-common/cryptox"
 	"mall-user-rpc/internal/svc"
 	"mall-user-rpc/user"
 
@@ -29,10 +30,18 @@ func (l *GetUserLogic) GetUser(in *user.GetUserReq) (*user.GetUserResp, error) {
 		return nil, err
 	}
 
+	// S4.6 decrypt phone if it was stored encrypted; legacy plaintext rows
+	// pass through unchanged thanks to IsCiphertext gate.
+	phone, err := cryptox.DecryptIfCiphertext(u.Phone)
+	if err != nil {
+		l.Logger.Errorf("GetUser: decrypt phone for uid=%d failed: %v", in.Id, err)
+		phone = ""
+	}
+
 	return &user.GetUserResp{
 		Id:         int64(u.Id),
 		Username:   u.Username,
-		Phone:      u.Phone,
+		Phone:      phone,
 		Avatar:     u.Avatar,
 		CreateTime: u.CreateTime.Unix(),
 	}, nil

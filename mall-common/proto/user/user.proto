@@ -25,6 +25,8 @@ message LoginResp {
   string refresh_token = 3;
   int32 expires_in = 4;        // access_token TTL in seconds
   string csrf_token = 5;
+  // S4.3 password expiry: front-end must reLaunch to change-password.
+  bool password_expired = 6;
 }
 
 // ===== Session (P0 login revamp: opaque token + Redis) =====
@@ -152,7 +154,19 @@ message AdminInfo {
 }
 
 message AdminLoginReq { string username = 1; string password = 2; }
-message AdminLoginResp { int64 id = 1; string username = 2; string role = 3; string permissions = 4; }
+message AdminLoginResp {
+  int64 id = 1;
+  string username = 2;
+  string role = 3;
+  string permissions = 4;
+  // S4.3: when the stored last_password_change is older than the policy's
+  // MaxAgeDays the gateway must redirect the admin to the change-password page.
+  bool password_expired = 5;
+  // S4.1: when the admin has MFA enabled the gateway must NOT mint a session;
+  // it returns mfa_required + a short-lived challenge token instead.
+  bool mfa_required = 6;
+  string challenge_token = 7;
+}
 
 message CreateAdminReq { string username = 1; string password = 2; string email = 3; string role = 4; string permissions = 5; }
 message CreateAdminResp { int64 id = 1; }
@@ -169,6 +183,83 @@ message ListUsersReq { int32 page = 1; int32 page_size = 2; string keyword = 3; 
 message ListUsersResp { repeated GetUserResp users = 1; int64 total = 2; }
 
 message UpdateUserStatusReq { int64 id = 1; int32 status = 2; }
+
+// ===== S4.3 ChangePassword =====
+// SubjectType: 1=user, 2=admin. The RPC verifies oldPassword, runs the
+// strength + history check on newPassword, and bumps last_password_change.
+message ChangePasswordReq {
+  int32 subject_type = 1;
+  int64 subject_id = 2;
+  string old_password = 3;
+  string new_password = 4;
+}
+message ChangePasswordResp { bool ok = 1; }
+
+// ===== S4.2 Admin IP whitelist =====
+message AdminIpWhitelistEntry {
+  int64 id = 1;
+  int64 admin_id = 2;
+  string cidr = 3;
+  string note = 4;
+  int64 create_time = 5;
+}
+message ListAdminIpWhitelistReq { int64 admin_id = 1; }
+message ListAdminIpWhitelistResp { repeated AdminIpWhitelistEntry items = 1; }
+message AddAdminIpWhitelistReq { int64 admin_id = 1; string cidr = 2; string note = 3; }
+message AddAdminIpWhitelistResp { int64 id = 1; }
+message DeleteAdminIpWhitelistReq { int64 id = 1; int64 admin_id = 2; }
+
+// ===== S4.1 Admin MFA (TOTP) =====
+message EnableAdminMfaReq { int64 admin_id = 1; }
+message EnableAdminMfaResp {
+  string totp_secret = 1;
+  string qr_url = 2;
+  repeated string backup_codes = 3;
+}
+message ConfirmAdminMfaReq { int64 admin_id = 1; string code = 2; }
+message VerifyAdminMfaReq { int64 admin_id = 1; string code = 2; }
+message DisableAdminMfaReq { int64 admin_id = 1; string code = 2; }
+message GetAdminMfaStatusReq { int64 admin_id = 1; }
+message GetAdminMfaStatusResp { bool enabled = 1; int64 last_used_at = 2; }
+
+// ===== S4.4 KYC =====
+message SubmitKycReq {
+  int64 user_id = 1;
+  string real_name = 2;
+  string id_card_no = 3;
+  string id_card_front_url = 4;
+  string id_card_back_url = 5;
+  string face_video_url = 6;
+}
+message SubmitKycResp { string request_id = 1; int32 status = 2; }
+message GetKycStatusReq { int64 user_id = 1; }
+message GetKycStatusResp {
+  int32 status = 1;             // 0=未提交 1=审核中 2=通过 3=拒绝
+  string reject_reason = 2;
+  int64 submit_time = 3;
+  int64 audit_time = 4;
+  string real_name = 5;         // already decrypted
+  string id_card_no = 6;        // already decrypted (masked client-side)
+}
+message ListPendingKycReq { int32 page = 1; int32 page_size = 2; }
+message KycPendingItem {
+  int64 user_id = 1;
+  string username = 2;
+  string real_name = 3;
+  string id_card_no = 4;
+  string id_card_front_url = 5;
+  string id_card_back_url = 6;
+  string face_video_url = 7;
+  int64 submit_time = 8;
+  int32 status = 9;
+}
+message ListPendingKycResp { repeated KycPendingItem items = 1; int64 total = 2; }
+message AdminAuditKycReq {
+  int64 user_id = 1;
+  bool pass = 2;
+  string reason = 3;
+  int64 audit_admin_id = 4;
+}
 
 service User {
   rpc Register(RegisterReq) returns (RegisterResp);
@@ -198,4 +289,25 @@ service User {
   rpc RefreshSession(RefreshSessionReq) returns (SessionInfo);
   rpc DestroySession(DestroySessionReq) returns (Empty);
   rpc DestroyAllUserSessions(DestroyAllUserSessionsReq) returns (Empty);
+
+  // S4.3 password policy
+  rpc ChangePassword(ChangePasswordReq) returns (ChangePasswordResp);
+
+  // S4.2 admin IP whitelist
+  rpc ListAdminIpWhitelist(ListAdminIpWhitelistReq) returns (ListAdminIpWhitelistResp);
+  rpc AddAdminIpWhitelist(AddAdminIpWhitelistReq) returns (AddAdminIpWhitelistResp);
+  rpc DeleteAdminIpWhitelist(DeleteAdminIpWhitelistReq) returns (OkResp);
+
+  // S4.1 admin MFA
+  rpc EnableAdminMfa(EnableAdminMfaReq) returns (EnableAdminMfaResp);
+  rpc ConfirmAdminMfa(ConfirmAdminMfaReq) returns (OkResp);
+  rpc VerifyAdminMfa(VerifyAdminMfaReq) returns (OkResp);
+  rpc DisableAdminMfa(DisableAdminMfaReq) returns (OkResp);
+  rpc GetAdminMfaStatus(GetAdminMfaStatusReq) returns (GetAdminMfaStatusResp);
+
+  // S4.4 KYC
+  rpc SubmitKyc(SubmitKycReq) returns (SubmitKycResp);
+  rpc GetKycStatus(GetKycStatusReq) returns (GetKycStatusResp);
+  rpc ListPendingKyc(ListPendingKycReq) returns (ListPendingKycResp);
+  rpc AdminAuditKyc(AdminAuditKycReq) returns (OkResp);
 }
