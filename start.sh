@@ -160,6 +160,18 @@ bootstrap_dbs() {
         $PROXY_MYSQL "$db" < "$f" 2>/dev/null || true
         ok "$db <- $(basename "$f") [migration]"
     done
+
+    log "Applying Sprint 4 security migrations..."
+    local -a SPRINT4=(
+        "mall_user|mall-user-rpc/sql/sprint4_security.sql"
+    )
+    for entry in "${SPRINT4[@]}"; do
+        local db="${entry%%|*}"
+        local f="$BASE_DIR/${entry#*|}"
+        if [ ! -f "$f" ]; then warn "missing $f"; continue; fi
+        $PROXY_MYSQL "$db" < "$f" 2>/dev/null || true
+        ok "$db <- $(basename "$f") [sprint4]"
+    done
 }
 
 flush_stale_caches() {
