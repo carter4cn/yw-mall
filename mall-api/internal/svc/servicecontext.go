@@ -27,7 +27,9 @@ import (
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
+	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 	"gopkg.in/yaml.v3"
@@ -90,6 +92,12 @@ type ServiceContext struct {
 	AdminToken  rest.Middleware
 	SessionAuth rest.Middleware
 
+	// S4.2 failed-login lock counter store. Optional; nil when Host unset.
+	Redis *redis.Client
+
+	// S4.5 erase endpoint: direct mall_user DB connection. Optional.
+	UserDB sqlx.SqlConn
+
 	// hot-reloadable fields (updated by etcd watcher without restart)
 	adminTokenHot *configcenter.HotConfig[string]
 	minioHot      *hotMinioClient
@@ -117,6 +125,8 @@ func NewServiceContext(c config.Config, etcdHosts []string) *ServiceContext {
 		ShopRpc:      shopservice.NewShopService(zrpc.MustNewClient(c.ShopRpc)),
 		Minio:       minioHot,
 		AdminToken:  middleware.NewAdminTokenMiddleware(adminTokenHot).Handle,
+		Redis:       newRedisClient(c),
+		UserDB:      newUserDB(c),
 		adminTokenHot: adminTokenHot,
 		minioHot:      minioHot,
 	}
@@ -160,4 +170,29 @@ func newMinioClient(c config.Config) (*minio.Client, error) {
 		Creds:  credentials.NewStaticV4(c.MinIO.AccessKey, c.MinIO.SecretKey, ""),
 		Secure: c.MinIO.UseSSL,
 	})
+}
+
+// newRedisClient creates the Redis client used by the c-side login lockout
+// (S4.2). When Host is empty we still return a non-nil client pointed at
+// localhost:6379 so dev/test setups without explicit config still work.
+func newRedisClient(c config.Config) *redis.Client {
+	host := c.Redis.Host
+	if host == "" {
+		host = "127.0.0.1:6379"
+	}
+	return redis.NewClient(&redis.Options{
+		Addr:     host,
+		Password: c.Redis.Pass,
+		DB:       c.Redis.DB,
+	})
+}
+
+// newUserDB returns a connection to mall_user used by the S4.5 erase path.
+// nil when no DSN is configured — the erase endpoint then refuses with a
+// clear error.
+func newUserDB(c config.Config) sqlx.SqlConn {
+	if c.UserDataSource == "" {
+		return nil
+	}
+	return sqlx.NewMysql(c.UserDataSource)
 }

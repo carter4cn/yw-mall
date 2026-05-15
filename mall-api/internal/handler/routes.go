@@ -77,6 +77,15 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/update",
 				Handler: UpdateUserHandler(serverCtx),
 			},
+			// S4.3 c-side change password
+			{Method: http.MethodPost, Path: "/password", Handler: UserChangePasswordHandler(serverCtx)},
+			// S4.5 personal-data lifecycle
+			{Method: http.MethodGet, Path: "/data/scope", Handler: DataScopeHandler(serverCtx)},
+			{Method: http.MethodPost, Path: "/data/export", Handler: DataExportHandler(serverCtx)},
+			{Method: http.MethodPost, Path: "/data/erase", Handler: DataEraseHandler(serverCtx)},
+			// S4.4 KYC
+			{Method: http.MethodPost, Path: "/kyc/submit", Handler: KycSubmitHandler(serverCtx)},
+			{Method: http.MethodGet, Path: "/kyc/status", Handler: KycStatusHandler(serverCtx)},
 		}),
 		rest.WithPrefix("/api/user"),
 	)

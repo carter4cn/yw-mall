@@ -12,6 +12,9 @@ import (
 
 // AuthLoginHandler is the P0 login revamp endpoint. Issues an opaque access +
 // refresh token pair from user-rpc and ships full session info to the client.
+//
+// S4.2: stashes the client IP into ctx so the lockout/whitelist logic can pick
+// it up without taking *http.Request as a parameter.
 func AuthLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.AuthLoginReq
@@ -19,7 +22,8 @@ func AuthLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
-		l := logic.NewAuthLoginLogic(r.Context(), svcCtx)
+		ctx := logic.WithIP(r.Context(), logic.ClientIP(r))
+		l := logic.NewAuthLoginLogic(ctx, svcCtx)
 		resp, err := l.AuthLogin(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

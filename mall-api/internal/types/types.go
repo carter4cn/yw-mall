@@ -674,6 +674,8 @@ type AuthLoginResp struct {
 	RefreshToken string `json:"refreshToken"`
 	ExpiresIn    int32  `json:"expiresIn"`
 	CsrfToken    string `json:"csrfToken"`
+	// S4.3: when true the FE forces a redirect to change-password.
+	PasswordExpired bool `json:"passwordExpired,omitempty"`
 }
 
 type AuthRefreshReq struct {
@@ -685,4 +687,73 @@ type AuthRefreshResp = AuthLoginResp
 
 type AuthLogoutResp struct {
 	Ok bool `json:"ok"`
+}
+
+// ===== Sprint 4 =====
+
+// S4.5 personal-data lifecycle (PIPL friendly)
+type DataScopeField struct {
+	Field     string `json:"field"`
+	Purpose   string `json:"purpose"`
+	Retention string `json:"retention"`
+}
+
+type DataScopeResp struct {
+	Version string           `json:"version"`
+	Fields  []DataScopeField `json:"fields"`
+}
+
+type UserExport struct {
+	Id         int64  `json:"id"`
+	Username   string `json:"username"`
+	Phone      string `json:"phone"`
+	Avatar     string `json:"avatar"`
+	CreateTime int64  `json:"createTime"`
+}
+
+type KycExport struct {
+	Status       int32  `json:"status"`
+	RealName     string `json:"realName"`
+	IdCardNo     string `json:"idCardNo"`
+	RejectReason string `json:"rejectReason"`
+	SubmitTime   int64  `json:"submitTime"`
+	AuditTime    int64  `json:"auditTime"`
+}
+
+type DataExportResp struct {
+	Version    string        `json:"version"`
+	RequestId  string        `json:"requestId"`
+	ExportedAt int64         `json:"exportedAt"`
+	User       UserExport    `json:"user"`
+	Addresses  []AddressItem `json:"addresses"`
+	Kyc        *KycExport    `json:"kyc,omitempty"`
+}
+
+// S4.4 KYC (c-side)
+type KycSubmitReq struct {
+	RealName       string `json:"realName"`
+	IdCardNo       string `json:"idCardNo"`
+	IdCardFrontUrl string `json:"idCardFrontUrl"`
+	IdCardBackUrl  string `json:"idCardBackUrl"`
+	FaceVideoUrl   string `json:"faceVideoUrl"`
+}
+
+type KycSubmitResp struct {
+	RequestId string `json:"requestId"`
+	Status    int32  `json:"status"`
+}
+
+type KycStatusResp struct {
+	Status       int32  `json:"status"`
+	RejectReason string `json:"rejectReason"`
+	SubmitTime   int64  `json:"submitTime"`
+	AuditTime    int64  `json:"auditTime"`
+	RealName     string `json:"realName"`     // masked: 张**
+	IdCardNo     string `json:"idCardNo"`     // masked: 110101**********1234
+}
+
+// S4.3 change password (c-side)
+type ChangePasswordReq struct {
+	OldPassword string `json:"oldPassword"`
+	NewPassword string `json:"newPassword"`
 }

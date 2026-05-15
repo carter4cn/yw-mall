@@ -45,4 +45,18 @@ type Config struct {
 		SecretKey string
 		UseSSL    bool
 	}
+
+	// S4.2 failed-login lock + S4.5 anything-else-Redis. Optional; when Host
+	// is empty mall-api falls back to no-lock behaviour and the c-side login
+	// won't trigger lockout.
+	Redis struct {
+		Host string
+		Pass string
+		DB   int
+	}
+
+	// S4.5 erase endpoint needs direct mall_user DB access for the
+	// soft-delete + anonymisation transaction. When empty, the erase
+	// endpoint returns "unavailable".
+	UserDataSource string
 }
