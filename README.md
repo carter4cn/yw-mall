@@ -34,38 +34,131 @@ yw-mall/
 
 ## 服务端口
 
-| 服务 | 类型 | 端口 |
+### 应用层（host 进程，`go run`）
+
+| 服务 | 类型 | 端口 | 仓库 |
+|------|------|------|------|
+| mall-api | HTTP | **18888** | yw-mall |
+| admin-api | HTTP | **18999** | yw-mall-admin |
+| mall-user-rpc | gRPC | 19001 | yw-mall |
+| mall-product-rpc | gRPC | 9002 | yw-mall |
+| mall-order-rpc | gRPC | 9003 | yw-mall |
+| mall-cart-rpc | gRPC | 9004 | yw-mall |
+| mall-payment-rpc | gRPC | 9005 | yw-mall |
+| mall-activity-rpc | gRPC | 9010 | yw-mall |
+| mall-rule-rpc | gRPC | 9011 | yw-mall |
+| mall-workflow-rpc | gRPC | 9012 | yw-mall |
+| mall-reward-rpc | gRPC | 9013 | yw-mall |
+| mall-risk-rpc | gRPC | 9014 | yw-mall |
+| mall-review-rpc | gRPC | 9015 | yw-mall |
+| mall-logistics-rpc | gRPC | 9016 | yw-mall |
+| mall-shop-rpc | gRPC | 9017 | yw-mall |
+| mall-activity-async-worker | worker | — | yw-mall |
+
+### 前端（host 进程，`pnpm dev`）
+
+| 应用 | 端口 | 仓库 |
 |------|------|------|
-| mall-api | HTTP | 18888 |
-| mall-user-rpc | gRPC | 19001 |
-| mall-product-rpc | gRPC | 9002 |
-| mall-order-rpc | gRPC | 9003 |
-| mall-cart-rpc | gRPC | 9004 |
-| mall-payment-rpc | gRPC | 9005 |
-| mall-activity-rpc | gRPC | 9010 |
-| mall-rule-rpc | gRPC | 9011 |
-| mall-workflow-rpc | gRPC | 9012 |
-| mall-reward-rpc | gRPC | 9013 |
-| mall-risk-rpc | gRPC | 9014 |
-| mall-activity-async-worker | worker | — |
+| 后台管理 SPA (vite) | **5173 / 5174** | yw-mall-admin-fe/admin |
+| C 端 H5 (uni-app) | **5173 / 5174** | yw-mall-fe |
+
+> 谁先起谁占 5173；vite 自动 fallback 到 5174。
+
+### infra（podman 容器，env 仓库 `compose.yml`）
+
+| 组件 | 端口 | 备注 |
+|------|------|------|
+| etcd1 | 2379 | 服务发现，HA 副本进 `etcd-ha` profile |
+| kafka1 | 19092 | KRaft 单节点，HA 副本进 `kafka-ha` profile |
+| mysql-master1 + slave1 | 内部 | ProxySQL 后端，HA 副本进 `mysql-ha` profile |
+| ProxySQL | **6033** (SQL) / 6032 (admin) | MySQL R/W split 中间件 |
+| redis-master | **6379** + sentinel 26379-26381 | go-zero 直连 master |
+| MinIO | **9000** (API) / 9001 (console) | 商品/店铺/KYC 图片 |
+| DTM | 36789 | 分布式事务 |
+| Homer | **8888** | infra 统一仪表盘 |
+| Grafana / Prometheus | 3000 / 9090 | 监控 |
+| Postgres (PgBouncer) | 5432 | 仅 `pg` profile，S5 预埋待用 |
+| MongoDB RS | 27017-27019 | 仅 `mongo` profile，S5 预埋待用 |
+
+详细 infra 端口/账号见 [`env/SERVICES.md`](../env/SERVICES.md)。
+
+## 浏览器访问入口
+
+| 入口 | URL | 说明 |
+|---|---|---|
+| **C 端 H5** | http://localhost:5173 | mall-fe；登录 `alice/alice123`（或 bob、demo） |
+| **Admin 后台** | http://localhost:5174 | admin-fe；登录 `admin/admin123` |
+| C 端 API | http://localhost:18888 | 直接调 `/api/*`，没页面 |
+| Admin API | http://localhost:18999 | 直接调 `/admin/v1/*`，没页面 |
+| Infra 仪表盘 | http://localhost:8888 | 聚合 Grafana / MinIO Console / Kafka UI / Bytebase |
 
 ## 快速开始
 
-依赖：`go 1.26+`、`docker` 或 `podman`、`docker compose`。
+### 前置依赖
+- Go 1.26+
+- Node 18+ + pnpm（前端 dev server）
+- podman 或 docker（infra 容器）
+
+### 1. 启 infra（一次性）
+
+infra 在同级仓库 `../env/`（独立 repo `yw-mall-env`，slim 模式 baseline ≈ 5.7 GB 内存）：
 
 ```bash
-# 一键启动：拉起基础设施 → 自动 bootstrap（建库 / DDL / 种子数据）→ 启动全部 12 个服务
-./start.sh
-
-# 其它常用命令
-./start.sh status      # 查看进程状态
-./start.sh stop        # 停止 go 服务（保留 compose 基础设施）
-./start.sh restart     # 重启
-./start.sh bootstrap   # 仅重新初始化 DB / 种子数据
-./start.sh nuke        # 停服 + 清空 mall_* 数据库 + 刷新 Redis（重建用）
+cd ../env
+podman compose -f compose.yml -f compose.lite.yml \
+  --profile pg --profile mongo up -d
 ```
 
-启动成功后，HTTP 网关在 `http://127.0.0.1:18888`。
+详细 profile 说明见 `env/README.md`。
+
+### 2. 启 yw-mall 后端（16 个服务）
+
+```bash
+cd yw-mall
+./start.sh                  # 一键：infra 健康检查 → bootstrap → 启 16 个 host 进程
+
+# 子命令
+./start.sh status           # 查看进程状态
+./start.sh stop             # 停 go 服务（保留 infra）
+./start.sh restart          # 重启
+./start.sh bootstrap        # 仅重跑 DB / 种子
+./start.sh nuke             # 停服 + 清空 mall_* + 刷 Redis（重建用）
+```
+
+完成后：
+- mall-api: `http://localhost:18888`
+- admin-api: `http://localhost:18999`
+
+### 3. 启前端（开发态，可选）
+
+两个前端独立 repo：
+
+```bash
+cd ../yw-mall-fe && pnpm install && pnpm dev:h5
+# → http://localhost:5173
+
+cd ../yw-mall-admin-fe/admin && pnpm install && pnpm dev
+# → http://localhost:5174
+```
+
+### 测试账号
+
+| 角色 | 用户名 | 密码 | 入口 |
+|------|--------|------|------|
+| C 端用户 | alice / bob / demo | `alice123` 等同名 + 123 | http://localhost:5173 |
+| 平台管理员 | admin | `admin123` | http://localhost:5174 |
+
+种子数据：5 用户 / 3 默认地址 / 6 店铺 / 40 商品 / 5 测试订单（含 paid / shipped / cancelled 等状态）。
+
+### 故障排查
+
+| 现象 | 排查 |
+|------|------|
+| `start.sh` 报 `compose up failed` | infra 容器名漂移；按 `env/README.md` 重起 |
+| gateway 启动 panic `Redis not set` | yaml 缺 `Redis:` 块（S4 后新增）|
+| user-rpc panic `cryptox.MustInit` | 缺 `MALL_FIELD_ENCRYPTION_KEY` env；start.sh 已注入开发态默认 |
+| 订单列表 `Unknown column 'pay_time'` | sprint 迁移没跑；`./start.sh bootstrap` 重跑 |
+| product seed `frame too large` | 旧 bug：默认端口 9001 是 MinIO；已修，git pull 后重跑 |
 
 ## 主要 HTTP 接口
 
