@@ -117,3 +117,12 @@ ShopRpc:
 # Mongo:
 #   # 默认走 baseline 单成员；启 mongo-ha profile 后会自动切到 RS
 #   URI: "mongodb://app_rw:apprw123@127.0.0.1:27017,127.0.0.1:27018,127.0.0.1:27019/?replicaSet=rs0&authSource=admin"
+
+# S4.2 failed-login lockout (5/30min) — Host 空时退化为不锁。
+Redis:
+  Host: 127.0.0.1:6379
+  Pass: ""
+  DB: 0
+
+# S4.5 数据生命周期 erase 端点需要直连 mall_user DB（多表事务 + 匿名化）。
+UserDataSource: proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_user?charset=utf8mb4&parseTime=true&loc=Local

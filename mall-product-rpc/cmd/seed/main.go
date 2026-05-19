@@ -18,7 +18,7 @@ import (
 )
 
 var (
-	productAddr    = flag.String("product", "127.0.0.1:9001", "product rpc address")
+	productAddr    = flag.String("product", "127.0.0.1:9002", "product rpc address")
 	productDS      = flag.String("ds", "proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_product?charset=utf8mb4&parseTime=true&loc=Local", "product MySQL DSN")
 	shopDS         = flag.String("shop-ds", "proxysql:proxysql123@tcp(127.0.0.1:6033)/mall_shop?charset=utf8mb4&parseTime=true&loc=Local", "shop MySQL DSN")
 	minioBase      = flag.String("minio", "http://127.0.0.1:9000/mall-product", "MinIO base URL for product images")

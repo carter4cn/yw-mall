@@ -67,9 +67,11 @@ SERVICES=(
 )
 
 # infra containers we care about (compose-managed). probe by name.
+# env slim baseline 只起单节点；HA 副本 (etcd2/3, kafka2/3, mysql-master2/slave2)
+# 在各自的 *-ha profile，启 yw-mall 时不依赖它们。
 REQUIRED_CONTAINERS=(
     etcd1 kafka1 redis-master proxysql
-    mysql-master1 mysql-master2 mysql-slave1 mysql-slave2
+    mysql-master1 mysql-slave1
     dtm
 )
 
@@ -153,12 +155,30 @@ bootstrap_dbs() {
         [mall_shop]=mall-shop-rpc/sql/shop_application.sql
         [mall_product]=mall-product-rpc/sql/product_admin.sql
         [mall_order]=mall-order-rpc/sql/order_admin.sql
+        [mall_review]=mall-review-rpc/sql/review_admin.sql
+        [mall_rule]=mall-rule-rpc/sql/rule_set.sql
     )
     for db in "${!MIGRATIONS[@]}"; do
         local f="$BASE_DIR/${MIGRATIONS[$db]}"
         if [ ! -f "$f" ]; then warn "missing $f"; continue; fi
         $PROXY_MYSQL "$db" < "$f" 2>/dev/null || true
         ok "$db <- $(basename "$f") [migration]"
+    done
+
+    log "Applying sprint migrations (S1.5 timeline + S2 refund + S3 return + payment settlement)..."
+    # Ordered list (refund_v2 must come before return_v3, which extends refund_request).
+    local -a SPRINT_MIGRATIONS=(
+        "mall_order|mall-order-rpc/sql/order_timeline_v2.sql"
+        "mall_order|mall-order-rpc/sql/refund_v2.sql"
+        "mall_order|mall-order-rpc/sql/return_v3.sql"
+        "mall_payment|mall-payment-rpc/sql/settlement_v2.sql"
+    )
+    for entry in "${SPRINT_MIGRATIONS[@]}"; do
+        local db="${entry%%|*}"
+        local f="$BASE_DIR/${entry#*|}"
+        if [ ! -f "$f" ]; then warn "missing $f"; continue; fi
+        $PROXY_MYSQL "$db" < "$f" 2>/dev/null || true
+        ok "$db <- $(basename "$f") [sprint]"
     done
 
     log "Applying Sprint 4 security migrations..."
