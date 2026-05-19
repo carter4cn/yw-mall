@@ -101,3 +101,19 @@ ShopRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: yw-mall/shop-rpc
+
+# ===== Sprint 5 预埋：env 已起 PG HA + Mongo RS，业务还没用 =====
+# 启用方式：
+#   1. yw-mall-env: podman compose --profile pg --profile mongo up -d
+#      并按 README 跑 init-minio-buckets.sh / mongo keyFile
+#   2. 取消下方块的注释，并在 internal/config/config.go 加对应字段
+#
+# Postgres:
+#   # 走 PgBouncer (transaction pooling, port 5432)
+#   DSN: "postgres://app_rw:apprw123@127.0.0.1:5432/mall?sslmode=disable"
+#   # 直连 primary (DDL/迁移)：127.0.0.1:5433 / postgres:postgres123
+#   # 只读 fan-out：127.0.0.1:5434 / app_ro:appro123
+#
+# Mongo:
+#   # 默认走 baseline 单成员；启 mongo-ha profile 后会自动切到 RS
+#   URI: "mongodb://app_rw:apprw123@127.0.0.1:27017,127.0.0.1:27018,127.0.0.1:27019/?replicaSet=rs0&authSource=admin"

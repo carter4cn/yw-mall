@@ -267,6 +267,10 @@ kill_port() {
     if [ -n "$pid" ]; then kill -9 "$pid" 2>/dev/null && warn "killed leftover pid=$pid on :$port"; fi
 }
 
+# S4 cryptox: 32 字节 AES key 的开发态默认值。生产部署必须用真实 env 覆盖，
+# 否则字段加解密会用这个公开 key — 已存数据将无法迁移。
+export MALL_FIELD_ENCRYPTION_KEY="${MALL_FIELD_ENCRYPTION_KEY:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}"
+
 services_start() {
     log "Starting mall services..."
     : > "$PID_FILE"

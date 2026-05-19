@@ -23,3 +23,12 @@ Session:
   AccessTTLSeconds: 1800        # 30 min, sliding-renewed by ValidateSession
   RefreshTTLSeconds: 604800     # 7 days
   MaxRotateCount: 10            # refresh-token rotation cap
+
+# ===== S4 字段级加解密 =====
+# cryptox 包从 env MALL_FIELD_ENCRYPTION_KEY 读 32 字节 (64 hex)。
+# start.sh 注入了开发态默认 0123…cdef；生产部署用 systemd / k8s secret 覆盖。
+# 没设 env → user-rpc 启动时 cryptox.MustInit 会 panic。
+
+# ===== Sprint 5 预埋：PG (KYC 审计) =====
+# Postgres:
+#   DSN: "postgres://app_rw:apprw123@127.0.0.1:5432/mall_audit?sslmode=disable"
