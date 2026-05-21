@@ -5,10 +5,10 @@ package logic
 
 import (
 	"context"
+	"errors"
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
-	"mall-user-rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,13 +28,5 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterResp, err error) {
-	res, err := l.svcCtx.UserRpc.Register(l.ctx, &user.RegisterReq{
-		Username: req.Username,
-		Password: req.Password,
-		Phone:    req.Phone,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return &types.RegisterResp{Id: res.Id}, nil
+	return nil, errors.New("此接口已下线，请使用 /api/auth/register")
 }

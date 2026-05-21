@@ -2,11 +2,12 @@ package logic
 
 import (
 	"context"
+	"errors"
 	"strings"
 
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
-	"mall-user-rpc/user"
+	"mall-user-rpc/userclient"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -32,26 +33,32 @@ func NewAuthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AuthLog
 //   - failed-login lock counters in Redis (5 in 30 min)
 //   - surfaces password_expired so FE can force a rotation
 func (l *AuthLoginLogic) AuthLogin(req *types.AuthLoginReq) (*types.AuthLoginResp, error) {
-	username := strings.TrimSpace(req.Username)
+	account := strings.TrimSpace(req.Account)
+	if account == "" {
+		account = strings.TrimSpace(req.Username) // 兼容老 FE
+	}
+	if account == "" {
+		return nil, errors.New("account required")
+	}
 	ip := IPFromCtx(l.ctx)
 
-	if err := CheckLoginLock(l.ctx, l.svcCtx, "user", username, ip); err != nil {
+	if err := CheckLoginLock(l.ctx, l.svcCtx, "user", account, ip); err != nil {
 		return nil, err
 	}
 
-	res, err := l.svcCtx.UserRpc.Login(l.ctx, &user.LoginReq{
-		Username: req.Username,
+	res, err := l.svcCtx.UserRpc.LoginV2(l.ctx, &userclient.LoginV2Req{
+		Account:  account,
 		Password: req.Password,
 	})
 	if err != nil {
-		MarkLoginFail(l.ctx, l.svcCtx, "user", username, ip)
+		MarkLoginFail(l.ctx, l.svcCtx, "user", account, ip)
 		return nil, err
 	}
-	ClearLoginFail(l.ctx, l.svcCtx, "user", username, ip)
+	ClearLoginFail(l.ctx, l.svcCtx, "user", account, ip)
 
 	return &types.AuthLoginResp{
 		Uid:             res.Id,
-		Username:        req.Username,
+		Username:        account,
 		AccessToken:     res.Token,
 		RefreshToken:    res.RefreshToken,
 		ExpiresIn:       res.ExpiresIn,
