@@ -13,7 +13,9 @@ package cryptox
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/hmac"
 	"crypto/rand"
+	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
@@ -36,8 +38,9 @@ const (
 )
 
 var (
-	once   sync.Once
-	gcm    cipher.AEAD
+	once    sync.Once
+	gcm     cipher.AEAD
+	hmacKey []byte // raw 32-byte key, used by Hmac (blind index)
 	initErr error
 )
 
@@ -76,8 +79,24 @@ func initOnce() error {
 			return
 		}
 		gcm = aead
+		hmacKey = key
 	})
 	return initErr
+}
+
+// Hmac returns hex(HMAC-SHA256(key, plain)). Used as a blind index: lets us
+// run WHERE col_hash=? against AES-encrypted columns. Same key as AES
+// encryption — key rotation must rotate hashes too. Empty input returns "".
+func Hmac(plain string) string {
+	if plain == "" {
+		return ""
+	}
+	if err := initOnce(); err != nil {
+		panic(fmt.Sprintf("cryptox.Hmac: %v", err))
+	}
+	mac := hmac.New(sha256.New, hmacKey)
+	mac.Write([]byte(plain))
+	return hex.EncodeToString(mac.Sum(nil))
 }
 
 // Encrypt returns "v1:" + base64url(nonce || ciphertext || tag).
