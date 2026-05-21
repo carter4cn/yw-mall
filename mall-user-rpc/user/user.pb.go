@@ -3890,6 +3890,254 @@ func (x *AdminAuditKycReq) GetAuditAdminId() int64 {
 	return 0
 }
 
+type SendVerifyCodeReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Channel       int32                  `protobuf:"varint,1,opt,name=channel,proto3" json:"channel,omitempty"` // 1=sms, 2=email
+	Target        string                 `protobuf:"bytes,2,opt,name=target,proto3" json:"target,omitempty"`    // phone 或 email
+	Scene         int32                  `protobuf:"varint,3,opt,name=scene,proto3" json:"scene,omitempty"`     // 1=register, 2=login, 3=bind, 4=change-password
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SendVerifyCodeReq) Reset() {
+	*x = SendVerifyCodeReq{}
+	mi := &file_user_user_proto_msgTypes[65]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SendVerifyCodeReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendVerifyCodeReq) ProtoMessage() {}
+
+func (x *SendVerifyCodeReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[65]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendVerifyCodeReq.ProtoReflect.Descriptor instead.
+func (*SendVerifyCodeReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{65}
+}
+
+func (x *SendVerifyCodeReq) GetChannel() int32 {
+	if x != nil {
+		return x.Channel
+	}
+	return 0
+}
+
+func (x *SendVerifyCodeReq) GetTarget() string {
+	if x != nil {
+		return x.Target
+	}
+	return ""
+}
+
+func (x *SendVerifyCodeReq) GetScene() int32 {
+	if x != nil {
+		return x.Scene
+	}
+	return 0
+}
+
+type SendVerifyCodeResp struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ChallengeToken string                 `protobuf:"bytes,1,opt,name=challenge_token,json=challengeToken,proto3" json:"challenge_token,omitempty"`
+	ExpiresIn      int32                  `protobuf:"varint,2,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *SendVerifyCodeResp) Reset() {
+	*x = SendVerifyCodeResp{}
+	mi := &file_user_user_proto_msgTypes[66]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SendVerifyCodeResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendVerifyCodeResp) ProtoMessage() {}
+
+func (x *SendVerifyCodeResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[66]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendVerifyCodeResp.ProtoReflect.Descriptor instead.
+func (*SendVerifyCodeResp) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{66}
+}
+
+func (x *SendVerifyCodeResp) GetChallengeToken() string {
+	if x != nil {
+		return x.ChallengeToken
+	}
+	return ""
+}
+
+func (x *SendVerifyCodeResp) GetExpiresIn() int32 {
+	if x != nil {
+		return x.ExpiresIn
+	}
+	return 0
+}
+
+type RegisterV2Req struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Username       string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Password       string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	Phone          string                 `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
+	Email          string                 `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
+	VerifyCode     string                 `protobuf:"bytes,5,opt,name=verify_code,json=verifyCode,proto3" json:"verify_code,omitempty"`
+	ChallengeToken string                 `protobuf:"bytes,6,opt,name=challenge_token,json=challengeToken,proto3" json:"challenge_token,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *RegisterV2Req) Reset() {
+	*x = RegisterV2Req{}
+	mi := &file_user_user_proto_msgTypes[67]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterV2Req) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterV2Req) ProtoMessage() {}
+
+func (x *RegisterV2Req) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[67]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterV2Req.ProtoReflect.Descriptor instead.
+func (*RegisterV2Req) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{67}
+}
+
+func (x *RegisterV2Req) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *RegisterV2Req) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *RegisterV2Req) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *RegisterV2Req) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *RegisterV2Req) GetVerifyCode() string {
+	if x != nil {
+		return x.VerifyCode
+	}
+	return ""
+}
+
+func (x *RegisterV2Req) GetChallengeToken() string {
+	if x != nil {
+		return x.ChallengeToken
+	}
+	return ""
+}
+
+type LoginV2Req struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Account       string                 `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginV2Req) Reset() {
+	*x = LoginV2Req{}
+	mi := &file_user_user_proto_msgTypes[68]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginV2Req) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginV2Req) ProtoMessage() {}
+
+func (x *LoginV2Req) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[68]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginV2Req.ProtoReflect.Descriptor instead.
+func (*LoginV2Req) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{68}
+}
+
+func (x *LoginV2Req) GetAccount() string {
+	if x != nil {
+		return x.Account
+	}
+	return ""
+}
+
+func (x *LoginV2Req) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
 var File_user_user_proto protoreflect.FileDescriptor
 
 const file_user_user_proto_rawDesc = "" +
@@ -4172,7 +4420,27 @@ const file_user_user_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
 	"\x04pass\x18\x02 \x01(\bR\x04pass\x12\x16\n" +
 	"\x06reason\x18\x03 \x01(\tR\x06reason\x12$\n" +
-	"\x0eaudit_admin_id\x18\x04 \x01(\x03R\fauditAdminId2\x99\x12\n" +
+	"\x0eaudit_admin_id\x18\x04 \x01(\x03R\fauditAdminId\"[\n" +
+	"\x11SendVerifyCodeReq\x12\x18\n" +
+	"\achannel\x18\x01 \x01(\x05R\achannel\x12\x16\n" +
+	"\x06target\x18\x02 \x01(\tR\x06target\x12\x14\n" +
+	"\x05scene\x18\x03 \x01(\x05R\x05scene\"\\\n" +
+	"\x12SendVerifyCodeResp\x12'\n" +
+	"\x0fchallenge_token\x18\x01 \x01(\tR\x0echallengeToken\x12\x1d\n" +
+	"\n" +
+	"expires_in\x18\x02 \x01(\x05R\texpiresIn\"\xbd\x01\n" +
+	"\rRegisterV2Req\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x14\n" +
+	"\x05phone\x18\x03 \x01(\tR\x05phone\x12\x14\n" +
+	"\x05email\x18\x04 \x01(\tR\x05email\x12\x1f\n" +
+	"\vverify_code\x18\x05 \x01(\tR\n" +
+	"verifyCode\x12'\n" +
+	"\x0fchallenge_token\x18\x06 \x01(\tR\x0echallengeToken\"B\n" +
+	"\n" +
+	"LoginV2Req\x12\x18\n" +
+	"\aaccount\x18\x01 \x01(\tR\aaccount\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword2\xc3\x13\n" +
 	"\x04User\x121\n" +
 	"\bRegister\x12\x11.user.RegisterReq\x1a\x12.user.RegisterResp\x12(\n" +
 	"\x05Login\x12\x0e.user.LoginReq\x1a\x0f.user.LoginResp\x12.\n" +
@@ -4216,7 +4484,11 @@ const file_user_user_proto_rawDesc = "" +
 	"\tSubmitKyc\x12\x12.user.SubmitKycReq\x1a\x13.user.SubmitKycResp\x12=\n" +
 	"\fGetKycStatus\x12\x15.user.GetKycStatusReq\x1a\x16.user.GetKycStatusResp\x12C\n" +
 	"\x0eListPendingKyc\x12\x17.user.ListPendingKycReq\x1a\x18.user.ListPendingKycResp\x125\n" +
-	"\rAdminAuditKyc\x12\x16.user.AdminAuditKycReq\x1a\f.user.OkRespB\bZ\x06./userb\x06proto3"
+	"\rAdminAuditKyc\x12\x16.user.AdminAuditKycReq\x1a\f.user.OkResp\x12C\n" +
+	"\x0eSendVerifyCode\x12\x17.user.SendVerifyCodeReq\x1a\x18.user.SendVerifyCodeResp\x125\n" +
+	"\n" +
+	"RegisterV2\x12\x13.user.RegisterV2Req\x1a\x12.user.RegisterResp\x12,\n" +
+	"\aLoginV2\x12\x10.user.LoginV2Req\x1a\x0f.user.LoginRespB\bZ\x06./userb\x06proto3"
 
 var (
 	file_user_user_proto_rawDescOnce sync.Once
@@ -4230,7 +4502,7 @@ func file_user_user_proto_rawDescGZIP() []byte {
 	return file_user_user_proto_rawDescData
 }
 
-var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 65)
+var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 69)
 var file_user_user_proto_goTypes = []any{
 	(*RegisterReq)(nil),               // 0: user.RegisterReq
 	(*RegisterResp)(nil),              // 1: user.RegisterResp
@@ -4297,6 +4569,10 @@ var file_user_user_proto_goTypes = []any{
 	(*KycPendingItem)(nil),            // 62: user.KycPendingItem
 	(*ListPendingKycResp)(nil),        // 63: user.ListPendingKycResp
 	(*AdminAuditKycReq)(nil),          // 64: user.AdminAuditKycReq
+	(*SendVerifyCodeReq)(nil),         // 65: user.SendVerifyCodeReq
+	(*SendVerifyCodeResp)(nil),        // 66: user.SendVerifyCodeResp
+	(*RegisterV2Req)(nil),             // 67: user.RegisterV2Req
+	(*LoginV2Req)(nil),                // 68: user.LoginV2Req
 }
 var file_user_user_proto_depIdxs = []int32{
 	20, // 0: user.ListAddressesResp.addresses:type_name -> user.Address
@@ -4342,46 +4618,52 @@ var file_user_user_proto_depIdxs = []int32{
 	59, // 40: user.User.GetKycStatus:input_type -> user.GetKycStatusReq
 	61, // 41: user.User.ListPendingKyc:input_type -> user.ListPendingKycReq
 	64, // 42: user.User.AdminAuditKyc:input_type -> user.AdminAuditKycReq
-	1,  // 43: user.User.Register:output_type -> user.RegisterResp
-	3,  // 44: user.User.Login:output_type -> user.LoginResp
-	12, // 45: user.User.GetUser:output_type -> user.GetUserResp
-	14, // 46: user.User.UpdateUser:output_type -> user.UpdateUserResp
-	16, // 47: user.User.AddPoints:output_type -> user.AddPointsResp
-	18, // 48: user.User.DeductPoints:output_type -> user.DeductPointsResp
-	22, // 49: user.User.AddAddress:output_type -> user.AddAddressResp
-	19, // 50: user.User.UpdateAddress:output_type -> user.OkResp
-	19, // 51: user.User.DeleteAddress:output_type -> user.OkResp
-	19, // 52: user.User.SetDefaultAddress:output_type -> user.OkResp
-	27, // 53: user.User.ListAddresses:output_type -> user.ListAddressesResp
-	20, // 54: user.User.GetAddress:output_type -> user.Address
-	20, // 55: user.User.GetDefaultAddress:output_type -> user.Address
-	32, // 56: user.User.AdminLogin:output_type -> user.AdminLoginResp
-	34, // 57: user.User.CreateAdmin:output_type -> user.CreateAdminResp
-	36, // 58: user.User.ListAdmins:output_type -> user.ListAdminsResp
-	30, // 59: user.User.GetAdminById:output_type -> user.AdminInfo
-	19, // 60: user.User.UpdateAdminStatus:output_type -> user.OkResp
-	40, // 61: user.User.ListUsers:output_type -> user.ListUsersResp
-	19, // 62: user.User.UpdateUserStatus:output_type -> user.OkResp
-	5,  // 63: user.User.CreateSession:output_type -> user.SessionInfo
-	5,  // 64: user.User.ValidateSession:output_type -> user.SessionInfo
-	5,  // 65: user.User.RefreshSession:output_type -> user.SessionInfo
-	4,  // 66: user.User.DestroySession:output_type -> user.Empty
-	4,  // 67: user.User.DestroyAllUserSessions:output_type -> user.Empty
-	43, // 68: user.User.ChangePassword:output_type -> user.ChangePasswordResp
-	46, // 69: user.User.ListAdminIpWhitelist:output_type -> user.ListAdminIpWhitelistResp
-	48, // 70: user.User.AddAdminIpWhitelist:output_type -> user.AddAdminIpWhitelistResp
-	19, // 71: user.User.DeleteAdminIpWhitelist:output_type -> user.OkResp
-	51, // 72: user.User.EnableAdminMfa:output_type -> user.EnableAdminMfaResp
-	19, // 73: user.User.ConfirmAdminMfa:output_type -> user.OkResp
-	19, // 74: user.User.VerifyAdminMfa:output_type -> user.OkResp
-	19, // 75: user.User.DisableAdminMfa:output_type -> user.OkResp
-	56, // 76: user.User.GetAdminMfaStatus:output_type -> user.GetAdminMfaStatusResp
-	58, // 77: user.User.SubmitKyc:output_type -> user.SubmitKycResp
-	60, // 78: user.User.GetKycStatus:output_type -> user.GetKycStatusResp
-	63, // 79: user.User.ListPendingKyc:output_type -> user.ListPendingKycResp
-	19, // 80: user.User.AdminAuditKyc:output_type -> user.OkResp
-	43, // [43:81] is the sub-list for method output_type
-	5,  // [5:43] is the sub-list for method input_type
+	65, // 43: user.User.SendVerifyCode:input_type -> user.SendVerifyCodeReq
+	67, // 44: user.User.RegisterV2:input_type -> user.RegisterV2Req
+	68, // 45: user.User.LoginV2:input_type -> user.LoginV2Req
+	1,  // 46: user.User.Register:output_type -> user.RegisterResp
+	3,  // 47: user.User.Login:output_type -> user.LoginResp
+	12, // 48: user.User.GetUser:output_type -> user.GetUserResp
+	14, // 49: user.User.UpdateUser:output_type -> user.UpdateUserResp
+	16, // 50: user.User.AddPoints:output_type -> user.AddPointsResp
+	18, // 51: user.User.DeductPoints:output_type -> user.DeductPointsResp
+	22, // 52: user.User.AddAddress:output_type -> user.AddAddressResp
+	19, // 53: user.User.UpdateAddress:output_type -> user.OkResp
+	19, // 54: user.User.DeleteAddress:output_type -> user.OkResp
+	19, // 55: user.User.SetDefaultAddress:output_type -> user.OkResp
+	27, // 56: user.User.ListAddresses:output_type -> user.ListAddressesResp
+	20, // 57: user.User.GetAddress:output_type -> user.Address
+	20, // 58: user.User.GetDefaultAddress:output_type -> user.Address
+	32, // 59: user.User.AdminLogin:output_type -> user.AdminLoginResp
+	34, // 60: user.User.CreateAdmin:output_type -> user.CreateAdminResp
+	36, // 61: user.User.ListAdmins:output_type -> user.ListAdminsResp
+	30, // 62: user.User.GetAdminById:output_type -> user.AdminInfo
+	19, // 63: user.User.UpdateAdminStatus:output_type -> user.OkResp
+	40, // 64: user.User.ListUsers:output_type -> user.ListUsersResp
+	19, // 65: user.User.UpdateUserStatus:output_type -> user.OkResp
+	5,  // 66: user.User.CreateSession:output_type -> user.SessionInfo
+	5,  // 67: user.User.ValidateSession:output_type -> user.SessionInfo
+	5,  // 68: user.User.RefreshSession:output_type -> user.SessionInfo
+	4,  // 69: user.User.DestroySession:output_type -> user.Empty
+	4,  // 70: user.User.DestroyAllUserSessions:output_type -> user.Empty
+	43, // 71: user.User.ChangePassword:output_type -> user.ChangePasswordResp
+	46, // 72: user.User.ListAdminIpWhitelist:output_type -> user.ListAdminIpWhitelistResp
+	48, // 73: user.User.AddAdminIpWhitelist:output_type -> user.AddAdminIpWhitelistResp
+	19, // 74: user.User.DeleteAdminIpWhitelist:output_type -> user.OkResp
+	51, // 75: user.User.EnableAdminMfa:output_type -> user.EnableAdminMfaResp
+	19, // 76: user.User.ConfirmAdminMfa:output_type -> user.OkResp
+	19, // 77: user.User.VerifyAdminMfa:output_type -> user.OkResp
+	19, // 78: user.User.DisableAdminMfa:output_type -> user.OkResp
+	56, // 79: user.User.GetAdminMfaStatus:output_type -> user.GetAdminMfaStatusResp
+	58, // 80: user.User.SubmitKyc:output_type -> user.SubmitKycResp
+	60, // 81: user.User.GetKycStatus:output_type -> user.GetKycStatusResp
+	63, // 82: user.User.ListPendingKyc:output_type -> user.ListPendingKycResp
+	19, // 83: user.User.AdminAuditKyc:output_type -> user.OkResp
+	66, // 84: user.User.SendVerifyCode:output_type -> user.SendVerifyCodeResp
+	1,  // 85: user.User.RegisterV2:output_type -> user.RegisterResp
+	3,  // 86: user.User.LoginV2:output_type -> user.LoginResp
+	46, // [46:87] is the sub-list for method output_type
+	5,  // [5:46] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
 	5,  // [5:5] is the sub-list for extension extendee
 	0,  // [0:5] is the sub-list for field type_name
@@ -4398,7 +4680,7 @@ func file_user_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_user_proto_rawDesc), len(file_user_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   65,
+			NumMessages:   69,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

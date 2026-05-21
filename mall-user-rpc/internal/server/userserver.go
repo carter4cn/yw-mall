@@ -201,3 +201,16 @@ func (s *UserServer) ListPendingKyc(ctx context.Context, in *user.ListPendingKyc
 func (s *UserServer) AdminAuditKyc(ctx context.Context, in *user.AdminAuditKycReq) (*user.OkResp, error) {
 	return logic.NewKycLogic(ctx, s.svcCtx).AdminAudit(in)
 }
+
+// Sprint 5 multi-identifier
+func (s *UserServer) SendVerifyCode(ctx context.Context, in *user.SendVerifyCodeReq) (*user.SendVerifyCodeResp, error) {
+	return logic.NewSendVerifyCodeLogic(ctx, s.svcCtx).SendVerifyCode(in)
+}
+
+func (s *UserServer) RegisterV2(ctx context.Context, in *user.RegisterV2Req) (*user.RegisterResp, error) {
+	return logic.NewRegisterV2Logic(ctx, s.svcCtx).RegisterV2(in)
+}
+
+func (s *UserServer) LoginV2(ctx context.Context, in *user.LoginV2Req) (*user.LoginResp, error) {
+	return logic.NewLoginV2Logic(ctx, s.svcCtx).LoginV2(in)
+}

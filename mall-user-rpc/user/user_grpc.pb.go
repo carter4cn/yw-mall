@@ -57,6 +57,9 @@ const (
 	User_GetKycStatus_FullMethodName           = "/user.User/GetKycStatus"
 	User_ListPendingKyc_FullMethodName         = "/user.User/ListPendingKyc"
 	User_AdminAuditKyc_FullMethodName          = "/user.User/AdminAuditKyc"
+	User_SendVerifyCode_FullMethodName         = "/user.User/SendVerifyCode"
+	User_RegisterV2_FullMethodName             = "/user.User/RegisterV2"
+	User_LoginV2_FullMethodName                = "/user.User/LoginV2"
 )
 
 // UserClient is the client API for User service.
@@ -106,6 +109,10 @@ type UserClient interface {
 	GetKycStatus(ctx context.Context, in *GetKycStatusReq, opts ...grpc.CallOption) (*GetKycStatusResp, error)
 	ListPendingKyc(ctx context.Context, in *ListPendingKycReq, opts ...grpc.CallOption) (*ListPendingKycResp, error)
 	AdminAuditKyc(ctx context.Context, in *AdminAuditKycReq, opts ...grpc.CallOption) (*OkResp, error)
+	// ===== Sprint 5 multi-identifier register/login =====
+	SendVerifyCode(ctx context.Context, in *SendVerifyCodeReq, opts ...grpc.CallOption) (*SendVerifyCodeResp, error)
+	RegisterV2(ctx context.Context, in *RegisterV2Req, opts ...grpc.CallOption) (*RegisterResp, error)
+	LoginV2(ctx context.Context, in *LoginV2Req, opts ...grpc.CallOption) (*LoginResp, error)
 }
 
 type userClient struct {
@@ -496,6 +503,36 @@ func (c *userClient) AdminAuditKyc(ctx context.Context, in *AdminAuditKycReq, op
 	return out, nil
 }
 
+func (c *userClient) SendVerifyCode(ctx context.Context, in *SendVerifyCodeReq, opts ...grpc.CallOption) (*SendVerifyCodeResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SendVerifyCodeResp)
+	err := c.cc.Invoke(ctx, User_SendVerifyCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) RegisterV2(ctx context.Context, in *RegisterV2Req, opts ...grpc.CallOption) (*RegisterResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RegisterResp)
+	err := c.cc.Invoke(ctx, User_RegisterV2_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) LoginV2(ctx context.Context, in *LoginV2Req, opts ...grpc.CallOption) (*LoginResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LoginResp)
+	err := c.cc.Invoke(ctx, User_LoginV2_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
@@ -543,6 +580,10 @@ type UserServer interface {
 	GetKycStatus(context.Context, *GetKycStatusReq) (*GetKycStatusResp, error)
 	ListPendingKyc(context.Context, *ListPendingKycReq) (*ListPendingKycResp, error)
 	AdminAuditKyc(context.Context, *AdminAuditKycReq) (*OkResp, error)
+	// ===== Sprint 5 multi-identifier register/login =====
+	SendVerifyCode(context.Context, *SendVerifyCodeReq) (*SendVerifyCodeResp, error)
+	RegisterV2(context.Context, *RegisterV2Req) (*RegisterResp, error)
+	LoginV2(context.Context, *LoginV2Req) (*LoginResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -666,6 +707,15 @@ func (UnimplementedUserServer) ListPendingKyc(context.Context, *ListPendingKycRe
 }
 func (UnimplementedUserServer) AdminAuditKyc(context.Context, *AdminAuditKycReq) (*OkResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method AdminAuditKyc not implemented")
+}
+func (UnimplementedUserServer) SendVerifyCode(context.Context, *SendVerifyCodeReq) (*SendVerifyCodeResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method SendVerifyCode not implemented")
+}
+func (UnimplementedUserServer) RegisterV2(context.Context, *RegisterV2Req) (*RegisterResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method RegisterV2 not implemented")
+}
+func (UnimplementedUserServer) LoginV2(context.Context, *LoginV2Req) (*LoginResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method LoginV2 not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -1372,6 +1422,60 @@ func _User_AdminAuditKyc_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_SendVerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendVerifyCodeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).SendVerifyCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_SendVerifyCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).SendVerifyCode(ctx, req.(*SendVerifyCodeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_RegisterV2_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterV2Req)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).RegisterV2(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_RegisterV2_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).RegisterV2(ctx, req.(*RegisterV2Req))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_LoginV2_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginV2Req)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).LoginV2(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_LoginV2_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).LoginV2(ctx, req.(*LoginV2Req))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1530,6 +1634,18 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AdminAuditKyc",
 			Handler:    _User_AdminAuditKyc_Handler,
+		},
+		{
+			MethodName: "SendVerifyCode",
+			Handler:    _User_SendVerifyCode_Handler,
+		},
+		{
+			MethodName: "RegisterV2",
+			Handler:    _User_RegisterV2_Handler,
+		},
+		{
+			MethodName: "LoginV2",
+			Handler:    _User_LoginV2_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

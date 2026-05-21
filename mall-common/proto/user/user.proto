@@ -310,4 +310,35 @@ service User {
   rpc GetKycStatus(GetKycStatusReq) returns (GetKycStatusResp);
   rpc ListPendingKyc(ListPendingKycReq) returns (ListPendingKycResp);
   rpc AdminAuditKyc(AdminAuditKycReq) returns (OkResp);
+
+  // ===== Sprint 5 multi-identifier register/login =====
+  rpc SendVerifyCode(SendVerifyCodeReq) returns (SendVerifyCodeResp);
+  rpc RegisterV2(RegisterV2Req) returns (RegisterResp);
+  rpc LoginV2(LoginV2Req) returns (LoginResp);
+}
+
+// ===== Sprint 5 multi-identifier register/login =====
+
+message SendVerifyCodeReq {
+  int32  channel = 1;            // 1=sms, 2=email
+  string target  = 2;            // phone 或 email
+  int32  scene   = 3;            // 1=register, 2=login, 3=bind, 4=change-password
+}
+message SendVerifyCodeResp {
+  string challenge_token = 1;
+  int32  expires_in      = 2;
+}
+
+message RegisterV2Req {
+  string username        = 1;
+  string password        = 2;
+  string phone           = 3;
+  string email           = 4;
+  string verify_code     = 5;
+  string challenge_token = 6;
+}
+
+message LoginV2Req {
+  string account  = 1;
+  string password = 2;
 }
