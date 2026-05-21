@@ -663,7 +663,8 @@ type ShipReturnReq struct {
 // ---- P0 login revamp (Opaque token + Redis) ----
 
 type AuthLoginReq struct {
-	Username string `json:"username"`
+	Account  string `json:"account,optional"`  // 优先用 Account；兼容老 FE 给 Username
+	Username string `json:"username,optional"`
 	Password string `json:"password"`
 }
 
@@ -756,4 +757,32 @@ type KycStatusResp struct {
 type ChangePasswordReq struct {
 	OldPassword string `json:"oldPassword"`
 	NewPassword string `json:"newPassword"`
+}
+
+// ===== Sprint 5 multi-identifier register/login =====
+type SendCodeReq struct {
+	Channel int32  `json:"channel"` // 1=sms, 2=email
+	Target  string `json:"target"`
+	Scene   int32  `json:"scene"` // 1=register, etc.
+}
+type SendCodeResp struct {
+	ChallengeToken string `json:"challengeToken"`
+	ExpiresIn      int32  `json:"expiresIn"`
+}
+
+type RegisterV2Req struct {
+	Username       string `json:"username"`
+	Password       string `json:"password"`
+	Phone          string `json:"phone,optional"`
+	Email          string `json:"email,optional"`
+	VerifyCode     string `json:"verifyCode"`
+	ChallengeToken string `json:"challengeToken"`
+}
+type RegisterV2Resp struct {
+	Id int64 `json:"id"`
+}
+
+type LoginV2Req struct {
+	Account  string `json:"account"`
+	Password string `json:"password"`
 }

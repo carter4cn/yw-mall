@@ -34,6 +34,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/refresh",
 				Handler: AuthRefreshHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/send-code",
+				Handler: SendCodeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/register",
+				Handler: RegisterV2Handler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/api/auth"),
 	)
