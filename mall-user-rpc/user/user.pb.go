@@ -3954,8 +3954,11 @@ type SendVerifyCodeResp struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	ChallengeToken string                 `protobuf:"bytes,1,opt,name=challenge_token,json=challengeToken,proto3" json:"challenge_token,omitempty"`
 	ExpiresIn      int32                  `protobuf:"varint,2,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// 开发态 mock 阶段直接回显验证码，免去翻日志/Redis 的麻烦。
+	// 生产接真 SMS/Email 时改为返空串（或直接删字段重生成 pb）。
+	DevCode       string `protobuf:"bytes,3,opt,name=dev_code,json=devCode,proto3" json:"dev_code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SendVerifyCodeResp) Reset() {
@@ -4000,6 +4003,13 @@ func (x *SendVerifyCodeResp) GetExpiresIn() int32 {
 		return x.ExpiresIn
 	}
 	return 0
+}
+
+func (x *SendVerifyCodeResp) GetDevCode() string {
+	if x != nil {
+		return x.DevCode
+	}
+	return ""
 }
 
 type RegisterV2Req struct {
@@ -4424,11 +4434,12 @@ const file_user_user_proto_rawDesc = "" +
 	"\x11SendVerifyCodeReq\x12\x18\n" +
 	"\achannel\x18\x01 \x01(\x05R\achannel\x12\x16\n" +
 	"\x06target\x18\x02 \x01(\tR\x06target\x12\x14\n" +
-	"\x05scene\x18\x03 \x01(\x05R\x05scene\"\\\n" +
+	"\x05scene\x18\x03 \x01(\x05R\x05scene\"w\n" +
 	"\x12SendVerifyCodeResp\x12'\n" +
 	"\x0fchallenge_token\x18\x01 \x01(\tR\x0echallengeToken\x12\x1d\n" +
 	"\n" +
-	"expires_in\x18\x02 \x01(\x05R\texpiresIn\"\xbd\x01\n" +
+	"expires_in\x18\x02 \x01(\x05R\texpiresIn\x12\x19\n" +
+	"\bdev_code\x18\x03 \x01(\tR\adevCode\"\xbd\x01\n" +
 	"\rRegisterV2Req\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x14\n" +

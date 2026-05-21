@@ -27,5 +27,6 @@ func SendCode(ctx context.Context, svcCtx *svc.ServiceContext, req *types.SendCo
 	return &types.SendCodeResp{
 		ChallengeToken: resp.ChallengeToken,
 		ExpiresIn:      resp.ExpiresIn,
+		DevCode:        resp.DevCode,
 	}, nil
 }

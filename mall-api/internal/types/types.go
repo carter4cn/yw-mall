@@ -768,6 +768,8 @@ type SendCodeReq struct {
 type SendCodeResp struct {
 	ChallengeToken string `json:"challengeToken"`
 	ExpiresIn      int32  `json:"expiresIn"`
+	// 开发态 mock 回显，接真 SMS 时改返空串。FE 直接显示给用户免去查日志。
+	DevCode string `json:"devCode,omitempty"`
 }
 
 type RegisterV2Req struct {

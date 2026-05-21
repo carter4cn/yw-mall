@@ -59,5 +59,6 @@ func (l *SendVerifyCodeLogic) SendVerifyCode(in *user.SendVerifyCodeReq) (*user.
 	return &user.SendVerifyCodeResp{
 		ChallengeToken: token,
 		ExpiresIn:      int32(verifyCodeTTL.Seconds()),
+		DevCode:        code, // mock 阶段回显，接真 SMS 时改返空串
 	}, nil
 }
