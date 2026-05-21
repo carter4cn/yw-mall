@@ -172,6 +172,7 @@ bootstrap_dbs() {
         "mall_order|mall-order-rpc/sql/refund_v2.sql"
         "mall_order|mall-order-rpc/sql/return_v3.sql"
         "mall_payment|mall-payment-rpc/sql/settlement_v2.sql"
+        "mall_user|mall-user-rpc/sql/user_multi_id_v2.sql"
     )
     for entry in "${SPRINT_MIGRATIONS[@]}"; do
         local db="${entry%%|*}"
