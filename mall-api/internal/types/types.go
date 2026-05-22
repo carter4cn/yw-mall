@@ -788,3 +788,11 @@ type LoginV2Req struct {
 	Account  string `json:"account"`
 	Password string `json:"password"`
 }
+
+// ===== Sprint 5 reset password by SMS code =====
+type ResetPasswordReq struct {
+	Phone          string `json:"phone"`
+	VerifyCode     string `json:"verifyCode"`
+	ChallengeToken string `json:"challengeToken"`
+	NewPassword    string `json:"newPassword"`
+}

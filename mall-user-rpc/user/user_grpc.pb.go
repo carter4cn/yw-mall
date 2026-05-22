@@ -60,6 +60,7 @@ const (
 	User_SendVerifyCode_FullMethodName         = "/user.User/SendVerifyCode"
 	User_RegisterV2_FullMethodName             = "/user.User/RegisterV2"
 	User_LoginV2_FullMethodName                = "/user.User/LoginV2"
+	User_ResetPasswordByCode_FullMethodName    = "/user.User/ResetPasswordByCode"
 )
 
 // UserClient is the client API for User service.
@@ -113,6 +114,8 @@ type UserClient interface {
 	SendVerifyCode(ctx context.Context, in *SendVerifyCodeReq, opts ...grpc.CallOption) (*SendVerifyCodeResp, error)
 	RegisterV2(ctx context.Context, in *RegisterV2Req, opts ...grpc.CallOption) (*RegisterResp, error)
 	LoginV2(ctx context.Context, in *LoginV2Req, opts ...grpc.CallOption) (*LoginResp, error)
+	// 忘记密码：phone + SMS 验证码重置密码（无需旧密码）
+	ResetPasswordByCode(ctx context.Context, in *ResetPasswordByCodeReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type userClient struct {
@@ -533,6 +536,16 @@ func (c *userClient) LoginV2(ctx context.Context, in *LoginV2Req, opts ...grpc.C
 	return out, nil
 }
 
+func (c *userClient) ResetPasswordByCode(ctx context.Context, in *ResetPasswordByCodeReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, User_ResetPasswordByCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
@@ -584,6 +597,8 @@ type UserServer interface {
 	SendVerifyCode(context.Context, *SendVerifyCodeReq) (*SendVerifyCodeResp, error)
 	RegisterV2(context.Context, *RegisterV2Req) (*RegisterResp, error)
 	LoginV2(context.Context, *LoginV2Req) (*LoginResp, error)
+	// 忘记密码：phone + SMS 验证码重置密码（无需旧密码）
+	ResetPasswordByCode(context.Context, *ResetPasswordByCodeReq) (*OkResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -716,6 +731,9 @@ func (UnimplementedUserServer) RegisterV2(context.Context, *RegisterV2Req) (*Reg
 }
 func (UnimplementedUserServer) LoginV2(context.Context, *LoginV2Req) (*LoginResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method LoginV2 not implemented")
+}
+func (UnimplementedUserServer) ResetPasswordByCode(context.Context, *ResetPasswordByCodeReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ResetPasswordByCode not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -1476,6 +1494,24 @@ func _User_LoginV2_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_ResetPasswordByCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetPasswordByCodeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ResetPasswordByCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ResetPasswordByCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ResetPasswordByCode(ctx, req.(*ResetPasswordByCodeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1646,6 +1682,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LoginV2",
 			Handler:    _User_LoginV2_Handler,
+		},
+		{
+			MethodName: "ResetPasswordByCode",
+			Handler:    _User_ResetPasswordByCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

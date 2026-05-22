@@ -4148,6 +4148,75 @@ func (x *LoginV2Req) GetPassword() string {
 	return ""
 }
 
+// 忘记密码（无需旧密码）
+type ResetPasswordByCodeReq struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Phone          string                 `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
+	VerifyCode     string                 `protobuf:"bytes,2,opt,name=verify_code,json=verifyCode,proto3" json:"verify_code,omitempty"`
+	ChallengeToken string                 `protobuf:"bytes,3,opt,name=challenge_token,json=challengeToken,proto3" json:"challenge_token,omitempty"`
+	NewPassword    string                 `protobuf:"bytes,4,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ResetPasswordByCodeReq) Reset() {
+	*x = ResetPasswordByCodeReq{}
+	mi := &file_user_user_proto_msgTypes[69]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResetPasswordByCodeReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResetPasswordByCodeReq) ProtoMessage() {}
+
+func (x *ResetPasswordByCodeReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[69]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResetPasswordByCodeReq.ProtoReflect.Descriptor instead.
+func (*ResetPasswordByCodeReq) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{69}
+}
+
+func (x *ResetPasswordByCodeReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *ResetPasswordByCodeReq) GetVerifyCode() string {
+	if x != nil {
+		return x.VerifyCode
+	}
+	return ""
+}
+
+func (x *ResetPasswordByCodeReq) GetChallengeToken() string {
+	if x != nil {
+		return x.ChallengeToken
+	}
+	return ""
+}
+
+func (x *ResetPasswordByCodeReq) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
 var File_user_user_proto protoreflect.FileDescriptor
 
 const file_user_user_proto_rawDesc = "" +
@@ -4451,7 +4520,13 @@ const file_user_user_proto_rawDesc = "" +
 	"\n" +
 	"LoginV2Req\x12\x18\n" +
 	"\aaccount\x18\x01 \x01(\tR\aaccount\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword2\xc3\x13\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x9b\x01\n" +
+	"\x16ResetPasswordByCodeReq\x12\x14\n" +
+	"\x05phone\x18\x01 \x01(\tR\x05phone\x12\x1f\n" +
+	"\vverify_code\x18\x02 \x01(\tR\n" +
+	"verifyCode\x12'\n" +
+	"\x0fchallenge_token\x18\x03 \x01(\tR\x0echallengeToken\x12!\n" +
+	"\fnew_password\x18\x04 \x01(\tR\vnewPassword2\x86\x14\n" +
 	"\x04User\x121\n" +
 	"\bRegister\x12\x11.user.RegisterReq\x1a\x12.user.RegisterResp\x12(\n" +
 	"\x05Login\x12\x0e.user.LoginReq\x1a\x0f.user.LoginResp\x12.\n" +
@@ -4499,7 +4574,8 @@ const file_user_user_proto_rawDesc = "" +
 	"\x0eSendVerifyCode\x12\x17.user.SendVerifyCodeReq\x1a\x18.user.SendVerifyCodeResp\x125\n" +
 	"\n" +
 	"RegisterV2\x12\x13.user.RegisterV2Req\x1a\x12.user.RegisterResp\x12,\n" +
-	"\aLoginV2\x12\x10.user.LoginV2Req\x1a\x0f.user.LoginRespB\bZ\x06./userb\x06proto3"
+	"\aLoginV2\x12\x10.user.LoginV2Req\x1a\x0f.user.LoginResp\x12A\n" +
+	"\x13ResetPasswordByCode\x12\x1c.user.ResetPasswordByCodeReq\x1a\f.user.OkRespB\bZ\x06./userb\x06proto3"
 
 var (
 	file_user_user_proto_rawDescOnce sync.Once
@@ -4513,7 +4589,7 @@ func file_user_user_proto_rawDescGZIP() []byte {
 	return file_user_user_proto_rawDescData
 }
 
-var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 69)
+var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 70)
 var file_user_user_proto_goTypes = []any{
 	(*RegisterReq)(nil),               // 0: user.RegisterReq
 	(*RegisterResp)(nil),              // 1: user.RegisterResp
@@ -4584,6 +4660,7 @@ var file_user_user_proto_goTypes = []any{
 	(*SendVerifyCodeResp)(nil),        // 66: user.SendVerifyCodeResp
 	(*RegisterV2Req)(nil),             // 67: user.RegisterV2Req
 	(*LoginV2Req)(nil),                // 68: user.LoginV2Req
+	(*ResetPasswordByCodeReq)(nil),    // 69: user.ResetPasswordByCodeReq
 }
 var file_user_user_proto_depIdxs = []int32{
 	20, // 0: user.ListAddressesResp.addresses:type_name -> user.Address
@@ -4632,49 +4709,51 @@ var file_user_user_proto_depIdxs = []int32{
 	65, // 43: user.User.SendVerifyCode:input_type -> user.SendVerifyCodeReq
 	67, // 44: user.User.RegisterV2:input_type -> user.RegisterV2Req
 	68, // 45: user.User.LoginV2:input_type -> user.LoginV2Req
-	1,  // 46: user.User.Register:output_type -> user.RegisterResp
-	3,  // 47: user.User.Login:output_type -> user.LoginResp
-	12, // 48: user.User.GetUser:output_type -> user.GetUserResp
-	14, // 49: user.User.UpdateUser:output_type -> user.UpdateUserResp
-	16, // 50: user.User.AddPoints:output_type -> user.AddPointsResp
-	18, // 51: user.User.DeductPoints:output_type -> user.DeductPointsResp
-	22, // 52: user.User.AddAddress:output_type -> user.AddAddressResp
-	19, // 53: user.User.UpdateAddress:output_type -> user.OkResp
-	19, // 54: user.User.DeleteAddress:output_type -> user.OkResp
-	19, // 55: user.User.SetDefaultAddress:output_type -> user.OkResp
-	27, // 56: user.User.ListAddresses:output_type -> user.ListAddressesResp
-	20, // 57: user.User.GetAddress:output_type -> user.Address
-	20, // 58: user.User.GetDefaultAddress:output_type -> user.Address
-	32, // 59: user.User.AdminLogin:output_type -> user.AdminLoginResp
-	34, // 60: user.User.CreateAdmin:output_type -> user.CreateAdminResp
-	36, // 61: user.User.ListAdmins:output_type -> user.ListAdminsResp
-	30, // 62: user.User.GetAdminById:output_type -> user.AdminInfo
-	19, // 63: user.User.UpdateAdminStatus:output_type -> user.OkResp
-	40, // 64: user.User.ListUsers:output_type -> user.ListUsersResp
-	19, // 65: user.User.UpdateUserStatus:output_type -> user.OkResp
-	5,  // 66: user.User.CreateSession:output_type -> user.SessionInfo
-	5,  // 67: user.User.ValidateSession:output_type -> user.SessionInfo
-	5,  // 68: user.User.RefreshSession:output_type -> user.SessionInfo
-	4,  // 69: user.User.DestroySession:output_type -> user.Empty
-	4,  // 70: user.User.DestroyAllUserSessions:output_type -> user.Empty
-	43, // 71: user.User.ChangePassword:output_type -> user.ChangePasswordResp
-	46, // 72: user.User.ListAdminIpWhitelist:output_type -> user.ListAdminIpWhitelistResp
-	48, // 73: user.User.AddAdminIpWhitelist:output_type -> user.AddAdminIpWhitelistResp
-	19, // 74: user.User.DeleteAdminIpWhitelist:output_type -> user.OkResp
-	51, // 75: user.User.EnableAdminMfa:output_type -> user.EnableAdminMfaResp
-	19, // 76: user.User.ConfirmAdminMfa:output_type -> user.OkResp
-	19, // 77: user.User.VerifyAdminMfa:output_type -> user.OkResp
-	19, // 78: user.User.DisableAdminMfa:output_type -> user.OkResp
-	56, // 79: user.User.GetAdminMfaStatus:output_type -> user.GetAdminMfaStatusResp
-	58, // 80: user.User.SubmitKyc:output_type -> user.SubmitKycResp
-	60, // 81: user.User.GetKycStatus:output_type -> user.GetKycStatusResp
-	63, // 82: user.User.ListPendingKyc:output_type -> user.ListPendingKycResp
-	19, // 83: user.User.AdminAuditKyc:output_type -> user.OkResp
-	66, // 84: user.User.SendVerifyCode:output_type -> user.SendVerifyCodeResp
-	1,  // 85: user.User.RegisterV2:output_type -> user.RegisterResp
-	3,  // 86: user.User.LoginV2:output_type -> user.LoginResp
-	46, // [46:87] is the sub-list for method output_type
-	5,  // [5:46] is the sub-list for method input_type
+	69, // 46: user.User.ResetPasswordByCode:input_type -> user.ResetPasswordByCodeReq
+	1,  // 47: user.User.Register:output_type -> user.RegisterResp
+	3,  // 48: user.User.Login:output_type -> user.LoginResp
+	12, // 49: user.User.GetUser:output_type -> user.GetUserResp
+	14, // 50: user.User.UpdateUser:output_type -> user.UpdateUserResp
+	16, // 51: user.User.AddPoints:output_type -> user.AddPointsResp
+	18, // 52: user.User.DeductPoints:output_type -> user.DeductPointsResp
+	22, // 53: user.User.AddAddress:output_type -> user.AddAddressResp
+	19, // 54: user.User.UpdateAddress:output_type -> user.OkResp
+	19, // 55: user.User.DeleteAddress:output_type -> user.OkResp
+	19, // 56: user.User.SetDefaultAddress:output_type -> user.OkResp
+	27, // 57: user.User.ListAddresses:output_type -> user.ListAddressesResp
+	20, // 58: user.User.GetAddress:output_type -> user.Address
+	20, // 59: user.User.GetDefaultAddress:output_type -> user.Address
+	32, // 60: user.User.AdminLogin:output_type -> user.AdminLoginResp
+	34, // 61: user.User.CreateAdmin:output_type -> user.CreateAdminResp
+	36, // 62: user.User.ListAdmins:output_type -> user.ListAdminsResp
+	30, // 63: user.User.GetAdminById:output_type -> user.AdminInfo
+	19, // 64: user.User.UpdateAdminStatus:output_type -> user.OkResp
+	40, // 65: user.User.ListUsers:output_type -> user.ListUsersResp
+	19, // 66: user.User.UpdateUserStatus:output_type -> user.OkResp
+	5,  // 67: user.User.CreateSession:output_type -> user.SessionInfo
+	5,  // 68: user.User.ValidateSession:output_type -> user.SessionInfo
+	5,  // 69: user.User.RefreshSession:output_type -> user.SessionInfo
+	4,  // 70: user.User.DestroySession:output_type -> user.Empty
+	4,  // 71: user.User.DestroyAllUserSessions:output_type -> user.Empty
+	43, // 72: user.User.ChangePassword:output_type -> user.ChangePasswordResp
+	46, // 73: user.User.ListAdminIpWhitelist:output_type -> user.ListAdminIpWhitelistResp
+	48, // 74: user.User.AddAdminIpWhitelist:output_type -> user.AddAdminIpWhitelistResp
+	19, // 75: user.User.DeleteAdminIpWhitelist:output_type -> user.OkResp
+	51, // 76: user.User.EnableAdminMfa:output_type -> user.EnableAdminMfaResp
+	19, // 77: user.User.ConfirmAdminMfa:output_type -> user.OkResp
+	19, // 78: user.User.VerifyAdminMfa:output_type -> user.OkResp
+	19, // 79: user.User.DisableAdminMfa:output_type -> user.OkResp
+	56, // 80: user.User.GetAdminMfaStatus:output_type -> user.GetAdminMfaStatusResp
+	58, // 81: user.User.SubmitKyc:output_type -> user.SubmitKycResp
+	60, // 82: user.User.GetKycStatus:output_type -> user.GetKycStatusResp
+	63, // 83: user.User.ListPendingKyc:output_type -> user.ListPendingKycResp
+	19, // 84: user.User.AdminAuditKyc:output_type -> user.OkResp
+	66, // 85: user.User.SendVerifyCode:output_type -> user.SendVerifyCodeResp
+	1,  // 86: user.User.RegisterV2:output_type -> user.RegisterResp
+	3,  // 87: user.User.LoginV2:output_type -> user.LoginResp
+	19, // 88: user.User.ResetPasswordByCode:output_type -> user.OkResp
+	47, // [47:89] is the sub-list for method output_type
+	5,  // [5:47] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
 	5,  // [5:5] is the sub-list for extension extendee
 	0,  // [0:5] is the sub-list for field type_name
@@ -4691,7 +4770,7 @@ func file_user_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_user_proto_rawDesc), len(file_user_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   69,
+			NumMessages:   70,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

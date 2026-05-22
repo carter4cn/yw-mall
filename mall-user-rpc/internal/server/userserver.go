@@ -214,3 +214,7 @@ func (s *UserServer) RegisterV2(ctx context.Context, in *user.RegisterV2Req) (*u
 func (s *UserServer) LoginV2(ctx context.Context, in *user.LoginV2Req) (*user.LoginResp, error) {
 	return logic.NewLoginV2Logic(ctx, s.svcCtx).LoginV2(in)
 }
+
+func (s *UserServer) ResetPasswordByCode(ctx context.Context, in *user.ResetPasswordByCodeReq) (*user.OkResp, error) {
+	return logic.NewResetPasswordByCodeLogic(ctx, s.svcCtx).ResetPasswordByCode(in)
+}

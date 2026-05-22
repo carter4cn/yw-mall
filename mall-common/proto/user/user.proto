@@ -315,6 +315,9 @@ service User {
   rpc SendVerifyCode(SendVerifyCodeReq) returns (SendVerifyCodeResp);
   rpc RegisterV2(RegisterV2Req) returns (RegisterResp);
   rpc LoginV2(LoginV2Req) returns (LoginResp);
+
+  // 忘记密码：phone + SMS 验证码重置密码（无需旧密码）
+  rpc ResetPasswordByCode(ResetPasswordByCodeReq) returns (OkResp);
 }
 
 // ===== Sprint 5 multi-identifier register/login =====
@@ -344,4 +347,12 @@ message RegisterV2Req {
 message LoginV2Req {
   string account  = 1;
   string password = 2;
+}
+
+// 忘记密码（无需旧密码）
+message ResetPasswordByCodeReq {
+  string phone           = 1;
+  string verify_code     = 2;
+  string challenge_token = 3;
+  string new_password    = 4;
 }

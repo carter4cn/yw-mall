@@ -89,10 +89,11 @@ type (
 	AdminAuditKycReq   = user.AdminAuditKycReq
 
 	// Sprint 5 multi-identifier
-	SendVerifyCodeReq  = user.SendVerifyCodeReq
-	SendVerifyCodeResp = user.SendVerifyCodeResp
-	RegisterV2Req      = user.RegisterV2Req
-	LoginV2Req         = user.LoginV2Req
+	SendVerifyCodeReq      = user.SendVerifyCodeReq
+	SendVerifyCodeResp     = user.SendVerifyCodeResp
+	RegisterV2Req          = user.RegisterV2Req
+	LoginV2Req             = user.LoginV2Req
+	ResetPasswordByCodeReq = user.ResetPasswordByCodeReq
 
 	User interface {
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
@@ -145,6 +146,7 @@ type (
 		SendVerifyCode(ctx context.Context, in *SendVerifyCodeReq, opts ...grpc.CallOption) (*SendVerifyCodeResp, error)
 		RegisterV2(ctx context.Context, in *RegisterV2Req, opts ...grpc.CallOption) (*RegisterResp, error)
 		LoginV2(ctx context.Context, in *LoginV2Req, opts ...grpc.CallOption) (*LoginResp, error)
+		ResetPasswordByCode(ctx context.Context, in *ResetPasswordByCodeReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultUser struct {
@@ -341,6 +343,10 @@ func (m *defaultUser) RegisterV2(ctx context.Context, in *RegisterV2Req, opts ..
 
 func (m *defaultUser) LoginV2(ctx context.Context, in *LoginV2Req, opts ...grpc.CallOption) (*LoginResp, error) {
 	return user.NewUserClient(m.cli.Conn()).LoginV2(ctx, in, opts...)
+}
+
+func (m *defaultUser) ResetPasswordByCode(ctx context.Context, in *ResetPasswordByCodeReq, opts ...grpc.CallOption) (*OkResp, error) {
+	return user.NewUserClient(m.cli.Conn()).ResetPasswordByCode(ctx, in, opts...)
 }
 
 func (m *defaultUser) AdminAuditKyc(ctx context.Context, in *AdminAuditKycReq, opts ...grpc.CallOption) (*OkResp, error) {
