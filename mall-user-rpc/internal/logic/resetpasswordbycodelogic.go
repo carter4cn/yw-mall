@@ -72,5 +72,14 @@ func (l *ResetPasswordByCodeLogic) ResetPasswordByCode(in *user.ResetPasswordByC
 	_ = recordPasswordHistory(l.ctx, l.svcCtx.DB, subjectTypeUser, uid,
 		string(hash), l.svcCtx.PasswordPolicy.MaxHistory)
 
+	// Force-logout: pre-reset stolen tokens must not survive. Only "user" role —
+	// admin path can't reach here, but the index is shared, so role-filter is
+	// the safe move (see destroyUserSessionsByRole comment).
+	if n, derr := destroyUserSessionsByRole(l.ctx, l.svcCtx, int64(uid), "user"); derr != nil {
+		l.Logger.Errorf("ResetPasswordByCode: destroyUserSessionsByRole(uid=%d) failed: %v", uid, derr)
+	} else if n > 0 {
+		l.Logger.Infof("ResetPasswordByCode: kicked %d user session(s) for uid=%d", n, uid)
+	}
+
 	return &user.OkResp{Ok: true}, nil
 }

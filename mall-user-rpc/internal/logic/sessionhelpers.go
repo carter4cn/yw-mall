@@ -1,10 +1,16 @@
 package logic
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"time"
+
+	"mall-user-rpc/internal/svc"
+
+	"github.com/redis/go-redis/v9"
 )
 
 // Session storage layout (Redis):
@@ -94,4 +100,45 @@ func maxRotate(n int32) int32 {
 		return defaultMaxRotateCount
 	}
 	return n
+}
+
+// destroyUserSessionsByRole wipes every session for {uid} whose payload Role
+// matches `role`. Used after password change/reset so a credential rotation
+// kicks the matching identity off all devices without nuking the other identity
+// that may share the same uid (admin_user.id and user.id collide in this
+// codebase — both write to user_sessions:{uid}).
+//
+// Best-effort: returns the count it removed plus the first error encountered;
+// callers typically only log it.
+func destroyUserSessionsByRole(ctx context.Context, svcCtx *svc.ServiceContext, uid int64, role string) (int, error) {
+	if uid <= 0 || role == "" {
+		return 0, nil
+	}
+	tokens, err := svcCtx.Redis.SMembers(ctx, userSessionsKey(uid)).Result()
+	if err != nil && err != redis.Nil {
+		return 0, err
+	}
+	removed := 0
+	for _, access := range tokens {
+		raw, gerr := svcCtx.Redis.Get(ctx, sessionKey(access)).Result()
+		if gerr != nil {
+			// session already expired/missing — drop the dangling index entry too
+			_ = svcCtx.Redis.SRem(ctx, userSessionsKey(uid), access).Err()
+			continue
+		}
+		var sess sessionPayload
+		if jerr := json.Unmarshal([]byte(raw), &sess); jerr != nil {
+			continue
+		}
+		if sess.Role != role {
+			continue
+		}
+		if sess.RefreshToken != "" {
+			_ = svcCtx.Redis.Del(ctx, refreshKey(sess.RefreshToken)).Err()
+		}
+		_ = svcCtx.Redis.Del(ctx, sessionKey(access)).Err()
+		_ = svcCtx.Redis.SRem(ctx, userSessionsKey(uid), access).Err()
+		removed++
+	}
+	return removed, nil
 }

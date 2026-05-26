@@ -100,5 +100,18 @@ func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePasswordReq) (*user.
 		l.Logger.Errorf("ChangePassword: recordPasswordHistory failed: %v", err)
 	}
 
+	// 8. Force-logout: wipe every live session for this identity so a stolen
+	// access_token can't outlive the password it was minted under. Filter by
+	// role because admin_user.id and user.id share user_sessions:{uid}.
+	role := "user"
+	if subjectType == subjectTypeAdmin {
+		role = "admin"
+	}
+	if n, derr := destroyUserSessionsByRole(l.ctx, l.svcCtx, in.SubjectId, role); derr != nil {
+		l.Logger.Errorf("ChangePassword: destroyUserSessionsByRole(uid=%d,role=%s) failed: %v", in.SubjectId, role, derr)
+	} else if n > 0 {
+		l.Logger.Infof("ChangePassword: kicked %d %s session(s) for uid=%d", n, role, in.SubjectId)
+	}
+
 	return &user.ChangePasswordResp{Ok: true}, nil
 }
