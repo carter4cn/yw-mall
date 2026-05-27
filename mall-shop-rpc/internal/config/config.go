@@ -9,5 +9,6 @@ type Config struct {
 	zrpc.RpcServerConf
 	DataSource     string
 	RiskDataSource string `json:",optional"`
+	UserDataSource string `json:",optional"` // mall_user 库（merchant_staff 表）
 	Cache          cache.CacheConf
 }

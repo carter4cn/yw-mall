@@ -11,6 +11,7 @@ type ServiceContext struct {
 	Config          config.Config
 	DB              sqlx.SqlConn
 	RiskDB          sqlx.SqlConn // for F-5 auto-restrict via shop_restriction
+	UserDB          sqlx.SqlConn // M1: mall_user 库（merchant_staff + merchant_staff_invitation）
 	ShopModel       model.ShopModel
 	ShopFollowModel model.ShopFollowModel
 }
@@ -25,6 +26,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 	if c.RiskDataSource != "" {
 		ctx.RiskDB = sqlx.NewMysql(c.RiskDataSource)
+	}
+	if c.UserDataSource != "" {
+		ctx.UserDB = sqlx.NewMysql(c.UserDataSource)
 	}
 	return ctx
 }
