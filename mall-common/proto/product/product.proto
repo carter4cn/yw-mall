@@ -12,6 +12,11 @@ message CreateProductReq {
   int64 category_id = 5;
   string images = 6;
   int64 shop_id = 7;
+  // M2: 多 SKU 数组，空时后端建 1 个 default SKU 兼容旧路径
+  repeated SkuInput skus = 8;
+  // SPU 扩展字段（之前只在 detail 里有，create 时补上）
+  string brand = 9;
+  string detail = 10;
 }
 
 message CreateProductResp {
@@ -149,6 +154,42 @@ message ProductDetailResp {
   string detail = 13;
   string brand = 14;
   double weight = 15;
+  // M2: 多 SKU 列表（status=1 的活跃 SKU）
+  repeated SkuItem skus = 16;
+}
+
+// ===== M2 multi-SKU =====
+message SkuInput {
+  // id=0 表示新建; >0 表示 update 已有 SKU; status=0 表示软删
+  int64  id        = 1;
+  string sku_code  = 2;  // 空则后端按 P{pid}-S{idx} 自动生成
+  string spec_text = 3;
+  string spec_json = 4;
+  int64  price     = 5;
+  int64  stock     = 6;
+  string image     = 7;
+  int32  status    = 8;  // 0=use default(1=active); 直接传 1/2 也行
+}
+
+message SkuItem {
+  int64  id          = 1;
+  int64  product_id  = 2;
+  string sku_code    = 3;
+  string spec_text   = 4;
+  string spec_json   = 5;
+  int64  price       = 6;
+  int64  stock       = 7;
+  string image       = 8;
+  int32  status      = 9;
+}
+
+message BatchUpsertSkusReq {
+  int64 product_id = 1;
+  int64 shop_id    = 2; // 校验所有权
+  repeated SkuInput skus = 3;
+}
+message BatchUpsertSkusResp {
+  repeated SkuItem items = 1;
 }
 
 service Product {
@@ -167,4 +208,7 @@ service Product {
   rpc AdminListReviewProducts(AdminListReviewProductsReq) returns (ListProductsResp);
   rpc AdminReviewProduct(AdminReviewProductReq) returns (OkResp);
   rpc GetProductDetail(GetProductReq) returns (ProductDetailResp);
+
+  // M2: SKU 矩阵批量 upsert
+  rpc BatchUpsertSkus(BatchUpsertSkusReq) returns (BatchUpsertSkusResp);
 }

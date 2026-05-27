@@ -38,6 +38,12 @@ type (
 	UpdateStockReq             = product.UpdateStockReq
 	UpdateStockResp            = product.UpdateStockResp
 
+	// M2 multi-SKU
+	SkuInput            = product.SkuInput
+	SkuItem             = product.SkuItem
+	BatchUpsertSkusReq  = product.BatchUpsertSkusReq
+	BatchUpsertSkusResp = product.BatchUpsertSkusResp
+
 	Product interface {
 		CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductResp, error)
 		GetProduct(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*GetProductResp, error)
@@ -54,6 +60,8 @@ type (
 		AdminListReviewProducts(ctx context.Context, in *AdminListReviewProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error)
 		AdminReviewProduct(ctx context.Context, in *AdminReviewProductReq, opts ...grpc.CallOption) (*OkResp, error)
 		GetProductDetail(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*ProductDetailResp, error)
+		// M2: SKU 矩阵批量 upsert
+		BatchUpsertSkus(ctx context.Context, in *BatchUpsertSkusReq, opts ...grpc.CallOption) (*BatchUpsertSkusResp, error)
 	}
 
 	defaultProduct struct {
@@ -140,4 +148,10 @@ func (m *defaultProduct) AdminReviewProduct(ctx context.Context, in *AdminReview
 func (m *defaultProduct) GetProductDetail(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*ProductDetailResp, error) {
 	client := product.NewProductClient(m.cli.Conn())
 	return client.GetProductDetail(ctx, in, opts...)
+}
+
+// M2: SKU 矩阵批量 upsert
+func (m *defaultProduct) BatchUpsertSkus(ctx context.Context, in *BatchUpsertSkusReq, opts ...grpc.CallOption) (*BatchUpsertSkusResp, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.BatchUpsertSkus(ctx, in, opts...)
 }

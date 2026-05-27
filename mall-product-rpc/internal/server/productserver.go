@@ -97,3 +97,9 @@ func (s *ProductServer) GetProductDetail(ctx context.Context, in *product.GetPro
 	l := logic.NewGetProductDetailLogic(ctx, s.svcCtx)
 	return l.GetProductDetail(in)
 }
+
+// M2: SKU 矩阵批量 upsert
+func (s *ProductServer) BatchUpsertSkus(ctx context.Context, in *product.BatchUpsertSkusReq) (*product.BatchUpsertSkusResp, error) {
+	l := logic.NewBatchUpsertSkusLogic(ctx, s.svcCtx)
+	return l.BatchUpsertSkus(in)
+}

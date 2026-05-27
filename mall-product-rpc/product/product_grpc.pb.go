@@ -34,6 +34,7 @@ const (
 	Product_AdminListReviewProducts_FullMethodName = "/product.Product/AdminListReviewProducts"
 	Product_AdminReviewProduct_FullMethodName      = "/product.Product/AdminReviewProduct"
 	Product_GetProductDetail_FullMethodName        = "/product.Product/GetProductDetail"
+	Product_BatchUpsertSkus_FullMethodName         = "/product.Product/BatchUpsertSkus"
 )
 
 // ProductClient is the client API for Product service.
@@ -55,6 +56,8 @@ type ProductClient interface {
 	AdminListReviewProducts(ctx context.Context, in *AdminListReviewProductsReq, opts ...grpc.CallOption) (*ListProductsResp, error)
 	AdminReviewProduct(ctx context.Context, in *AdminReviewProductReq, opts ...grpc.CallOption) (*OkResp, error)
 	GetProductDetail(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*ProductDetailResp, error)
+	// M2: SKU 矩阵批量 upsert
+	BatchUpsertSkus(ctx context.Context, in *BatchUpsertSkusReq, opts ...grpc.CallOption) (*BatchUpsertSkusResp, error)
 }
 
 type productClient struct {
@@ -215,6 +218,16 @@ func (c *productClient) GetProductDetail(ctx context.Context, in *GetProductReq,
 	return out, nil
 }
 
+func (c *productClient) BatchUpsertSkus(ctx context.Context, in *BatchUpsertSkusReq, opts ...grpc.CallOption) (*BatchUpsertSkusResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchUpsertSkusResp)
+	err := c.cc.Invoke(ctx, Product_BatchUpsertSkus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductServer is the server API for Product service.
 // All implementations must embed UnimplementedProductServer
 // for forward compatibility.
@@ -234,6 +247,8 @@ type ProductServer interface {
 	AdminListReviewProducts(context.Context, *AdminListReviewProductsReq) (*ListProductsResp, error)
 	AdminReviewProduct(context.Context, *AdminReviewProductReq) (*OkResp, error)
 	GetProductDetail(context.Context, *GetProductReq) (*ProductDetailResp, error)
+	// M2: SKU 矩阵批量 upsert
+	BatchUpsertSkus(context.Context, *BatchUpsertSkusReq) (*BatchUpsertSkusResp, error)
 	mustEmbedUnimplementedProductServer()
 }
 
@@ -288,6 +303,9 @@ func (UnimplementedProductServer) AdminReviewProduct(context.Context, *AdminRevi
 }
 func (UnimplementedProductServer) GetProductDetail(context.Context, *GetProductReq) (*ProductDetailResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetProductDetail not implemented")
+}
+func (UnimplementedProductServer) BatchUpsertSkus(context.Context, *BatchUpsertSkusReq) (*BatchUpsertSkusResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method BatchUpsertSkus not implemented")
 }
 func (UnimplementedProductServer) mustEmbedUnimplementedProductServer() {}
 func (UnimplementedProductServer) testEmbeddedByValue()                 {}
@@ -580,6 +598,24 @@ func _Product_GetProductDetail_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Product_BatchUpsertSkus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchUpsertSkusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServer).BatchUpsertSkus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Product_BatchUpsertSkus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServer).BatchUpsertSkus(ctx, req.(*BatchUpsertSkusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Product_ServiceDesc is the grpc.ServiceDesc for Product service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -646,6 +682,10 @@ var Product_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetProductDetail",
 			Handler:    _Product_GetProductDetail_Handler,
+		},
+		{
+			MethodName: "BatchUpsertSkus",
+			Handler:    _Product_BatchUpsertSkus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
