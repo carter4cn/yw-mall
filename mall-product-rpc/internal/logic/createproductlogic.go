@@ -3,6 +3,8 @@ package logic
 import (
 	"context"
 	"database/sql"
+	"fmt"
+	"strings"
 
 	"mall-product-rpc/internal/model"
 	"mall-product-rpc/internal/svc"
@@ -10,6 +12,7 @@ import (
 	"mall-shop-rpc/shopservice"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type CreateProductLogic struct {
@@ -57,6 +60,43 @@ func (l *CreateProductLogic) CreateProduct(in *product.CreateProductReq) (*produ
 			Delta:  1,
 		}); e != nil {
 			l.Logger.Errorf("IncrProductCount shop=%d err=%v", in.ShopId, e)
+		}
+	}
+
+	// M2: brand/detail 字段不在 generated Product model 里，raw SQL UPDATE 补齐
+	if in.Brand != "" || in.Detail != "" {
+		if _, e := l.svcCtx.DB.ExecCtx(l.ctx,
+			"UPDATE product SET brand=?, detail=? WHERE id=?",
+			in.Brand, in.Detail, id); e != nil {
+			l.Logger.Errorf("update brand/detail pid=%d err=%v", id, e)
+		}
+	}
+
+	// M2: SKU 落地。
+	// in.Skus 为空 → 建 1 个 default SKU 兼容老路径（C 端列表读 product.price/stock）
+	// 非空 → 单事务 upsert + 聚合回写 product
+	if len(in.Skus) == 0 {
+		mainImg := in.Images
+		if comma := strings.IndexByte(in.Images, ','); comma >= 0 {
+			mainImg = in.Images[:comma]
+		}
+		if _, e := l.svcCtx.DB.ExecCtx(l.ctx, `
+            INSERT INTO sku (product_id, shop_id, sku_code, spec_text, spec_json,
+                             price, stock, image, status)
+            VALUES (?, ?, ?, '', '', ?, ?, ?, 1)`,
+			id, in.ShopId, fmt.Sprintf("P%d-S1", id),
+			in.Price, in.Stock, mainImg); e != nil {
+			l.Logger.Errorf("insert default sku pid=%d err=%v", id, e)
+		}
+	} else {
+		if e := l.svcCtx.DB.TransactCtx(l.ctx, func(ctx context.Context, tx sqlx.Session) error {
+			if _, ue := upsertSkusAtomic(ctx, tx, in.ShopId, id, in.Skus); ue != nil {
+				return ue
+			}
+			return syncProductAggregateInTx(ctx, tx, id)
+		}); e != nil {
+			l.Logger.Errorf("upsert skus pid=%d err=%v", id, e)
+			return nil, e
 		}
 	}
 

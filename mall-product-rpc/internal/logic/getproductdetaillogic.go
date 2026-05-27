@@ -63,6 +63,9 @@ func (l *GetProductDetailLogic) GetProductDetail(in *product.GetProductReq) (*pr
 	if r.Detail.Valid {
 		detail = r.Detail.String
 	}
+	// M2: 拼上 active SKU 列表给详情页用
+	skus, _ := listSkusByProduct(l.ctx, l.svcCtx.DB, in.Id)
+
 	return &product.ProductDetailResp{
 		Id:           int64(r.Id),
 		Name:         r.Name,
@@ -79,5 +82,6 @@ func (l *GetProductDetailLogic) GetProductDetail(in *product.GetProductReq) (*pr
 		Detail:       detail,
 		Brand:        r.Brand,
 		Weight:       r.Weight,
+		Skus:         skus,
 	}, nil
 }
