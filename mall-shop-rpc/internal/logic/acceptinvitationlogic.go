@@ -5,6 +5,7 @@ import (
 	"errors"
 	"time"
 
+	"mall-common/cryptox"
 	"mall-shop-rpc/internal/svc"
 	"mall-shop-rpc/shop"
 
@@ -54,13 +55,26 @@ func (l *AcceptInvitationLogic) AcceptInvitation(in *shop.AcceptInvitationReq) (
 		return nil, errors.New("invitation expired")
 	}
 
-	// 防代领：acceptor 的 phone/email 必须等于 invitation target
+	// 防代领：从 user 表读 acceptor 的 phone_hash / email_hash（reg-v2
+	// 后明文列为空，identifier 用 blind index 形式存）。
+	// HMAC(target) == user.phone_hash 即匹配。HMAC 用 cryptox 共享 key。
+	var u struct {
+		PhoneHash string `db:"phone_hash"`
+		EmailHash string `db:"email_hash"`
+	}
+	if e := l.svcCtx.UserDB.QueryRowCtx(l.ctx, &u,
+		"SELECT COALESCE(phone_hash,'') AS phone_hash, COALESCE(email_hash,'') AS email_hash FROM `user` WHERE id=?",
+		in.AcceptorUid); e != nil {
+		return nil, errors.New("acceptor user not found")
+	}
 	if inv.TargetPhone != "" {
-		if in.AcceptorPhone == "" || in.AcceptorPhone != inv.TargetPhone {
+		want := cryptox.Hmac(inv.TargetPhone)
+		if want == "" || want != u.PhoneHash {
 			return nil, errors.New("phone mismatch with invitation target")
 		}
 	} else if inv.TargetEmail != "" {
-		if in.AcceptorEmail == "" || in.AcceptorEmail != inv.TargetEmail {
+		want := cryptox.Hmac(inv.TargetEmail)
+		if want == "" || want != u.EmailHash {
 			return nil, errors.New("email mismatch with invitation target")
 		}
 	}
