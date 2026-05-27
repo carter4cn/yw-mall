@@ -45,6 +45,14 @@ const (
 	ShopService_SubmitShopLifecycleRequest_FullMethodName = "/shop.ShopService/SubmitShopLifecycleRequest"
 	ShopService_ListShopLifecycleRequests_FullMethodName  = "/shop.ShopService/ListShopLifecycleRequests"
 	ShopService_ReviewShopLifecycleRequest_FullMethodName = "/shop.ShopService/ReviewShopLifecycleRequest"
+	ShopService_GetStaffByUserId_FullMethodName           = "/shop.ShopService/GetStaffByUserId"
+	ShopService_ListShopStaff_FullMethodName              = "/shop.ShopService/ListShopStaff"
+	ShopService_UpdateStaffRole_FullMethodName            = "/shop.ShopService/UpdateStaffRole"
+	ShopService_DisableStaff_FullMethodName               = "/shop.ShopService/DisableStaff"
+	ShopService_CreateInvitation_FullMethodName           = "/shop.ShopService/CreateInvitation"
+	ShopService_ListPendingInvitations_FullMethodName     = "/shop.ShopService/ListPendingInvitations"
+	ShopService_RevokeInvitation_FullMethodName           = "/shop.ShopService/RevokeInvitation"
+	ShopService_AcceptInvitation_FullMethodName           = "/shop.ShopService/AcceptInvitation"
 )
 
 // ShopServiceClient is the client API for ShopService service.
@@ -79,6 +87,15 @@ type ShopServiceClient interface {
 	SubmitShopLifecycleRequest(ctx context.Context, in *SubmitShopLifecycleRequestReq, opts ...grpc.CallOption) (*SubmitShopLifecycleRequestResp, error)
 	ListShopLifecycleRequests(ctx context.Context, in *ListShopLifecycleRequestsReq, opts ...grpc.CallOption) (*ListShopLifecycleRequestsResp, error)
 	ReviewShopLifecycleRequest(ctx context.Context, in *ReviewShopLifecycleRequestReq, opts ...grpc.CallOption) (*OkResp, error)
+	// ===== M1 merchant staff & invitation =====
+	GetStaffByUserId(ctx context.Context, in *GetStaffByUserIdReq, opts ...grpc.CallOption) (*GetStaffByUserIdResp, error)
+	ListShopStaff(ctx context.Context, in *ListShopStaffReq, opts ...grpc.CallOption) (*ListShopStaffResp, error)
+	UpdateStaffRole(ctx context.Context, in *UpdateStaffRoleReq, opts ...grpc.CallOption) (*OkResp, error)
+	DisableStaff(ctx context.Context, in *DisableStaffReq, opts ...grpc.CallOption) (*OkResp, error)
+	CreateInvitation(ctx context.Context, in *CreateInvitationReq, opts ...grpc.CallOption) (*CreateInvitationResp, error)
+	ListPendingInvitations(ctx context.Context, in *ListPendingInvitationsReq, opts ...grpc.CallOption) (*ListPendingInvitationsResp, error)
+	RevokeInvitation(ctx context.Context, in *RevokeInvitationReq, opts ...grpc.CallOption) (*OkResp, error)
+	AcceptInvitation(ctx context.Context, in *AcceptInvitationReq, opts ...grpc.CallOption) (*AcceptInvitationResp, error)
 }
 
 type shopServiceClient struct {
@@ -349,6 +366,86 @@ func (c *shopServiceClient) ReviewShopLifecycleRequest(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *shopServiceClient) GetStaffByUserId(ctx context.Context, in *GetStaffByUserIdReq, opts ...grpc.CallOption) (*GetStaffByUserIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetStaffByUserIdResp)
+	err := c.cc.Invoke(ctx, ShopService_GetStaffByUserId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ListShopStaff(ctx context.Context, in *ListShopStaffReq, opts ...grpc.CallOption) (*ListShopStaffResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListShopStaffResp)
+	err := c.cc.Invoke(ctx, ShopService_ListShopStaff_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) UpdateStaffRole(ctx context.Context, in *UpdateStaffRoleReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShopService_UpdateStaffRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) DisableStaff(ctx context.Context, in *DisableStaffReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShopService_DisableStaff_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) CreateInvitation(ctx context.Context, in *CreateInvitationReq, opts ...grpc.CallOption) (*CreateInvitationResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateInvitationResp)
+	err := c.cc.Invoke(ctx, ShopService_CreateInvitation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) ListPendingInvitations(ctx context.Context, in *ListPendingInvitationsReq, opts ...grpc.CallOption) (*ListPendingInvitationsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListPendingInvitationsResp)
+	err := c.cc.Invoke(ctx, ShopService_ListPendingInvitations_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) RevokeInvitation(ctx context.Context, in *RevokeInvitationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShopService_RevokeInvitation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) AcceptInvitation(ctx context.Context, in *AcceptInvitationReq, opts ...grpc.CallOption) (*AcceptInvitationResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AcceptInvitationResp)
+	err := c.cc.Invoke(ctx, ShopService_AcceptInvitation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ShopServiceServer is the server API for ShopService service.
 // All implementations must embed UnimplementedShopServiceServer
 // for forward compatibility.
@@ -381,6 +478,15 @@ type ShopServiceServer interface {
 	SubmitShopLifecycleRequest(context.Context, *SubmitShopLifecycleRequestReq) (*SubmitShopLifecycleRequestResp, error)
 	ListShopLifecycleRequests(context.Context, *ListShopLifecycleRequestsReq) (*ListShopLifecycleRequestsResp, error)
 	ReviewShopLifecycleRequest(context.Context, *ReviewShopLifecycleRequestReq) (*OkResp, error)
+	// ===== M1 merchant staff & invitation =====
+	GetStaffByUserId(context.Context, *GetStaffByUserIdReq) (*GetStaffByUserIdResp, error)
+	ListShopStaff(context.Context, *ListShopStaffReq) (*ListShopStaffResp, error)
+	UpdateStaffRole(context.Context, *UpdateStaffRoleReq) (*OkResp, error)
+	DisableStaff(context.Context, *DisableStaffReq) (*OkResp, error)
+	CreateInvitation(context.Context, *CreateInvitationReq) (*CreateInvitationResp, error)
+	ListPendingInvitations(context.Context, *ListPendingInvitationsReq) (*ListPendingInvitationsResp, error)
+	RevokeInvitation(context.Context, *RevokeInvitationReq) (*OkResp, error)
+	AcceptInvitation(context.Context, *AcceptInvitationReq) (*AcceptInvitationResp, error)
 	mustEmbedUnimplementedShopServiceServer()
 }
 
@@ -468,6 +574,30 @@ func (UnimplementedShopServiceServer) ListShopLifecycleRequests(context.Context,
 }
 func (UnimplementedShopServiceServer) ReviewShopLifecycleRequest(context.Context, *ReviewShopLifecycleRequestReq) (*OkResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method ReviewShopLifecycleRequest not implemented")
+}
+func (UnimplementedShopServiceServer) GetStaffByUserId(context.Context, *GetStaffByUserIdReq) (*GetStaffByUserIdResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetStaffByUserId not implemented")
+}
+func (UnimplementedShopServiceServer) ListShopStaff(context.Context, *ListShopStaffReq) (*ListShopStaffResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListShopStaff not implemented")
+}
+func (UnimplementedShopServiceServer) UpdateStaffRole(context.Context, *UpdateStaffRoleReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateStaffRole not implemented")
+}
+func (UnimplementedShopServiceServer) DisableStaff(context.Context, *DisableStaffReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method DisableStaff not implemented")
+}
+func (UnimplementedShopServiceServer) CreateInvitation(context.Context, *CreateInvitationReq) (*CreateInvitationResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateInvitation not implemented")
+}
+func (UnimplementedShopServiceServer) ListPendingInvitations(context.Context, *ListPendingInvitationsReq) (*ListPendingInvitationsResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListPendingInvitations not implemented")
+}
+func (UnimplementedShopServiceServer) RevokeInvitation(context.Context, *RevokeInvitationReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method RevokeInvitation not implemented")
+}
+func (UnimplementedShopServiceServer) AcceptInvitation(context.Context, *AcceptInvitationReq) (*AcceptInvitationResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method AcceptInvitation not implemented")
 }
 func (UnimplementedShopServiceServer) mustEmbedUnimplementedShopServiceServer() {}
 func (UnimplementedShopServiceServer) testEmbeddedByValue()                     {}
@@ -958,6 +1088,150 @@ func _ShopService_ReviewShopLifecycleRequest_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ShopService_GetStaffByUserId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStaffByUserIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).GetStaffByUserId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_GetStaffByUserId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).GetStaffByUserId(ctx, req.(*GetStaffByUserIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ListShopStaff_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListShopStaffReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ListShopStaff(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ListShopStaff_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ListShopStaff(ctx, req.(*ListShopStaffReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_UpdateStaffRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateStaffRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).UpdateStaffRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_UpdateStaffRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).UpdateStaffRole(ctx, req.(*UpdateStaffRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_DisableStaff_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DisableStaffReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).DisableStaff(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_DisableStaff_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).DisableStaff(ctx, req.(*DisableStaffReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_CreateInvitation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateInvitationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).CreateInvitation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_CreateInvitation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).CreateInvitation(ctx, req.(*CreateInvitationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_ListPendingInvitations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPendingInvitationsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).ListPendingInvitations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_ListPendingInvitations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).ListPendingInvitations(ctx, req.(*ListPendingInvitationsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_RevokeInvitation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeInvitationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).RevokeInvitation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_RevokeInvitation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).RevokeInvitation(ctx, req.(*RevokeInvitationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_AcceptInvitation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AcceptInvitationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).AcceptInvitation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_AcceptInvitation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).AcceptInvitation(ctx, req.(*AcceptInvitationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ShopService_ServiceDesc is the grpc.ServiceDesc for ShopService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1068,6 +1342,38 @@ var ShopService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReviewShopLifecycleRequest",
 			Handler:    _ShopService_ReviewShopLifecycleRequest_Handler,
+		},
+		{
+			MethodName: "GetStaffByUserId",
+			Handler:    _ShopService_GetStaffByUserId_Handler,
+		},
+		{
+			MethodName: "ListShopStaff",
+			Handler:    _ShopService_ListShopStaff_Handler,
+		},
+		{
+			MethodName: "UpdateStaffRole",
+			Handler:    _ShopService_UpdateStaffRole_Handler,
+		},
+		{
+			MethodName: "DisableStaff",
+			Handler:    _ShopService_DisableStaff_Handler,
+		},
+		{
+			MethodName: "CreateInvitation",
+			Handler:    _ShopService_CreateInvitation_Handler,
+		},
+		{
+			MethodName: "ListPendingInvitations",
+			Handler:    _ShopService_ListPendingInvitations_Handler,
+		},
+		{
+			MethodName: "RevokeInvitation",
+			Handler:    _ShopService_RevokeInvitation_Handler,
+		},
+		{
+			MethodName: "AcceptInvitation",
+			Handler:    _ShopService_AcceptInvitation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

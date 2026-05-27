@@ -35,6 +35,16 @@ service ShopService {
   rpc SubmitShopLifecycleRequest(SubmitShopLifecycleRequestReq) returns (SubmitShopLifecycleRequestResp);
   rpc ListShopLifecycleRequests(ListShopLifecycleRequestsReq) returns (ListShopLifecycleRequestsResp);
   rpc ReviewShopLifecycleRequest(ReviewShopLifecycleRequestReq) returns (OkResp);
+
+  // ===== M1 merchant staff & invitation =====
+  rpc GetStaffByUserId(GetStaffByUserIdReq) returns (GetStaffByUserIdResp);
+  rpc ListShopStaff(ListShopStaffReq) returns (ListShopStaffResp);
+  rpc UpdateStaffRole(UpdateStaffRoleReq) returns (OkResp);
+  rpc DisableStaff(DisableStaffReq) returns (OkResp);
+  rpc CreateInvitation(CreateInvitationReq) returns (CreateInvitationResp);
+  rpc ListPendingInvitations(ListPendingInvitationsReq) returns (ListPendingInvitationsResp);
+  rpc RevokeInvitation(RevokeInvitationReq) returns (OkResp);
+  rpc AcceptInvitation(AcceptInvitationReq) returns (AcceptInvitationResp);
 }
 
 message Shop {
@@ -207,3 +217,71 @@ message SubmitShopLifecycleRequestResp { int64 request_id = 1; }
 message ListShopLifecycleRequestsReq { int32 status = 1; int32 page = 2; int32 page_size = 3; }
 message ListShopLifecycleRequestsResp { repeated ShopLifecycleRequest requests = 1; int64 total = 2; }
 message ReviewShopLifecycleRequestReq { int64 request_id = 1; int64 admin_id = 2; int32 action = 3; string remark = 4; }
+
+// ===== M1 merchant staff & invitation =====
+message StaffInfo {
+  int64  id        = 1;
+  int64  shop_id   = 2;
+  int64  user_id   = 3;
+  string username  = 4;
+  string role      = 5;
+  int32  status    = 6;
+  int64  joined_at = 7;
+}
+
+message GetStaffByUserIdReq  { int64 user_id = 1; }
+message GetStaffByUserIdResp {
+  bool      found = 1;
+  StaffInfo staff = 2;
+  repeated string perms = 3;
+}
+
+message ListShopStaffReq  { int64 shop_id = 1; }
+message ListShopStaffResp { repeated StaffInfo items = 1; }
+
+message UpdateStaffRoleReq {
+  int64  shop_id  = 1;
+  int64  staff_id = 2;
+  string new_role = 3;
+}
+message DisableStaffReq { int64 shop_id = 1; int64 staff_id = 2; }
+
+message InvitationInfo {
+  int64  id           = 1;
+  int64  shop_id      = 2;
+  string target_phone = 3;
+  string target_email = 4;
+  string role         = 5;
+  int32  status       = 6;
+  int64  expires_at   = 7;
+  int64  create_time  = 8;
+}
+
+message CreateInvitationReq {
+  int64  shop_id        = 1;
+  int64  invited_by_uid = 2;
+  string target_phone   = 3;
+  string target_email   = 4;
+  string role           = 5;
+}
+message CreateInvitationResp {
+  string invitation_code = 1;
+  int64  expires_at      = 2;
+}
+
+message ListPendingInvitationsReq  { int64 shop_id = 1; }
+message ListPendingInvitationsResp { repeated InvitationInfo items = 1; }
+
+message RevokeInvitationReq { int64 shop_id = 1; int64 invitation_id = 2; }
+
+message AcceptInvitationReq {
+  string invitation_code = 1;
+  int64  acceptor_uid    = 2;
+  string acceptor_phone  = 3;
+  string acceptor_email  = 4;
+}
+message AcceptInvitationResp {
+  int64  shop_id   = 1;
+  string role      = 2;
+  string shop_name = 3;
+}

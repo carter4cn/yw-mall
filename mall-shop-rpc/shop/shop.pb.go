@@ -2980,6 +2980,899 @@ func (x *ReviewShopLifecycleRequestReq) GetRemark() string {
 	return ""
 }
 
+// ===== M1 merchant staff & invitation =====
+type StaffInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ShopId        int64                  `protobuf:"varint,2,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	UserId        int64                  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Username      string                 `protobuf:"bytes,4,opt,name=username,proto3" json:"username,omitempty"`
+	Role          string                 `protobuf:"bytes,5,opt,name=role,proto3" json:"role,omitempty"`
+	Status        int32                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`
+	JoinedAt      int64                  `protobuf:"varint,7,opt,name=joined_at,json=joinedAt,proto3" json:"joined_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StaffInfo) Reset() {
+	*x = StaffInfo{}
+	mi := &file_shop_shop_proto_msgTypes[45]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StaffInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StaffInfo) ProtoMessage() {}
+
+func (x *StaffInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[45]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StaffInfo.ProtoReflect.Descriptor instead.
+func (*StaffInfo) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *StaffInfo) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *StaffInfo) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *StaffInfo) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *StaffInfo) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *StaffInfo) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+func (x *StaffInfo) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *StaffInfo) GetJoinedAt() int64 {
+	if x != nil {
+		return x.JoinedAt
+	}
+	return 0
+}
+
+type GetStaffByUserIdReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetStaffByUserIdReq) Reset() {
+	*x = GetStaffByUserIdReq{}
+	mi := &file_shop_shop_proto_msgTypes[46]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetStaffByUserIdReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetStaffByUserIdReq) ProtoMessage() {}
+
+func (x *GetStaffByUserIdReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[46]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetStaffByUserIdReq.ProtoReflect.Descriptor instead.
+func (*GetStaffByUserIdReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *GetStaffByUserIdReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+type GetStaffByUserIdResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Found         bool                   `protobuf:"varint,1,opt,name=found,proto3" json:"found,omitempty"`
+	Staff         *StaffInfo             `protobuf:"bytes,2,opt,name=staff,proto3" json:"staff,omitempty"`
+	Perms         []string               `protobuf:"bytes,3,rep,name=perms,proto3" json:"perms,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetStaffByUserIdResp) Reset() {
+	*x = GetStaffByUserIdResp{}
+	mi := &file_shop_shop_proto_msgTypes[47]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetStaffByUserIdResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetStaffByUserIdResp) ProtoMessage() {}
+
+func (x *GetStaffByUserIdResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[47]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetStaffByUserIdResp.ProtoReflect.Descriptor instead.
+func (*GetStaffByUserIdResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{47}
+}
+
+func (x *GetStaffByUserIdResp) GetFound() bool {
+	if x != nil {
+		return x.Found
+	}
+	return false
+}
+
+func (x *GetStaffByUserIdResp) GetStaff() *StaffInfo {
+	if x != nil {
+		return x.Staff
+	}
+	return nil
+}
+
+func (x *GetStaffByUserIdResp) GetPerms() []string {
+	if x != nil {
+		return x.Perms
+	}
+	return nil
+}
+
+type ListShopStaffReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopStaffReq) Reset() {
+	*x = ListShopStaffReq{}
+	mi := &file_shop_shop_proto_msgTypes[48]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopStaffReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopStaffReq) ProtoMessage() {}
+
+func (x *ListShopStaffReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[48]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopStaffReq.ProtoReflect.Descriptor instead.
+func (*ListShopStaffReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{48}
+}
+
+func (x *ListShopStaffReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+type ListShopStaffResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*StaffInfo           `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListShopStaffResp) Reset() {
+	*x = ListShopStaffResp{}
+	mi := &file_shop_shop_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListShopStaffResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListShopStaffResp) ProtoMessage() {}
+
+func (x *ListShopStaffResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListShopStaffResp.ProtoReflect.Descriptor instead.
+func (*ListShopStaffResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *ListShopStaffResp) GetItems() []*StaffInfo {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type UpdateStaffRoleReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	StaffId       int64                  `protobuf:"varint,2,opt,name=staff_id,json=staffId,proto3" json:"staff_id,omitempty"`
+	NewRole       string                 `protobuf:"bytes,3,opt,name=new_role,json=newRole,proto3" json:"new_role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateStaffRoleReq) Reset() {
+	*x = UpdateStaffRoleReq{}
+	mi := &file_shop_shop_proto_msgTypes[50]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateStaffRoleReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateStaffRoleReq) ProtoMessage() {}
+
+func (x *UpdateStaffRoleReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[50]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateStaffRoleReq.ProtoReflect.Descriptor instead.
+func (*UpdateStaffRoleReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{50}
+}
+
+func (x *UpdateStaffRoleReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *UpdateStaffRoleReq) GetStaffId() int64 {
+	if x != nil {
+		return x.StaffId
+	}
+	return 0
+}
+
+func (x *UpdateStaffRoleReq) GetNewRole() string {
+	if x != nil {
+		return x.NewRole
+	}
+	return ""
+}
+
+type DisableStaffReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	StaffId       int64                  `protobuf:"varint,2,opt,name=staff_id,json=staffId,proto3" json:"staff_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DisableStaffReq) Reset() {
+	*x = DisableStaffReq{}
+	mi := &file_shop_shop_proto_msgTypes[51]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DisableStaffReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DisableStaffReq) ProtoMessage() {}
+
+func (x *DisableStaffReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[51]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DisableStaffReq.ProtoReflect.Descriptor instead.
+func (*DisableStaffReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{51}
+}
+
+func (x *DisableStaffReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *DisableStaffReq) GetStaffId() int64 {
+	if x != nil {
+		return x.StaffId
+	}
+	return 0
+}
+
+type InvitationInfo struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ShopId        int64                  `protobuf:"varint,2,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	TargetPhone   string                 `protobuf:"bytes,3,opt,name=target_phone,json=targetPhone,proto3" json:"target_phone,omitempty"`
+	TargetEmail   string                 `protobuf:"bytes,4,opt,name=target_email,json=targetEmail,proto3" json:"target_email,omitempty"`
+	Role          string                 `protobuf:"bytes,5,opt,name=role,proto3" json:"role,omitempty"`
+	Status        int32                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`
+	ExpiresAt     int64                  `protobuf:"varint,7,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	CreateTime    int64                  `protobuf:"varint,8,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InvitationInfo) Reset() {
+	*x = InvitationInfo{}
+	mi := &file_shop_shop_proto_msgTypes[52]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InvitationInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InvitationInfo) ProtoMessage() {}
+
+func (x *InvitationInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[52]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InvitationInfo.ProtoReflect.Descriptor instead.
+func (*InvitationInfo) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{52}
+}
+
+func (x *InvitationInfo) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *InvitationInfo) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *InvitationInfo) GetTargetPhone() string {
+	if x != nil {
+		return x.TargetPhone
+	}
+	return ""
+}
+
+func (x *InvitationInfo) GetTargetEmail() string {
+	if x != nil {
+		return x.TargetEmail
+	}
+	return ""
+}
+
+func (x *InvitationInfo) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+func (x *InvitationInfo) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *InvitationInfo) GetExpiresAt() int64 {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return 0
+}
+
+func (x *InvitationInfo) GetCreateTime() int64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type CreateInvitationReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	InvitedByUid  int64                  `protobuf:"varint,2,opt,name=invited_by_uid,json=invitedByUid,proto3" json:"invited_by_uid,omitempty"`
+	TargetPhone   string                 `protobuf:"bytes,3,opt,name=target_phone,json=targetPhone,proto3" json:"target_phone,omitempty"`
+	TargetEmail   string                 `protobuf:"bytes,4,opt,name=target_email,json=targetEmail,proto3" json:"target_email,omitempty"`
+	Role          string                 `protobuf:"bytes,5,opt,name=role,proto3" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateInvitationReq) Reset() {
+	*x = CreateInvitationReq{}
+	mi := &file_shop_shop_proto_msgTypes[53]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateInvitationReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateInvitationReq) ProtoMessage() {}
+
+func (x *CreateInvitationReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[53]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateInvitationReq.ProtoReflect.Descriptor instead.
+func (*CreateInvitationReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{53}
+}
+
+func (x *CreateInvitationReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *CreateInvitationReq) GetInvitedByUid() int64 {
+	if x != nil {
+		return x.InvitedByUid
+	}
+	return 0
+}
+
+func (x *CreateInvitationReq) GetTargetPhone() string {
+	if x != nil {
+		return x.TargetPhone
+	}
+	return ""
+}
+
+func (x *CreateInvitationReq) GetTargetEmail() string {
+	if x != nil {
+		return x.TargetEmail
+	}
+	return ""
+}
+
+func (x *CreateInvitationReq) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+type CreateInvitationResp struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	InvitationCode string                 `protobuf:"bytes,1,opt,name=invitation_code,json=invitationCode,proto3" json:"invitation_code,omitempty"`
+	ExpiresAt      int64                  `protobuf:"varint,2,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CreateInvitationResp) Reset() {
+	*x = CreateInvitationResp{}
+	mi := &file_shop_shop_proto_msgTypes[54]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateInvitationResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateInvitationResp) ProtoMessage() {}
+
+func (x *CreateInvitationResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[54]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateInvitationResp.ProtoReflect.Descriptor instead.
+func (*CreateInvitationResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{54}
+}
+
+func (x *CreateInvitationResp) GetInvitationCode() string {
+	if x != nil {
+		return x.InvitationCode
+	}
+	return ""
+}
+
+func (x *CreateInvitationResp) GetExpiresAt() int64 {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return 0
+}
+
+type ListPendingInvitationsReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListPendingInvitationsReq) Reset() {
+	*x = ListPendingInvitationsReq{}
+	mi := &file_shop_shop_proto_msgTypes[55]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListPendingInvitationsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListPendingInvitationsReq) ProtoMessage() {}
+
+func (x *ListPendingInvitationsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[55]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListPendingInvitationsReq.ProtoReflect.Descriptor instead.
+func (*ListPendingInvitationsReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{55}
+}
+
+func (x *ListPendingInvitationsReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+type ListPendingInvitationsResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*InvitationInfo      `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListPendingInvitationsResp) Reset() {
+	*x = ListPendingInvitationsResp{}
+	mi := &file_shop_shop_proto_msgTypes[56]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListPendingInvitationsResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListPendingInvitationsResp) ProtoMessage() {}
+
+func (x *ListPendingInvitationsResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[56]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListPendingInvitationsResp.ProtoReflect.Descriptor instead.
+func (*ListPendingInvitationsResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{56}
+}
+
+func (x *ListPendingInvitationsResp) GetItems() []*InvitationInfo {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type RevokeInvitationReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	InvitationId  int64                  `protobuf:"varint,2,opt,name=invitation_id,json=invitationId,proto3" json:"invitation_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RevokeInvitationReq) Reset() {
+	*x = RevokeInvitationReq{}
+	mi := &file_shop_shop_proto_msgTypes[57]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RevokeInvitationReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RevokeInvitationReq) ProtoMessage() {}
+
+func (x *RevokeInvitationReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[57]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RevokeInvitationReq.ProtoReflect.Descriptor instead.
+func (*RevokeInvitationReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{57}
+}
+
+func (x *RevokeInvitationReq) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *RevokeInvitationReq) GetInvitationId() int64 {
+	if x != nil {
+		return x.InvitationId
+	}
+	return 0
+}
+
+type AcceptInvitationReq struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	InvitationCode string                 `protobuf:"bytes,1,opt,name=invitation_code,json=invitationCode,proto3" json:"invitation_code,omitempty"`
+	AcceptorUid    int64                  `protobuf:"varint,2,opt,name=acceptor_uid,json=acceptorUid,proto3" json:"acceptor_uid,omitempty"`
+	AcceptorPhone  string                 `protobuf:"bytes,3,opt,name=acceptor_phone,json=acceptorPhone,proto3" json:"acceptor_phone,omitempty"`
+	AcceptorEmail  string                 `protobuf:"bytes,4,opt,name=acceptor_email,json=acceptorEmail,proto3" json:"acceptor_email,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *AcceptInvitationReq) Reset() {
+	*x = AcceptInvitationReq{}
+	mi := &file_shop_shop_proto_msgTypes[58]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AcceptInvitationReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AcceptInvitationReq) ProtoMessage() {}
+
+func (x *AcceptInvitationReq) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[58]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AcceptInvitationReq.ProtoReflect.Descriptor instead.
+func (*AcceptInvitationReq) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{58}
+}
+
+func (x *AcceptInvitationReq) GetInvitationCode() string {
+	if x != nil {
+		return x.InvitationCode
+	}
+	return ""
+}
+
+func (x *AcceptInvitationReq) GetAcceptorUid() int64 {
+	if x != nil {
+		return x.AcceptorUid
+	}
+	return 0
+}
+
+func (x *AcceptInvitationReq) GetAcceptorPhone() string {
+	if x != nil {
+		return x.AcceptorPhone
+	}
+	return ""
+}
+
+func (x *AcceptInvitationReq) GetAcceptorEmail() string {
+	if x != nil {
+		return x.AcceptorEmail
+	}
+	return ""
+}
+
+type AcceptInvitationResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Role          string                 `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+	ShopName      string                 `protobuf:"bytes,3,opt,name=shop_name,json=shopName,proto3" json:"shop_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AcceptInvitationResp) Reset() {
+	*x = AcceptInvitationResp{}
+	mi := &file_shop_shop_proto_msgTypes[59]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AcceptInvitationResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AcceptInvitationResp) ProtoMessage() {}
+
+func (x *AcceptInvitationResp) ProtoReflect() protoreflect.Message {
+	mi := &file_shop_shop_proto_msgTypes[59]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AcceptInvitationResp.ProtoReflect.Descriptor instead.
+func (*AcceptInvitationResp) Descriptor() ([]byte, []int) {
+	return file_shop_shop_proto_rawDescGZIP(), []int{59}
+}
+
+func (x *AcceptInvitationResp) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *AcceptInvitationResp) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+func (x *AcceptInvitationResp) GetShopName() string {
+	if x != nil {
+		return x.ShopName
+	}
+	return ""
+}
+
 var File_shop_shop_proto protoreflect.FileDescriptor
 
 const file_shop_shop_proto_rawDesc = "" +
@@ -3219,7 +4112,69 @@ const file_shop_shop_proto_rawDesc = "" +
 	"request_id\x18\x01 \x01(\x03R\trequestId\x12\x19\n" +
 	"\badmin_id\x18\x02 \x01(\x03R\aadminId\x12\x16\n" +
 	"\x06action\x18\x03 \x01(\x05R\x06action\x12\x16\n" +
-	"\x06remark\x18\x04 \x01(\tR\x06remark2\x9d\x0e\n" +
+	"\x06remark\x18\x04 \x01(\tR\x06remark\"\xb2\x01\n" +
+	"\tStaffInfo\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\ashop_id\x18\x02 \x01(\x03R\x06shopId\x12\x17\n" +
+	"\auser_id\x18\x03 \x01(\x03R\x06userId\x12\x1a\n" +
+	"\busername\x18\x04 \x01(\tR\busername\x12\x12\n" +
+	"\x04role\x18\x05 \x01(\tR\x04role\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\x05R\x06status\x12\x1b\n" +
+	"\tjoined_at\x18\a \x01(\x03R\bjoinedAt\".\n" +
+	"\x13GetStaffByUserIdReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\"i\n" +
+	"\x14GetStaffByUserIdResp\x12\x14\n" +
+	"\x05found\x18\x01 \x01(\bR\x05found\x12%\n" +
+	"\x05staff\x18\x02 \x01(\v2\x0f.shop.StaffInfoR\x05staff\x12\x14\n" +
+	"\x05perms\x18\x03 \x03(\tR\x05perms\"+\n" +
+	"\x10ListShopStaffReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\":\n" +
+	"\x11ListShopStaffResp\x12%\n" +
+	"\x05items\x18\x01 \x03(\v2\x0f.shop.StaffInfoR\x05items\"c\n" +
+	"\x12UpdateStaffRoleReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x19\n" +
+	"\bstaff_id\x18\x02 \x01(\x03R\astaffId\x12\x19\n" +
+	"\bnew_role\x18\x03 \x01(\tR\anewRole\"E\n" +
+	"\x0fDisableStaffReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x19\n" +
+	"\bstaff_id\x18\x02 \x01(\x03R\astaffId\"\xeb\x01\n" +
+	"\x0eInvitationInfo\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\ashop_id\x18\x02 \x01(\x03R\x06shopId\x12!\n" +
+	"\ftarget_phone\x18\x03 \x01(\tR\vtargetPhone\x12!\n" +
+	"\ftarget_email\x18\x04 \x01(\tR\vtargetEmail\x12\x12\n" +
+	"\x04role\x18\x05 \x01(\tR\x04role\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\x05R\x06status\x12\x1d\n" +
+	"\n" +
+	"expires_at\x18\a \x01(\x03R\texpiresAt\x12\x1f\n" +
+	"\vcreate_time\x18\b \x01(\x03R\n" +
+	"createTime\"\xae\x01\n" +
+	"\x13CreateInvitationReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12$\n" +
+	"\x0einvited_by_uid\x18\x02 \x01(\x03R\finvitedByUid\x12!\n" +
+	"\ftarget_phone\x18\x03 \x01(\tR\vtargetPhone\x12!\n" +
+	"\ftarget_email\x18\x04 \x01(\tR\vtargetEmail\x12\x12\n" +
+	"\x04role\x18\x05 \x01(\tR\x04role\"^\n" +
+	"\x14CreateInvitationResp\x12'\n" +
+	"\x0finvitation_code\x18\x01 \x01(\tR\x0einvitationCode\x12\x1d\n" +
+	"\n" +
+	"expires_at\x18\x02 \x01(\x03R\texpiresAt\"4\n" +
+	"\x19ListPendingInvitationsReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\"H\n" +
+	"\x1aListPendingInvitationsResp\x12*\n" +
+	"\x05items\x18\x01 \x03(\v2\x14.shop.InvitationInfoR\x05items\"S\n" +
+	"\x13RevokeInvitationReq\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12#\n" +
+	"\rinvitation_id\x18\x02 \x01(\x03R\finvitationId\"\xaf\x01\n" +
+	"\x13AcceptInvitationReq\x12'\n" +
+	"\x0finvitation_code\x18\x01 \x01(\tR\x0einvitationCode\x12!\n" +
+	"\facceptor_uid\x18\x02 \x01(\x03R\vacceptorUid\x12%\n" +
+	"\x0eacceptor_phone\x18\x03 \x01(\tR\racceptorPhone\x12%\n" +
+	"\x0eacceptor_email\x18\x04 \x01(\tR\racceptorEmail\"`\n" +
+	"\x14AcceptInvitationResp\x12\x17\n" +
+	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x12\n" +
+	"\x04role\x18\x02 \x01(\tR\x04role\x12\x1b\n" +
+	"\tshop_name\x18\x03 \x01(\tR\bshopName2\xca\x12\n" +
 	"\vShopService\x12.\n" +
 	"\aGetShop\x12\x10.shop.GetShopReq\x1a\x11.shop.GetShopResp\x124\n" +
 	"\tListShops\x12\x12.shop.ListShopsReq\x1a\x13.shop.ListShopsResp\x12J\n" +
@@ -3249,7 +4204,15 @@ const file_shop_shop_proto_rawDesc = "" +
 	"\x16ReviewLevelApplication\x12\x1f.shop.ReviewLevelApplicationReq\x1a\f.shop.OkResp\x12g\n" +
 	"\x1aSubmitShopLifecycleRequest\x12#.shop.SubmitShopLifecycleRequestReq\x1a$.shop.SubmitShopLifecycleRequestResp\x12d\n" +
 	"\x19ListShopLifecycleRequests\x12\".shop.ListShopLifecycleRequestsReq\x1a#.shop.ListShopLifecycleRequestsResp\x12O\n" +
-	"\x1aReviewShopLifecycleRequest\x12#.shop.ReviewShopLifecycleRequestReq\x1a\f.shop.OkRespB\bZ\x06./shopb\x06proto3"
+	"\x1aReviewShopLifecycleRequest\x12#.shop.ReviewShopLifecycleRequestReq\x1a\f.shop.OkResp\x12I\n" +
+	"\x10GetStaffByUserId\x12\x19.shop.GetStaffByUserIdReq\x1a\x1a.shop.GetStaffByUserIdResp\x12@\n" +
+	"\rListShopStaff\x12\x16.shop.ListShopStaffReq\x1a\x17.shop.ListShopStaffResp\x129\n" +
+	"\x0fUpdateStaffRole\x12\x18.shop.UpdateStaffRoleReq\x1a\f.shop.OkResp\x123\n" +
+	"\fDisableStaff\x12\x15.shop.DisableStaffReq\x1a\f.shop.OkResp\x12I\n" +
+	"\x10CreateInvitation\x12\x19.shop.CreateInvitationReq\x1a\x1a.shop.CreateInvitationResp\x12[\n" +
+	"\x16ListPendingInvitations\x12\x1f.shop.ListPendingInvitationsReq\x1a .shop.ListPendingInvitationsResp\x12;\n" +
+	"\x10RevokeInvitation\x12\x19.shop.RevokeInvitationReq\x1a\f.shop.OkResp\x12I\n" +
+	"\x10AcceptInvitation\x12\x19.shop.AcceptInvitationReq\x1a\x1a.shop.AcceptInvitationRespB\bZ\x06./shopb\x06proto3"
 
 var (
 	file_shop_shop_proto_rawDescOnce sync.Once
@@ -3263,7 +4226,7 @@ func file_shop_shop_proto_rawDescGZIP() []byte {
 	return file_shop_shop_proto_rawDescData
 }
 
-var file_shop_shop_proto_msgTypes = make([]protoimpl.MessageInfo, 45)
+var file_shop_shop_proto_msgTypes = make([]protoimpl.MessageInfo, 60)
 var file_shop_shop_proto_goTypes = []any{
 	(*Shop)(nil),                           // 0: shop.Shop
 	(*OkResp)(nil),                         // 1: shop.OkResp
@@ -3310,6 +4273,21 @@ var file_shop_shop_proto_goTypes = []any{
 	(*ListShopLifecycleRequestsReq)(nil),   // 42: shop.ListShopLifecycleRequestsReq
 	(*ListShopLifecycleRequestsResp)(nil),  // 43: shop.ListShopLifecycleRequestsResp
 	(*ReviewShopLifecycleRequestReq)(nil),  // 44: shop.ReviewShopLifecycleRequestReq
+	(*StaffInfo)(nil),                      // 45: shop.StaffInfo
+	(*GetStaffByUserIdReq)(nil),            // 46: shop.GetStaffByUserIdReq
+	(*GetStaffByUserIdResp)(nil),           // 47: shop.GetStaffByUserIdResp
+	(*ListShopStaffReq)(nil),               // 48: shop.ListShopStaffReq
+	(*ListShopStaffResp)(nil),              // 49: shop.ListShopStaffResp
+	(*UpdateStaffRoleReq)(nil),             // 50: shop.UpdateStaffRoleReq
+	(*DisableStaffReq)(nil),                // 51: shop.DisableStaffReq
+	(*InvitationInfo)(nil),                 // 52: shop.InvitationInfo
+	(*CreateInvitationReq)(nil),            // 53: shop.CreateInvitationReq
+	(*CreateInvitationResp)(nil),           // 54: shop.CreateInvitationResp
+	(*ListPendingInvitationsReq)(nil),      // 55: shop.ListPendingInvitationsReq
+	(*ListPendingInvitationsResp)(nil),     // 56: shop.ListPendingInvitationsResp
+	(*RevokeInvitationReq)(nil),            // 57: shop.RevokeInvitationReq
+	(*AcceptInvitationReq)(nil),            // 58: shop.AcceptInvitationReq
+	(*AcceptInvitationResp)(nil),           // 59: shop.AcceptInvitationResp
 }
 var file_shop_shop_proto_depIdxs = []int32{
 	0,  // 0: shop.GetShopResp.shop:type_name -> shop.Shop
@@ -3320,63 +4298,82 @@ var file_shop_shop_proto_depIdxs = []int32{
 	29, // 5: shop.MyLevelStatus.next_template:type_name -> shop.ShopLevelTemplate
 	35, // 6: shop.ListLevelApplicationsResp.applications:type_name -> shop.ShopLevelApplication
 	39, // 7: shop.ListShopLifecycleRequestsResp.requests:type_name -> shop.ShopLifecycleRequest
-	2,  // 8: shop.ShopService.GetShop:input_type -> shop.GetShopReq
-	4,  // 9: shop.ShopService.ListShops:input_type -> shop.ListShopsReq
-	6,  // 10: shop.ShopService.ListRecommendedShops:input_type -> shop.ListRecommendedShopsReq
-	7,  // 11: shop.ShopService.FollowShop:input_type -> shop.FollowShopReq
-	8,  // 12: shop.ShopService.UnfollowShop:input_type -> shop.UnfollowShopReq
-	9,  // 13: shop.ShopService.IsFollowing:input_type -> shop.IsFollowingReq
-	11, // 14: shop.ShopService.ListFollowedShops:input_type -> shop.ListFollowedShopsReq
-	12, // 15: shop.ShopService.CreateShop:input_type -> shop.CreateShopReq
-	14, // 16: shop.ShopService.UpdateShop:input_type -> shop.UpdateShopReq
-	15, // 17: shop.ShopService.IncrProductCount:input_type -> shop.IncrProductCountReq
-	17, // 18: shop.ShopService.ApplyShop:input_type -> shop.ApplyShopReq
-	19, // 19: shop.ShopService.GetShopApplication:input_type -> shop.GetShopApplicationReq
-	20, // 20: shop.ShopService.ListShopApplications:input_type -> shop.ListShopApplicationsReq
-	23, // 21: shop.ShopService.ReviewShopApplication:input_type -> shop.ReviewShopApplicationReq
-	24, // 22: shop.ShopService.GetShopByOwnerId:input_type -> shop.GetShopByOwnerIdReq
-	25, // 23: shop.ShopService.UpdateShopStatus:input_type -> shop.UpdateShopStatusReq
-	26, // 24: shop.ShopService.AdjustCreditScore:input_type -> shop.AdjustCreditScoreReq
-	22, // 25: shop.ShopService.ListMyApplications:input_type -> shop.ListMyApplicationsReq
-	28, // 26: shop.ShopService.ListShopLevels:input_type -> shop.Empty
-	31, // 27: shop.ShopService.GetMyLevelStatus:input_type -> shop.GetMyLevelStatusReq
-	33, // 28: shop.ShopService.SubmitLevelApplication:input_type -> shop.SubmitLevelApplicationReq
-	36, // 29: shop.ShopService.ListLevelApplications:input_type -> shop.ListLevelApplicationsReq
-	38, // 30: shop.ShopService.ReviewLevelApplication:input_type -> shop.ReviewLevelApplicationReq
-	40, // 31: shop.ShopService.SubmitShopLifecycleRequest:input_type -> shop.SubmitShopLifecycleRequestReq
-	42, // 32: shop.ShopService.ListShopLifecycleRequests:input_type -> shop.ListShopLifecycleRequestsReq
-	44, // 33: shop.ShopService.ReviewShopLifecycleRequest:input_type -> shop.ReviewShopLifecycleRequestReq
-	3,  // 34: shop.ShopService.GetShop:output_type -> shop.GetShopResp
-	5,  // 35: shop.ShopService.ListShops:output_type -> shop.ListShopsResp
-	5,  // 36: shop.ShopService.ListRecommendedShops:output_type -> shop.ListShopsResp
-	1,  // 37: shop.ShopService.FollowShop:output_type -> shop.OkResp
-	1,  // 38: shop.ShopService.UnfollowShop:output_type -> shop.OkResp
-	10, // 39: shop.ShopService.IsFollowing:output_type -> shop.IsFollowingResp
-	5,  // 40: shop.ShopService.ListFollowedShops:output_type -> shop.ListShopsResp
-	13, // 41: shop.ShopService.CreateShop:output_type -> shop.CreateShopResp
-	1,  // 42: shop.ShopService.UpdateShop:output_type -> shop.OkResp
-	1,  // 43: shop.ShopService.IncrProductCount:output_type -> shop.OkResp
-	18, // 44: shop.ShopService.ApplyShop:output_type -> shop.ApplyShopResp
-	16, // 45: shop.ShopService.GetShopApplication:output_type -> shop.ShopApplication
-	21, // 46: shop.ShopService.ListShopApplications:output_type -> shop.ListShopApplicationsResp
-	1,  // 47: shop.ShopService.ReviewShopApplication:output_type -> shop.OkResp
-	27, // 48: shop.ShopService.GetShopByOwnerId:output_type -> shop.ShopDetailResp
-	1,  // 49: shop.ShopService.UpdateShopStatus:output_type -> shop.OkResp
-	1,  // 50: shop.ShopService.AdjustCreditScore:output_type -> shop.OkResp
-	21, // 51: shop.ShopService.ListMyApplications:output_type -> shop.ListShopApplicationsResp
-	30, // 52: shop.ShopService.ListShopLevels:output_type -> shop.ListShopLevelsResp
-	32, // 53: shop.ShopService.GetMyLevelStatus:output_type -> shop.MyLevelStatus
-	34, // 54: shop.ShopService.SubmitLevelApplication:output_type -> shop.SubmitLevelApplicationResp
-	37, // 55: shop.ShopService.ListLevelApplications:output_type -> shop.ListLevelApplicationsResp
-	1,  // 56: shop.ShopService.ReviewLevelApplication:output_type -> shop.OkResp
-	41, // 57: shop.ShopService.SubmitShopLifecycleRequest:output_type -> shop.SubmitShopLifecycleRequestResp
-	43, // 58: shop.ShopService.ListShopLifecycleRequests:output_type -> shop.ListShopLifecycleRequestsResp
-	1,  // 59: shop.ShopService.ReviewShopLifecycleRequest:output_type -> shop.OkResp
-	34, // [34:60] is the sub-list for method output_type
-	8,  // [8:34] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	45, // 8: shop.GetStaffByUserIdResp.staff:type_name -> shop.StaffInfo
+	45, // 9: shop.ListShopStaffResp.items:type_name -> shop.StaffInfo
+	52, // 10: shop.ListPendingInvitationsResp.items:type_name -> shop.InvitationInfo
+	2,  // 11: shop.ShopService.GetShop:input_type -> shop.GetShopReq
+	4,  // 12: shop.ShopService.ListShops:input_type -> shop.ListShopsReq
+	6,  // 13: shop.ShopService.ListRecommendedShops:input_type -> shop.ListRecommendedShopsReq
+	7,  // 14: shop.ShopService.FollowShop:input_type -> shop.FollowShopReq
+	8,  // 15: shop.ShopService.UnfollowShop:input_type -> shop.UnfollowShopReq
+	9,  // 16: shop.ShopService.IsFollowing:input_type -> shop.IsFollowingReq
+	11, // 17: shop.ShopService.ListFollowedShops:input_type -> shop.ListFollowedShopsReq
+	12, // 18: shop.ShopService.CreateShop:input_type -> shop.CreateShopReq
+	14, // 19: shop.ShopService.UpdateShop:input_type -> shop.UpdateShopReq
+	15, // 20: shop.ShopService.IncrProductCount:input_type -> shop.IncrProductCountReq
+	17, // 21: shop.ShopService.ApplyShop:input_type -> shop.ApplyShopReq
+	19, // 22: shop.ShopService.GetShopApplication:input_type -> shop.GetShopApplicationReq
+	20, // 23: shop.ShopService.ListShopApplications:input_type -> shop.ListShopApplicationsReq
+	23, // 24: shop.ShopService.ReviewShopApplication:input_type -> shop.ReviewShopApplicationReq
+	24, // 25: shop.ShopService.GetShopByOwnerId:input_type -> shop.GetShopByOwnerIdReq
+	25, // 26: shop.ShopService.UpdateShopStatus:input_type -> shop.UpdateShopStatusReq
+	26, // 27: shop.ShopService.AdjustCreditScore:input_type -> shop.AdjustCreditScoreReq
+	22, // 28: shop.ShopService.ListMyApplications:input_type -> shop.ListMyApplicationsReq
+	28, // 29: shop.ShopService.ListShopLevels:input_type -> shop.Empty
+	31, // 30: shop.ShopService.GetMyLevelStatus:input_type -> shop.GetMyLevelStatusReq
+	33, // 31: shop.ShopService.SubmitLevelApplication:input_type -> shop.SubmitLevelApplicationReq
+	36, // 32: shop.ShopService.ListLevelApplications:input_type -> shop.ListLevelApplicationsReq
+	38, // 33: shop.ShopService.ReviewLevelApplication:input_type -> shop.ReviewLevelApplicationReq
+	40, // 34: shop.ShopService.SubmitShopLifecycleRequest:input_type -> shop.SubmitShopLifecycleRequestReq
+	42, // 35: shop.ShopService.ListShopLifecycleRequests:input_type -> shop.ListShopLifecycleRequestsReq
+	44, // 36: shop.ShopService.ReviewShopLifecycleRequest:input_type -> shop.ReviewShopLifecycleRequestReq
+	46, // 37: shop.ShopService.GetStaffByUserId:input_type -> shop.GetStaffByUserIdReq
+	48, // 38: shop.ShopService.ListShopStaff:input_type -> shop.ListShopStaffReq
+	50, // 39: shop.ShopService.UpdateStaffRole:input_type -> shop.UpdateStaffRoleReq
+	51, // 40: shop.ShopService.DisableStaff:input_type -> shop.DisableStaffReq
+	53, // 41: shop.ShopService.CreateInvitation:input_type -> shop.CreateInvitationReq
+	55, // 42: shop.ShopService.ListPendingInvitations:input_type -> shop.ListPendingInvitationsReq
+	57, // 43: shop.ShopService.RevokeInvitation:input_type -> shop.RevokeInvitationReq
+	58, // 44: shop.ShopService.AcceptInvitation:input_type -> shop.AcceptInvitationReq
+	3,  // 45: shop.ShopService.GetShop:output_type -> shop.GetShopResp
+	5,  // 46: shop.ShopService.ListShops:output_type -> shop.ListShopsResp
+	5,  // 47: shop.ShopService.ListRecommendedShops:output_type -> shop.ListShopsResp
+	1,  // 48: shop.ShopService.FollowShop:output_type -> shop.OkResp
+	1,  // 49: shop.ShopService.UnfollowShop:output_type -> shop.OkResp
+	10, // 50: shop.ShopService.IsFollowing:output_type -> shop.IsFollowingResp
+	5,  // 51: shop.ShopService.ListFollowedShops:output_type -> shop.ListShopsResp
+	13, // 52: shop.ShopService.CreateShop:output_type -> shop.CreateShopResp
+	1,  // 53: shop.ShopService.UpdateShop:output_type -> shop.OkResp
+	1,  // 54: shop.ShopService.IncrProductCount:output_type -> shop.OkResp
+	18, // 55: shop.ShopService.ApplyShop:output_type -> shop.ApplyShopResp
+	16, // 56: shop.ShopService.GetShopApplication:output_type -> shop.ShopApplication
+	21, // 57: shop.ShopService.ListShopApplications:output_type -> shop.ListShopApplicationsResp
+	1,  // 58: shop.ShopService.ReviewShopApplication:output_type -> shop.OkResp
+	27, // 59: shop.ShopService.GetShopByOwnerId:output_type -> shop.ShopDetailResp
+	1,  // 60: shop.ShopService.UpdateShopStatus:output_type -> shop.OkResp
+	1,  // 61: shop.ShopService.AdjustCreditScore:output_type -> shop.OkResp
+	21, // 62: shop.ShopService.ListMyApplications:output_type -> shop.ListShopApplicationsResp
+	30, // 63: shop.ShopService.ListShopLevels:output_type -> shop.ListShopLevelsResp
+	32, // 64: shop.ShopService.GetMyLevelStatus:output_type -> shop.MyLevelStatus
+	34, // 65: shop.ShopService.SubmitLevelApplication:output_type -> shop.SubmitLevelApplicationResp
+	37, // 66: shop.ShopService.ListLevelApplications:output_type -> shop.ListLevelApplicationsResp
+	1,  // 67: shop.ShopService.ReviewLevelApplication:output_type -> shop.OkResp
+	41, // 68: shop.ShopService.SubmitShopLifecycleRequest:output_type -> shop.SubmitShopLifecycleRequestResp
+	43, // 69: shop.ShopService.ListShopLifecycleRequests:output_type -> shop.ListShopLifecycleRequestsResp
+	1,  // 70: shop.ShopService.ReviewShopLifecycleRequest:output_type -> shop.OkResp
+	47, // 71: shop.ShopService.GetStaffByUserId:output_type -> shop.GetStaffByUserIdResp
+	49, // 72: shop.ShopService.ListShopStaff:output_type -> shop.ListShopStaffResp
+	1,  // 73: shop.ShopService.UpdateStaffRole:output_type -> shop.OkResp
+	1,  // 74: shop.ShopService.DisableStaff:output_type -> shop.OkResp
+	54, // 75: shop.ShopService.CreateInvitation:output_type -> shop.CreateInvitationResp
+	56, // 76: shop.ShopService.ListPendingInvitations:output_type -> shop.ListPendingInvitationsResp
+	1,  // 77: shop.ShopService.RevokeInvitation:output_type -> shop.OkResp
+	59, // 78: shop.ShopService.AcceptInvitation:output_type -> shop.AcceptInvitationResp
+	45, // [45:79] is the sub-list for method output_type
+	11, // [11:45] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_shop_shop_proto_init() }
@@ -3390,7 +4387,7 @@ func file_shop_shop_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_shop_shop_proto_rawDesc), len(file_shop_shop_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   45,
+			NumMessages:   60,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

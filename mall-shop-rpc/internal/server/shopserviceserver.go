@@ -152,3 +152,45 @@ func (s *ShopServiceServer) ReviewShopLifecycleRequest(ctx context.Context, in *
 	l := logic.NewReviewShopLifecycleRequestLogic(ctx, s.svcCtx)
 	return l.ReviewShopLifecycleRequest(in)
 }
+
+// ===== M1 merchant staff & invitation =====
+
+func (s *ShopServiceServer) GetStaffByUserId(ctx context.Context, in *shop.GetStaffByUserIdReq) (*shop.GetStaffByUserIdResp, error) {
+	l := logic.NewGetStaffByUserIdLogic(ctx, s.svcCtx)
+	return l.GetStaffByUserId(in)
+}
+
+func (s *ShopServiceServer) ListShopStaff(ctx context.Context, in *shop.ListShopStaffReq) (*shop.ListShopStaffResp, error) {
+	l := logic.NewListShopStaffLogic(ctx, s.svcCtx)
+	return l.ListShopStaff(in)
+}
+
+func (s *ShopServiceServer) UpdateStaffRole(ctx context.Context, in *shop.UpdateStaffRoleReq) (*shop.OkResp, error) {
+	l := logic.NewUpdateStaffRoleLogic(ctx, s.svcCtx)
+	return l.UpdateStaffRole(in)
+}
+
+func (s *ShopServiceServer) DisableStaff(ctx context.Context, in *shop.DisableStaffReq) (*shop.OkResp, error) {
+	l := logic.NewDisableStaffLogic(ctx, s.svcCtx)
+	return l.DisableStaff(in)
+}
+
+func (s *ShopServiceServer) CreateInvitation(ctx context.Context, in *shop.CreateInvitationReq) (*shop.CreateInvitationResp, error) {
+	l := logic.NewCreateInvitationLogic(ctx, s.svcCtx)
+	return l.CreateInvitation(in)
+}
+
+func (s *ShopServiceServer) ListPendingInvitations(ctx context.Context, in *shop.ListPendingInvitationsReq) (*shop.ListPendingInvitationsResp, error) {
+	l := logic.NewListPendingInvitationsLogic(ctx, s.svcCtx)
+	return l.ListPendingInvitations(in)
+}
+
+func (s *ShopServiceServer) RevokeInvitation(ctx context.Context, in *shop.RevokeInvitationReq) (*shop.OkResp, error) {
+	l := logic.NewRevokeInvitationLogic(ctx, s.svcCtx)
+	return l.RevokeInvitation(in)
+}
+
+func (s *ShopServiceServer) AcceptInvitation(ctx context.Context, in *shop.AcceptInvitationReq) (*shop.AcceptInvitationResp, error) {
+	l := logic.NewAcceptInvitationLogic(ctx, s.svcCtx)
+	return l.AcceptInvitation(in)
+}

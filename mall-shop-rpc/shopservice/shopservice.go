@@ -60,6 +60,23 @@ type (
 	UpdateShopReq             = shop.UpdateShopReq
 	UpdateShopStatusReq       = shop.UpdateShopStatusReq
 
+	// M1 merchant staff & invitation
+	StaffInfo                  = shop.StaffInfo
+	GetStaffByUserIdReq        = shop.GetStaffByUserIdReq
+	GetStaffByUserIdResp       = shop.GetStaffByUserIdResp
+	ListShopStaffReq           = shop.ListShopStaffReq
+	ListShopStaffResp          = shop.ListShopStaffResp
+	UpdateStaffRoleReq         = shop.UpdateStaffRoleReq
+	DisableStaffReq            = shop.DisableStaffReq
+	InvitationInfo             = shop.InvitationInfo
+	CreateInvitationReq        = shop.CreateInvitationReq
+	CreateInvitationResp       = shop.CreateInvitationResp
+	ListPendingInvitationsReq  = shop.ListPendingInvitationsReq
+	ListPendingInvitationsResp = shop.ListPendingInvitationsResp
+	RevokeInvitationReq        = shop.RevokeInvitationReq
+	AcceptInvitationReq        = shop.AcceptInvitationReq
+	AcceptInvitationResp       = shop.AcceptInvitationResp
+
 	ShopService interface {
 		GetShop(ctx context.Context, in *GetShopReq, opts ...grpc.CallOption) (*GetShopResp, error)
 		ListShops(ctx context.Context, in *ListShopsReq, opts ...grpc.CallOption) (*ListShopsResp, error)
@@ -87,6 +104,16 @@ type (
 		SubmitShopLifecycleRequest(ctx context.Context, in *SubmitShopLifecycleRequestReq, opts ...grpc.CallOption) (*SubmitShopLifecycleRequestResp, error)
 		ListShopLifecycleRequests(ctx context.Context, in *ListShopLifecycleRequestsReq, opts ...grpc.CallOption) (*ListShopLifecycleRequestsResp, error)
 		ReviewShopLifecycleRequest(ctx context.Context, in *ReviewShopLifecycleRequestReq, opts ...grpc.CallOption) (*OkResp, error)
+
+		// M1 merchant staff & invitation
+		GetStaffByUserId(ctx context.Context, in *GetStaffByUserIdReq, opts ...grpc.CallOption) (*GetStaffByUserIdResp, error)
+		ListShopStaff(ctx context.Context, in *ListShopStaffReq, opts ...grpc.CallOption) (*ListShopStaffResp, error)
+		UpdateStaffRole(ctx context.Context, in *UpdateStaffRoleReq, opts ...grpc.CallOption) (*OkResp, error)
+		DisableStaff(ctx context.Context, in *DisableStaffReq, opts ...grpc.CallOption) (*OkResp, error)
+		CreateInvitation(ctx context.Context, in *CreateInvitationReq, opts ...grpc.CallOption) (*CreateInvitationResp, error)
+		ListPendingInvitations(ctx context.Context, in *ListPendingInvitationsReq, opts ...grpc.CallOption) (*ListPendingInvitationsResp, error)
+		RevokeInvitation(ctx context.Context, in *RevokeInvitationReq, opts ...grpc.CallOption) (*OkResp, error)
+		AcceptInvitation(ctx context.Context, in *AcceptInvitationReq, opts ...grpc.CallOption) (*AcceptInvitationResp, error)
 	}
 
 	defaultShopService struct {
@@ -228,4 +255,46 @@ func (m *defaultShopService) ListShopLifecycleRequests(ctx context.Context, in *
 func (m *defaultShopService) ReviewShopLifecycleRequest(ctx context.Context, in *ReviewShopLifecycleRequestReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := shop.NewShopServiceClient(m.cli.Conn())
 	return client.ReviewShopLifecycleRequest(ctx, in, opts...)
+}
+
+// ===== M1 merchant staff & invitation =====
+
+func (m *defaultShopService) GetStaffByUserId(ctx context.Context, in *GetStaffByUserIdReq, opts ...grpc.CallOption) (*GetStaffByUserIdResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.GetStaffByUserId(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ListShopStaff(ctx context.Context, in *ListShopStaffReq, opts ...grpc.CallOption) (*ListShopStaffResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ListShopStaff(ctx, in, opts...)
+}
+
+func (m *defaultShopService) UpdateStaffRole(ctx context.Context, in *UpdateStaffRoleReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.UpdateStaffRole(ctx, in, opts...)
+}
+
+func (m *defaultShopService) DisableStaff(ctx context.Context, in *DisableStaffReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.DisableStaff(ctx, in, opts...)
+}
+
+func (m *defaultShopService) CreateInvitation(ctx context.Context, in *CreateInvitationReq, opts ...grpc.CallOption) (*CreateInvitationResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.CreateInvitation(ctx, in, opts...)
+}
+
+func (m *defaultShopService) ListPendingInvitations(ctx context.Context, in *ListPendingInvitationsReq, opts ...grpc.CallOption) (*ListPendingInvitationsResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.ListPendingInvitations(ctx, in, opts...)
+}
+
+func (m *defaultShopService) RevokeInvitation(ctx context.Context, in *RevokeInvitationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.RevokeInvitation(ctx, in, opts...)
+}
+
+func (m *defaultShopService) AcceptInvitation(ctx context.Context, in *AcceptInvitationReq, opts ...grpc.CallOption) (*AcceptInvitationResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.AcceptInvitation(ctx, in, opts...)
 }
