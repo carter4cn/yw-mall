@@ -55,7 +55,7 @@ func (l *CreateFreightTemplateLogic) CreateFreightTemplate(in *logistics.CreateF
 	now := time.Now().Unix()
 	res, err := l.svcCtx.DB.ExecCtx(l.ctx,
 		`INSERT INTO freight_template
-		 (shop_id, name, calc_type, first_value, first_fee, extra_value, extra_fee, regions, is_default, status, create_time, update_time)
+		 (shop_id, name, calc_type, `+"`first_value`"+`, first_fee, extra_value, extra_fee, regions, is_default, status, create_time, update_time)
 		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`,
 		in.ShopId, in.Name, calc, firstVal, in.FirstFee, extraVal, in.ExtraFee, in.Regions, isDefault, now, now)
 	if err != nil {

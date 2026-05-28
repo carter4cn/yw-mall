@@ -18,7 +18,8 @@ type freightTemplateRow struct {
 	UpdateTime int64  `db:"update_time"`
 }
 
-const freightTemplateCols = "id, shop_id, name, calc_type, first_value, first_fee, extra_value, extra_fee, regions, is_default, status, create_time, update_time"
+// 注：first_value 是 MySQL 8+ 窗口函数保留字，必须反引号转义
+const freightTemplateCols = "id, shop_id, name, calc_type, `first_value`, first_fee, extra_value, extra_fee, regions, is_default, status, create_time, update_time"
 
 func toFreightTemplateProto(r *freightTemplateRow) *logistics.FreightTemplate {
 	return &logistics.FreightTemplate{
