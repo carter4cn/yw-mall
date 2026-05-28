@@ -194,3 +194,15 @@ func (s *ShopServiceServer) AcceptInvitation(ctx context.Context, in *shop.Accep
 	l := logic.NewAcceptInvitationLogic(ctx, s.svcCtx)
 	return l.AcceptInvitation(in)
 }
+
+// ===== M6 店铺装修 =====
+
+func (s *ShopServiceServer) GetShopDecoration(ctx context.Context, in *shop.GetShopDecorationReq) (*shop.ShopDecoration, error) {
+	l := logic.NewGetShopDecorationLogic(ctx, s.svcCtx)
+	return l.GetShopDecoration(in)
+}
+
+func (s *ShopServiceServer) UpdateShopDecoration(ctx context.Context, in *shop.UpdateShopDecorationReq) (*shop.OkResp, error) {
+	l := logic.NewUpdateShopDecorationLogic(ctx, s.svcCtx)
+	return l.UpdateShopDecoration(in)
+}

@@ -77,6 +77,11 @@ type (
 	AcceptInvitationReq        = shop.AcceptInvitationReq
 	AcceptInvitationResp       = shop.AcceptInvitationResp
 
+	// M6 店铺装修
+	ShopDecoration          = shop.ShopDecoration
+	GetShopDecorationReq    = shop.GetShopDecorationReq
+	UpdateShopDecorationReq = shop.UpdateShopDecorationReq
+
 	ShopService interface {
 		GetShop(ctx context.Context, in *GetShopReq, opts ...grpc.CallOption) (*GetShopResp, error)
 		ListShops(ctx context.Context, in *ListShopsReq, opts ...grpc.CallOption) (*ListShopsResp, error)
@@ -114,6 +119,10 @@ type (
 		ListPendingInvitations(ctx context.Context, in *ListPendingInvitationsReq, opts ...grpc.CallOption) (*ListPendingInvitationsResp, error)
 		RevokeInvitation(ctx context.Context, in *RevokeInvitationReq, opts ...grpc.CallOption) (*OkResp, error)
 		AcceptInvitation(ctx context.Context, in *AcceptInvitationReq, opts ...grpc.CallOption) (*AcceptInvitationResp, error)
+
+		// M6 店铺装修
+		GetShopDecoration(ctx context.Context, in *GetShopDecorationReq, opts ...grpc.CallOption) (*ShopDecoration, error)
+		UpdateShopDecoration(ctx context.Context, in *UpdateShopDecorationReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultShopService struct {
@@ -297,4 +306,16 @@ func (m *defaultShopService) RevokeInvitation(ctx context.Context, in *RevokeInv
 func (m *defaultShopService) AcceptInvitation(ctx context.Context, in *AcceptInvitationReq, opts ...grpc.CallOption) (*AcceptInvitationResp, error) {
 	client := shop.NewShopServiceClient(m.cli.Conn())
 	return client.AcceptInvitation(ctx, in, opts...)
+}
+
+// ===== M6 店铺装修 =====
+
+func (m *defaultShopService) GetShopDecoration(ctx context.Context, in *GetShopDecorationReq, opts ...grpc.CallOption) (*ShopDecoration, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.GetShopDecoration(ctx, in, opts...)
+}
+
+func (m *defaultShopService) UpdateShopDecoration(ctx context.Context, in *UpdateShopDecorationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := shop.NewShopServiceClient(m.cli.Conn())
+	return client.UpdateShopDecoration(ctx, in, opts...)
 }

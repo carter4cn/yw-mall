@@ -45,6 +45,10 @@ service ShopService {
   rpc ListPendingInvitations(ListPendingInvitationsReq) returns (ListPendingInvitationsResp);
   rpc RevokeInvitation(RevokeInvitationReq) returns (OkResp);
   rpc AcceptInvitation(AcceptInvitationReq) returns (AcceptInvitationResp);
+
+  // ===== M6 店铺装修 =====
+  rpc GetShopDecoration(GetShopDecorationReq) returns (ShopDecoration);
+  rpc UpdateShopDecoration(UpdateShopDecorationReq) returns (OkResp);
 }
 
 message Shop {
@@ -284,4 +288,22 @@ message AcceptInvitationResp {
   int64  shop_id   = 1;
   string role      = 2;
   string shop_name = 3;
+}
+
+// ===== M6 店铺装修 =====
+message ShopDecoration {
+  int64  shop_id       = 1;
+  string banners       = 2;  // csv: "url1,url2" (FE 解析)
+  string announcement  = 3;
+  string featured_pids = 4;  // csv: "81,79,77"
+  int64  update_time   = 5;  // unix
+}
+
+message GetShopDecorationReq { int64 shop_id = 1; }
+
+message UpdateShopDecorationReq {
+  int64  shop_id       = 1;
+  string banners       = 2;
+  string announcement  = 3;
+  string featured_pids = 4;
 }

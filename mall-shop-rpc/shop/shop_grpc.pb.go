@@ -53,6 +53,8 @@ const (
 	ShopService_ListPendingInvitations_FullMethodName     = "/shop.ShopService/ListPendingInvitations"
 	ShopService_RevokeInvitation_FullMethodName           = "/shop.ShopService/RevokeInvitation"
 	ShopService_AcceptInvitation_FullMethodName           = "/shop.ShopService/AcceptInvitation"
+	ShopService_GetShopDecoration_FullMethodName          = "/shop.ShopService/GetShopDecoration"
+	ShopService_UpdateShopDecoration_FullMethodName       = "/shop.ShopService/UpdateShopDecoration"
 )
 
 // ShopServiceClient is the client API for ShopService service.
@@ -96,6 +98,9 @@ type ShopServiceClient interface {
 	ListPendingInvitations(ctx context.Context, in *ListPendingInvitationsReq, opts ...grpc.CallOption) (*ListPendingInvitationsResp, error)
 	RevokeInvitation(ctx context.Context, in *RevokeInvitationReq, opts ...grpc.CallOption) (*OkResp, error)
 	AcceptInvitation(ctx context.Context, in *AcceptInvitationReq, opts ...grpc.CallOption) (*AcceptInvitationResp, error)
+	// ===== M6 店铺装修 =====
+	GetShopDecoration(ctx context.Context, in *GetShopDecorationReq, opts ...grpc.CallOption) (*ShopDecoration, error)
+	UpdateShopDecoration(ctx context.Context, in *UpdateShopDecorationReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type shopServiceClient struct {
@@ -446,6 +451,26 @@ func (c *shopServiceClient) AcceptInvitation(ctx context.Context, in *AcceptInvi
 	return out, nil
 }
 
+func (c *shopServiceClient) GetShopDecoration(ctx context.Context, in *GetShopDecorationReq, opts ...grpc.CallOption) (*ShopDecoration, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ShopDecoration)
+	err := c.cc.Invoke(ctx, ShopService_GetShopDecoration_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopServiceClient) UpdateShopDecoration(ctx context.Context, in *UpdateShopDecorationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShopService_UpdateShopDecoration_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ShopServiceServer is the server API for ShopService service.
 // All implementations must embed UnimplementedShopServiceServer
 // for forward compatibility.
@@ -487,6 +512,9 @@ type ShopServiceServer interface {
 	ListPendingInvitations(context.Context, *ListPendingInvitationsReq) (*ListPendingInvitationsResp, error)
 	RevokeInvitation(context.Context, *RevokeInvitationReq) (*OkResp, error)
 	AcceptInvitation(context.Context, *AcceptInvitationReq) (*AcceptInvitationResp, error)
+	// ===== M6 店铺装修 =====
+	GetShopDecoration(context.Context, *GetShopDecorationReq) (*ShopDecoration, error)
+	UpdateShopDecoration(context.Context, *UpdateShopDecorationReq) (*OkResp, error)
 	mustEmbedUnimplementedShopServiceServer()
 }
 
@@ -598,6 +626,12 @@ func (UnimplementedShopServiceServer) RevokeInvitation(context.Context, *RevokeI
 }
 func (UnimplementedShopServiceServer) AcceptInvitation(context.Context, *AcceptInvitationReq) (*AcceptInvitationResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method AcceptInvitation not implemented")
+}
+func (UnimplementedShopServiceServer) GetShopDecoration(context.Context, *GetShopDecorationReq) (*ShopDecoration, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetShopDecoration not implemented")
+}
+func (UnimplementedShopServiceServer) UpdateShopDecoration(context.Context, *UpdateShopDecorationReq) (*OkResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateShopDecoration not implemented")
 }
 func (UnimplementedShopServiceServer) mustEmbedUnimplementedShopServiceServer() {}
 func (UnimplementedShopServiceServer) testEmbeddedByValue()                     {}
@@ -1232,6 +1266,42 @@ func _ShopService_AcceptInvitation_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ShopService_GetShopDecoration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetShopDecorationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).GetShopDecoration(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_GetShopDecoration_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).GetShopDecoration(ctx, req.(*GetShopDecorationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopService_UpdateShopDecoration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateShopDecorationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopServiceServer).UpdateShopDecoration(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopService_UpdateShopDecoration_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopServiceServer).UpdateShopDecoration(ctx, req.(*UpdateShopDecorationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ShopService_ServiceDesc is the grpc.ServiceDesc for ShopService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1374,6 +1444,14 @@ var ShopService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AcceptInvitation",
 			Handler:    _ShopService_AcceptInvitation_Handler,
+		},
+		{
+			MethodName: "GetShopDecoration",
+			Handler:    _ShopService_GetShopDecoration_Handler,
+		},
+		{
+			MethodName: "UpdateShopDecoration",
+			Handler:    _ShopService_UpdateShopDecoration_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
