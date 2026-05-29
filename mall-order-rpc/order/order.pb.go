@@ -1048,13 +1048,17 @@ func (x *OkResp) GetOk() bool {
 }
 
 type ListShopOrdersReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
-	Status        int32                  `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"` // -1 = all
-	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
-	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	ShopId   int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Status   int32                  `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"` // -1 = all
+	Page     int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	// 商家订单管理的模糊检索字段 —— 空字符串 = 不过滤
+	OrderNoKw       string `protobuf:"bytes,5,opt,name=order_no_kw,json=orderNoKw,proto3" json:"order_no_kw,omitempty"`
+	ReceiverNameKw  string `protobuf:"bytes,6,opt,name=receiver_name_kw,json=receiverNameKw,proto3" json:"receiver_name_kw,omitempty"`
+	ReceiverPhoneKw string `protobuf:"bytes,7,opt,name=receiver_phone_kw,json=receiverPhoneKw,proto3" json:"receiver_phone_kw,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ListShopOrdersReq) Reset() {
@@ -1113,6 +1117,27 @@ func (x *ListShopOrdersReq) GetPageSize() int32 {
 		return x.PageSize
 	}
 	return 0
+}
+
+func (x *ListShopOrdersReq) GetOrderNoKw() string {
+	if x != nil {
+		return x.OrderNoKw
+	}
+	return ""
+}
+
+func (x *ListShopOrdersReq) GetReceiverNameKw() string {
+	if x != nil {
+		return x.ReceiverNameKw
+	}
+	return ""
+}
+
+func (x *ListShopOrdersReq) GetReceiverPhoneKw() string {
+	if x != nil {
+		return x.ReceiverPhoneKw
+	}
+	return ""
 }
 
 type GetShopOrderReq struct {
@@ -2717,12 +2742,15 @@ const file_order_order_proto_rawDesc = "" +
 	"\vcreate_time\x18\a \x01(\x03R\n" +
 	"createTime\"\x18\n" +
 	"\x06OkResp\x12\x0e\n" +
-	"\x02ok\x18\x01 \x01(\bR\x02ok\"u\n" +
+	"\x02ok\x18\x01 \x01(\bR\x02ok\"\xeb\x01\n" +
 	"\x11ListShopOrdersReq\x12\x17\n" +
 	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\x05R\x06status\x12\x12\n" +
 	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\":\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\x12\x1e\n" +
+	"\vorder_no_kw\x18\x05 \x01(\tR\torderNoKw\x12(\n" +
+	"\x10receiver_name_kw\x18\x06 \x01(\tR\x0ereceiverNameKw\x12*\n" +
+	"\x11receiver_phone_kw\x18\a \x01(\tR\x0freceiverPhoneKw\":\n" +
 	"\x0fGetShopOrderReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
 	"\ashop_id\x18\x02 \x01(\x03R\x06shopId\"r\n" +

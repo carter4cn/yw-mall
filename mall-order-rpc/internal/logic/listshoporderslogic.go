@@ -42,6 +42,19 @@ func (l *ListShopOrdersLogic) ListShopOrders(in *order.ListShopOrdersReq) (*orde
 		whereClause += " AND `status` = ?"
 		args = append(args, in.Status)
 	}
+	// 模糊检索 —— 空串跳过；LIKE 用 %kw% 前后匹配
+	if in.OrderNoKw != "" {
+		whereClause += " AND `order_no` LIKE ?"
+		args = append(args, "%"+in.OrderNoKw+"%")
+	}
+	if in.ReceiverNameKw != "" {
+		whereClause += " AND `receiver_name` LIKE ?"
+		args = append(args, "%"+in.ReceiverNameKw+"%")
+	}
+	if in.ReceiverPhoneKw != "" {
+		whereClause += " AND `receiver_phone` LIKE ?"
+		args = append(args, "%"+in.ReceiverPhoneKw+"%")
+	}
 
 	countQuery := fmt.Sprintf("SELECT COUNT(*) FROM `order` WHERE %s", whereClause)
 	var total int64
