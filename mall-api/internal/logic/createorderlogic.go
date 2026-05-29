@@ -5,11 +5,11 @@ package logic
 
 import (
 	"context"
-	"errors"
 
 	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	"mall-common/errorx"
 	"mall-order-rpc/order"
 	"mall-user-rpc/userclient"
 
@@ -43,7 +43,7 @@ func (l *CreateOrderLogic) CreateOrder(req *types.CreateOrderReq) (resp *types.C
 		return nil, err
 	}
 	if addr == nil || addr.Id == 0 {
-		return nil, errors.New("请先添加默认收货地址")
+		return nil, errorx.NewCodeErrorMsg(errorx.OrderAddressRequired, "请先添加默认收货地址")
 	}
 
 	items := make([]*order.OrderItem, 0, len(req.Items))
