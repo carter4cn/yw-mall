@@ -93,6 +93,11 @@ func (l *ListShopOrdersLogic) ListShopOrders(in *order.ListShopOrdersReq) (*orde
 			ReceiverCity:     o.ReceiverCity,
 			ReceiverDistrict: o.ReceiverDistrict,
 			ReceiverDetail:   o.ReceiverDetail,
+			PayTime:          o.PayTime,
+			ShipTime:         o.ShipTime,
+			CompleteTime:     o.CompleteTime,
+			CancelTime:       o.CancelTime,
+			CancelReason:     o.CancelReason,
 		})
 	}
 
