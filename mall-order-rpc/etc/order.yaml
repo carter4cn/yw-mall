@@ -22,6 +22,12 @@ UserRpc:
       - 127.0.0.1:2379
     Key: yw-mall/user-rpc
 
+ProductRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: yw-mall/product-rpc
+
 PaymentRpc:
   Etcd:
     Hosts:

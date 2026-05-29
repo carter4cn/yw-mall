@@ -5,6 +5,7 @@ import (
 	"mall-order-rpc/internal/kafka"
 	"mall-order-rpc/internal/model"
 	"mall-payment-rpc/paymentclient"
+	"mall-product-rpc/productclient"
 	"mall-user-rpc/userclient"
 
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -18,6 +19,9 @@ type ServiceContext struct {
 	SqlConn              sqlx.SqlConn
 	OrderShippedProducer *kafka.Producer
 	UserRpc              userclient.User
+	// ProductRpc — CreateOrder 用首件商品的 product.shop_id 反查店铺写到
+	// order.shop_id，否则商家后台按 shop_id 过滤会查不到该订单。
+	ProductRpc productclient.Product
 	// S2: optional — refund flows debit merchant wallet via mall-payment-rpc.
 	PaymentRpc paymentclient.Payment
 }
@@ -31,6 +35,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		SqlConn:              conn,
 		OrderShippedProducer: kafka.NewProducer(c.Kafka.Brokers, c.Kafka.OrderShippedTopic),
 		UserRpc:              userclient.NewUser(zrpc.MustNewClient(c.UserRpc)),
+		ProductRpc:           productclient.NewProduct(zrpc.MustNewClient(c.ProductRpc)),
 	}
 	if c.PaymentRpc.Etcd.Key != "" || len(c.PaymentRpc.Endpoints) > 0 {
 		ctx.PaymentRpc = paymentclient.NewPayment(zrpc.MustNewClient(c.PaymentRpc))

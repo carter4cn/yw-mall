@@ -14,5 +14,6 @@ type Config struct {
 		OrderShippedTopic string
 	}
 	UserRpc    zrpc.RpcClientConf
+	ProductRpc zrpc.RpcClientConf
 	PaymentRpc zrpc.RpcClientConf `json:",optional"`
 }

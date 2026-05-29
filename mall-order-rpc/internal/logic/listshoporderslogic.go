@@ -49,8 +49,10 @@ func (l *ListShopOrdersLogic) ListShopOrders(in *order.ListShopOrdersReq) (*orde
 		return nil, err
 	}
 
+	// orderTimelineCols (18 cols 含 pay/ship/complete/cancel 时间) 必须与 orderRow
+	// 结构体字段数完全对齐，否则 sqlx 报 "not matching destination to scan"。
 	listQuery := fmt.Sprintf(
-		"SELECT `id`, `order_no`, `user_id`, `total_amount`, `status`, `create_time`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail` FROM `order` WHERE %s ORDER BY `id` DESC LIMIT ? OFFSET ?",
+		"SELECT "+orderTimelineCols+" FROM `order` WHERE %s ORDER BY `id` DESC LIMIT ? OFFSET ?",
 		whereClause,
 	)
 	listArgs := append(args, pageSize, offset)

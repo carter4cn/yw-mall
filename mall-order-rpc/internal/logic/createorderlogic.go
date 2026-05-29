@@ -2,10 +2,12 @@ package logic
 
 import (
 	"context"
+	"errors"
 
 	"mall-order-rpc/internal/svc"
 	"mall-order-rpc/internal/util"
 	"mall-order-rpc/order"
+	"mall-product-rpc/productclient"
 	"mall-user-rpc/userclient"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -42,11 +44,35 @@ func (l *CreateOrderLogic) CreateOrder(in *order.CreateOrderReq) (*order.CreateO
 		totalAmount += item.Price * int64(item.Quantity)
 	}
 
+	// 反查 shop_id —— 用首件商品的归属店铺，写到 order.shop_id；否则商家
+	// 后台按 shop_id 过滤会查不到该订单（财务流水、订单管理都是同一过滤逻辑）。
+	// 当前单一店铺购物车模型；多店铺购物车需另行拆单，校验所有 item 同店。
+	if len(in.Items) == 0 {
+		return nil, errors.New("订单不能为空")
+	}
+	firstProd, err := l.svcCtx.ProductRpc.GetProduct(l.ctx, &productclient.GetProductReq{
+		Id: in.Items[0].ProductId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	shopId := firstProd.ShopId
+	// 防御：所有 item 必须同店
+	for _, item := range in.Items[1:] {
+		p, err := l.svcCtx.ProductRpc.GetProduct(l.ctx, &productclient.GetProductReq{Id: item.ProductId})
+		if err != nil {
+			return nil, err
+		}
+		if p.ShopId != shopId {
+			return nil, errors.New("同一订单的商品必须属于同一店铺")
+		}
+	}
+
 	var orderId int64
 	err = l.svcCtx.SqlConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		result, err := session.ExecCtx(ctx,
-			"INSERT INTO `order` (`order_no`, `user_id`, `total_amount`, `status`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-			orderNo, in.UserId, totalAmount, 0,
+			"INSERT INTO `order` (`order_no`, `user_id`, `shop_id`, `total_amount`, `status`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+			orderNo, in.UserId, shopId, totalAmount, 0,
 			addr.Id, addr.ReceiverName, addr.Phone,
 			addr.Province, addr.City, addr.District, addr.Detail,
 		)
