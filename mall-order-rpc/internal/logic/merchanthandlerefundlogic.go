@@ -61,7 +61,25 @@ func (l *MerchantHandleRefundLogic) MerchantHandleRefund(in *order.MerchantHandl
 		return &order.OkResp{Ok: true}, nil
 	}
 
-	// action=1: approve + execute refund
+	// action=1: approve.
+	// 仅退款 (type=1) → approve 后立即执行退款 + 改 status=4。
+	// 退货退款 (type=2) / 换货 (type=3) → approve 后停在 status=1
+	// 等买家寄回 → 商家验货/换货发货才结算，本函数到此为止。
+	if row.RefundType == 2 || row.RefundType == 3 {
+		res, err := l.svcCtx.SqlConn.ExecCtx(l.ctx,
+			"UPDATE refund_request SET status = 1, merchant_user_id = ?, merchant_remark = ?, merchant_handle_time = ?, update_time = ? WHERE id = ? AND status = 0",
+			in.MerchantUserId, in.Remark, now, now, in.RefundId,
+		)
+		if err != nil {
+			return nil, err
+		}
+		if n, _ := res.RowsAffected(); n == 0 {
+			return nil, errors.New("refund state changed concurrently")
+		}
+		return &order.OkResp{Ok: true}, nil
+	}
+
+	// 仅退款分支：approve + 立即执行 + mark refunded
 	refundNo := generateRefundNo()
 	// 1) optimistic flip pending -> approved
 	res, err := l.svcCtx.SqlConn.ExecCtx(l.ctx,
