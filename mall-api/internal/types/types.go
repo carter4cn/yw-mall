@@ -544,6 +544,10 @@ type ShopDetailReq struct {
 
 type ShopDetailResp struct {
 	Shop ShopItem `json:"shop"`
+	// 装修 —— 未配置时全空数组 / 空串（FE 兜底用 shop.banner 单图 + 隐藏公告区）
+	Banners      []string `json:"banners"`      // 多张 banner 轮播图 URL
+	Announcement string   `json:"announcement"` // 店铺公告
+	FeaturedPids []int64  `json:"featuredPids"` // 推荐商品 ID 顺序
 }
 
 type ShopListReq struct {
