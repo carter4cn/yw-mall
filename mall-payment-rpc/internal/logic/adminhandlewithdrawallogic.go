@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"mall-payment-rpc/internal/svc"
@@ -69,6 +70,13 @@ func (l *AdminHandleWithdrawalLogic) AdminHandleWithdrawal(in *payment.AdminHand
 			if _, err := tx.ExecCtx(l.ctx,
 				"INSERT INTO bill_record (shop_id, type, amount, order_id, remark, create_time) VALUES (?, 'withdrawal', ?, 0, ?, ?)",
 				shopId, -amount, in.Remark, now); err != nil {
+				return err
+			}
+			// 流水 (account_ledger) 补一条 withdrawal 出账 —— bill_record 是
+			// 月账单维度，流水是按日明细维度，商家钱包页两者同时展示。
+			// 之前漏写导致 wallet 余额掉了但流水里看不到对应记录。
+			refNo := fmt.Sprintf("WD%d", in.Id)
+			if err := writeLedgerEntry(l.ctx, tx, shopId, 2, "withdrawal", amount, 0, 0, in.Id, refNo, "withdrawal approved: "+in.Remark); err != nil {
 				return err
 			}
 			return nil
