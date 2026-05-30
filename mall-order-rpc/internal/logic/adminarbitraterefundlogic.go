@@ -104,5 +104,9 @@ func (l *AdminArbitrateRefundLogic) AdminArbitrateRefund(in *order.AdminArbitrat
 	); err != nil {
 		return nil, err
 	}
+	// 同步原订单作废（admin 仲裁通过 = 强制退款）
+	if err := markOrderAsRefunded(l.ctx, l.svcCtx.SqlConn, row.OrderId, "refund:arbitrate"); err != nil {
+		return nil, err
+	}
 	return &order.OkResp{Ok: true}, nil
 }

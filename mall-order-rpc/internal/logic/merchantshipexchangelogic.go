@@ -75,6 +75,10 @@ func (l *MerchantShipExchangeLogic) MerchantShipExchange(in *order.MerchantShipE
 	); err != nil {
 		return nil, err
 	}
+	// 同步原订单作废 —— 换货发出后原订单关闭，新单进入正常履约流程
+	if err := markOrderAsRefunded(l.ctx, l.svcCtx.SqlConn, r.OrderId, "refund:exchange"); err != nil {
+		return nil, err
+	}
 
 	return &order.MerchantShipExchangeResp{
 		NewOrderId: newId,

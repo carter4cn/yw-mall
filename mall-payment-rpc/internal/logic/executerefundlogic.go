@@ -77,10 +77,12 @@ func (l *ExecuteRefundLogic) ExecuteRefund(in *payment.ExecuteRefundReq) (*payme
 	// 2) Wallet debit + bill record + payment status flip — all-or-nothing.
 	now := time.Now().Unix()
 	err = l.svcCtx.SqlConn.TransactCtx(l.ctx, func(ctx context.Context, tx sqlx.Session) error {
-		// Guarded deduction: only succeeds when frozen >= amount.
+		// Guarded deduction: only减少 frozen，不动 total_income —— total_income
+		// 是"累计入账"的单调计数器（在结算时 settle worker 累计），退款不应该
+		// 把它变负数。退款总额另起 total_refunded 列或从 ledger 反推。
 		res, err := tx.ExecCtx(ctx,
-			"UPDATE merchant_wallet SET frozen = frozen - ?, total_income = total_income - ?, update_time = ? WHERE shop_id = ? AND frozen >= ?",
-			in.Amount, in.Amount, now, in.ShopId, in.Amount,
+			"UPDATE merchant_wallet SET frozen = frozen - ?, update_time = ? WHERE shop_id = ? AND frozen >= ?",
+			in.Amount, now, in.ShopId, in.Amount,
 		)
 		if err != nil {
 			return err

@@ -107,5 +107,10 @@ func (l *MerchantHandleRefundLogic) MerchantHandleRefund(in *order.MerchantHandl
 	); err != nil {
 		return nil, err
 	}
+	// 4) 同步 order.status —— 仅退款执行完，订单作废，商家订单管理才不会
+	//    显示成"待发货"误导。已完成/已取消的订单不动。
+	if err := markOrderAsRefunded(l.ctx, l.svcCtx.SqlConn, row.OrderId, "refund:approved"); err != nil {
+		return nil, err
+	}
 	return &order.OkResp{Ok: true}, nil
 }

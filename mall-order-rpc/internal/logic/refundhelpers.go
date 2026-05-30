@@ -159,3 +159,18 @@ func loadRefundById(ctx context.Context, svcCtx *svc.ServiceContext, id int64) (
 	}
 	return &r, nil
 }
+
+// markOrderAsRefunded flips order.status to 4 (cancelled) with a refund reason
+// after a refund completes (仅退款 approve / 退货退款 inspect pass / 仲裁通过
+// / 换货 ship)。Skips the update if order already in status 3 (completed) or
+// 4 (cancelled) so a partial refund / double-call doesn't roll state backwards
+// or duplicate cancel_time. Best-effort: error returned to caller so the
+// transaction surrounding the refund completion can decide whether to abort.
+func markOrderAsRefunded(ctx context.Context, conn sqlx.SqlConn, orderId int64, reason string) error {
+	now := time.Now().Unix()
+	_, err := conn.ExecCtx(ctx,
+		"UPDATE `order` SET status = 4, cancel_time = ?, cancel_reason = ? WHERE id = ? AND status NOT IN (3, 4)",
+		now, reason, orderId,
+	)
+	return err
+}

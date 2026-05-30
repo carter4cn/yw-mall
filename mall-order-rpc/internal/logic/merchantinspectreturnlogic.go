@@ -94,6 +94,10 @@ func (l *MerchantInspectReturnLogic) MerchantInspectReturn(in *order.MerchantIns
 		); err != nil {
 			return nil, err
 		}
+		// 同步原订单作废（退货退款验收通过 = 整单退掉）
+		if err := markOrderAsRefunded(l.ctx, l.svcCtx.SqlConn, r.OrderId, "refund:return-passed"); err != nil {
+			return nil, err
+		}
 	}
 	// type=3 exchange: stay status=1, wait for MerchantShipExchange.
 	return &order.OkResp{Ok: true}, nil
