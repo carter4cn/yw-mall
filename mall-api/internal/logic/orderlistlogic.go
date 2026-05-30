@@ -53,13 +53,25 @@ func (l *OrderListLogic) OrderList(req *types.OrderListReq) (resp *types.OrderLi
 			})
 		}
 		orders = append(orders, types.OrderDetailResp{
-			Id:          o.Id,
-			OrderNo:     o.OrderNo,
-			UserId:      o.UserId,
-			TotalAmount: o.TotalAmount,
-			Status:      o.Status,
-			Items:       items,
-			CreateTime:  o.CreateTime,
+			Id:               o.Id,
+			OrderNo:          o.OrderNo,
+			UserId:           o.UserId,
+			TotalAmount:      o.TotalAmount,
+			Status:           o.Status,
+			Items:            items,
+			CreateTime:       o.CreateTime,
+			AddressId:        o.AddressId,
+			ReceiverName:     o.ReceiverName,
+			ReceiverPhone:    o.ReceiverPhone,
+			ReceiverProvince: o.ReceiverProvince,
+			ReceiverCity:     o.ReceiverCity,
+			ReceiverDistrict: o.ReceiverDistrict,
+			ReceiverDetail:   o.ReceiverDetail,
+			PayTime:          o.PayTime,
+			ShipTime:         o.ShipTime,
+			CompleteTime:     o.CompleteTime,
+			CancelTime:       o.CancelTime,
+			CancelReason:     o.CancelReason,
 		})
 	}
 

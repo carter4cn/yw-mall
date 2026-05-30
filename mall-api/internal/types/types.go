@@ -304,12 +304,20 @@ type OrderDetailResp struct {
 	Status       int32             `json:"status"`
 	Items        []CreateOrderItem `json:"items"`
 	CreateTime   int64             `json:"createTime"`
-	PayTime      int64             `json:"payTime,omitempty"`
-	ShipTime     int64             `json:"shipTime,omitempty"`
-	CompleteTime int64             `json:"completeTime,omitempty"`
-	CancelTime   int64             `json:"cancelTime,omitempty"`
-	CancelReason string            `json:"cancelReason,omitempty"`
-	Shipments    []ShipmentDTO     `json:"shipments,omitempty"`
+	// 收件人 & 物流地址 —— C 端订单详情页让用户确认"这单要寄到哪里"
+	AddressId        int64  `json:"addressId,omitempty"`
+	ReceiverName     string `json:"receiverName,omitempty"`
+	ReceiverPhone    string `json:"receiverPhone,omitempty"`
+	ReceiverProvince string `json:"receiverProvince,omitempty"`
+	ReceiverCity     string `json:"receiverCity,omitempty"`
+	ReceiverDistrict string `json:"receiverDistrict,omitempty"`
+	ReceiverDetail   string `json:"receiverDetail,omitempty"`
+	PayTime      int64         `json:"payTime,omitempty"`
+	ShipTime     int64         `json:"shipTime,omitempty"`
+	CompleteTime int64         `json:"completeTime,omitempty"`
+	CancelTime   int64         `json:"cancelTime,omitempty"`
+	CancelReason string        `json:"cancelReason,omitempty"`
+	Shipments    []ShipmentDTO `json:"shipments,omitempty"`
 }
 
 type OrderListReq struct {

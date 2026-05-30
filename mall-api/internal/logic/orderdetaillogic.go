@@ -63,18 +63,25 @@ func (l *OrderDetailLogic) OrderDetail(req *types.OrderDetailReq) (*types.OrderD
 	}
 
 	resp := &types.OrderDetailResp{
-		Id:           ord.Id,
-		OrderNo:      ord.OrderNo,
-		UserId:       ord.UserId,
-		TotalAmount:  ord.TotalAmount,
-		Status:       ord.Status,
-		Items:        items,
-		CreateTime:   ord.CreateTime,
-		PayTime:      ord.PayTime,
-		ShipTime:     ord.ShipTime,
-		CompleteTime: ord.CompleteTime,
-		CancelTime:   ord.CancelTime,
-		CancelReason: ord.CancelReason,
+		Id:               ord.Id,
+		OrderNo:          ord.OrderNo,
+		UserId:           ord.UserId,
+		TotalAmount:      ord.TotalAmount,
+		Status:           ord.Status,
+		Items:            items,
+		CreateTime:       ord.CreateTime,
+		AddressId:        ord.AddressId,
+		ReceiverName:     ord.ReceiverName,
+		ReceiverPhone:    ord.ReceiverPhone,
+		ReceiverProvince: ord.ReceiverProvince,
+		ReceiverCity:     ord.ReceiverCity,
+		ReceiverDistrict: ord.ReceiverDistrict,
+		ReceiverDetail:   ord.ReceiverDetail,
+		PayTime:          ord.PayTime,
+		ShipTime:         ord.ShipTime,
+		CompleteTime:     ord.CompleteTime,
+		CancelTime:       ord.CancelTime,
+		CancelReason:     ord.CancelReason,
 	}
 
 	if shipments != nil {
