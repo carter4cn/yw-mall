@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"mall-order-rpc/internal/svc"
 	"mall-order-rpc/internal/util"
@@ -79,6 +80,27 @@ func (l *CreateOrderLogic) CreateOrder(in *order.CreateOrderReq) (*order.CreateO
 		discountDetail = in.DiscountDetail
 	}
 
+	// Phase 1.5 库存扣减: 在 DB 事务前调 ProductRpc.UpdateStock(delta=-qty)
+	// 每个 item 原子扣减 (SQL 内嵌 stock+delta>=0 校验)。任一失败回滚先前的。
+	// 完成后再写订单, 订单写失败也要回滚所有 stock。
+	deducted := make([]*order.OrderItem, 0, len(in.Items))
+	rollbackStock := func() {
+		for _, it := range deducted {
+			_, _ = l.svcCtx.ProductRpc.UpdateStock(l.ctx, &productclient.UpdateStockReq{
+				Id: it.ProductId, Delta: int64(it.Quantity), // 加回
+			})
+		}
+	}
+	for _, item := range in.Items {
+		if _, err := l.svcCtx.ProductRpc.UpdateStock(l.ctx, &productclient.UpdateStockReq{
+			Id: item.ProductId, Delta: -int64(item.Quantity),
+		}); err != nil {
+			rollbackStock()
+			return nil, fmt.Errorf("库存不足: product %d (%s)", item.ProductId, item.ProductName)
+		}
+		deducted = append(deducted, item)
+	}
+
 	var orderId int64
 	err = l.svcCtx.SqlConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		result, err := session.ExecCtx(ctx,
@@ -110,6 +132,8 @@ func (l *CreateOrderLogic) CreateOrder(in *order.CreateOrderReq) (*order.CreateO
 		return nil
 	})
 	if err != nil {
+		// 订单写入失败 → 回滚已扣减的库存
+		rollbackStock()
 		return nil, err
 	}
 

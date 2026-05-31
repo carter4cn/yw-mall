@@ -15,6 +15,7 @@ import (
 	"mall-api/internal/middleware"
 	"mall-api/internal/svc"
 	"mall-api/internal/types"
+	"mall-cart-rpc/cartclient"
 	"mall-common/errorx"
 	"mall-order-rpc/order"
 	productpb "mall-product-rpc/product"
@@ -113,6 +114,15 @@ func (l *CreateOrderLogic) CreateOrder(req *types.CreateOrderReq) (resp *types.C
 				Id: res.Id, Status: 4,
 			})
 			return nil, lerr
+		}
+	}
+
+	// 6) 下单成功 → 清理购物车里这些商品 (best-effort, 失败不阻塞返回)
+	for _, item := range req.Items {
+		if _, cerr := l.svcCtx.CartRpc.RemoveItem(l.ctx, &cartclient.RemoveItemReq{
+			UserId: userId, ProductId: item.ProductId,
+		}); cerr != nil {
+			logx.WithContext(l.ctx).Errorf("RemoveCart userId=%d productId=%d failed: %v", userId, item.ProductId, cerr)
 		}
 	}
 
