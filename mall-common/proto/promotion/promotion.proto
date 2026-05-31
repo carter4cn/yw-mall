@@ -1,0 +1,296 @@
+syntax = "proto3";
+
+package promotion;
+
+option go_package = "./promotion";
+
+// ========== 通用 ==========
+message Empty {}
+
+message OkResp {
+  bool ok = 1;
+}
+
+// ========== 活动 ==========
+message ActivityTarget {
+  int64  id          = 1;
+  int64  activity_id = 2;
+  string target_type = 3; // sku/category/shop/all
+  int64  target_id   = 4;
+}
+
+message ActivityAction {
+  int64  id              = 1;
+  int64  activity_id     = 2;
+  string action_type     = 3; // reduce/discount/cash/fixprice/freeship/gift
+  string threshold_type  = 4; // none/amount/quantity
+  int64  threshold_value = 5;
+  int64  benefit_value   = 6;
+  int64  max_discount    = 7;
+  int64  gift_sku_id     = 8;
+  int32  step_order      = 9;
+}
+
+message Activity {
+  int64  id              = 1;
+  string type            = 2; // fullreduce/discount/fixprice/coupon
+  string name            = 3;
+  int64  shop_id         = 4;
+  int32  status          = 5; // 0草稿/1待开始/2进行中/3已结束/4已下线
+  int64  start_time      = 6;
+  int64  end_time        = 7;
+  int32  priority        = 8;
+  bool   stackable       = 9;
+  string description     = 10;
+  int64  create_user_id  = 11;
+  int64  create_time     = 12;
+  int64  update_time     = 13;
+  repeated ActivityTarget targets = 14;
+  repeated ActivityAction actions = 15;
+}
+
+message CreateActivityReq {
+  string type           = 1;
+  string name           = 2;
+  int64  shop_id        = 3;
+  int64  start_time     = 4;
+  int64  end_time       = 5;
+  int32  priority       = 6;
+  bool   stackable      = 7;
+  string description    = 8;
+  int64  create_user_id = 9;
+  repeated ActivityTarget targets = 10;
+  repeated ActivityAction actions = 11;
+}
+message CreateActivityResp {
+  int64 id = 1;
+}
+
+message GetActivityReq {
+  int64 id = 1;
+}
+message GetActivityResp {
+  Activity activity = 1;
+}
+
+message UpdateActivityReq {
+  int64  id          = 1;
+  string name        = 2;
+  int64  start_time  = 3;
+  int64  end_time    = 4;
+  int32  priority    = 5;
+  bool   stackable   = 6;
+  string description = 7;
+  repeated ActivityTarget targets = 8;
+  repeated ActivityAction actions = 9;
+}
+
+message ChangeActivityStatusReq {
+  int64 id     = 1;
+  int32 status = 2;
+}
+
+message ListActivitiesReq {
+  int64  shop_id   = 1;
+  string type      = 2; // 空 = 全部
+  int32  status    = 3; // -1 = 全部
+  int32  page      = 4;
+  int32  page_size = 5;
+}
+message ListActivitiesResp {
+  repeated Activity activities = 1;
+  int64 total = 2;
+}
+
+// ========== 券模板 ==========
+message CouponTemplate {
+  int64  id              = 1;
+  int64  activity_id     = 2;
+  int64  shop_id         = 3;
+  string name            = 4;
+  string type            = 5; // full_reduce/discount/cash/freeship
+  int64  value           = 6;
+  int64  min_amount      = 7;
+  int64  max_discount    = 8;
+  int64  category_id     = 9;
+  int32  total_count     = 10;
+  int32  received_count  = 11;
+  int32  used_count      = 12;
+  int32  per_user_limit  = 13;
+  int32  valid_type      = 14; // 0固定日期/1领后N天
+  int32  valid_days      = 15;
+  int64  valid_start     = 16;
+  int64  valid_end       = 17;
+  int64  receive_start   = 18;
+  int64  receive_end     = 19;
+  int32  status          = 20; // 0下架/1上架
+  int64  create_time     = 21;
+  int64  update_time     = 22;
+}
+
+message CreateCouponTemplateReq {
+  int64  shop_id        = 1;
+  string name           = 2;
+  string type           = 3;
+  int64  value          = 4;
+  int64  min_amount     = 5;
+  int64  max_discount   = 6;
+  int64  category_id    = 7;
+  int32  total_count    = 8;
+  int32  per_user_limit = 9;
+  int32  valid_type     = 10;
+  int32  valid_days     = 11;
+  int64  valid_start    = 12;
+  int64  valid_end      = 13;
+  int64  receive_start  = 14;
+  int64  receive_end    = 15;
+}
+message CreateCouponTemplateResp {
+  int64 id = 1;
+}
+
+message ListCouponTemplatesReq {
+  int64 shop_id   = 1;
+  int32 status    = 2;
+  int32 page      = 3;
+  int32 page_size = 4;
+}
+message ListCouponTemplatesResp {
+  repeated CouponTemplate templates = 1;
+  int64 total = 2;
+}
+
+message ChangeCouponTemplateStatusReq {
+  int64 id     = 1;
+  int32 status = 2;
+}
+
+// ========== 用户券 ==========
+message Coupon {
+  int64  id            = 1;
+  int64  template_id   = 2;
+  int64  user_id       = 3;
+  int64  shop_id       = 4;
+  int32  status        = 5; // 0未用/1已锁定/2已使用/3已过期
+  int64  order_id      = 6;
+  int64  receive_time  = 7;
+  int64  expire_time   = 8;
+  int64  lock_time     = 9;
+  int64  use_time      = 10;
+  // 冗余 - 列表展示用
+  string template_name = 11;
+  string type          = 12;
+  int64  value         = 13;
+  int64  min_amount    = 14;
+}
+
+message ReceiveCouponReq {
+  int64 user_id     = 1;
+  int64 template_id = 2;
+}
+message ReceiveCouponResp {
+  int64 coupon_id = 1;
+}
+
+message ListMyCouponsReq {
+  int64 user_id   = 1;
+  int32 status    = 2;
+  int32 page      = 3;
+  int32 page_size = 4;
+}
+message ListMyCouponsResp {
+  repeated Coupon coupons = 1;
+  int64 total = 2;
+}
+
+// ========== 价格计算 (★) ==========
+message CartItem {
+  int64 sku_id         = 1;
+  int64 product_id     = 2;
+  int64 shop_id        = 3;
+  int64 category_id    = 4;
+  int64 original_price = 5;
+  int32 quantity       = 6;
+}
+
+message PriceConflict {
+  int64  coupon_id = 1;
+  string reason    = 2;
+}
+
+message CalcPriceReq {
+  int64 user_id              = 1;
+  repeated CartItem items    = 2;
+  repeated int64 coupon_ids  = 3;
+  int64  shipping_fee        = 4;
+}
+message CalcPriceResp {
+  int64  total_amount       = 1;
+  int64  promotion_discount = 2;
+  int64  coupon_discount    = 3;
+  int64  shipping_fee       = 4;
+  int64  paid_amount        = 5;
+  string discount_detail    = 6;
+  repeated PriceConflict conflicts = 7;
+}
+
+// ========== 订单生命周期 ==========
+message LockCouponReq {
+  int64 user_id   = 1;
+  int64 order_id  = 2;
+  repeated int64 coupon_ids = 3;
+}
+
+message ReleaseCouponReq {
+  int64 order_id = 1;
+}
+
+message ConsumeCouponReq {
+  int64 order_id = 1;
+}
+
+// ========== 退款分摊 ==========
+message RefundItem {
+  int64 sku_id   = 1;
+  int32 quantity = 2;
+}
+
+message CalcRefundReq {
+  int64 order_id            = 1;
+  bool  full_refund         = 2;
+  repeated RefundItem items = 3;
+}
+message CalcRefundResp {
+  int64  refund_amount = 1;
+  string refund_detail = 2;
+}
+
+// ========== 服务 ==========
+service Promotion {
+  // 活动 CRUD
+  rpc CreateActivity       (CreateActivityReq)       returns (CreateActivityResp);
+  rpc GetActivity          (GetActivityReq)          returns (GetActivityResp);
+  rpc UpdateActivity       (UpdateActivityReq)       returns (OkResp);
+  rpc ChangeActivityStatus (ChangeActivityStatusReq) returns (OkResp);
+  rpc ListActivities       (ListActivitiesReq)       returns (ListActivitiesResp);
+
+  // 券模板
+  rpc CreateCouponTemplate       (CreateCouponTemplateReq)       returns (CreateCouponTemplateResp);
+  rpc ListCouponTemplates        (ListCouponTemplatesReq)        returns (ListCouponTemplatesResp);
+  rpc ChangeCouponTemplateStatus (ChangeCouponTemplateStatusReq) returns (OkResp);
+
+  // 用户券
+  rpc ReceiveCoupon (ReceiveCouponReq) returns (ReceiveCouponResp);
+  rpc ListMyCoupons (ListMyCouponsReq) returns (ListMyCouponsResp);
+
+  // 价格引擎
+  rpc CalcPrice (CalcPriceReq) returns (CalcPriceResp);
+
+  // 订单生命周期
+  rpc LockCoupon    (LockCouponReq)    returns (OkResp);
+  rpc ReleaseCoupon (ReleaseCouponReq) returns (OkResp);
+  rpc ConsumeCoupon (ConsumeCouponReq) returns (OkResp);
+
+  // 退款
+  rpc CalcRefund (CalcRefundReq) returns (CalcRefundResp);
+}
