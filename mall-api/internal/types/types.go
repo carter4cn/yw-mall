@@ -808,3 +808,69 @@ type ResetPasswordReq struct {
 	ChallengeToken string `json:"challengeToken"`
 	NewPassword    string `json:"newPassword"`
 }
+
+// ===== Phase 1 优惠券 (C 端) =====
+
+type CouponTemplateView struct {
+	TemplateId    int64  `json:"templateId"`
+	ShopId        int64  `json:"shopId"`
+	Name          string `json:"name"`
+	Type          string `json:"type"` // full_reduce/discount/cash/freeship
+	Value         int64  `json:"value"`
+	MinAmount     int64  `json:"minAmount"`
+	MaxDiscount   int64  `json:"maxDiscount"`
+	TotalCount    int32  `json:"totalCount"`
+	ReceivedCount int32  `json:"receivedCount"`
+	PerUserLimit  int32  `json:"perUserLimit"`
+	ValidType     int32  `json:"validType"`
+	ValidDays     int32  `json:"validDays"`
+	ValidStart    int64  `json:"validStart"`
+	ValidEnd      int64  `json:"validEnd"`
+	ReceiveStart  int64  `json:"receiveStart"`
+	ReceiveEnd    int64  `json:"receiveEnd"`
+}
+
+type CouponListReq struct {
+	ShopId   int64 `form:"shopId,default=0"` // 0=平台券, >0=指定店铺
+	Page     int32 `form:"page,default=1"`
+	PageSize int32 `form:"pageSize,default=20"`
+}
+
+type CouponListResp struct {
+	Total     int64                 `json:"total"`
+	Templates []*CouponTemplateView `json:"templates"`
+}
+
+type ReceiveCouponReq struct {
+	TemplateId int64 `json:"templateId"`
+}
+
+type ReceiveCouponResp struct {
+	CouponId int64 `json:"couponId"`
+}
+
+type MyCouponView struct {
+	Id           int64  `json:"id"`
+	TemplateId   int64  `json:"templateId"`
+	ShopId       int64  `json:"shopId"`
+	Status       int32  `json:"status"` // 0未用/1已锁定/2已使用/3已过期
+	OrderId      int64  `json:"orderId,omitempty"`
+	ReceiveTime  int64  `json:"receiveTime"`
+	ExpireTime   int64  `json:"expireTime"`
+	UseTime      int64  `json:"useTime,omitempty"`
+	TemplateName string `json:"templateName"`
+	Type         string `json:"type"`
+	Value        int64  `json:"value"`
+	MinAmount    int64  `json:"minAmount"`
+}
+
+type MyCouponsReq struct {
+	Status   int32 `form:"status,default=-1"`
+	Page     int32 `form:"page,default=1"`
+	PageSize int32 `form:"pageSize,default=20"`
+}
+
+type MyCouponsResp struct {
+	Total   int64           `json:"total"`
+	Coupons []*MyCouponView `json:"coupons"`
+}

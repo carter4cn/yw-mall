@@ -102,6 +102,12 @@ ShopRpc:
       - 127.0.0.1:2379
     Key: yw-mall/shop-rpc
 
+PromotionRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: yw-mall/promotion-rpc
+
 # ===== Sprint 5 预埋：env 已起 PG HA + Mongo RS，业务还没用 =====
 # 启用方式：
 #   1. yw-mall-env: podman compose --profile pg --profile mongo up -d

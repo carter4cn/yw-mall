@@ -41,6 +41,28 @@ func (s *PromotionServer) ListActivities(ctx context.Context, in *promotion.List
 	return logic.ListActivities(ctx, s.svcCtx, in)
 }
 
+// ===== S1.3 优惠券 =====
+
+func (s *PromotionServer) CreateCouponTemplate(ctx context.Context, in *promotion.CreateCouponTemplateReq) (*promotion.CreateCouponTemplateResp, error) {
+	return logic.CreateCouponTemplate(ctx, s.svcCtx, in)
+}
+
+func (s *PromotionServer) ListCouponTemplates(ctx context.Context, in *promotion.ListCouponTemplatesReq) (*promotion.ListCouponTemplatesResp, error) {
+	return logic.ListCouponTemplates(ctx, s.svcCtx, in)
+}
+
+func (s *PromotionServer) ChangeCouponTemplateStatus(ctx context.Context, in *promotion.ChangeCouponTemplateStatusReq) (*promotion.OkResp, error) {
+	return logic.ChangeCouponTemplateStatus(ctx, s.svcCtx, in)
+}
+
+func (s *PromotionServer) ReceiveCoupon(ctx context.Context, in *promotion.ReceiveCouponReq) (*promotion.ReceiveCouponResp, error) {
+	return logic.ReceiveCoupon(ctx, s.svcCtx, in)
+}
+
+func (s *PromotionServer) ListMyCoupons(ctx context.Context, in *promotion.ListMyCouponsReq) (*promotion.ListMyCouponsResp, error) {
+	return logic.ListMyCoupons(ctx, s.svcCtx, in)
+}
+
 // ===== S1.4 价格引擎 =====
 
 func (s *PromotionServer) CalcPrice(ctx context.Context, in *promotion.CalcPriceReq) (*promotion.CalcPriceResp, error) {

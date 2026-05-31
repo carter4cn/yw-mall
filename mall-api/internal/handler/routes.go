@@ -490,4 +490,33 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		}),
 		rest.WithPrefix("/api/activity"),
 	)
+
+	// ===== Phase 1 优惠券 (S1.3) =====
+	// public: 券中心列表浏览不需要登录
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: ListAvailableCouponsHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/coupon"),
+	)
+	// protected: 领券 + 我的券包 需要登录
+	server.AddRoutes(
+		withSessionAuth(serverCtx, []rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/receive",
+				Handler: ReceiveCouponHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/my",
+				Handler: ListMyCouponsHandler(serverCtx),
+			},
+		}),
+		rest.WithPrefix("/api/coupon"),
+	)
 }

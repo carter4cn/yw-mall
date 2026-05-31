@@ -17,6 +17,7 @@ import (
 	"mall-order-rpc/orderclient"
 	"mall-payment-rpc/paymentclient"
 	"mall-product-rpc/productclient"
+	"mall-promotion-rpc/promotionclient"
 	"mall-review-rpc/reviewclient"
 	"mall-reward-rpc/rewardclient"
 	"mall-risk-rpc/riskclient"
@@ -87,6 +88,7 @@ type ServiceContext struct {
 	ReviewRpc    reviewclient.Review
 	LogisticsRpc logisticsclient.Logistics
 	ShopRpc      shopservice.ShopService
+	PromotionRpc promotionclient.Promotion
 
 	Minio       ObjectStore
 	AdminToken  rest.Middleware
@@ -123,6 +125,7 @@ func NewServiceContext(c config.Config, etcdHosts []string) *ServiceContext {
 		ReviewRpc:    reviewclient.NewReview(zrpc.MustNewClient(c.ReviewRpc)),
 		LogisticsRpc: logisticsclient.NewLogistics(zrpc.MustNewClient(c.LogisticsRpc)),
 		ShopRpc:      shopservice.NewShopService(zrpc.MustNewClient(c.ShopRpc)),
+		PromotionRpc: promotionclient.NewPromotion(zrpc.MustNewClient(c.PromotionRpc)),
 		Minio:       minioHot,
 		AdminToken:  middleware.NewAdminTokenMiddleware(adminTokenHot).Handle,
 		Redis:       newRedisClient(c),
