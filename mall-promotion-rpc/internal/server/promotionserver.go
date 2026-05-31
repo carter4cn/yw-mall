@@ -40,3 +40,9 @@ func (s *PromotionServer) ChangeActivityStatus(ctx context.Context, in *promotio
 func (s *PromotionServer) ListActivities(ctx context.Context, in *promotion.ListActivitiesReq) (*promotion.ListActivitiesResp, error) {
 	return logic.ListActivities(ctx, s.svcCtx, in)
 }
+
+// ===== S1.4 价格引擎 =====
+
+func (s *PromotionServer) CalcPrice(ctx context.Context, in *promotion.CalcPriceReq) (*promotion.CalcPriceResp, error) {
+	return logic.CalcPrice(ctx, s.svcCtx, in)
+}
