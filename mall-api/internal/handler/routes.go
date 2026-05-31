@@ -174,6 +174,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/update-quantity",
 				Handler: CartUpdateQuantityHandler(serverCtx),
 			},
+			// ----- Phase 1 价格引擎入口 (S1.5.1) -----
+			{
+				Method:  http.MethodPost,
+				Path:    "/calc-price",
+				Handler: CartCalcPriceHandler(serverCtx),
+			},
 		}),
 		rest.WithPrefix("/api/cart"),
 	)

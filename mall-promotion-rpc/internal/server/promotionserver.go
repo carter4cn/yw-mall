@@ -68,3 +68,17 @@ func (s *PromotionServer) ListMyCoupons(ctx context.Context, in *promotion.ListM
 func (s *PromotionServer) CalcPrice(ctx context.Context, in *promotion.CalcPriceReq) (*promotion.CalcPriceResp, error) {
 	return logic.CalcPrice(ctx, s.svcCtx, in)
 }
+
+// ===== S1.5 订单生命周期 =====
+
+func (s *PromotionServer) LockCoupon(ctx context.Context, in *promotion.LockCouponReq) (*promotion.OkResp, error) {
+	return logic.LockCoupon(ctx, s.svcCtx, in)
+}
+
+func (s *PromotionServer) ReleaseCoupon(ctx context.Context, in *promotion.ReleaseCouponReq) (*promotion.OkResp, error) {
+	return logic.ReleaseCoupon(ctx, s.svcCtx, in)
+}
+
+func (s *PromotionServer) ConsumeCoupon(ctx context.Context, in *promotion.ConsumeCouponReq) (*promotion.OkResp, error) {
+	return logic.ConsumeCoupon(ctx, s.svcCtx, in)
+}

@@ -874,3 +874,35 @@ type MyCouponsResp struct {
 	Total   int64           `json:"total"`
 	Coupons []*MyCouponView `json:"coupons"`
 }
+
+// ===== Phase 1 购物车实时算价 (S1.5.1) =====
+
+type CartItemDTO struct {
+	SkuId         int64 `json:"skuId"`
+	ProductId     int64 `json:"productId"`
+	ShopId        int64 `json:"shopId"`
+	CategoryId    int64 `json:"categoryId,optional"`
+	OriginalPrice int64 `json:"originalPrice"`
+	Quantity      int32 `json:"quantity"`
+}
+
+type CartCalcPriceReq struct {
+	Items       []CartItemDTO `json:"items"`
+	CouponIds   []int64       `json:"couponIds,optional"`
+	ShippingFee int64         `json:"shippingFee,optional"`
+}
+
+type PriceConflictDTO struct {
+	CouponId int64  `json:"couponId"`
+	Reason   string `json:"reason"`
+}
+
+type CartCalcPriceResp struct {
+	TotalAmount       int64               `json:"totalAmount"`
+	PromotionDiscount int64               `json:"promotionDiscount"`
+	CouponDiscount    int64               `json:"couponDiscount"`
+	ShippingFee       int64               `json:"shippingFee"`
+	PaidAmount        int64               `json:"paidAmount"`
+	DiscountDetail    string              `json:"discountDetail"` // JSON, FE 可 parse 展开
+	Conflicts         []*PriceConflictDTO `json:"conflicts,omitempty"`
+}
