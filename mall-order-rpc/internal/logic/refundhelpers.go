@@ -22,6 +22,7 @@ type orderRowForRefund struct {
 	OrderNo     string `db:"order_no"`
 	UserId      int64  `db:"user_id"`
 	TotalAmount int64  `db:"total_amount"`
+	PaidAmount  int64  `db:"paid_amount"` // Phase 1: 实付金额，退款上限
 	Status      int64  `db:"status"`
 	ShopId      int64  `db:"shop_id"`
 }

@@ -71,7 +71,7 @@ func (l *SubmitRefundRequestLogic) SubmitRefundRequest(in *order.SubmitRefundReq
 	err := l.svcCtx.SqlConn.TransactCtx(l.ctx, func(ctx context.Context, tx sqlx.Session) error {
 		// 1) Load order WITH row lock + validate ownership/state.
 		if err := tx.QueryRowCtx(ctx, &row,
-			"SELECT id, order_no, user_id, total_amount, status, shop_id FROM `order` WHERE id = ? FOR UPDATE",
+			"SELECT id, order_no, user_id, total_amount, paid_amount, status, shop_id FROM `order` WHERE id = ? FOR UPDATE",
 			in.OrderId,
 		); err != nil {
 			if errors.Is(err, sql.ErrNoRows) {
@@ -108,8 +108,14 @@ func (l *SubmitRefundRequestLogic) SubmitRefundRequest(in *order.SubmitRefundReq
 		); err != nil && !errors.Is(err, sql.ErrNoRows) {
 			return err
 		}
-		if existingSum+in.Amount > row.TotalAmount {
-			return errors.New("refund amount exceeds remaining order amount")
+		// 按实付金额 (paid_amount) 校验, 不能超过用户实际付的钱; 否则商家钱包
+		// 会被退掉它本来就没收到的优惠部分。老订单 paid_amount=0 兜底用 total_amount。
+		refundCap := row.PaidAmount
+		if refundCap <= 0 {
+			refundCap = row.TotalAmount
+		}
+		if existingSum+in.Amount > refundCap {
+			return errors.New("refund amount exceeds remaining order paid amount")
 		}
 
 		// 3) Rate-limit: max 3 submissions per order per 24h.

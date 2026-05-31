@@ -43,16 +43,19 @@ func (l *ConfirmMockPayLogic) ConfirmMockPay(in *payment.ConfirmMockPayReq) (*pa
 	}
 
 	// 1) Read order from mall_order to validate ownership + state + amount + shop.
+	// 注: PaidAmount 是 Phase 1 加的列 (CalcPrice 算好的实付金额)；
+	// 老订单 paid_amount=0 时兜底用 total_amount, 维持向后兼容。
 	var row struct {
 		Id          int64  `db:"id"`
 		OrderNo     string `db:"order_no"`
 		UserId      int64  `db:"user_id"`
 		TotalAmount int64  `db:"total_amount"`
+		PaidAmount  int64  `db:"paid_amount"`
 		Status      int64  `db:"status"`
 		ShopId      int64  `db:"shop_id"`
 	}
 	err := l.svcCtx.OrderDB.QueryRowCtx(l.ctx, &row,
-		"SELECT id, order_no, user_id, total_amount, status, shop_id FROM `order` WHERE id = ? LIMIT 1",
+		"SELECT id, order_no, user_id, total_amount, paid_amount, status, shop_id FROM `order` WHERE id = ? LIMIT 1",
 		in.OrderId,
 	)
 	if errors.Is(err, sql.ErrNoRows) {
@@ -86,23 +89,28 @@ func (l *ConfirmMockPayLogic) ConfirmMockPay(in *payment.ConfirmMockPayReq) (*pa
 	//    here log and rollback order.status to keep ledger consistent.
 	paymentNo := fmt.Sprintf("PAY%s%06d", time.Now().Format("20060102150405"), time.Now().UnixNano()%1000000)
 	err = l.svcCtx.SqlConn.TransactCtx(l.ctx, func(_ context.Context, tx sqlx.Session) error {
+		// 用户实付金额 (Phase 1 优惠后)；老订单 paid_amount=0 兜底用 total_amount
+		paidAmount := row.PaidAmount
+		if paidAmount <= 0 {
+			paidAmount = row.TotalAmount
+		}
 		if _, ierr := tx.ExecCtx(l.ctx,
 			"INSERT INTO payment (payment_no, order_no, user_id, amount, status, pay_type, pay_time) VALUES (?, ?, ?, ?, 1, 0, NOW())",
-			paymentNo, row.OrderNo, row.UserId, row.TotalAmount,
+			paymentNo, row.OrderNo, row.UserId, paidAmount,
 		); ierr != nil {
 			return ierr
 		}
-		if row.ShopId > 0 && row.TotalAmount > 0 {
+		if row.ShopId > 0 && paidAmount > 0 {
 			if _, ierr := tx.ExecCtx(l.ctx,
 				`INSERT INTO merchant_wallet (shop_id, balance, frozen, total_income, total_withdrawn, create_time, update_time)
 				 VALUES (?, 0, ?, 0, 0, ?, ?)
 				 ON DUPLICATE KEY UPDATE frozen = frozen + VALUES(frozen), update_time = VALUES(update_time)`,
-				row.ShopId, row.TotalAmount, now, now,
+				row.ShopId, paidAmount, now, now,
 			); ierr != nil {
 				return ierr
 			}
 			// S3: credit order_income to ledger.
-			if ierr := writeLedgerEntry(l.ctx, tx, row.ShopId, 1, "order_income", row.TotalAmount, row.Id, 0, 0, row.OrderNo, "order paid"); ierr != nil {
+			if ierr := writeLedgerEntry(l.ctx, tx, row.ShopId, 1, "order_income", paidAmount, row.Id, 0, 0, row.OrderNo, "order paid"); ierr != nil {
 				return ierr
 			}
 		}
