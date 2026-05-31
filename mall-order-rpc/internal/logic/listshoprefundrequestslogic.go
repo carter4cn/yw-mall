@@ -48,7 +48,9 @@ func (l *ListShopRefundRequestsLogic) ListShopRefundRequests(in *order.ListShopR
 
 	var rows []*refundRow
 	args = append(args, pageSize, (page-1)*pageSize)
-	q := "SELECT id, order_id, order_no, user_id, shop_id, amount, reason, evidence, items, status, merchant_user_id, merchant_remark, merchant_handle_time, admin_id, admin_remark, admin_handle_time, appeal_reason, appeal_time, refund_no, refund_complete_time, create_time FROM refund_request WHERE " + where + " ORDER BY id DESC LIMIT ? OFFSET ?"
+	// 用 refundColumns 常量保证与 refundRow 28 字段对齐, 避免 sqlx
+	// "not matching destination to scan" 报错。
+	q := "SELECT " + refundColumns + " FROM refund_request WHERE " + where + " ORDER BY id DESC LIMIT ? OFFSET ?"
 	if err := l.svcCtx.SqlConn.QueryRowsCtx(l.ctx, &rows, q, args...); err != nil {
 		return nil, err
 	}
