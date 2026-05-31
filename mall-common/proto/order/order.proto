@@ -15,6 +15,12 @@ message CreateOrderReq {
   int64 user_id = 1;
   repeated OrderItem items = 2;
   int64 address_id = 3;
+  // Phase 1 优惠活动接入 (S1.5.2): 由 mall-api 调 PromotionRpc.CalcPrice
+  // 算好后填入，order-rpc 仅做存储不重算。全空表示无活动/无券。
+  int64  promotion_discount = 4;
+  int64  coupon_discount    = 5;
+  int64  paid_amount        = 6;
+  string discount_detail    = 7;   // CalcPrice 返的 JSON
 }
 
 message CreateOrderResp {

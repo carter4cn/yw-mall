@@ -68,12 +68,24 @@ func (l *CreateOrderLogic) CreateOrder(in *order.CreateOrderReq) (*order.CreateO
 		}
 	}
 
+	// Phase 1 优惠字段：mall-api 提前调 CalcPrice 算好后传入；
+	// 若全空（无活动 / 老调用方）则 paid_amount 兜底 = totalAmount，discount_detail = null。
+	paidAmount := in.PaidAmount
+	if paidAmount <= 0 {
+		paidAmount = totalAmount
+	}
+	var discountDetail any = nil
+	if in.DiscountDetail != "" {
+		discountDetail = in.DiscountDetail
+	}
+
 	var orderId int64
 	err = l.svcCtx.SqlConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		result, err := session.ExecCtx(ctx,
-			"INSERT INTO `order` (`order_no`, `user_id`, `shop_id`, `total_amount`, `status`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-			orderNo, in.UserId, shopId, totalAmount, 0,
-			addr.Id, addr.ReceiverName, addr.Phone,
+			"INSERT INTO `order` (`order_no`, `user_id`, `shop_id`, `total_amount`, `promotion_discount`, `coupon_discount`, `paid_amount`, `discount_detail`, `status`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+			orderNo, in.UserId, shopId, totalAmount,
+			in.PromotionDiscount, in.CouponDiscount, paidAmount, discountDetail,
+			0, addr.Id, addr.ReceiverName, addr.Phone,
 			addr.Province, addr.City, addr.District, addr.Detail,
 		)
 		if err != nil {

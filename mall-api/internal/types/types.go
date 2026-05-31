@@ -165,6 +165,9 @@ type CreateOrderItem struct {
 
 type CreateOrderReq struct {
 	Items []CreateOrderItem `json:"items"`
+	// Phase 1 优惠活动 (S1.5.2): FE 在算价时已选定的券 id, 下单时锁定
+	CouponIds   []int64 `json:"couponIds,optional"`
+	ShippingFee int64   `json:"shippingFee,optional"`
 }
 
 type CreateOrderResp struct {

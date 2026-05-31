@@ -90,12 +90,18 @@ func (x *OrderItem) GetQuantity() int32 {
 }
 
 type CreateOrderReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Items         []*OrderItem           `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
-	AddressId     int64                  `protobuf:"varint,3,opt,name=address_id,json=addressId,proto3" json:"address_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	UserId    int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Items     []*OrderItem           `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	AddressId int64                  `protobuf:"varint,3,opt,name=address_id,json=addressId,proto3" json:"address_id,omitempty"`
+	// Phase 1 优惠活动接入 (S1.5.2): 由 mall-api 调 PromotionRpc.CalcPrice
+	// 算好后填入，order-rpc 仅做存储不重算。全空表示无活动/无券。
+	PromotionDiscount int64  `protobuf:"varint,4,opt,name=promotion_discount,json=promotionDiscount,proto3" json:"promotion_discount,omitempty"`
+	CouponDiscount    int64  `protobuf:"varint,5,opt,name=coupon_discount,json=couponDiscount,proto3" json:"coupon_discount,omitempty"`
+	PaidAmount        int64  `protobuf:"varint,6,opt,name=paid_amount,json=paidAmount,proto3" json:"paid_amount,omitempty"`
+	DiscountDetail    string `protobuf:"bytes,7,opt,name=discount_detail,json=discountDetail,proto3" json:"discount_detail,omitempty"` // CalcPrice 返的 JSON
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *CreateOrderReq) Reset() {
@@ -147,6 +153,34 @@ func (x *CreateOrderReq) GetAddressId() int64 {
 		return x.AddressId
 	}
 	return 0
+}
+
+func (x *CreateOrderReq) GetPromotionDiscount() int64 {
+	if x != nil {
+		return x.PromotionDiscount
+	}
+	return 0
+}
+
+func (x *CreateOrderReq) GetCouponDiscount() int64 {
+	if x != nil {
+		return x.CouponDiscount
+	}
+	return 0
+}
+
+func (x *CreateOrderReq) GetPaidAmount() int64 {
+	if x != nil {
+		return x.PaidAmount
+	}
+	return 0
+}
+
+func (x *CreateOrderReq) GetDiscountDetail() string {
+	if x != nil {
+		return x.DiscountDetail
+	}
+	return ""
 }
 
 type CreateOrderResp struct {
@@ -2667,12 +2701,17 @@ const file_order_order_proto_rawDesc = "" +
 	"product_id\x18\x01 \x01(\x03R\tproductId\x12!\n" +
 	"\fproduct_name\x18\x02 \x01(\tR\vproductName\x12\x14\n" +
 	"\x05price\x18\x03 \x01(\x03R\x05price\x12\x1a\n" +
-	"\bquantity\x18\x04 \x01(\x05R\bquantity\"p\n" +
+	"\bquantity\x18\x04 \x01(\x05R\bquantity\"\x92\x02\n" +
 	"\x0eCreateOrderReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12&\n" +
 	"\x05items\x18\x02 \x03(\v2\x10.order.OrderItemR\x05items\x12\x1d\n" +
 	"\n" +
-	"address_id\x18\x03 \x01(\x03R\taddressId\"_\n" +
+	"address_id\x18\x03 \x01(\x03R\taddressId\x12-\n" +
+	"\x12promotion_discount\x18\x04 \x01(\x03R\x11promotionDiscount\x12'\n" +
+	"\x0fcoupon_discount\x18\x05 \x01(\x03R\x0ecouponDiscount\x12\x1f\n" +
+	"\vpaid_amount\x18\x06 \x01(\x03R\n" +
+	"paidAmount\x12'\n" +
+	"\x0fdiscount_detail\x18\a \x01(\tR\x0ediscountDetail\"_\n" +
 	"\x0fCreateOrderResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12!\n" +
