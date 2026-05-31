@@ -82,6 +82,11 @@ func (l *OrderDetailLogic) OrderDetail(req *types.OrderDetailReq) (*types.OrderD
 		CompleteTime:     ord.CompleteTime,
 		CancelTime:       ord.CancelTime,
 		CancelReason:     ord.CancelReason,
+		// Phase 1 优惠明细
+		PromotionDiscount: ord.PromotionDiscount,
+		CouponDiscount:    ord.CouponDiscount,
+		PaidAmount:        ord.PaidAmount,
+		DiscountDetail:    ord.DiscountDetail,
 	}
 
 	if shipments != nil {

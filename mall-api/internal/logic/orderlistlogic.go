@@ -72,6 +72,10 @@ func (l *OrderListLogic) OrderList(req *types.OrderListReq) (resp *types.OrderLi
 			CompleteTime:     o.CompleteTime,
 			CancelTime:       o.CancelTime,
 			CancelReason:     o.CancelReason,
+			PromotionDiscount: o.PromotionDiscount,
+			CouponDiscount:    o.CouponDiscount,
+			PaidAmount:        o.PaidAmount,
+			DiscountDetail:    o.DiscountDetail,
 		})
 	}
 

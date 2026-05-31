@@ -321,6 +321,11 @@ type OrderDetailResp struct {
 	CancelTime   int64         `json:"cancelTime,omitempty"`
 	CancelReason string        `json:"cancelReason,omitempty"`
 	Shipments    []ShipmentDTO `json:"shipments,omitempty"`
+	// Phase 1 优惠活动明细 - FE 展开 discountDetail JSON 即可
+	PromotionDiscount int64  `json:"promotionDiscount,omitempty"`
+	CouponDiscount    int64  `json:"couponDiscount,omitempty"`
+	PaidAmount        int64  `json:"paidAmount,omitempty"`
+	DiscountDetail    string `json:"discountDetail,omitempty"`
 }
 
 type OrderListReq struct {

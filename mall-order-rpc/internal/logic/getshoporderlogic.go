@@ -75,5 +75,9 @@ func (l *GetShopOrderLogic) GetShopOrder(in *order.GetShopOrderReq) (*order.GetO
 		CompleteTime:     o.CompleteTime,
 		CancelTime:       o.CancelTime,
 		CancelReason:     o.CancelReason,
+		PromotionDiscount: o.PromotionDiscount,
+		CouponDiscount:    o.CouponDiscount,
+		PaidAmount:        o.PaidAmount,
+		DiscountDetail:    o.DiscountDetail.String,
 	}, nil
 }

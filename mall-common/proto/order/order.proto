@@ -53,6 +53,11 @@ message GetOrderResp {
   int64 complete_time = 17;
   int64 cancel_time = 18;
   string cancel_reason = 19;
+  // Phase 1 优惠活动 (S1.5.5): 用户和商家都需要看到下单时算好的明细
+  int64  promotion_discount = 20;
+  int64  coupon_discount    = 21;
+  int64  paid_amount        = 22;
+  string discount_detail    = 23; // JSON, FE 可 parse 展开
 }
 
 message ListOrdersReq {

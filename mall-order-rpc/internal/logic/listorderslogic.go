@@ -105,6 +105,10 @@ func (l *ListOrdersLogic) ListOrders(in *order.ListOrdersReq) (*order.ListOrders
 			CompleteTime:     o.CompleteTime,
 			CancelTime:       o.CancelTime,
 			CancelReason:     o.CancelReason,
+			PromotionDiscount: o.PromotionDiscount,
+			CouponDiscount:    o.CouponDiscount,
+			PaidAmount:        o.PaidAmount,
+			DiscountDetail:    o.DiscountDetail.String,
 		})
 	}
 

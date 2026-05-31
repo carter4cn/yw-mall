@@ -308,8 +308,13 @@ type GetOrderResp struct {
 	CompleteTime     int64                  `protobuf:"varint,17,opt,name=complete_time,json=completeTime,proto3" json:"complete_time,omitempty"`
 	CancelTime       int64                  `protobuf:"varint,18,opt,name=cancel_time,json=cancelTime,proto3" json:"cancel_time,omitempty"`
 	CancelReason     string                 `protobuf:"bytes,19,opt,name=cancel_reason,json=cancelReason,proto3" json:"cancel_reason,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	// Phase 1 优惠活动 (S1.5.5): 用户和商家都需要看到下单时算好的明细
+	PromotionDiscount int64  `protobuf:"varint,20,opt,name=promotion_discount,json=promotionDiscount,proto3" json:"promotion_discount,omitempty"`
+	CouponDiscount    int64  `protobuf:"varint,21,opt,name=coupon_discount,json=couponDiscount,proto3" json:"coupon_discount,omitempty"`
+	PaidAmount        int64  `protobuf:"varint,22,opt,name=paid_amount,json=paidAmount,proto3" json:"paid_amount,omitempty"`
+	DiscountDetail    string `protobuf:"bytes,23,opt,name=discount_detail,json=discountDetail,proto3" json:"discount_detail,omitempty"` // JSON, FE 可 parse 展开
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *GetOrderResp) Reset() {
@@ -471,6 +476,34 @@ func (x *GetOrderResp) GetCancelTime() int64 {
 func (x *GetOrderResp) GetCancelReason() string {
 	if x != nil {
 		return x.CancelReason
+	}
+	return ""
+}
+
+func (x *GetOrderResp) GetPromotionDiscount() int64 {
+	if x != nil {
+		return x.PromotionDiscount
+	}
+	return 0
+}
+
+func (x *GetOrderResp) GetCouponDiscount() int64 {
+	if x != nil {
+		return x.CouponDiscount
+	}
+	return 0
+}
+
+func (x *GetOrderResp) GetPaidAmount() int64 {
+	if x != nil {
+		return x.PaidAmount
+	}
+	return 0
+}
+
+func (x *GetOrderResp) GetDiscountDetail() string {
+	if x != nil {
+		return x.DiscountDetail
 	}
 	return ""
 }
@@ -2717,7 +2750,7 @@ const file_order_order_proto_rawDesc = "" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12!\n" +
 	"\ftotal_amount\x18\x03 \x01(\x03R\vtotalAmount\"\x1d\n" +
 	"\vGetOrderReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\x8c\x05\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\xae\x06\n" +
 	"\fGetOrderResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
 	"\border_no\x18\x02 \x01(\tR\aorderNo\x12\x17\n" +
@@ -2741,7 +2774,12 @@ const file_order_order_proto_rawDesc = "" +
 	"\rcomplete_time\x18\x11 \x01(\x03R\fcompleteTime\x12\x1f\n" +
 	"\vcancel_time\x18\x12 \x01(\x03R\n" +
 	"cancelTime\x12#\n" +
-	"\rcancel_reason\x18\x13 \x01(\tR\fcancelReason\"q\n" +
+	"\rcancel_reason\x18\x13 \x01(\tR\fcancelReason\x12-\n" +
+	"\x12promotion_discount\x18\x14 \x01(\x03R\x11promotionDiscount\x12'\n" +
+	"\x0fcoupon_discount\x18\x15 \x01(\x03R\x0ecouponDiscount\x12\x1f\n" +
+	"\vpaid_amount\x18\x16 \x01(\x03R\n" +
+	"paidAmount\x12'\n" +
+	"\x0fdiscount_detail\x18\x17 \x01(\tR\x0ediscountDetail\"q\n" +
 	"\rListOrdersReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\x05R\x06status\x12\x12\n" +

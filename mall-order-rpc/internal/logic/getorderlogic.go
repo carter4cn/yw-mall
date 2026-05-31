@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"mall-order-rpc/internal/model"
@@ -26,29 +27,34 @@ func NewGetOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetOrder
 }
 
 type orderRow struct {
-	Id               uint64    `db:"id"`
-	OrderNo          string    `db:"order_no"`
-	UserId           uint64    `db:"user_id"`
-	TotalAmount      int64     `db:"total_amount"`
-	Status           int64     `db:"status"`
-	CreateTime       time.Time `db:"create_time"`
-	AddressId        int64     `db:"address_id"`
-	ReceiverName     string    `db:"receiver_name"`
-	ReceiverPhone    string    `db:"receiver_phone"`
-	ReceiverProvince string    `db:"receiver_province"`
-	ReceiverCity     string    `db:"receiver_city"`
-	ReceiverDistrict string    `db:"receiver_district"`
-	ReceiverDetail   string    `db:"receiver_detail"`
-	PayTime          int64     `db:"pay_time"`
-	ShipTime         int64     `db:"ship_time"`
-	CompleteTime     int64     `db:"complete_time"`
-	CancelTime       int64     `db:"cancel_time"`
-	CancelReason     string    `db:"cancel_reason"`
+	Id                uint64         `db:"id"`
+	OrderNo           string         `db:"order_no"`
+	UserId            uint64         `db:"user_id"`
+	TotalAmount       int64          `db:"total_amount"`
+	Status            int64          `db:"status"`
+	CreateTime        time.Time      `db:"create_time"`
+	AddressId         int64          `db:"address_id"`
+	ReceiverName      string         `db:"receiver_name"`
+	ReceiverPhone     string         `db:"receiver_phone"`
+	ReceiverProvince  string         `db:"receiver_province"`
+	ReceiverCity      string         `db:"receiver_city"`
+	ReceiverDistrict  string         `db:"receiver_district"`
+	ReceiverDetail    string         `db:"receiver_detail"`
+	PayTime           int64          `db:"pay_time"`
+	ShipTime          int64          `db:"ship_time"`
+	CompleteTime      int64          `db:"complete_time"`
+	CancelTime        int64          `db:"cancel_time"`
+	CancelReason      string         `db:"cancel_reason"`
+	// Phase 1 优惠列
+	PromotionDiscount int64          `db:"promotion_discount"`
+	CouponDiscount    int64          `db:"coupon_discount"`
+	PaidAmount        int64          `db:"paid_amount"`
+	DiscountDetail    sql.NullString `db:"discount_detail"`
 }
 
 // orderTimelineCols is the SELECT clause covering identity + receiver fields
 // plus the S1.5 lifecycle timestamps used by both GetOrder and GetShopOrder.
-const orderTimelineCols = "`id`, `order_no`, `user_id`, `total_amount`, `status`, `create_time`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail`, `pay_time`, `ship_time`, `complete_time`, `cancel_time`, `cancel_reason`"
+const orderTimelineCols = "`id`, `order_no`, `user_id`, `total_amount`, `status`, `create_time`, `address_id`, `receiver_name`, `receiver_phone`, `receiver_province`, `receiver_city`, `receiver_district`, `receiver_detail`, `pay_time`, `ship_time`, `complete_time`, `cancel_time`, `cancel_reason`, `promotion_discount`, `coupon_discount`, `paid_amount`, `discount_detail`"
 
 func (l *GetOrderLogic) GetOrder(in *order.GetOrderReq) (*order.GetOrderResp, error) {
 	var o orderRow
@@ -102,5 +108,9 @@ func (l *GetOrderLogic) GetOrder(in *order.GetOrderReq) (*order.GetOrderResp, er
 		CompleteTime:     o.CompleteTime,
 		CancelTime:       o.CancelTime,
 		CancelReason:     o.CancelReason,
+		PromotionDiscount: o.PromotionDiscount,
+		CouponDiscount:    o.CouponDiscount,
+		PaidAmount:        o.PaidAmount,
+		DiscountDetail:    o.DiscountDetail.String,
 	}, nil
 }

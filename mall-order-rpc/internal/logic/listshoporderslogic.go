@@ -111,6 +111,10 @@ func (l *ListShopOrdersLogic) ListShopOrders(in *order.ListShopOrdersReq) (*orde
 			CompleteTime:     o.CompleteTime,
 			CancelTime:       o.CancelTime,
 			CancelReason:     o.CancelReason,
+			PromotionDiscount: o.PromotionDiscount,
+			CouponDiscount:    o.CouponDiscount,
+			PaidAmount:        o.PaidAmount,
+			DiscountDetail:    o.DiscountDetail.String,
 		})
 	}
 
