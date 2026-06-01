@@ -341,6 +341,51 @@ func TestTC15_ZeroQuantityIgnored(t *testing.T) {
 }
 
 // ============================================================================
+// TC-17: 单订单限购 - 超 quota 时活动不应用 + 返 conflict (S2.4)
+// ============================================================================
+func TestTC17_PerOrderQuotaExceeded(t *testing.T) {
+	items := []Item{skuItem(101, 1, 5000, 5)} // 5 件
+	acts := []Activity{
+		Activity{
+			ID: 7, Type: "fullreduce", ShopID: 1,
+			Targets: []Target{{TargetType: "shop", TargetID: 1}},
+			Actions: []Action{step(10000, 2000, 1)}, // 满 100 减 20
+			Rule:    &ActivityRule{PerOrderQuota: 3}, // 单订单最多 3 件
+		},
+	}
+	r := Calculate(items, acts, nil, 0)
+
+	if r.PromotionDiscount != 0 {
+		t.Fatalf("TC-17 超 quota 活动不应用, 期望 promo=0, 实际 %d", r.PromotionDiscount)
+	}
+	if len(r.Conflicts) != 1 || r.Conflicts[0].CouponID != -7 {
+		t.Fatalf("TC-17 期望 1 个 activity 级 conflict (id=-7), 实际 %+v", r.Conflicts)
+	}
+}
+
+// ============================================================================
+// TC-18: 限购 quota 未超时活动正常应用 (S2.4)
+// ============================================================================
+func TestTC18_PerOrderQuotaWithinLimit(t *testing.T) {
+	items := []Item{skuItem(101, 1, 5000, 2)} // 2 件
+	acts := []Activity{
+		Activity{
+			ID: 7, Type: "fullreduce", ShopID: 1,
+			Targets: []Target{{TargetType: "shop", TargetID: 1}},
+			Actions: []Action{step(5000, 2000, 1)},
+			Rule:    &ActivityRule{PerOrderQuota: 3},
+		},
+	}
+	r := Calculate(items, acts, nil, 0)
+	if r.PromotionDiscount != 2000 {
+		t.Fatalf("TC-18 quota 未超应正常减, 期望 2000, 实际 %d", r.PromotionDiscount)
+	}
+	if len(r.Conflicts) != 0 {
+		t.Fatalf("TC-18 不该有 conflict, 实际 %+v", r.Conflicts)
+	}
+}
+
+// ============================================================================
 // TC-16: 同 SKU 不同 fixprice 活动取最低
 // ============================================================================
 func TestTC16_MultipleFixpriceLowestWins(t *testing.T) {

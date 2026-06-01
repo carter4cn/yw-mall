@@ -279,6 +279,66 @@ func (x *ActivityAction) GetStepOrder() int32 {
 	return 0
 }
 
+type ActivityRule struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PerUserQuota  int32                  `protobuf:"varint,1,opt,name=per_user_quota,json=perUserQuota,proto3" json:"per_user_quota,omitempty"`    // 每人累计限购, 0=不限
+	PerOrderQuota int32                  `protobuf:"varint,2,opt,name=per_order_quota,json=perOrderQuota,proto3" json:"per_order_quota,omitempty"` // 单订单限购件数, 0=不限
+	PerDayQuota   int32                  `protobuf:"varint,3,opt,name=per_day_quota,json=perDayQuota,proto3" json:"per_day_quota,omitempty"`       // 每人每日限购, 0=不限
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ActivityRule) Reset() {
+	*x = ActivityRule{}
+	mi := &file_promotion_promotion_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActivityRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityRule) ProtoMessage() {}
+
+func (x *ActivityRule) ProtoReflect() protoreflect.Message {
+	mi := &file_promotion_promotion_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityRule.ProtoReflect.Descriptor instead.
+func (*ActivityRule) Descriptor() ([]byte, []int) {
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ActivityRule) GetPerUserQuota() int32 {
+	if x != nil {
+		return x.PerUserQuota
+	}
+	return 0
+}
+
+func (x *ActivityRule) GetPerOrderQuota() int32 {
+	if x != nil {
+		return x.PerOrderQuota
+	}
+	return 0
+}
+
+func (x *ActivityRule) GetPerDayQuota() int32 {
+	if x != nil {
+		return x.PerDayQuota
+	}
+	return 0
+}
+
 type Activity struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -296,13 +356,14 @@ type Activity struct {
 	UpdateTime    int64                  `protobuf:"varint,13,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 	Targets       []*ActivityTarget      `protobuf:"bytes,14,rep,name=targets,proto3" json:"targets,omitempty"`
 	Actions       []*ActivityAction      `protobuf:"bytes,15,rep,name=actions,proto3" json:"actions,omitempty"`
+	Rule          *ActivityRule          `protobuf:"bytes,16,opt,name=rule,proto3" json:"rule,omitempty"` // S2.4 限购规则, nil 表示不限
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Activity) Reset() {
 	*x = Activity{}
-	mi := &file_promotion_promotion_proto_msgTypes[4]
+	mi := &file_promotion_promotion_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -314,7 +375,7 @@ func (x *Activity) String() string {
 func (*Activity) ProtoMessage() {}
 
 func (x *Activity) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[4]
+	mi := &file_promotion_promotion_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -327,7 +388,7 @@ func (x *Activity) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Activity.ProtoReflect.Descriptor instead.
 func (*Activity) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{4}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *Activity) GetId() int64 {
@@ -435,6 +496,13 @@ func (x *Activity) GetActions() []*ActivityAction {
 	return nil
 }
 
+func (x *Activity) GetRule() *ActivityRule {
+	if x != nil {
+		return x.Rule
+	}
+	return nil
+}
+
 type CreateActivityReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
@@ -448,13 +516,14 @@ type CreateActivityReq struct {
 	CreateUserId  int64                  `protobuf:"varint,9,opt,name=create_user_id,json=createUserId,proto3" json:"create_user_id,omitempty"`
 	Targets       []*ActivityTarget      `protobuf:"bytes,10,rep,name=targets,proto3" json:"targets,omitempty"`
 	Actions       []*ActivityAction      `protobuf:"bytes,11,rep,name=actions,proto3" json:"actions,omitempty"`
+	Rule          *ActivityRule          `protobuf:"bytes,12,opt,name=rule,proto3" json:"rule,omitempty"` // S2.4 限购, nil 不限
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateActivityReq) Reset() {
 	*x = CreateActivityReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[5]
+	mi := &file_promotion_promotion_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -466,7 +535,7 @@ func (x *CreateActivityReq) String() string {
 func (*CreateActivityReq) ProtoMessage() {}
 
 func (x *CreateActivityReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[5]
+	mi := &file_promotion_promotion_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -479,7 +548,7 @@ func (x *CreateActivityReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateActivityReq.ProtoReflect.Descriptor instead.
 func (*CreateActivityReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{5}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateActivityReq) GetType() string {
@@ -559,6 +628,13 @@ func (x *CreateActivityReq) GetActions() []*ActivityAction {
 	return nil
 }
 
+func (x *CreateActivityReq) GetRule() *ActivityRule {
+	if x != nil {
+		return x.Rule
+	}
+	return nil
+}
+
 type CreateActivityResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -568,7 +644,7 @@ type CreateActivityResp struct {
 
 func (x *CreateActivityResp) Reset() {
 	*x = CreateActivityResp{}
-	mi := &file_promotion_promotion_proto_msgTypes[6]
+	mi := &file_promotion_promotion_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -580,7 +656,7 @@ func (x *CreateActivityResp) String() string {
 func (*CreateActivityResp) ProtoMessage() {}
 
 func (x *CreateActivityResp) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[6]
+	mi := &file_promotion_promotion_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -593,7 +669,7 @@ func (x *CreateActivityResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateActivityResp.ProtoReflect.Descriptor instead.
 func (*CreateActivityResp) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{6}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *CreateActivityResp) GetId() int64 {
@@ -612,7 +688,7 @@ type GetActivityReq struct {
 
 func (x *GetActivityReq) Reset() {
 	*x = GetActivityReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[7]
+	mi := &file_promotion_promotion_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -624,7 +700,7 @@ func (x *GetActivityReq) String() string {
 func (*GetActivityReq) ProtoMessage() {}
 
 func (x *GetActivityReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[7]
+	mi := &file_promotion_promotion_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -637,7 +713,7 @@ func (x *GetActivityReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetActivityReq.ProtoReflect.Descriptor instead.
 func (*GetActivityReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{7}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetActivityReq) GetId() int64 {
@@ -656,7 +732,7 @@ type GetActivityResp struct {
 
 func (x *GetActivityResp) Reset() {
 	*x = GetActivityResp{}
-	mi := &file_promotion_promotion_proto_msgTypes[8]
+	mi := &file_promotion_promotion_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -668,7 +744,7 @@ func (x *GetActivityResp) String() string {
 func (*GetActivityResp) ProtoMessage() {}
 
 func (x *GetActivityResp) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[8]
+	mi := &file_promotion_promotion_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -681,7 +757,7 @@ func (x *GetActivityResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetActivityResp.ProtoReflect.Descriptor instead.
 func (*GetActivityResp) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{8}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetActivityResp) GetActivity() *Activity {
@@ -702,13 +778,14 @@ type UpdateActivityReq struct {
 	Description   string                 `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`
 	Targets       []*ActivityTarget      `protobuf:"bytes,8,rep,name=targets,proto3" json:"targets,omitempty"`
 	Actions       []*ActivityAction      `protobuf:"bytes,9,rep,name=actions,proto3" json:"actions,omitempty"`
+	Rule          *ActivityRule          `protobuf:"bytes,10,opt,name=rule,proto3" json:"rule,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateActivityReq) Reset() {
 	*x = UpdateActivityReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[9]
+	mi := &file_promotion_promotion_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -720,7 +797,7 @@ func (x *UpdateActivityReq) String() string {
 func (*UpdateActivityReq) ProtoMessage() {}
 
 func (x *UpdateActivityReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[9]
+	mi := &file_promotion_promotion_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -733,7 +810,7 @@ func (x *UpdateActivityReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateActivityReq.ProtoReflect.Descriptor instead.
 func (*UpdateActivityReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{9}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UpdateActivityReq) GetId() int64 {
@@ -799,6 +876,13 @@ func (x *UpdateActivityReq) GetActions() []*ActivityAction {
 	return nil
 }
 
+func (x *UpdateActivityReq) GetRule() *ActivityRule {
+	if x != nil {
+		return x.Rule
+	}
+	return nil
+}
+
 type ChangeActivityStatusReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -809,7 +893,7 @@ type ChangeActivityStatusReq struct {
 
 func (x *ChangeActivityStatusReq) Reset() {
 	*x = ChangeActivityStatusReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[10]
+	mi := &file_promotion_promotion_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -821,7 +905,7 @@ func (x *ChangeActivityStatusReq) String() string {
 func (*ChangeActivityStatusReq) ProtoMessage() {}
 
 func (x *ChangeActivityStatusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[10]
+	mi := &file_promotion_promotion_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -834,7 +918,7 @@ func (x *ChangeActivityStatusReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChangeActivityStatusReq.ProtoReflect.Descriptor instead.
 func (*ChangeActivityStatusReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{10}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ChangeActivityStatusReq) GetId() int64 {
@@ -864,7 +948,7 @@ type ListActivitiesReq struct {
 
 func (x *ListActivitiesReq) Reset() {
 	*x = ListActivitiesReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[11]
+	mi := &file_promotion_promotion_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -876,7 +960,7 @@ func (x *ListActivitiesReq) String() string {
 func (*ListActivitiesReq) ProtoMessage() {}
 
 func (x *ListActivitiesReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[11]
+	mi := &file_promotion_promotion_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -889,7 +973,7 @@ func (x *ListActivitiesReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListActivitiesReq.ProtoReflect.Descriptor instead.
 func (*ListActivitiesReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{11}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ListActivitiesReq) GetShopId() int64 {
@@ -937,7 +1021,7 @@ type ListActivitiesResp struct {
 
 func (x *ListActivitiesResp) Reset() {
 	*x = ListActivitiesResp{}
-	mi := &file_promotion_promotion_proto_msgTypes[12]
+	mi := &file_promotion_promotion_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -949,7 +1033,7 @@ func (x *ListActivitiesResp) String() string {
 func (*ListActivitiesResp) ProtoMessage() {}
 
 func (x *ListActivitiesResp) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[12]
+	mi := &file_promotion_promotion_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -962,7 +1046,7 @@ func (x *ListActivitiesResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListActivitiesResp.ProtoReflect.Descriptor instead.
 func (*ListActivitiesResp) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{12}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ListActivitiesResp) GetActivities() []*Activity {
@@ -1010,7 +1094,7 @@ type CouponTemplate struct {
 
 func (x *CouponTemplate) Reset() {
 	*x = CouponTemplate{}
-	mi := &file_promotion_promotion_proto_msgTypes[13]
+	mi := &file_promotion_promotion_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1022,7 +1106,7 @@ func (x *CouponTemplate) String() string {
 func (*CouponTemplate) ProtoMessage() {}
 
 func (x *CouponTemplate) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[13]
+	mi := &file_promotion_promotion_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1035,7 +1119,7 @@ func (x *CouponTemplate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CouponTemplate.ProtoReflect.Descriptor instead.
 func (*CouponTemplate) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{13}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *CouponTemplate) GetId() int64 {
@@ -1215,7 +1299,7 @@ type CreateCouponTemplateReq struct {
 
 func (x *CreateCouponTemplateReq) Reset() {
 	*x = CreateCouponTemplateReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[14]
+	mi := &file_promotion_promotion_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1227,7 +1311,7 @@ func (x *CreateCouponTemplateReq) String() string {
 func (*CreateCouponTemplateReq) ProtoMessage() {}
 
 func (x *CreateCouponTemplateReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[14]
+	mi := &file_promotion_promotion_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1240,7 +1324,7 @@ func (x *CreateCouponTemplateReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCouponTemplateReq.ProtoReflect.Descriptor instead.
 func (*CreateCouponTemplateReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{14}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *CreateCouponTemplateReq) GetShopId() int64 {
@@ -1357,7 +1441,7 @@ type CreateCouponTemplateResp struct {
 
 func (x *CreateCouponTemplateResp) Reset() {
 	*x = CreateCouponTemplateResp{}
-	mi := &file_promotion_promotion_proto_msgTypes[15]
+	mi := &file_promotion_promotion_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1369,7 +1453,7 @@ func (x *CreateCouponTemplateResp) String() string {
 func (*CreateCouponTemplateResp) ProtoMessage() {}
 
 func (x *CreateCouponTemplateResp) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[15]
+	mi := &file_promotion_promotion_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1382,7 +1466,7 @@ func (x *CreateCouponTemplateResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCouponTemplateResp.ProtoReflect.Descriptor instead.
 func (*CreateCouponTemplateResp) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{15}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *CreateCouponTemplateResp) GetId() int64 {
@@ -1404,7 +1488,7 @@ type ListCouponTemplatesReq struct {
 
 func (x *ListCouponTemplatesReq) Reset() {
 	*x = ListCouponTemplatesReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[16]
+	mi := &file_promotion_promotion_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1416,7 +1500,7 @@ func (x *ListCouponTemplatesReq) String() string {
 func (*ListCouponTemplatesReq) ProtoMessage() {}
 
 func (x *ListCouponTemplatesReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[16]
+	mi := &file_promotion_promotion_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1429,7 +1513,7 @@ func (x *ListCouponTemplatesReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCouponTemplatesReq.ProtoReflect.Descriptor instead.
 func (*ListCouponTemplatesReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{16}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *ListCouponTemplatesReq) GetShopId() int64 {
@@ -1470,7 +1554,7 @@ type ListCouponTemplatesResp struct {
 
 func (x *ListCouponTemplatesResp) Reset() {
 	*x = ListCouponTemplatesResp{}
-	mi := &file_promotion_promotion_proto_msgTypes[17]
+	mi := &file_promotion_promotion_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1482,7 +1566,7 @@ func (x *ListCouponTemplatesResp) String() string {
 func (*ListCouponTemplatesResp) ProtoMessage() {}
 
 func (x *ListCouponTemplatesResp) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[17]
+	mi := &file_promotion_promotion_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1495,7 +1579,7 @@ func (x *ListCouponTemplatesResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCouponTemplatesResp.ProtoReflect.Descriptor instead.
 func (*ListCouponTemplatesResp) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{17}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ListCouponTemplatesResp) GetTemplates() []*CouponTemplate {
@@ -1522,7 +1606,7 @@ type ChangeCouponTemplateStatusReq struct {
 
 func (x *ChangeCouponTemplateStatusReq) Reset() {
 	*x = ChangeCouponTemplateStatusReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[18]
+	mi := &file_promotion_promotion_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1534,7 +1618,7 @@ func (x *ChangeCouponTemplateStatusReq) String() string {
 func (*ChangeCouponTemplateStatusReq) ProtoMessage() {}
 
 func (x *ChangeCouponTemplateStatusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[18]
+	mi := &file_promotion_promotion_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1547,7 +1631,7 @@ func (x *ChangeCouponTemplateStatusReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChangeCouponTemplateStatusReq.ProtoReflect.Descriptor instead.
 func (*ChangeCouponTemplateStatusReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{18}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ChangeCouponTemplateStatusReq) GetId() int64 {
@@ -1588,7 +1672,7 @@ type Coupon struct {
 
 func (x *Coupon) Reset() {
 	*x = Coupon{}
-	mi := &file_promotion_promotion_proto_msgTypes[19]
+	mi := &file_promotion_promotion_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1600,7 +1684,7 @@ func (x *Coupon) String() string {
 func (*Coupon) ProtoMessage() {}
 
 func (x *Coupon) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[19]
+	mi := &file_promotion_promotion_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1613,7 +1697,7 @@ func (x *Coupon) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Coupon.ProtoReflect.Descriptor instead.
 func (*Coupon) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{19}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *Coupon) GetId() int64 {
@@ -1724,7 +1808,7 @@ type ReceiveCouponReq struct {
 
 func (x *ReceiveCouponReq) Reset() {
 	*x = ReceiveCouponReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[20]
+	mi := &file_promotion_promotion_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1736,7 +1820,7 @@ func (x *ReceiveCouponReq) String() string {
 func (*ReceiveCouponReq) ProtoMessage() {}
 
 func (x *ReceiveCouponReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[20]
+	mi := &file_promotion_promotion_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1749,7 +1833,7 @@ func (x *ReceiveCouponReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReceiveCouponReq.ProtoReflect.Descriptor instead.
 func (*ReceiveCouponReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{20}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *ReceiveCouponReq) GetUserId() int64 {
@@ -1775,7 +1859,7 @@ type ReceiveCouponResp struct {
 
 func (x *ReceiveCouponResp) Reset() {
 	*x = ReceiveCouponResp{}
-	mi := &file_promotion_promotion_proto_msgTypes[21]
+	mi := &file_promotion_promotion_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1787,7 +1871,7 @@ func (x *ReceiveCouponResp) String() string {
 func (*ReceiveCouponResp) ProtoMessage() {}
 
 func (x *ReceiveCouponResp) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[21]
+	mi := &file_promotion_promotion_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1800,7 +1884,7 @@ func (x *ReceiveCouponResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReceiveCouponResp.ProtoReflect.Descriptor instead.
 func (*ReceiveCouponResp) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{21}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *ReceiveCouponResp) GetCouponId() int64 {
@@ -1822,7 +1906,7 @@ type ListMyCouponsReq struct {
 
 func (x *ListMyCouponsReq) Reset() {
 	*x = ListMyCouponsReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[22]
+	mi := &file_promotion_promotion_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1834,7 +1918,7 @@ func (x *ListMyCouponsReq) String() string {
 func (*ListMyCouponsReq) ProtoMessage() {}
 
 func (x *ListMyCouponsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[22]
+	mi := &file_promotion_promotion_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1847,7 +1931,7 @@ func (x *ListMyCouponsReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListMyCouponsReq.ProtoReflect.Descriptor instead.
 func (*ListMyCouponsReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{22}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *ListMyCouponsReq) GetUserId() int64 {
@@ -1888,7 +1972,7 @@ type ListMyCouponsResp struct {
 
 func (x *ListMyCouponsResp) Reset() {
 	*x = ListMyCouponsResp{}
-	mi := &file_promotion_promotion_proto_msgTypes[23]
+	mi := &file_promotion_promotion_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1900,7 +1984,7 @@ func (x *ListMyCouponsResp) String() string {
 func (*ListMyCouponsResp) ProtoMessage() {}
 
 func (x *ListMyCouponsResp) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[23]
+	mi := &file_promotion_promotion_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1913,7 +1997,7 @@ func (x *ListMyCouponsResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListMyCouponsResp.ProtoReflect.Descriptor instead.
 func (*ListMyCouponsResp) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{23}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *ListMyCouponsResp) GetCoupons() []*Coupon {
@@ -1945,7 +2029,7 @@ type CartItem struct {
 
 func (x *CartItem) Reset() {
 	*x = CartItem{}
-	mi := &file_promotion_promotion_proto_msgTypes[24]
+	mi := &file_promotion_promotion_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1957,7 +2041,7 @@ func (x *CartItem) String() string {
 func (*CartItem) ProtoMessage() {}
 
 func (x *CartItem) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[24]
+	mi := &file_promotion_promotion_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1970,7 +2054,7 @@ func (x *CartItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CartItem.ProtoReflect.Descriptor instead.
 func (*CartItem) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{24}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *CartItem) GetSkuId() int64 {
@@ -2025,7 +2109,7 @@ type PriceConflict struct {
 
 func (x *PriceConflict) Reset() {
 	*x = PriceConflict{}
-	mi := &file_promotion_promotion_proto_msgTypes[25]
+	mi := &file_promotion_promotion_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2037,7 +2121,7 @@ func (x *PriceConflict) String() string {
 func (*PriceConflict) ProtoMessage() {}
 
 func (x *PriceConflict) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[25]
+	mi := &file_promotion_promotion_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2050,7 +2134,7 @@ func (x *PriceConflict) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PriceConflict.ProtoReflect.Descriptor instead.
 func (*PriceConflict) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{25}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *PriceConflict) GetCouponId() int64 {
@@ -2079,7 +2163,7 @@ type CalcPriceReq struct {
 
 func (x *CalcPriceReq) Reset() {
 	*x = CalcPriceReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[26]
+	mi := &file_promotion_promotion_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2091,7 +2175,7 @@ func (x *CalcPriceReq) String() string {
 func (*CalcPriceReq) ProtoMessage() {}
 
 func (x *CalcPriceReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[26]
+	mi := &file_promotion_promotion_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2104,7 +2188,7 @@ func (x *CalcPriceReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalcPriceReq.ProtoReflect.Descriptor instead.
 func (*CalcPriceReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{26}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *CalcPriceReq) GetUserId() int64 {
@@ -2150,7 +2234,7 @@ type CalcPriceResp struct {
 
 func (x *CalcPriceResp) Reset() {
 	*x = CalcPriceResp{}
-	mi := &file_promotion_promotion_proto_msgTypes[27]
+	mi := &file_promotion_promotion_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2162,7 +2246,7 @@ func (x *CalcPriceResp) String() string {
 func (*CalcPriceResp) ProtoMessage() {}
 
 func (x *CalcPriceResp) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[27]
+	mi := &file_promotion_promotion_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2175,7 +2259,7 @@ func (x *CalcPriceResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalcPriceResp.ProtoReflect.Descriptor instead.
 func (*CalcPriceResp) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{27}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *CalcPriceResp) GetTotalAmount() int64 {
@@ -2239,7 +2323,7 @@ type LockCouponReq struct {
 
 func (x *LockCouponReq) Reset() {
 	*x = LockCouponReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[28]
+	mi := &file_promotion_promotion_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2251,7 +2335,7 @@ func (x *LockCouponReq) String() string {
 func (*LockCouponReq) ProtoMessage() {}
 
 func (x *LockCouponReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[28]
+	mi := &file_promotion_promotion_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2264,7 +2348,7 @@ func (x *LockCouponReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LockCouponReq.ProtoReflect.Descriptor instead.
 func (*LockCouponReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{28}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *LockCouponReq) GetUserId() int64 {
@@ -2297,7 +2381,7 @@ type ReleaseCouponReq struct {
 
 func (x *ReleaseCouponReq) Reset() {
 	*x = ReleaseCouponReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[29]
+	mi := &file_promotion_promotion_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2309,7 +2393,7 @@ func (x *ReleaseCouponReq) String() string {
 func (*ReleaseCouponReq) ProtoMessage() {}
 
 func (x *ReleaseCouponReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[29]
+	mi := &file_promotion_promotion_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2322,7 +2406,7 @@ func (x *ReleaseCouponReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReleaseCouponReq.ProtoReflect.Descriptor instead.
 func (*ReleaseCouponReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{29}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *ReleaseCouponReq) GetOrderId() int64 {
@@ -2341,7 +2425,7 @@ type ConsumeCouponReq struct {
 
 func (x *ConsumeCouponReq) Reset() {
 	*x = ConsumeCouponReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[30]
+	mi := &file_promotion_promotion_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2353,7 +2437,7 @@ func (x *ConsumeCouponReq) String() string {
 func (*ConsumeCouponReq) ProtoMessage() {}
 
 func (x *ConsumeCouponReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[30]
+	mi := &file_promotion_promotion_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2366,7 +2450,7 @@ func (x *ConsumeCouponReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConsumeCouponReq.ProtoReflect.Descriptor instead.
 func (*ConsumeCouponReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{30}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *ConsumeCouponReq) GetOrderId() int64 {
@@ -2387,7 +2471,7 @@ type RefundItem struct {
 
 func (x *RefundItem) Reset() {
 	*x = RefundItem{}
-	mi := &file_promotion_promotion_proto_msgTypes[31]
+	mi := &file_promotion_promotion_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2399,7 +2483,7 @@ func (x *RefundItem) String() string {
 func (*RefundItem) ProtoMessage() {}
 
 func (x *RefundItem) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[31]
+	mi := &file_promotion_promotion_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2412,7 +2496,7 @@ func (x *RefundItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefundItem.ProtoReflect.Descriptor instead.
 func (*RefundItem) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{31}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *RefundItem) GetSkuId() int64 {
@@ -2440,7 +2524,7 @@ type CalcRefundReq struct {
 
 func (x *CalcRefundReq) Reset() {
 	*x = CalcRefundReq{}
-	mi := &file_promotion_promotion_proto_msgTypes[32]
+	mi := &file_promotion_promotion_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2452,7 +2536,7 @@ func (x *CalcRefundReq) String() string {
 func (*CalcRefundReq) ProtoMessage() {}
 
 func (x *CalcRefundReq) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[32]
+	mi := &file_promotion_promotion_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2465,7 +2549,7 @@ func (x *CalcRefundReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalcRefundReq.ProtoReflect.Descriptor instead.
 func (*CalcRefundReq) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{32}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *CalcRefundReq) GetOrderId() int64 {
@@ -2499,7 +2583,7 @@ type CalcRefundResp struct {
 
 func (x *CalcRefundResp) Reset() {
 	*x = CalcRefundResp{}
-	mi := &file_promotion_promotion_proto_msgTypes[33]
+	mi := &file_promotion_promotion_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2511,7 +2595,7 @@ func (x *CalcRefundResp) String() string {
 func (*CalcRefundResp) ProtoMessage() {}
 
 func (x *CalcRefundResp) ProtoReflect() protoreflect.Message {
-	mi := &file_promotion_promotion_proto_msgTypes[33]
+	mi := &file_promotion_promotion_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2524,7 +2608,7 @@ func (x *CalcRefundResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalcRefundResp.ProtoReflect.Descriptor instead.
 func (*CalcRefundResp) Descriptor() ([]byte, []int) {
-	return file_promotion_promotion_proto_rawDescGZIP(), []int{33}
+	return file_promotion_promotion_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *CalcRefundResp) GetRefundAmount() int64 {
@@ -2568,7 +2652,11 @@ const file_promotion_promotion_proto_rawDesc = "" +
 	"\fmax_discount\x18\a \x01(\x03R\vmaxDiscount\x12\x1e\n" +
 	"\vgift_sku_id\x18\b \x01(\x03R\tgiftSkuId\x12\x1d\n" +
 	"\n" +
-	"step_order\x18\t \x01(\x05R\tstepOrder\"\xdb\x03\n" +
+	"step_order\x18\t \x01(\x05R\tstepOrder\"\x80\x01\n" +
+	"\fActivityRule\x12$\n" +
+	"\x0eper_user_quota\x18\x01 \x01(\x05R\fperUserQuota\x12&\n" +
+	"\x0fper_order_quota\x18\x02 \x01(\x05R\rperOrderQuota\x12\"\n" +
+	"\rper_day_quota\x18\x03 \x01(\x05R\vperDayQuota\"\x88\x04\n" +
 	"\bActivity\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04type\x18\x02 \x01(\tR\x04type\x12\x12\n" +
@@ -2588,7 +2676,8 @@ const file_promotion_promotion_proto_rawDesc = "" +
 	"\vupdate_time\x18\r \x01(\x03R\n" +
 	"updateTime\x123\n" +
 	"\atargets\x18\x0e \x03(\v2\x19.promotion.ActivityTargetR\atargets\x123\n" +
-	"\aactions\x18\x0f \x03(\v2\x19.promotion.ActivityActionR\aactions\"\xfa\x02\n" +
+	"\aactions\x18\x0f \x03(\v2\x19.promotion.ActivityActionR\aactions\x12+\n" +
+	"\x04rule\x18\x10 \x01(\v2\x17.promotion.ActivityRuleR\x04rule\"\xa7\x03\n" +
 	"\x11CreateActivityReq\x12\x12\n" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x17\n" +
@@ -2602,13 +2691,14 @@ const file_promotion_promotion_proto_rawDesc = "" +
 	"\x0ecreate_user_id\x18\t \x01(\x03R\fcreateUserId\x123\n" +
 	"\atargets\x18\n" +
 	" \x03(\v2\x19.promotion.ActivityTargetR\atargets\x123\n" +
-	"\aactions\x18\v \x03(\v2\x19.promotion.ActivityActionR\aactions\"$\n" +
+	"\aactions\x18\v \x03(\v2\x19.promotion.ActivityActionR\aactions\x12+\n" +
+	"\x04rule\x18\f \x01(\v2\x17.promotion.ActivityRuleR\x04rule\"$\n" +
 	"\x12CreateActivityResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\" \n" +
 	"\x0eGetActivityReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"B\n" +
 	"\x0fGetActivityResp\x12/\n" +
-	"\bactivity\x18\x01 \x01(\v2\x13.promotion.ActivityR\bactivity\"\xb7\x02\n" +
+	"\bactivity\x18\x01 \x01(\v2\x13.promotion.ActivityR\bactivity\"\xe4\x02\n" +
 	"\x11UpdateActivityReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1d\n" +
@@ -2619,7 +2709,9 @@ const file_promotion_promotion_proto_rawDesc = "" +
 	"\tstackable\x18\x06 \x01(\bR\tstackable\x12 \n" +
 	"\vdescription\x18\a \x01(\tR\vdescription\x123\n" +
 	"\atargets\x18\b \x03(\v2\x19.promotion.ActivityTargetR\atargets\x123\n" +
-	"\aactions\x18\t \x03(\v2\x19.promotion.ActivityActionR\aactions\"A\n" +
+	"\aactions\x18\t \x03(\v2\x19.promotion.ActivityActionR\aactions\x12+\n" +
+	"\x04rule\x18\n" +
+	" \x01(\v2\x17.promotion.ActivityRuleR\x04rule\"A\n" +
 	"\x17ChangeActivityStatusReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\x05R\x06status\"\x89\x01\n" +
@@ -2818,92 +2910,96 @@ func file_promotion_promotion_proto_rawDescGZIP() []byte {
 	return file_promotion_promotion_proto_rawDescData
 }
 
-var file_promotion_promotion_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
+var file_promotion_promotion_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
 var file_promotion_promotion_proto_goTypes = []any{
 	(*Empty)(nil),                         // 0: promotion.Empty
 	(*OkResp)(nil),                        // 1: promotion.OkResp
 	(*ActivityTarget)(nil),                // 2: promotion.ActivityTarget
 	(*ActivityAction)(nil),                // 3: promotion.ActivityAction
-	(*Activity)(nil),                      // 4: promotion.Activity
-	(*CreateActivityReq)(nil),             // 5: promotion.CreateActivityReq
-	(*CreateActivityResp)(nil),            // 6: promotion.CreateActivityResp
-	(*GetActivityReq)(nil),                // 7: promotion.GetActivityReq
-	(*GetActivityResp)(nil),               // 8: promotion.GetActivityResp
-	(*UpdateActivityReq)(nil),             // 9: promotion.UpdateActivityReq
-	(*ChangeActivityStatusReq)(nil),       // 10: promotion.ChangeActivityStatusReq
-	(*ListActivitiesReq)(nil),             // 11: promotion.ListActivitiesReq
-	(*ListActivitiesResp)(nil),            // 12: promotion.ListActivitiesResp
-	(*CouponTemplate)(nil),                // 13: promotion.CouponTemplate
-	(*CreateCouponTemplateReq)(nil),       // 14: promotion.CreateCouponTemplateReq
-	(*CreateCouponTemplateResp)(nil),      // 15: promotion.CreateCouponTemplateResp
-	(*ListCouponTemplatesReq)(nil),        // 16: promotion.ListCouponTemplatesReq
-	(*ListCouponTemplatesResp)(nil),       // 17: promotion.ListCouponTemplatesResp
-	(*ChangeCouponTemplateStatusReq)(nil), // 18: promotion.ChangeCouponTemplateStatusReq
-	(*Coupon)(nil),                        // 19: promotion.Coupon
-	(*ReceiveCouponReq)(nil),              // 20: promotion.ReceiveCouponReq
-	(*ReceiveCouponResp)(nil),             // 21: promotion.ReceiveCouponResp
-	(*ListMyCouponsReq)(nil),              // 22: promotion.ListMyCouponsReq
-	(*ListMyCouponsResp)(nil),             // 23: promotion.ListMyCouponsResp
-	(*CartItem)(nil),                      // 24: promotion.CartItem
-	(*PriceConflict)(nil),                 // 25: promotion.PriceConflict
-	(*CalcPriceReq)(nil),                  // 26: promotion.CalcPriceReq
-	(*CalcPriceResp)(nil),                 // 27: promotion.CalcPriceResp
-	(*LockCouponReq)(nil),                 // 28: promotion.LockCouponReq
-	(*ReleaseCouponReq)(nil),              // 29: promotion.ReleaseCouponReq
-	(*ConsumeCouponReq)(nil),              // 30: promotion.ConsumeCouponReq
-	(*RefundItem)(nil),                    // 31: promotion.RefundItem
-	(*CalcRefundReq)(nil),                 // 32: promotion.CalcRefundReq
-	(*CalcRefundResp)(nil),                // 33: promotion.CalcRefundResp
+	(*ActivityRule)(nil),                  // 4: promotion.ActivityRule
+	(*Activity)(nil),                      // 5: promotion.Activity
+	(*CreateActivityReq)(nil),             // 6: promotion.CreateActivityReq
+	(*CreateActivityResp)(nil),            // 7: promotion.CreateActivityResp
+	(*GetActivityReq)(nil),                // 8: promotion.GetActivityReq
+	(*GetActivityResp)(nil),               // 9: promotion.GetActivityResp
+	(*UpdateActivityReq)(nil),             // 10: promotion.UpdateActivityReq
+	(*ChangeActivityStatusReq)(nil),       // 11: promotion.ChangeActivityStatusReq
+	(*ListActivitiesReq)(nil),             // 12: promotion.ListActivitiesReq
+	(*ListActivitiesResp)(nil),            // 13: promotion.ListActivitiesResp
+	(*CouponTemplate)(nil),                // 14: promotion.CouponTemplate
+	(*CreateCouponTemplateReq)(nil),       // 15: promotion.CreateCouponTemplateReq
+	(*CreateCouponTemplateResp)(nil),      // 16: promotion.CreateCouponTemplateResp
+	(*ListCouponTemplatesReq)(nil),        // 17: promotion.ListCouponTemplatesReq
+	(*ListCouponTemplatesResp)(nil),       // 18: promotion.ListCouponTemplatesResp
+	(*ChangeCouponTemplateStatusReq)(nil), // 19: promotion.ChangeCouponTemplateStatusReq
+	(*Coupon)(nil),                        // 20: promotion.Coupon
+	(*ReceiveCouponReq)(nil),              // 21: promotion.ReceiveCouponReq
+	(*ReceiveCouponResp)(nil),             // 22: promotion.ReceiveCouponResp
+	(*ListMyCouponsReq)(nil),              // 23: promotion.ListMyCouponsReq
+	(*ListMyCouponsResp)(nil),             // 24: promotion.ListMyCouponsResp
+	(*CartItem)(nil),                      // 25: promotion.CartItem
+	(*PriceConflict)(nil),                 // 26: promotion.PriceConflict
+	(*CalcPriceReq)(nil),                  // 27: promotion.CalcPriceReq
+	(*CalcPriceResp)(nil),                 // 28: promotion.CalcPriceResp
+	(*LockCouponReq)(nil),                 // 29: promotion.LockCouponReq
+	(*ReleaseCouponReq)(nil),              // 30: promotion.ReleaseCouponReq
+	(*ConsumeCouponReq)(nil),              // 31: promotion.ConsumeCouponReq
+	(*RefundItem)(nil),                    // 32: promotion.RefundItem
+	(*CalcRefundReq)(nil),                 // 33: promotion.CalcRefundReq
+	(*CalcRefundResp)(nil),                // 34: promotion.CalcRefundResp
 }
 var file_promotion_promotion_proto_depIdxs = []int32{
 	2,  // 0: promotion.Activity.targets:type_name -> promotion.ActivityTarget
 	3,  // 1: promotion.Activity.actions:type_name -> promotion.ActivityAction
-	2,  // 2: promotion.CreateActivityReq.targets:type_name -> promotion.ActivityTarget
-	3,  // 3: promotion.CreateActivityReq.actions:type_name -> promotion.ActivityAction
-	4,  // 4: promotion.GetActivityResp.activity:type_name -> promotion.Activity
-	2,  // 5: promotion.UpdateActivityReq.targets:type_name -> promotion.ActivityTarget
-	3,  // 6: promotion.UpdateActivityReq.actions:type_name -> promotion.ActivityAction
-	4,  // 7: promotion.ListActivitiesResp.activities:type_name -> promotion.Activity
-	13, // 8: promotion.ListCouponTemplatesResp.templates:type_name -> promotion.CouponTemplate
-	19, // 9: promotion.ListMyCouponsResp.coupons:type_name -> promotion.Coupon
-	24, // 10: promotion.CalcPriceReq.items:type_name -> promotion.CartItem
-	25, // 11: promotion.CalcPriceResp.conflicts:type_name -> promotion.PriceConflict
-	31, // 12: promotion.CalcRefundReq.items:type_name -> promotion.RefundItem
-	5,  // 13: promotion.Promotion.CreateActivity:input_type -> promotion.CreateActivityReq
-	7,  // 14: promotion.Promotion.GetActivity:input_type -> promotion.GetActivityReq
-	9,  // 15: promotion.Promotion.UpdateActivity:input_type -> promotion.UpdateActivityReq
-	10, // 16: promotion.Promotion.ChangeActivityStatus:input_type -> promotion.ChangeActivityStatusReq
-	11, // 17: promotion.Promotion.ListActivities:input_type -> promotion.ListActivitiesReq
-	14, // 18: promotion.Promotion.CreateCouponTemplate:input_type -> promotion.CreateCouponTemplateReq
-	16, // 19: promotion.Promotion.ListCouponTemplates:input_type -> promotion.ListCouponTemplatesReq
-	18, // 20: promotion.Promotion.ChangeCouponTemplateStatus:input_type -> promotion.ChangeCouponTemplateStatusReq
-	20, // 21: promotion.Promotion.ReceiveCoupon:input_type -> promotion.ReceiveCouponReq
-	22, // 22: promotion.Promotion.ListMyCoupons:input_type -> promotion.ListMyCouponsReq
-	26, // 23: promotion.Promotion.CalcPrice:input_type -> promotion.CalcPriceReq
-	28, // 24: promotion.Promotion.LockCoupon:input_type -> promotion.LockCouponReq
-	29, // 25: promotion.Promotion.ReleaseCoupon:input_type -> promotion.ReleaseCouponReq
-	30, // 26: promotion.Promotion.ConsumeCoupon:input_type -> promotion.ConsumeCouponReq
-	32, // 27: promotion.Promotion.CalcRefund:input_type -> promotion.CalcRefundReq
-	6,  // 28: promotion.Promotion.CreateActivity:output_type -> promotion.CreateActivityResp
-	8,  // 29: promotion.Promotion.GetActivity:output_type -> promotion.GetActivityResp
-	1,  // 30: promotion.Promotion.UpdateActivity:output_type -> promotion.OkResp
-	1,  // 31: promotion.Promotion.ChangeActivityStatus:output_type -> promotion.OkResp
-	12, // 32: promotion.Promotion.ListActivities:output_type -> promotion.ListActivitiesResp
-	15, // 33: promotion.Promotion.CreateCouponTemplate:output_type -> promotion.CreateCouponTemplateResp
-	17, // 34: promotion.Promotion.ListCouponTemplates:output_type -> promotion.ListCouponTemplatesResp
-	1,  // 35: promotion.Promotion.ChangeCouponTemplateStatus:output_type -> promotion.OkResp
-	21, // 36: promotion.Promotion.ReceiveCoupon:output_type -> promotion.ReceiveCouponResp
-	23, // 37: promotion.Promotion.ListMyCoupons:output_type -> promotion.ListMyCouponsResp
-	27, // 38: promotion.Promotion.CalcPrice:output_type -> promotion.CalcPriceResp
-	1,  // 39: promotion.Promotion.LockCoupon:output_type -> promotion.OkResp
-	1,  // 40: promotion.Promotion.ReleaseCoupon:output_type -> promotion.OkResp
-	1,  // 41: promotion.Promotion.ConsumeCoupon:output_type -> promotion.OkResp
-	33, // 42: promotion.Promotion.CalcRefund:output_type -> promotion.CalcRefundResp
-	28, // [28:43] is the sub-list for method output_type
-	13, // [13:28] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	4,  // 2: promotion.Activity.rule:type_name -> promotion.ActivityRule
+	2,  // 3: promotion.CreateActivityReq.targets:type_name -> promotion.ActivityTarget
+	3,  // 4: promotion.CreateActivityReq.actions:type_name -> promotion.ActivityAction
+	4,  // 5: promotion.CreateActivityReq.rule:type_name -> promotion.ActivityRule
+	5,  // 6: promotion.GetActivityResp.activity:type_name -> promotion.Activity
+	2,  // 7: promotion.UpdateActivityReq.targets:type_name -> promotion.ActivityTarget
+	3,  // 8: promotion.UpdateActivityReq.actions:type_name -> promotion.ActivityAction
+	4,  // 9: promotion.UpdateActivityReq.rule:type_name -> promotion.ActivityRule
+	5,  // 10: promotion.ListActivitiesResp.activities:type_name -> promotion.Activity
+	14, // 11: promotion.ListCouponTemplatesResp.templates:type_name -> promotion.CouponTemplate
+	20, // 12: promotion.ListMyCouponsResp.coupons:type_name -> promotion.Coupon
+	25, // 13: promotion.CalcPriceReq.items:type_name -> promotion.CartItem
+	26, // 14: promotion.CalcPriceResp.conflicts:type_name -> promotion.PriceConflict
+	32, // 15: promotion.CalcRefundReq.items:type_name -> promotion.RefundItem
+	6,  // 16: promotion.Promotion.CreateActivity:input_type -> promotion.CreateActivityReq
+	8,  // 17: promotion.Promotion.GetActivity:input_type -> promotion.GetActivityReq
+	10, // 18: promotion.Promotion.UpdateActivity:input_type -> promotion.UpdateActivityReq
+	11, // 19: promotion.Promotion.ChangeActivityStatus:input_type -> promotion.ChangeActivityStatusReq
+	12, // 20: promotion.Promotion.ListActivities:input_type -> promotion.ListActivitiesReq
+	15, // 21: promotion.Promotion.CreateCouponTemplate:input_type -> promotion.CreateCouponTemplateReq
+	17, // 22: promotion.Promotion.ListCouponTemplates:input_type -> promotion.ListCouponTemplatesReq
+	19, // 23: promotion.Promotion.ChangeCouponTemplateStatus:input_type -> promotion.ChangeCouponTemplateStatusReq
+	21, // 24: promotion.Promotion.ReceiveCoupon:input_type -> promotion.ReceiveCouponReq
+	23, // 25: promotion.Promotion.ListMyCoupons:input_type -> promotion.ListMyCouponsReq
+	27, // 26: promotion.Promotion.CalcPrice:input_type -> promotion.CalcPriceReq
+	29, // 27: promotion.Promotion.LockCoupon:input_type -> promotion.LockCouponReq
+	30, // 28: promotion.Promotion.ReleaseCoupon:input_type -> promotion.ReleaseCouponReq
+	31, // 29: promotion.Promotion.ConsumeCoupon:input_type -> promotion.ConsumeCouponReq
+	33, // 30: promotion.Promotion.CalcRefund:input_type -> promotion.CalcRefundReq
+	7,  // 31: promotion.Promotion.CreateActivity:output_type -> promotion.CreateActivityResp
+	9,  // 32: promotion.Promotion.GetActivity:output_type -> promotion.GetActivityResp
+	1,  // 33: promotion.Promotion.UpdateActivity:output_type -> promotion.OkResp
+	1,  // 34: promotion.Promotion.ChangeActivityStatus:output_type -> promotion.OkResp
+	13, // 35: promotion.Promotion.ListActivities:output_type -> promotion.ListActivitiesResp
+	16, // 36: promotion.Promotion.CreateCouponTemplate:output_type -> promotion.CreateCouponTemplateResp
+	18, // 37: promotion.Promotion.ListCouponTemplates:output_type -> promotion.ListCouponTemplatesResp
+	1,  // 38: promotion.Promotion.ChangeCouponTemplateStatus:output_type -> promotion.OkResp
+	22, // 39: promotion.Promotion.ReceiveCoupon:output_type -> promotion.ReceiveCouponResp
+	24, // 40: promotion.Promotion.ListMyCoupons:output_type -> promotion.ListMyCouponsResp
+	28, // 41: promotion.Promotion.CalcPrice:output_type -> promotion.CalcPriceResp
+	1,  // 42: promotion.Promotion.LockCoupon:output_type -> promotion.OkResp
+	1,  // 43: promotion.Promotion.ReleaseCoupon:output_type -> promotion.OkResp
+	1,  // 44: promotion.Promotion.ConsumeCoupon:output_type -> promotion.OkResp
+	34, // 45: promotion.Promotion.CalcRefund:output_type -> promotion.CalcRefundResp
+	31, // [31:46] is the sub-list for method output_type
+	16, // [16:31] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_promotion_promotion_proto_init() }
@@ -2917,7 +3013,7 @@ func file_promotion_promotion_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_promotion_promotion_proto_rawDesc), len(file_promotion_promotion_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   34,
+			NumMessages:   35,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

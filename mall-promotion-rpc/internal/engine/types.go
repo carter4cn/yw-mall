@@ -38,6 +38,14 @@ type Activity struct {
 
 	Targets []Target
 	Actions []Action
+	Rule    *ActivityRule // S2.4 限购, nil 表示不限
+}
+
+// ActivityRule 限购规则 (engine 视角)。
+type ActivityRule struct {
+	PerUserQuota  int32 // 累计 (需 logic 层调用 DB 校验)
+	PerOrderQuota int32 // 单订单限购 (engine 静态校验)
+	PerDayQuota   int32 // 每人每日 (需 Redis 计数, 暂留 S2.4.2)
 }
 
 type Target struct {

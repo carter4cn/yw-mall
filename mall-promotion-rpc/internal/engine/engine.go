@@ -9,6 +9,33 @@ func Calculate(items []Item, activities []Activity, coupons []Coupon, shippingFe
 	bd := Breakdown{}
 	conflicts := []PriceConflict{}
 
+	// ============ Step 0: S2.4 限购校验 (per_order_quota) ============
+	// 对每个带 PerOrderQuota 的 activity, 算 cart 中匹配它的 items 总数量。
+	// 超限 → 加入 blocked 集合, 后续步骤跳过应用 + conflict 提示 FE。
+	blocked := map[int64]bool{}
+	for i := range activities {
+		act := &activities[i]
+		if act.Rule == nil || act.Rule.PerOrderQuota <= 0 {
+			continue
+		}
+		totalQty := int32(0)
+		for _, it := range items {
+			if it.Quantity <= 0 {
+				continue
+			}
+			if matchActivity(it, act) {
+				totalQty += it.Quantity
+			}
+		}
+		if totalQty > act.Rule.PerOrderQuota {
+			blocked[act.ID] = true
+			conflicts = append(conflicts, PriceConflict{
+				CouponID: -act.ID, // 负值表示 activity 级冲突, 区别于 coupon (正值)
+				Reason:   fmt.Sprintf("活动「%s」单订单限购 %d 件 (当前 %d), 已暂不应用", act.Type, act.Rule.PerOrderQuota, totalQty),
+			})
+		}
+	}
+
 	// ============ Step 1: SKU 级评估 ============
 	skuActs := indexSkuActivities(activities)
 	for i := range items {
@@ -20,6 +47,9 @@ func Calculate(items []Item, activities []Activity, coupons []Coupon, shippingFe
 		bestPrice := it.OriginalPrice
 		bestActID := int64(0)
 		for _, act := range skuActs[it.SkuID] {
+			if blocked[act.ID] {
+				continue
+			}
 			for _, a := range act.Actions {
 				p := applySkuAction(it.OriginalPrice, a)
 				if p < bestPrice {
@@ -58,6 +88,9 @@ func Calculate(items []Item, activities []Activity, coupons []Coupon, shippingFe
 		var bestAct *Activity
 		for i := range shopActs {
 			act := &shopActs[i]
+			if blocked[act.ID] {
+				continue
+			}
 			saved := evaluateShopActivity(act, sub, totalQty)
 			if saved > bestSaved {
 				bestSaved = saved

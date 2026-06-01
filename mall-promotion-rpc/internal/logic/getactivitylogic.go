@@ -26,7 +26,12 @@ func GetActivity(ctx context.Context, svcCtx *svc.ServiceContext, in *promotion.
 	if err != nil {
 		return nil, err
 	}
+	rule, err := loadActivityRule(ctx, svcCtx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 	act.Targets = targets
 	act.Actions = actions
+	act.Rule = rule
 	return &promotion.GetActivityResp{Activity: act}, nil
 }

@@ -31,6 +31,12 @@ message ActivityAction {
   int32  step_order      = 9;
 }
 
+message ActivityRule {
+  int32 per_user_quota  = 1; // 每人累计限购, 0=不限
+  int32 per_order_quota = 2; // 单订单限购件数, 0=不限
+  int32 per_day_quota   = 3; // 每人每日限购, 0=不限
+}
+
 message Activity {
   int64  id              = 1;
   string type            = 2; // fullreduce/discount/fixprice/coupon
@@ -47,6 +53,7 @@ message Activity {
   int64  update_time     = 13;
   repeated ActivityTarget targets = 14;
   repeated ActivityAction actions = 15;
+  ActivityRule rule      = 16; // S2.4 限购规则, nil 表示不限
 }
 
 message CreateActivityReq {
@@ -61,6 +68,7 @@ message CreateActivityReq {
   int64  create_user_id = 9;
   repeated ActivityTarget targets = 10;
   repeated ActivityAction actions = 11;
+  ActivityRule rule     = 12; // S2.4 限购, nil 不限
 }
 message CreateActivityResp {
   int64 id = 1;
@@ -83,6 +91,7 @@ message UpdateActivityReq {
   string description = 7;
   repeated ActivityTarget targets = 8;
   repeated ActivityAction actions = 9;
+  ActivityRule rule  = 10;
 }
 
 message ChangeActivityStatusReq {

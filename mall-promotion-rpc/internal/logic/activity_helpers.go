@@ -73,6 +73,30 @@ func loadActivityTargets(ctx context.Context, svcCtx *svc.ServiceContext, activi
 	return out, nil
 }
 
+// loadActivityRule 查活动的限购规则。无规则返回 nil (而非 error)。
+func loadActivityRule(ctx context.Context, svcCtx *svc.ServiceContext, activityId int64) (*promotion.ActivityRule, error) {
+	var r struct {
+		PerUserQuota  int32 `db:"per_user_quota"`
+		PerOrderQuota int32 `db:"per_order_quota"`
+		PerDayQuota   int32 `db:"per_day_quota"`
+	}
+	err := svcCtx.DB.QueryRowCtx(ctx, &r,
+		"SELECT per_user_quota, per_order_quota, per_day_quota FROM activity_rule WHERE activity_id = ?",
+		activityId)
+	if err != nil {
+		// 没规则 = 不限, 当 nil 返回
+		return nil, nil
+	}
+	if r.PerUserQuota == 0 && r.PerOrderQuota == 0 && r.PerDayQuota == 0 {
+		return nil, nil // 全 0 也按"不限"对待
+	}
+	return &promotion.ActivityRule{
+		PerUserQuota:  r.PerUserQuota,
+		PerOrderQuota: r.PerOrderQuota,
+		PerDayQuota:   r.PerDayQuota,
+	}, nil
+}
+
 func loadActivityActions(ctx context.Context, svcCtx *svc.ServiceContext, activityId int64) ([]*promotion.ActivityAction, error) {
 	var rows []activityActionRow
 	if err := svcCtx.DB.QueryRowsCtx(ctx, &rows,

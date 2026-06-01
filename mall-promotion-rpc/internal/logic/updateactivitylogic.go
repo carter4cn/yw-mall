@@ -69,6 +69,18 @@ func UpdateActivity(ctx context.Context, svcCtx *svc.ServiceContext, in *promoti
 				return err
 			}
 		}
+		// S2.4 限购 - UPSERT activity_rule; nil 表示清除现有规则
+		if _, err := tx.ExecCtx(c, "DELETE FROM activity_rule WHERE activity_id = ?", in.Id); err != nil {
+			return err
+		}
+		if in.Rule != nil {
+			if _, err := tx.ExecCtx(c,
+				`INSERT INTO activity_rule (activity_id, per_user_quota, per_order_quota, per_day_quota) VALUES (?, ?, ?, ?)`,
+				in.Id, in.Rule.PerUserQuota, in.Rule.PerOrderQuota, in.Rule.PerDayQuota,
+			); err != nil {
+				return err
+			}
+		}
 		return nil
 	})
 	if err != nil {

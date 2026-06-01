@@ -1,5 +1,29 @@
 package engine
 
+// matchActivity 判断购物车 item 是否落在 activity 的任一 target 范围。
+// 用于 Step 0 per_order_quota 校验。
+func matchActivity(it Item, act *Activity) bool {
+	for _, t := range act.Targets {
+		switch t.TargetType {
+		case "all":
+			return true
+		case "sku":
+			if t.TargetID == it.SkuID {
+				return true
+			}
+		case "shop":
+			if t.TargetID == it.ShopID {
+				return true
+			}
+		case "category":
+			if t.TargetID == it.CategoryID {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 // indexSkuActivities 把活动按 SKU id 索引，便于 Step 1 反查。
 //
 // 命中规则:

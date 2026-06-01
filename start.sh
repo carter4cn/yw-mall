@@ -179,6 +179,7 @@ bootstrap_dbs() {
         "mall_product|mall-product-rpc/sql/sku.sql"
         "mall_shop|mall-shop-rpc/sql/shop_decoration.sql"
         "mall_order|mall-order-rpc/sql/promotion_v4.sql"
+        "mall_promotion|mall-promotion-rpc/sql/limit_rule_v5.sql"
     )
     for entry in "${SPRINT_MIGRATIONS[@]}"; do
         local db="${entry%%|*}"

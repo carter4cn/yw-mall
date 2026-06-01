@@ -142,10 +142,20 @@ func loadActiveActivities(ctx context.Context, svcCtx *svc.ServiceContext, skuSe
 		if err != nil {
 			return nil, err
 		}
+		// S2.4 限购规则 (per_order_quota engine 静态校验, per_user/day 后续 S2.4.2)
+		var rule *engine.ActivityRule
+		pbRule, _ := loadActivityRule(ctx, svcCtx, h.Id)
+		if pbRule != nil {
+			rule = &engine.ActivityRule{
+				PerUserQuota:  pbRule.PerUserQuota,
+				PerOrderQuota: pbRule.PerOrderQuota,
+				PerDayQuota:   pbRule.PerDayQuota,
+			}
+		}
 		out = append(out, engine.Activity{
 			ID: h.Id, Type: h.Type, ShopID: h.ShopId,
 			Priority: h.Priority, Stackable: h.Stackable == 1,
-			Targets: targets, Actions: actions,
+			Targets: targets, Actions: actions, Rule: rule,
 		})
 	}
 	return out, nil

@@ -19,6 +19,7 @@ type (
 	Activity                = promotion.Activity
 	ActivityTarget          = promotion.ActivityTarget
 	ActivityAction          = promotion.ActivityAction
+	ActivityRule            = promotion.ActivityRule
 	CreateActivityReq       = promotion.CreateActivityReq
 	CreateActivityResp      = promotion.CreateActivityResp
 	GetActivityReq          = promotion.GetActivityReq

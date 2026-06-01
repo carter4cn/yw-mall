@@ -57,6 +57,15 @@ func CreateActivity(ctx context.Context, svcCtx *svc.ServiceContext, in *promoti
 				return err
 			}
 		}
+		// S2.4 限购规则 - nil 跳过, 否则 INSERT activity_rule (UNIQUE on activity_id)
+		if in.Rule != nil {
+			if _, err := tx.ExecCtx(c,
+				`INSERT INTO activity_rule (activity_id, per_user_quota, per_order_quota, per_day_quota) VALUES (?, ?, ?, ?)`,
+				newId, in.Rule.PerUserQuota, in.Rule.PerOrderQuota, in.Rule.PerDayQuota,
+			); err != nil {
+				return err
+			}
+		}
 		return nil
 	})
 	if err != nil {
