@@ -11,31 +11,33 @@ import (
 	"mall-promotion-rpc/promotion"
 )
 
-const couponTemplateCols = "id, activity_id, shop_id, name, type, value, min_amount, max_discount, category_id, total_count, received_count, used_count, per_user_limit, valid_type, valid_days, valid_start, valid_end, receive_start, receive_end, status, create_time, update_time"
+const couponTemplateCols = "id, activity_id, shop_id, name, type, value, min_amount, max_discount, category_id, total_count, received_count, used_count, per_user_limit, valid_type, valid_days, valid_start, valid_end, receive_start, receive_end, status, is_new_user_only, new_user_within_days, create_time, update_time"
 
 type couponTemplateRow struct {
-	Id            int64     `db:"id"`
-	ActivityId    int64     `db:"activity_id"`
-	ShopId        int64     `db:"shop_id"`
-	Name          string    `db:"name"`
-	Type          string    `db:"type"`
-	Value         int64     `db:"value"`
-	MinAmount     int64     `db:"min_amount"`
-	MaxDiscount   int64     `db:"max_discount"`
-	CategoryId    int64     `db:"category_id"`
-	TotalCount    int32     `db:"total_count"`
-	ReceivedCount int32     `db:"received_count"`
-	UsedCount     int32     `db:"used_count"`
-	PerUserLimit  int32     `db:"per_user_limit"`
-	ValidType     int32     `db:"valid_type"`
-	ValidDays     int32     `db:"valid_days"`
-	ValidStart    int64     `db:"valid_start"`
-	ValidEnd      int64     `db:"valid_end"`
-	ReceiveStart  int64     `db:"receive_start"`
-	ReceiveEnd    int64     `db:"receive_end"`
-	Status        int32     `db:"status"`
-	CreateTime    time.Time `db:"create_time"`
-	UpdateTime    time.Time `db:"update_time"`
+	Id                int64     `db:"id"`
+	ActivityId        int64     `db:"activity_id"`
+	ShopId            int64     `db:"shop_id"`
+	Name              string    `db:"name"`
+	Type              string    `db:"type"`
+	Value             int64     `db:"value"`
+	MinAmount         int64     `db:"min_amount"`
+	MaxDiscount       int64     `db:"max_discount"`
+	CategoryId        int64     `db:"category_id"`
+	TotalCount        int32     `db:"total_count"`
+	ReceivedCount     int32     `db:"received_count"`
+	UsedCount         int32     `db:"used_count"`
+	PerUserLimit      int32     `db:"per_user_limit"`
+	ValidType         int32     `db:"valid_type"`
+	ValidDays         int32     `db:"valid_days"`
+	ValidStart        int64     `db:"valid_start"`
+	ValidEnd          int64     `db:"valid_end"`
+	ReceiveStart      int64     `db:"receive_start"`
+	ReceiveEnd        int64     `db:"receive_end"`
+	Status            int32     `db:"status"`
+	IsNewUserOnly     int8      `db:"is_new_user_only"`
+	NewUserWithinDays int32     `db:"new_user_within_days"`
+	CreateTime        time.Time `db:"create_time"`
+	UpdateTime        time.Time `db:"update_time"`
 }
 
 func couponTemplateRowToPb(r *couponTemplateRow) *promotion.CouponTemplate {
@@ -46,6 +48,7 @@ func couponTemplateRowToPb(r *couponTemplateRow) *promotion.CouponTemplate {
 		PerUserLimit: r.PerUserLimit, ValidType: r.ValidType, ValidDays: r.ValidDays,
 		ValidStart: r.ValidStart, ValidEnd: r.ValidEnd,
 		ReceiveStart: r.ReceiveStart, ReceiveEnd: r.ReceiveEnd, Status: r.Status,
+		IsNewUserOnly: r.IsNewUserOnly == 1, NewUserWithinDays: r.NewUserWithinDays,
 		CreateTime: r.CreateTime.Unix(), UpdateTime: r.UpdateTime.Unix(),
 	}
 }

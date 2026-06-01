@@ -10,6 +10,7 @@ import (
 	"mall-api/internal/types"
 
 	"mall-promotion-rpc/promotionclient"
+	"mall-user-rpc/userclient"
 )
 
 // ListAvailableCoupons C 端券中心 - 可领券列表。
@@ -37,14 +38,19 @@ func ListAvailableCoupons(ctx context.Context, svcCtx *svc.ServiceContext, req *
 	return &types.CouponListResp{Total: resp.Total, Templates: out}, nil
 }
 
-// ReceiveCoupon 用户领券。
+// ReceiveCoupon 用户领券 - 自动带上 user.create_time 供新人券校验
 func ReceiveCoupon(ctx context.Context, svcCtx *svc.ServiceContext, req *types.ReceiveCouponReq) (*types.ReceiveCouponResp, error) {
 	userId := middleware.UidFromCtx(ctx)
 	if userId <= 0 {
 		return nil, errors.New("login required")
 	}
+	// 查 user.create_time, 让 promotion-rpc 判断新人券资格
+	var registerTime int64
+	if u, err := svcCtx.UserRpc.GetUser(ctx, &userclient.GetUserReq{Id: userId}); err == nil && u != nil {
+		registerTime = u.CreateTime
+	}
 	resp, err := svcCtx.PromotionRpc.ReceiveCoupon(ctx, &promotionclient.ReceiveCouponReq{
-		UserId: userId, TemplateId: req.TemplateId,
+		UserId: userId, TemplateId: req.TemplateId, UserRegisterTime: registerTime,
 	})
 	if err != nil {
 		return nil, err

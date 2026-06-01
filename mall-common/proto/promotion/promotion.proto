@@ -135,6 +135,9 @@ message CouponTemplate {
   int32  status          = 20; // 0下架/1上架
   int64  create_time     = 21;
   int64  update_time     = 22;
+  // S2.3 新人券
+  bool   is_new_user_only      = 23; // 仅新用户可领
+  int32  new_user_within_days  = 24; // 注册后 N 天内算新用户 (默认 7)
 }
 
 message CreateCouponTemplateReq {
@@ -153,6 +156,9 @@ message CreateCouponTemplateReq {
   int64  valid_end      = 13;
   int64  receive_start  = 14;
   int64  receive_end    = 15;
+  // S2.3 新人券
+  bool   is_new_user_only     = 16;
+  int32  new_user_within_days = 17;
 }
 message CreateCouponTemplateResp {
   int64 id = 1;
@@ -196,6 +202,9 @@ message Coupon {
 message ReceiveCouponReq {
   int64 user_id     = 1;
   int64 template_id = 2;
+  // S2.3 新人券校验: caller (mall-api) 查 user.create_time 后传入,
+  // promotion-rpc 用此判断是否在 new_user_within_days 内
+  int64 user_register_time = 3;
 }
 message ReceiveCouponResp {
   int64 coupon_id = 1;

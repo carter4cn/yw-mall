@@ -1088,8 +1088,11 @@ type CouponTemplate struct {
 	Status        int32                  `protobuf:"varint,20,opt,name=status,proto3" json:"status,omitempty"` // 0下架/1上架
 	CreateTime    int64                  `protobuf:"varint,21,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	UpdateTime    int64                  `protobuf:"varint,22,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// S2.3 新人券
+	IsNewUserOnly     bool  `protobuf:"varint,23,opt,name=is_new_user_only,json=isNewUserOnly,proto3" json:"is_new_user_only,omitempty"`             // 仅新用户可领
+	NewUserWithinDays int32 `protobuf:"varint,24,opt,name=new_user_within_days,json=newUserWithinDays,proto3" json:"new_user_within_days,omitempty"` // 注册后 N 天内算新用户 (默认 7)
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *CouponTemplate) Reset() {
@@ -1276,25 +1279,42 @@ func (x *CouponTemplate) GetUpdateTime() int64 {
 	return 0
 }
 
+func (x *CouponTemplate) GetIsNewUserOnly() bool {
+	if x != nil {
+		return x.IsNewUserOnly
+	}
+	return false
+}
+
+func (x *CouponTemplate) GetNewUserWithinDays() int32 {
+	if x != nil {
+		return x.NewUserWithinDays
+	}
+	return 0
+}
+
 type CreateCouponTemplateReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ShopId        int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
-	Value         int64                  `protobuf:"varint,4,opt,name=value,proto3" json:"value,omitempty"`
-	MinAmount     int64                  `protobuf:"varint,5,opt,name=min_amount,json=minAmount,proto3" json:"min_amount,omitempty"`
-	MaxDiscount   int64                  `protobuf:"varint,6,opt,name=max_discount,json=maxDiscount,proto3" json:"max_discount,omitempty"`
-	CategoryId    int64                  `protobuf:"varint,7,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
-	TotalCount    int32                  `protobuf:"varint,8,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
-	PerUserLimit  int32                  `protobuf:"varint,9,opt,name=per_user_limit,json=perUserLimit,proto3" json:"per_user_limit,omitempty"`
-	ValidType     int32                  `protobuf:"varint,10,opt,name=valid_type,json=validType,proto3" json:"valid_type,omitempty"`
-	ValidDays     int32                  `protobuf:"varint,11,opt,name=valid_days,json=validDays,proto3" json:"valid_days,omitempty"`
-	ValidStart    int64                  `protobuf:"varint,12,opt,name=valid_start,json=validStart,proto3" json:"valid_start,omitempty"`
-	ValidEnd      int64                  `protobuf:"varint,13,opt,name=valid_end,json=validEnd,proto3" json:"valid_end,omitempty"`
-	ReceiveStart  int64                  `protobuf:"varint,14,opt,name=receive_start,json=receiveStart,proto3" json:"receive_start,omitempty"`
-	ReceiveEnd    int64                  `protobuf:"varint,15,opt,name=receive_end,json=receiveEnd,proto3" json:"receive_end,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	ShopId       int64                  `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	Name         string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Type         string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	Value        int64                  `protobuf:"varint,4,opt,name=value,proto3" json:"value,omitempty"`
+	MinAmount    int64                  `protobuf:"varint,5,opt,name=min_amount,json=minAmount,proto3" json:"min_amount,omitempty"`
+	MaxDiscount  int64                  `protobuf:"varint,6,opt,name=max_discount,json=maxDiscount,proto3" json:"max_discount,omitempty"`
+	CategoryId   int64                  `protobuf:"varint,7,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	TotalCount   int32                  `protobuf:"varint,8,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	PerUserLimit int32                  `protobuf:"varint,9,opt,name=per_user_limit,json=perUserLimit,proto3" json:"per_user_limit,omitempty"`
+	ValidType    int32                  `protobuf:"varint,10,opt,name=valid_type,json=validType,proto3" json:"valid_type,omitempty"`
+	ValidDays    int32                  `protobuf:"varint,11,opt,name=valid_days,json=validDays,proto3" json:"valid_days,omitempty"`
+	ValidStart   int64                  `protobuf:"varint,12,opt,name=valid_start,json=validStart,proto3" json:"valid_start,omitempty"`
+	ValidEnd     int64                  `protobuf:"varint,13,opt,name=valid_end,json=validEnd,proto3" json:"valid_end,omitempty"`
+	ReceiveStart int64                  `protobuf:"varint,14,opt,name=receive_start,json=receiveStart,proto3" json:"receive_start,omitempty"`
+	ReceiveEnd   int64                  `protobuf:"varint,15,opt,name=receive_end,json=receiveEnd,proto3" json:"receive_end,omitempty"`
+	// S2.3 新人券
+	IsNewUserOnly     bool  `protobuf:"varint,16,opt,name=is_new_user_only,json=isNewUserOnly,proto3" json:"is_new_user_only,omitempty"`
+	NewUserWithinDays int32 `protobuf:"varint,17,opt,name=new_user_within_days,json=newUserWithinDays,proto3" json:"new_user_within_days,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *CreateCouponTemplateReq) Reset() {
@@ -1428,6 +1448,20 @@ func (x *CreateCouponTemplateReq) GetReceiveStart() int64 {
 func (x *CreateCouponTemplateReq) GetReceiveEnd() int64 {
 	if x != nil {
 		return x.ReceiveEnd
+	}
+	return 0
+}
+
+func (x *CreateCouponTemplateReq) GetIsNewUserOnly() bool {
+	if x != nil {
+		return x.IsNewUserOnly
+	}
+	return false
+}
+
+func (x *CreateCouponTemplateReq) GetNewUserWithinDays() int32 {
+	if x != nil {
+		return x.NewUserWithinDays
 	}
 	return 0
 }
@@ -1799,11 +1833,14 @@ func (x *Coupon) GetMinAmount() int64 {
 }
 
 type ReceiveCouponReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	TemplateId    int64                  `protobuf:"varint,2,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	UserId     int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TemplateId int64                  `protobuf:"varint,2,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"`
+	// S2.3 新人券校验: caller (mall-api) 查 user.create_time 后传入,
+	// promotion-rpc 用此判断是否在 new_user_within_days 内
+	UserRegisterTime int64 `protobuf:"varint,3,opt,name=user_register_time,json=userRegisterTime,proto3" json:"user_register_time,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ReceiveCouponReq) Reset() {
@@ -1846,6 +1883,13 @@ func (x *ReceiveCouponReq) GetUserId() int64 {
 func (x *ReceiveCouponReq) GetTemplateId() int64 {
 	if x != nil {
 		return x.TemplateId
+	}
+	return 0
+}
+
+func (x *ReceiveCouponReq) GetUserRegisterTime() int64 {
+	if x != nil {
+		return x.UserRegisterTime
 	}
 	return 0
 }
@@ -2725,7 +2769,7 @@ const file_promotion_promotion_proto_rawDesc = "" +
 	"\n" +
 	"activities\x18\x01 \x03(\v2\x13.promotion.ActivityR\n" +
 	"activities\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x03R\x05total\"\xa4\x05\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\xfe\x05\n" +
 	"\x0eCouponTemplate\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
 	"\vactivity_id\x18\x02 \x01(\x03R\n" +
@@ -2760,7 +2804,9 @@ const file_promotion_promotion_proto_rawDesc = "" +
 	"\vcreate_time\x18\x15 \x01(\x03R\n" +
 	"createTime\x12\x1f\n" +
 	"\vupdate_time\x18\x16 \x01(\x03R\n" +
-	"updateTime\"\xdc\x03\n" +
+	"updateTime\x12'\n" +
+	"\x10is_new_user_only\x18\x17 \x01(\bR\risNewUserOnly\x12/\n" +
+	"\x14new_user_within_days\x18\x18 \x01(\x05R\x11newUserWithinDays\"\xb6\x04\n" +
 	"\x17CreateCouponTemplateReq\x12\x17\n" +
 	"\ashop_id\x18\x01 \x01(\x03R\x06shopId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
@@ -2784,7 +2830,9 @@ const file_promotion_promotion_proto_rawDesc = "" +
 	"\tvalid_end\x18\r \x01(\x03R\bvalidEnd\x12#\n" +
 	"\rreceive_start\x18\x0e \x01(\x03R\freceiveStart\x12\x1f\n" +
 	"\vreceive_end\x18\x0f \x01(\x03R\n" +
-	"receiveEnd\"*\n" +
+	"receiveEnd\x12'\n" +
+	"\x10is_new_user_only\x18\x10 \x01(\bR\risNewUserOnly\x12/\n" +
+	"\x14new_user_within_days\x18\x11 \x01(\x05R\x11newUserWithinDays\"*\n" +
 	"\x18CreateCouponTemplateResp\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"z\n" +
 	"\x16ListCouponTemplatesReq\x12\x17\n" +
@@ -2816,11 +2864,12 @@ const file_promotion_promotion_proto_rawDesc = "" +
 	"\x04type\x18\f \x01(\tR\x04type\x12\x14\n" +
 	"\x05value\x18\r \x01(\x03R\x05value\x12\x1d\n" +
 	"\n" +
-	"min_amount\x18\x0e \x01(\x03R\tminAmount\"L\n" +
+	"min_amount\x18\x0e \x01(\x03R\tminAmount\"z\n" +
 	"\x10ReceiveCouponReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1f\n" +
 	"\vtemplate_id\x18\x02 \x01(\x03R\n" +
-	"templateId\"0\n" +
+	"templateId\x12,\n" +
+	"\x12user_register_time\x18\x03 \x01(\x03R\x10userRegisterTime\"0\n" +
 	"\x11ReceiveCouponResp\x12\x1b\n" +
 	"\tcoupon_id\x18\x01 \x01(\x03R\bcouponId\"t\n" +
 	"\x10ListMyCouponsReq\x12\x17\n" +

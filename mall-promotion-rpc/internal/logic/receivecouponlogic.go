@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"strconv"
 	"time"
 
 	"mall-promotion-rpc/internal/svc"
@@ -11,6 +12,8 @@ import (
 
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
+
+func intToStr(n int32) string { return strconv.Itoa(int(n)) }
 
 // ReceiveCoupon 用户领券。
 //
@@ -37,20 +40,22 @@ func ReceiveCoupon(ctx context.Context, svcCtx *svc.ServiceContext, in *promotio
 	err := svcCtx.DB.TransactCtx(ctx, func(c context.Context, tx sqlx.Session) error {
 		// 1) 锁 template 行
 		var t struct {
-			ShopId        int64 `db:"shop_id"`
-			Status        int32 `db:"status"`
-			TotalCount    int32 `db:"total_count"`
-			ReceivedCount int32 `db:"received_count"`
-			PerUserLimit  int32 `db:"per_user_limit"`
-			ValidType     int32 `db:"valid_type"`
-			ValidDays     int32 `db:"valid_days"`
-			ValidStart    int64 `db:"valid_start"`
-			ValidEnd      int64 `db:"valid_end"`
-			ReceiveStart  int64 `db:"receive_start"`
-			ReceiveEnd    int64 `db:"receive_end"`
+			ShopId            int64 `db:"shop_id"`
+			Status            int32 `db:"status"`
+			TotalCount        int32 `db:"total_count"`
+			ReceivedCount     int32 `db:"received_count"`
+			PerUserLimit      int32 `db:"per_user_limit"`
+			ValidType         int32 `db:"valid_type"`
+			ValidDays         int32 `db:"valid_days"`
+			ValidStart        int64 `db:"valid_start"`
+			ValidEnd          int64 `db:"valid_end"`
+			ReceiveStart      int64 `db:"receive_start"`
+			ReceiveEnd        int64 `db:"receive_end"`
+			IsNewUserOnly     int8  `db:"is_new_user_only"`
+			NewUserWithinDays int32 `db:"new_user_within_days"`
 		}
 		if err := tx.QueryRowCtx(c, &t,
-			"SELECT shop_id, status, total_count, received_count, per_user_limit, valid_type, valid_days, valid_start, valid_end, receive_start, receive_end FROM coupon_template WHERE id = ? FOR UPDATE",
+			"SELECT shop_id, status, total_count, received_count, per_user_limit, valid_type, valid_days, valid_start, valid_end, receive_start, receive_end, is_new_user_only, new_user_within_days FROM coupon_template WHERE id = ? FOR UPDATE",
 			in.TemplateId,
 		); err != nil {
 			if errors.Is(err, sql.ErrNoRows) {
@@ -66,6 +71,19 @@ func ReceiveCoupon(ctx context.Context, svcCtx *svc.ServiceContext, in *promotio
 		}
 		if t.ReceivedCount >= t.TotalCount {
 			return errors.New("已被领完")
+		}
+		// S2.3 新人券校验
+		if t.IsNewUserOnly == 1 {
+			if in.UserRegisterTime <= 0 {
+				return errors.New("新人券需要用户注册时间信息")
+			}
+			days := t.NewUserWithinDays
+			if days <= 0 {
+				days = 7
+			}
+			if in.UserRegisterTime+int64(days)*86400 < now {
+				return errors.New("仅注册 " + intToStr(days) + " 天内的新用户可领此券")
+			}
 		}
 
 		// 2) 校验每人限领

@@ -47,15 +47,19 @@ func CreateCouponTemplate(ctx context.Context, svcCtx *svc.ServiceContext, in *p
 		}
 
 		// 2) 创建 coupon_template
+		newUserDays := in.NewUserWithinDays
+		if in.IsNewUserOnly && newUserDays <= 0 {
+			newUserDays = 7 // 默认 7 天
+		}
 		res, err = tx.ExecCtx(c,
 			`INSERT INTO coupon_template
 			   (activity_id, shop_id, name, type, value, min_amount, max_discount, category_id,
 			    total_count, per_user_limit, valid_type, valid_days, valid_start, valid_end,
-			    receive_start, receive_end, status)
-			 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+			    receive_start, receive_end, status, is_new_user_only, new_user_within_days)
+			 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`,
 			activityId, in.ShopId, in.Name, in.Type, in.Value, in.MinAmount, in.MaxDiscount, in.CategoryId,
 			in.TotalCount, perUserLimit, in.ValidType, in.ValidDays, in.ValidStart, in.ValidEnd,
-			in.ReceiveStart, in.ReceiveEnd,
+			in.ReceiveStart, in.ReceiveEnd, boolToTinyint(in.IsNewUserOnly), newUserDays,
 		)
 		if err != nil {
 			return err
